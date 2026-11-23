@@ -43,9 +43,9 @@ final class Humanizer
     }
 
     /**
-     * Options: type (a TYPES key), strong (bool), sample (string), dashes (bool, keep them).
+     * Options: type (a TYPES key), strong (bool), human (bool, implies strong), sample (string), dashes (bool, keep them).
      *
-     * @return array{text:string, first:?string, survived:array, edits:array, flags:array, missing:array, held:bool, voice:array, sections:int}
+     * @return array{text:string, first:?string, survived:array, edits:array, flags:array, tips:array, missing:array, held:bool, voice:array, sections:int}
      */
     public function run(string $text, array $options = []): array
     {
@@ -57,12 +57,13 @@ final class Humanizer
         $this->keepCurly = $voice['curly'] ?? false;
 
         $original = $this->normalise($text);
+        $human = !empty($options['human']);
         $result = $this->pass($original, false);
         $first = null;
         $survived = [];
 
         // SKILL.md's default output: first rewrite, the tells that survived it, final rewrite.
-        if (!empty($options['strong'])) {
+        if ($human || !empty($options['strong'])) {
             $first = $result;
             $survived = $this->flags($result);
             $result = $this->pass($result, true);
@@ -75,12 +76,17 @@ final class Humanizer
         if ($this->type === 'informal') {
             $found = array_unique(array_merge(array_column($this->edits, 'pattern'), array_column($flags, 'pattern')));
             $found = array_diff($found, [0]);
+            $human = $human && count($found) > 1;
             if (count($found) === 1 && !in_array(22, $found, true)) {
                 $held = true;
                 $this->edits = $flags = $survived = [];
                 $first = null;
                 $result = $original;
             }
+        }
+        if ($human) {
+            $result = $this->natural($result, $voice);
+            $flags = $this->flags($result);
         }
 
         return [
@@ -89,6 +95,7 @@ final class Humanizer
             'survived' => $survived,
             'edits' => $this->edits,
             'flags' => $flags,
+            'tips' => $human ? $this->tips($result) : [],
             'missing' => $this->missing($original, $result),
             'held' => $held,
             'voice' => $voice,
@@ -465,6 +472,151 @@ final class Humanizer
         return $this->restore($t, 'QC');
     }
 
+    /* ---------- human mode ---------- */
+
+    private function natural(string $text, array $voice): string
+    {
+        $this->vault = [];
+        $t = $this->protect($this->protect($text, self::CODE, 'C'), self::QUOTE, 'Q');
+        $t = $this->strips('human_strip', $t);
+        $t = $this->swaps('human_swap', [27], $t);
+        if ($this->type !== 'reference') {
+            foreach ($this->rules['human_open'] as $from => $to) {
+                $t = $this->replace(28, '/' . self::SENTENCE_START . $from . '(?= \p{L})/imu', fn() => $to, $t);
+            }
+            $t = $this->plainHowever($t);
+            if (($voice['contractions'] ?? '') !== 'long') {
+                $t = $this->contract($t);
+            }
+        }
+        $t = implode("\n", array_map([$this, 'breakLong'], explode("\n", $t)));
+        return $this->restore($t, 'QC');
+    }
+
+    /** "However, the plan" => "But the plan", only where the next word is safe to put in lower case. */
+    private function plainHowever(string $t): string
+    {
+        $next = 'the|it|this|that|they|we|you|he|she|a|an|these|those|there|many|some|most|our|their|its|his|her|your|not|if|when';
+        return $this->replace(28, '/' . self::SENTENCE_START . "However, ((?:$next)\\b)/mu", fn(array $m) => 'But ' . $this->lcfirst($m[1][0]), $t);
+    }
+
+    private function contract(string $t): string
+    {
+        $verbs = 'do|does|did|is|are|was|were|has|have|had|could|would|should';
+        $t = $this->replace(29, "/\\b($verbs) not\\b(?! only| just)/iu", fn(array $m) => $m[1][0] . "n't", $t);
+        $t = $this->replace(29, '/\b(c)an ?not\b(?! only| just)/iu', fn(array $m) => $m[1][0] . "an't", $t);
+        $t = $this->replace(29, '/\b(w)ill not\b/iu', fn(array $m) => $m[1][0] . "on't", $t);
+        // "what it is", "as they are" and a verb at the end of a clause keep the full form.
+        $free = '(?<!what )(?<!where )(?<!how )(?<!who )(?<!why )(?<!when )(?<!as )(?<!than )(?<!whatever )(?<!wherever )';
+        $after = '(?= (?!(?:and|or|but|nor|today|now|because|if|when|that)\b)\p{Ll})';
+        $t = $this->replace(29, "/$free\\b(it|there) is$after/iu", fn(array $m) => $m[1][0] . "'s", $t);
+        $t = $this->replace(29, '/' . self::SENTENCE_START . "(That) is(?= (?:a|an|the|why|how|what|where|not|because)\\b)/mu", fn(array $m) => $m[1][0] . "'s", $t);
+        $t = $this->replace(29, "/$free\\b(we|you|they) are$after/iu", fn(array $m) => $m[1][0] . "'re", $t);
+        $t = $this->replace(29, "/$free\\bI am$after/u", fn() => "I'm", $t);
+        $t = $this->replace(29, "/\\b(I|we|you|they) will(?= \\p{Ll})/iu", fn(array $m) => $m[1][0] . "'ll", $t);
+        return $this->replace(29, "/\\b(I|we|you|they) have(?= (?:been|already|seen|made|done|never|always|become|found|learned|used)\\b)/iu", fn(array $m) => $m[1][0] . "'ve", $t);
+    }
+
+    /** Splits one long sentence at a joint where both halves stand alone. */
+    private function breakLong(string $line): string
+    {
+        if (preg_match('/^\s*(?:#|>|\||[-*] |\d+\. )/u', $line)) {
+            return $line;
+        }
+        $out = '';
+        foreach (preg_split('/((?<=[.!?])\s+)/u', $line, -1, PREG_SPLIT_DELIM_CAPTURE) as $sentence) {
+            $new = $this->splitSentence($sentence);
+            if ($new !== $sentence) {
+                $this->log(30, $sentence, $new);
+            }
+            $out .= $new;
+        }
+        return $out;
+    }
+
+    private function splitSentence(string $s): string
+    {
+        $subject = '(?:it|they|we|you|he|she|I|there|this|these|those)';
+        if ($this->words($s) < 20 || preg_match('/^\W*(?:when|if|while|because|since|although|though|once|unless|whether|not|whereas|what|how)\b/iu', $s)) {
+            return $s;
+        }
+        preg_match_all("/, (and|but|so) (?=$subject\\b)|; (?=$subject\\b)|, which means (?:that )?/u", $s, $m, PREG_OFFSET_CAPTURE);
+        foreach ($m[0] as $i => [$hit, $at]) {
+            $left = substr($s, 0, $at);
+            $right = substr($s, $at + strlen($hit));
+            if ($this->words($left) < 7 || $this->words($right) < 6 || substr_count($left, '(') !== substr_count($left, ')')) {
+                continue;
+            }
+            $joint = $m[1][$i][0] ?? '';
+            if (strpos($hit, 'which') !== false) {
+                return "$left. That means $right";
+            }
+            return $joint === 'but' || $joint === 'so' ? "$left. " . $this->ucfirst($joint) . " $right" : "$left. " . $this->ucfirst($right);
+        }
+        return $s;
+    }
+
+    /** Things only the writer can do. Nothing here changes the text. */
+    private function tips(string $text): array
+    {
+        $plain = preg_replace([self::CODE, self::QUOTE], ' ', $text);
+        $tips = [];
+        foreach ($this->find(0, '/(?<![\w-])(?:' . $this->alt($this->rules['vague']) . ')(?![\w-])/iu', $plain) as $hit) {
+            $tips[] = ['vague', $hit['text']];
+        }
+        $run = [];
+        foreach ($this->sentences($plain) as $s) {
+            $n = $this->words($s);
+            if ($n > 30) {
+                $tips[] = ['long', trim($s)];
+            }
+            $run = $n >= 6 && $run && abs($n - $this->words($run[0])) <= 2 ? array_merge($run, [$s]) : [$s];
+            if (count($run) === 4) {
+                $tips[] = ['even', trim($run[0])];
+                $run = [];
+            }
+        }
+        if ($this->words($plain) >= 60) {
+            if (!preg_match('/\d|(?<=[\p{Ll},;] )\p{Lu}\p{L}+/u', $plain)) {
+                $tips[] = ['detail', ''];
+            }
+            if ($this->type === 'personal' && !preg_match('/\b(?:I|we|my|our|me|us)\b/iu', $plain)) {
+                $tips[] = ['self', ''];
+            }
+        }
+        return array_slice($tips, 0, 10);
+    }
+
+    /** Spread of sentence lengths, and Flesch reading ease from 0 to 100. */
+    public function metrics(string $text): array
+    {
+        $lengths = array_map([$this, 'words'], $this->sentences($text));
+        $count = count($lengths);
+        $words = array_sum($lengths);
+        if ($count === 0 || $words === 0) {
+            return ['variety' => 0, 'ease' => 0];
+        }
+        $mean = $words / $count;
+        $spread = sqrt(array_sum(array_map(fn($n) => ($n - $mean) ** 2, $lengths)) / $count);
+        $syllables = 0;
+        preg_match_all('/[A-Za-z]+/', $text, $m);
+        foreach ($m[0] as $word) {
+            $syllables += max(1, preg_match_all('/[aeiouy]+/i', preg_replace('/(?<=[^aeiouyl])e$/i', '', $word)));
+        }
+        $ease = 206.835 - 1.015 * $mean - 84.6 * $syllables / max(1, count($m[0]));
+        return ['variety' => (int) round($spread), 'ease' => (int) round(max(0, min(100, $ease)))];
+    }
+
+    private function sentences(string $text): array
+    {
+        return array_values(array_filter(preg_split('/(?<=[.!?])\s+|\n+/u', trim($text)), fn($s) => $this->words($s) > 0));
+    }
+
+    private function words(string $s): int
+    {
+        return preg_match_all('/[\p{L}\d][\p{L}\d\'’-]*/u', $s);
+    }
+
     private function inSample(string $phrase): bool
     {
         return $this->sample !== '' && mb_stripos($this->sample, $phrase) !== false;
@@ -525,7 +677,8 @@ final class Humanizer
         }
         // "Weak alone": these count only next to other tells.
         $strong = array_filter($kept, fn($f) => !in_array($f['pattern'], self::WEAK, true));
-        return $strong || $this->edits ? $kept : [];
+        $edited = array_filter($this->edits, fn($c) => $c['pattern'] > 0 && $c['pattern'] < 27);
+        return $strong || $edited ? $kept : [];
     }
 
     /** The same one-line paragraph used as a closer more than once. */

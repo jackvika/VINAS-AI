@@ -26,7 +26,7 @@ for (const { in: text, options, want } of CASES) {
         got = {
             text: r.text, first: r.first, survived: strip(r.survived), flags: strip(r.flags),
             edits: r.edits.map((c) => [c.pattern, c.before, c.after]),
-            missing: r.missing, held: r.held, sections: r.sections, voice: r.voice, average: engine.averageSentence(text),
+            missing: r.missing, held: r.held, sections: r.sections, voice: r.voice, average: engine.averageSentence(text), tips: r.tips, metrics: engine.metrics(text),
         };
     } catch (error) {
         got = { error: String(error) };

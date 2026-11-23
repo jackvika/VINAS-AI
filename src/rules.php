@@ -31,6 +31,11 @@ return [
         24 => ['Heading repeated', 'Cut the line that repeats the heading.'],
         25 => ['Writing about the document', 'Describe the subject instead.'],
         26 => ['Re-explaining what the reader knows', 'Lead with the decision; cut background the reader already has.'],
+        // Human mode: VINAS AI's own writing techniques, not signs of AI writing.
+        27 => ['Plain words', 'Use the short, everyday word.'],
+        28 => ['Filler and connectors', 'Cut the warm-up and start with the point.'],
+        29 => ['Contractions', 'Write it the way people say it.'],
+        30 => ['Sentence rhythm', 'Break a long sentence so lengths vary.'],
     ],
 
     // Whole sentences that carry no information.
@@ -118,6 +123,65 @@ return [
         18 => ["represents(?= an?\\b)" => 'is'],
     ],
     'hype' => 'breathtaking|stunning|iconic|unforgettable|beloved|must-see|must-visit|renowned|groundbreaking|awe-inspiring',
+
+    // Human mode.
+    'human_strip' => [
+        28 => [
+            "(?:it is|it's) (?:important|worth|essential|crucial|vital|also important|also worth) (?:to note|noting|to mention|mentioning|to remember|remembering) that",
+            "it should be noted that", "needless to say,", "as we all know,", "as a matter of fact,", "it goes without saying that",
+            "in today's (?:fast-paced |digital |modern |ever-changing |competitive )*(?:world|age|era|landscape),",
+            "in (?:conclusion|summary|closing),", "to (?:conclude|summarize|sum up),", "all in all,",
+            "moreover,", "furthermore,", "in addition,", "notably,", "importantly,", "interestingly,", "indeed,",
+        ],
+    ],
+    // Only at the start of a sentence: "the plan, therefore, failed" must stay.
+    'human_open' => [
+        'that being said,' => 'Still,', 'having said that,' => 'Still,', 'nevertheless,' => 'Still,', 'nonetheless,' => 'Still,',
+        'consequently,' => 'So', 'therefore,' => 'So', 'thus,' => 'So', 'as a result,' => 'So', 'first and foremost,' => 'First,',
+    ],
+    'human_swap' => [
+        27 => [
+            'in order to' => 'to', 'so as to' => 'to', 'due to the fact that' => 'because', 'for the reason that' => 'because',
+            'in light of the fact that' => 'because', 'in spite of the fact that' => 'although', 'regardless of the fact that' => 'although',
+            'at this point in time' => 'now', 'at the present time' => 'now', 'in the event that' => 'if', 'until such time as' => 'until',
+            'with (?:regard|respect) to' => 'about', 'with the exception of' => 'except', 'for the purpose of' => 'for', 'by means of' => 'by',
+            'prior to' => 'before', 'subsequent to' => 'after', 'in close proximity to' => 'near', 'in the near future' => 'soon',
+            'on a daily basis' => 'every day', 'on a weekly basis' => 'every week', 'on a regular basis' => 'regularly',
+            'a (?:large number|wide range|wide variety|wide array|multitude|plethora|myriad) of' => 'many', 'the (?:vast )?majority of' => 'most',
+            'a significant amount of' => 'a lot of', 'numerous' => 'many', 'individuals' => 'people', 'approximately(?= \d)' => 'about', 'subsequently' => 'later',
+            '(?<!will )(?<!would )(?<!may )(?<!might )(?<!must )(?<!should )(?<!could )(?<!can )(?<!to )(?:has|have) the ability to' => 'can', '(?:is|are) able to' => 'can', '(?:is|are) (?:not able|unable) to' => 'cannot',
+            '(?:allows|enables|empowers) (users|people|teams|you|us|them|developers|customers|businesses|companies|students|employees|readers|visitors|writers|everyone|anyone|organizations|teachers|patients|workers) to' => 'lets $1',
+            '(?:allow|enable|empower) (users|people|teams|you|us|them|developers|customers|businesses|companies|students|employees|readers|visitors|writers|everyone|anyone|organizations|teachers|patients|workers) to' => 'let $1',
+            'utilize' => 'use', 'utilizes' => 'uses', 'utilized' => 'used', 'utilizing' => 'using', 'the utilization of' => 'using',
+            'leverage(?= (?:the|a|an|our|their|your|its|this|these)\b)' => 'use', 'leverages(?= (?:the|a|an|our|their|your|its|this|these)\b)' => 'uses', 'leveraging' => 'using',
+            'commence' => 'start', 'commences' => 'starts', 'commenced' => 'started', 'endeavor to' => 'try to', 'ascertain' => 'find out',
+            'demonstrates' => 'shows', 'demonstrated' => 'showed', 'demonstrate' => 'show', 'facilitates' => 'supports', 'facilitate' => 'support', 'facilitated' => 'supported',
+            'assists' => 'helps', 'assisted' => 'helped', 'assist' => 'help', 'assistance' => 'help',
+            'ensures that' => 'makes sure', 'ensure that' => 'make sure', 'ensuring that' => 'making sure',
+            'seamlessly' => 'smoothly', 'seamless' => 'smooth', 'effortlessly' => 'easily', 'comprehensive(?= (?:guide|list|overview|review|report|plan|set|range|analysis)\b)' => 'full', '(is|are) paramount' => '$1 very important',
+            'streamlines' => 'simplifies', 'streamlined' => 'simplified', 'streamlining' => 'simplifying', 'streamline' => 'simplify',
+            'fosters(?= (?:better|more|strong|trust|growth|innovation|creativity|collaboration|a culture|a sense)\b)' => 'encourages', 'foster(?= (?:better|more|strong|trust|growth|innovation|creativity|collaboration|a culture|a sense)\b)' => 'encourage',
+            'cutting-edge' => 'modern', 'state-of-the-art' => 'modern', 'the optimal' => 'the best',
+            'each and every' => 'every', 'end result' => 'result', 'future plans' => 'plans', 'past history' => 'history', 'basic fundamentals' => 'basics', 'completely eliminate' => 'eliminate',
+            'makes a decision' => 'decides', 'made a decision' => 'decided', 'make a decision' => 'decide',
+            'conducted an analysis of' => 'analyzed', 'conduct an analysis of' => 'analyze', 'provides an explanation of' => 'explains', 'provide an explanation of' => 'explain',
+            'takes into consideration' => 'considers', 'take into consideration' => 'consider', 'is indicative of' => 'shows', 'came to the conclusion that' => 'concluded that',
+        ],
+    ],
+    // Places where only the writer can add the detail.
+    'vague' => [
+        "many (?:people|experts|companies|businesses|users|studies|organizations)", "in recent years", "countless", "various (?:ways|reasons|factors|benefits|industries|aspects)",
+        "(?:a )?significant(?:ly)? (?:increase|increased|improvement|improved|impact|reduction|reduced|growth|change|changed)", "a lot of (?:people|time|money)",
+        "studies (?:show|suggest|have shown)", "research (?:shows|suggests)", "better results", "a better experience", "higher productivity",
+    ],
+    'tips' => [
+        'vague' => 'Add a number, name, date or example you know.',
+        'long' => 'Read it aloud. If you run out of breath, split it.',
+        'even' => 'These sentences are about the same length. Shorten one or join two.',
+        'detail' => 'The text has no number, name or date. Add one true detail only you would know.',
+        'self' => 'The text never says "I" or "we". Add what you did, saw or think.',
+    ],
+    'prompt' => "Also write naturally: vary sentence length, use contractions where the kind of text allows, prefer short everyday words, use active voice, and start with the point. Keep every fact. Do not invent facts, experiences or quotations, and do not add mistakes on purpose. If a detail would help and you do not have it, ask me for it.",
 
     // Weak-alone hyphens, dropped only after the noun.
     'hyphens' => 'high-quality|well-known|well-documented|long-term|real-time',

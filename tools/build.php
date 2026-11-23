@@ -67,7 +67,7 @@ if (in_array('--tests', $argv, true)) {
     foreach ($m[1] as $quote) {
         $texts[] = trim(preg_replace('/^> ?/mu', '', $quote));
     }
-    foreach (['rewrites', 'untouched', 'flagged', 'strong'] as $list) {
+    foreach (['rewrites', 'untouched', 'flagged', 'strong', 'human'] as $list) {
         // The lists in tests/run.php, read without running it.
         preg_match('/^\$' . $list . ' = (\[.*?^\]);/ms', file_get_contents($root . '/tests/run.php'), $found);
         foreach (eval('return ' . $found[1] . ';') as $case) {
@@ -88,6 +88,11 @@ if (in_array('--tests', $argv, true)) {
                 $cases[] = [$text, ['type' => $type, 'strong' => $strong]];
             }
         }
+        foreach (array_keys(Humanizer::TYPES) as $type) {
+            $cases[] = [$text, ['type' => $type, 'human' => true]];
+        }
+        $cases[] = [$text, ['human' => true, 'sample' => $sample]];
+        $cases[] = [$text, ['human' => true, 'sample' => $formal]];
         $cases[] = [$text, ['strong' => true, 'sample' => $sample]];
         $cases[] = [$text, ['sample' => $formal, 'dashes' => true]];
     }
@@ -99,7 +104,7 @@ if (in_array('--tests', $argv, true)) {
             'text' => $r['text'], 'first' => $r['first'], 'survived' => $strip($r['survived']), 'flags' => $strip($r['flags']),
             'edits' => array_map(fn($c) => [$c['pattern'], $c['before'], $c['after']], $r['edits']),
             'missing' => $r['missing'], 'held' => $r['held'], 'sections' => $r['sections'],
-            'voice' => $r['voice'] ?: null, 'average' => $engine->averageSentence($text),
+            'voice' => $r['voice'] ?: null, 'average' => $engine->averageSentence($text), 'tips' => $r['tips'], 'metrics' => $engine->metrics($text),
         ]];
     }
     // Several pages, with headings, lists, code and words longer than a line.

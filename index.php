@@ -19,7 +19,7 @@ function buildPrompt(string $text, string $sample, string $type): string
 {
     $rules = preg_replace('/\A---\n.*?\n---\n/s', '', skillFile('SKILL.md'));
     $prompt = "Follow the rules below to rewrite the text at the end. Use the pasted text output: first rewrite, surviving tells, final rewrite.\n"
-        . 'Kind of text: ' . Humanizer::TYPES[$type] . ".\n\n" . trim($rules);
+        . 'Kind of text: ' . Humanizer::TYPES[$type] . ".\n" . (require __DIR__ . '/src/rules.php')['prompt'] . "\n\n" . trim($rules);
     if ($sample !== '') {
         $prompt .= "\n\n# Writing sample (match this voice)\n\n" . $sample;
     }
@@ -50,7 +50,7 @@ function readUpload(): array
 $text = field('text');
 $sample = trim(field('sample'));
 $type = isset(Humanizer::TYPES[field('type')]) ? field('type') : 'general';
-$strong = field('strength') === 'strong';
+$strength = in_array(field('strength'), ['careful', 'strong'], true) ? field('strength') : 'human';
 $keepDashes = field('dashes') === '1';
 $fileName = '';
 $result = null;
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Paste some text or choose a file first.';
     } else {
         try {
-            $result = $engine->run($text, ['type' => $type, 'strong' => $strong, 'sample' => $sample, 'dashes' => $keepDashes]);
+            $result = $engine->run($text, ['type' => $type, 'strong' => $strength === 'strong', 'human' => $strength === 'human', 'sample' => $sample, 'dashes' => $keepDashes]);
         } catch (RuntimeException $ex) {
             error_log($ex->getMessage());
             $error = 'That text could not be processed. Try a shorter section.';
@@ -80,10 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } elseif (isset($_GET['example'], $examples[(int) $_GET['example']])) {
     $text = $examples[(int) $_GET['example']]['before'];
-    $strong = true;
 }
 
-pageTop('Make AI text read like a person wrote it', 'Checks English text for 26 signs of AI writing, fixes the ones a program can fix safely, and highlights the rest for you.');
+pageTop('Make AI text read like a person wrote it', 'Checks English text for 26 signs of AI writing, fixes what a program can, and shows you where to add your own touch.');
 ?>
     <?php if ($error !== ''): ?><p class="error" role="alert"><?= e($error) ?></p><?php endif ?>
 
@@ -109,8 +108,9 @@ pageTop('Make AI text read like a person wrote it', 'Checks English text for 26 
             <div>
                 <label for="strength">Strength</label>
                 <select id="strength" name="strength">
-                    <option value="careful">Careful (safe fixes)</option>
-                    <option value="strong"<?= $strong ? ' selected' : '' ?>>Strong (cuts hype too)</option>
+                    <option value="human">Human (strongest)</option>
+                    <option value="strong"<?= $strength === 'strong' ? ' selected' : '' ?>>Strong (cuts hype)</option>
+                    <option value="careful"<?= $strength === 'careful' ? ' selected' : '' ?>>Careful (safe fixes)</option>
                 </select>
             </div>
             <div>
@@ -131,7 +131,10 @@ pageTop('Make AI text read like a person wrote it', 'Checks English text for 26 
 
     <?php if ($result !== null):
         $edits = count($result['edits']);
-        $left = count($result['flags']); ?>
+        $left = count($result['flags']);
+        $was = $engine->metrics($text);
+        $now = $engine->metrics($result['text']);
+        $tipText = (require __DIR__ . '/src/rules.php')['tips']; ?>
     <section id="result">
         <div class="bar">
             <h2>Final version</h2>
@@ -146,6 +149,8 @@ pageTop('Make AI text read like a person wrote it', 'Checks English text for 26 
             <span><b><?= $edits ?></b> fixed</span>
             <span><b><?= $left ?></b> left to check</span>
             <span><b><?= $engine->averageSentence($text) ?> → <?= $engine->averageSentence($result['text']) ?></b> words per sentence</span>
+            <span><b><?= $was['variety'] ?> → <?= $now['variety'] ?></b> sentence variety</span>
+            <span><b><?= $was['ease'] ?> → <?= $now['ease'] ?></b> reading ease</span>
             <span><b><?= $result['sections'] ?> of <?= $result['sections'] ?></b> sections reviewed</span>
         </p>
         <?php if ($result['held']): ?>
@@ -165,6 +170,16 @@ pageTop('Make AI text read like a person wrote it', 'Checks English text for 26 
         <p class="note">Your sample: about <?= $v['sentence'] ?> words per sentence, <?= $v['dashes'] ? 'uses dashes' : 'no dashes' ?>,
             <?= ['short' => 'uses contractions', 'long' => 'avoids contractions', 'mixed' => 'mixes contractions and full forms'][$v['contractions']] ?>.
             <?php $gap = $engine->averageSentence($result['text']) - $v['sentence']; if (abs($gap) > 5): ?>Your result averages <?= abs($gap) ?> words <?= $gap > 0 ? 'more; try splitting some sentences' : 'fewer; try joining some sentences' ?>.<?php endif ?></p>
+        <?php endif ?>
+
+        <?php if ($result['tips']): ?>
+        <h3>Make it yours</h3>
+        <p class="muted">Only you can do these, and they make the biggest difference.</p>
+        <ul class="list">
+            <?php foreach ($result['tips'] as [$kind, $quote]): ?>
+            <li><?php if ($quote !== ''): ?><mark><?= e($quote) ?></mark><?php endif ?><span><?= e($tipText[$kind]) ?></span></li>
+            <?php endforeach ?>
+        </ul>
         <?php endif ?>
 
         <?php if ($result['flags']): ?>

@@ -8,7 +8,8 @@ It checks text for common forms of 26 signs of AI writing, fixes the ones a prog
 
 ## Features
 
-- Careful mode for safe fixes, and Strong mode, which also cuts hype and lists every cut
+- Careful mode for safe fixes, Strong mode, which also cuts hype, and Human mode, which also uses plain words, contractions and varied sentence rhythm; every change is listed
+- Tips on where the writer should add a real detail, plus sentence variety and reading ease scores
 - First rewrite, the tells that survived it, and the final version
 - Voice matching from a writing sample
 - Settings for general, personal, technical, informal and reply text

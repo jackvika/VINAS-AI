@@ -103,6 +103,35 @@ foreach ($strong as [$in, $want]) {
     check('strong', $in, $want, $h->run($in, ['strong' => true])['text'], $failed);
 }
 
+// Human mode
+$human = [
+    ["In order to win, we utilize data.", "To win, we use data."],
+    ["It is important to note that the shop is closed.", "The shop is closed."],
+    ["However, the plan failed. However, Delhi agreed.", "But the plan failed. However, Delhi agreed."],
+    ["It is a good plan and we do not know what it is.", "It's a good plan and we don't know what it is."],
+    ["They are here. Tell me who they are and why.", "They're here. Tell me who they are and why."],
+    ["This allows users to share. It allows access to files.", "This lets users share. It allows access to files."],
+    ["We will not go and cannot pay.", "We won't go and can't pay."],
+    ["She made a decision in an approximately correct way, with approximately 40 people.", "She decided in an approximately correct way, with about 40 people."],
+    ["They will have the ability to vote. They have the ability to vote.", "They'll have the ability to vote. They can vote."],
+    ["The plan, therefore, failed, and it is of paramount importance.", "The plan, therefore, failed, and it's of paramount importance."],
+    ["They are not able to vote. Also, it rained.", "They can't vote. Also, it rained."],
+    ["They foster a child and foster trust.", "They foster a child and encourage trust."],
+    ["The new office opened in March after two years of planning by the council, and it now holds more than four hundred people from six teams.", "The new office opened in March after two years of planning by the council. It now holds more than four hundred people from six teams."],
+    ["If the office opens in March after two years of planning by the council, and it holds more than four hundred people, we move in.", "If the office opens in March after two years of planning by the council, and it holds more than four hundred people, we move in."],
+    ["He said \"it is important to note that we are able to utilize it\" twice.", "He said \"it is important to note that we are able to utilize it\" twice."],
+    ["Run `utilize --it is` now.", "Run `utilize --it is` now."],
+    ["There is a red door, therefore, wait.", "There's a red door, therefore, wait."],
+    ["Therefore, we left. Thus, it ended.", "So we left. So it ended."],
+];
+foreach ($human as [$in, $want]) {
+    check('human', $in, $want, $h->run($in, ['human' => true])['text'], $failed);
+}
+check('human reference', '', "To start, it is not safe. However, the team can.", $h->run("In order to start, it is not safe. However, the team is able to.", ['human' => true, 'type' => 'reference'])['text'], $failed);
+check('human informal', '', 'i am fine, it is ok lmk', $h->run('i am fine, it is ok lmk', ['human' => true, 'type' => 'informal'])['text'], $failed);
+check('human tips', '', ['vague', 'in recent years'], $h->run('It grew in recent years.', ['human' => true])['tips'][0] ?? null, $failed);
+check('tips only in human', '', [], $h->run('It grew in recent years.', ['strong' => true])['tips'], $failed);
+
 // Voice matching
 $sample = "I don't think it's that hard — honestly we didn't plan much, and the trip was still vibrant and good. We can't complain about any of it.";
 $r = $h->run("The town is vibrant and we do not mind — it is a crucial stop — at all.", ['sample' => $sample]);

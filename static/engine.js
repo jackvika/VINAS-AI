@@ -11,7 +11,7 @@ class Humanizer {
         this.keepCurly = false;
     }
 
-    /** Options: type, strong (bool), sample (string), dashes (bool, keep them). */
+    /** Options: type, strong (bool), human (bool, implies strong), sample (string), dashes (bool, keep them). */
     run(text, options = {}) {
         this.edits = [];
         this.type = Humanizer.TYPES.includes(options.type) ? options.type : 'general';
@@ -21,10 +21,11 @@ class Humanizer {
         this.keepCurly = Boolean(voice && voice.curly);
 
         const original = this.normalise(text);
+        let human = Boolean(options.human);
         let result = this.pass(original, false);
         let first = null;
         let survived = [];
-        if (options.strong) {
+        if (human || options.strong) {
             first = result;
             survived = this.flags(result);
             result = this.pass(result, true);
@@ -36,6 +37,7 @@ class Humanizer {
         if (this.type === 'informal') {
             const found = new Set([...this.edits, ...flags].map((x) => x.pattern));
             found.delete(0);
+            human = human && found.size > 1;
             if (found.size === 1 && !found.has(22)) {
                 held = true;
                 this.edits = [];
@@ -45,9 +47,13 @@ class Humanizer {
                 result = original;
             }
         }
+        if (human) {
+            result = this.natural(result, voice);
+            flags = this.flags(result);
+        }
         const headings = original.match(rx('^#{1,6} ', 'gm')) || [];
         return {
-            text: result, first, survived, edits: this.edits, flags,
+            text: result, first, survived, edits: this.edits, flags, tips: human ? this.tips(result) : [],
             missing: this.missing(original, result), held, voice,
             sections: Math.max(1, headings.length + (/^#{1,6} /.test(original) ? 0 : 1)),
         };
@@ -338,6 +344,106 @@ class Humanizer {
         return this.restore(t, 'QC');
     }
 
+    /* ---------- human mode ---------- */
+
+    natural(text, voice) {
+        this.vault = [];
+        let t = this.protect(this.protect(text, CODE, 'C'), QUOTE, 'Q');
+        t = this.strips('human_strip', t);
+        t = this.swaps('human_swap', [27], t);
+        if (this.type !== 'reference') {
+            for (const [from, to] of Object.entries(this.rules.human_open)) {
+                t = this.replace(28, rx(SENTENCE_START + from + '(?= \\p{L})', 'gim'), () => to, t);
+            }
+            t = this.plainHowever(t);
+            if (!voice || voice.contractions !== 'long') t = this.contract(t);
+        }
+        t = t.split('\n').map((line) => this.breakLong(line)).join('\n');
+        return this.restore(t, 'QC');
+    }
+
+    plainHowever(t) {
+        const next = 'the|it|this|that|they|we|you|he|she|a|an|these|those|there|many|some|most|our|their|its|his|her|your|not|if|when';
+        return this.replace(28, rx(SENTENCE_START + `However, ((?:${next})\\b)`, 'gm'), (m) => 'But ' + lcfirst(m[1]), t);
+    }
+
+    contract(t) {
+        const verbs = 'do|does|did|is|are|was|were|has|have|had|could|would|should';
+        t = this.replace(29, rx(`\\b(${verbs}) not\\b(?! only| just)`, 'gi'), (m) => m[1] + "n't", t);
+        t = this.replace(29, rx('\\b(c)an ?not\\b(?! only| just)', 'gi'), (m) => m[1] + "an't", t);
+        t = this.replace(29, rx('\\b(w)ill not\\b', 'gi'), (m) => m[1] + "on't", t);
+        const free = '(?<!what )(?<!where )(?<!how )(?<!who )(?<!why )(?<!when )(?<!as )(?<!than )(?<!whatever )(?<!wherever )';
+        const after = '(?= (?!(?:and|or|but|nor|today|now|because|if|when|that)\\b)\\p{Ll})';
+        t = this.replace(29, rx(`${free}\\b(it|there) is${after}`, 'gi'), (m) => m[1] + "'s", t);
+        t = this.replace(29, rx(SENTENCE_START + '(That) is(?= (?:a|an|the|why|how|what|where|not|because)\\b)', 'gm'), (m) => m[1] + "'s", t);
+        t = this.replace(29, rx(`${free}\\b(we|you|they) are${after}`, 'gi'), (m) => m[1] + "'re", t);
+        t = this.replace(29, rx(`${free}\\bI am${after}`, 'g'), () => "I'm", t);
+        t = this.replace(29, rx('\\b(I|we|you|they) will(?= \\p{Ll})', 'gi'), (m) => m[1] + "'ll", t);
+        return this.replace(29, rx('\\b(I|we|you|they) have(?= (?:been|already|seen|made|done|never|always|become|found|learned|used)\\b)', 'gi'), (m) => m[1] + "'ve", t);
+    }
+
+    breakLong(line) {
+        if (/^\s*(?:#|>|\||[-*] |\p{Nd}+\. )/u.test(line)) return line;
+        let out = '';
+        for (const sentence of line.split(/((?<=[.!?])\s+)/u)) {
+            const next = this.splitSentence(sentence);
+            if (next !== sentence) this.log(30, sentence, next);
+            out += next;
+        }
+        return out;
+    }
+
+    splitSentence(s) {
+        const subject = '(?:it|they|we|you|he|she|I|there|this|these|those)';
+        const open = rx('^\\W*(?:when|if|while|because|since|although|though|once|unless|whether|not|whereas|what|how)\\b', 'i');
+        if (count(s, WORD) < 20 || open.test(s)) return s;
+        for (const m of s.matchAll(rx(`, (and|but|so) (?=${subject}\\b)|; (?=${subject}\\b)|, which means (?:that )?`, 'g'))) {
+            const left = s.slice(0, m.index);
+            const right = s.slice(m.index + m[0].length);
+            if (count(left, WORD) < 7 || count(right, WORD) < 6 || left.split('(').length !== left.split(')').length) continue;
+            if (m[0].includes('which')) return `${left}. That means ${right}`;
+            return m[1] === 'but' || m[1] === 'so' ? `${left}. ${ucfirst(m[1])} ${right}` : `${left}. ${ucfirst(right)}`;
+        }
+        return s;
+    }
+
+    tips(text) {
+        const plain = text.replace(CODE, ' ').replace(QUOTE, ' ');
+        const tips = this.find(0, rx('(?<![\\w-])(?:' + alt(this.rules.vague) + ')(?![\\w-])', 'gi'), plain).map((hit) => ['vague', hit.text]);
+        let run = [];
+        for (const s of this.sentences(plain)) {
+            const n = count(s, WORD);
+            if (n > 30) tips.push(['long', trim(s)]);
+            run = n >= 6 && run.length && Math.abs(n - count(run[0], WORD)) <= 2 ? [...run, s] : [s];
+            if (run.length === 4) {
+                tips.push(['even', trim(run[0])]);
+                run = [];
+            }
+        }
+        if (count(plain, WORD) >= 60) {
+            if (!rx('\\d|(?<=[\\p{Ll},;] )\\p{Lu}\\p{L}+', '').test(plain)) tips.push(['detail', '']);
+            if (this.type === 'personal' && !rx('\\b(?:I|we|my|our|me|us)\\b', 'i').test(plain)) tips.push(['self', '']);
+        }
+        return tips.slice(0, 10);
+    }
+
+    metrics(text) {
+        const lengths = this.sentences(text).map((s) => count(s, WORD));
+        const words = lengths.reduce((a, b) => a + b, 0);
+        if (!lengths.length || !words) return { variety: 0, ease: 0 };
+        const mean = words / lengths.length;
+        const spread = Math.sqrt(lengths.reduce((a, n) => a + (n - mean) ** 2, 0) / lengths.length);
+        const letters = text.match(/[A-Za-z]+/g) || [];
+        let syllables = 0;
+        for (const word of letters) syllables += Math.max(1, count(word.replace(/(?<=[^aeiouyl])e$/i, ''), /[aeiouy]+/gi));
+        const ease = 206.835 - 1.015 * mean - 84.6 * syllables / Math.max(1, letters.length);
+        return { variety: Math.round(spread), ease: Math.round(Math.max(0, Math.min(100, ease))) };
+    }
+
+    sentences(text) {
+        return trim(text).split(/(?<=[.!?])\s+|\n+/u).filter((s) => count(s, WORD) > 0);
+    }
+
     inSample(phrase) {
         return this.sample !== '' && this.sample.toLowerCase().includes(phrase.toLowerCase());
     }
@@ -386,7 +492,8 @@ class Humanizer {
                 end = f.end;
             }
         }
-        return kept.some((f) => ![8, 11, 14].includes(f.pattern)) || this.edits.length > 0 ? kept : [];
+        const edited = this.edits.some((c) => c.pattern > 0 && c.pattern < 27);
+        return kept.some((f) => ![8, 11, 14].includes(f.pattern)) || edited ? kept : [];
     }
 
     repeatedLines(text) {
