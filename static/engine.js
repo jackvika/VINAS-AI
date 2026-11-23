@@ -181,6 +181,7 @@ class Humanizer {
         const merge = (m) => m[1] + ' ' + m[2] + ' and ';
         t = this.replace(1, rx(apos(`\\b(is|are|was|were)(?:n't| not) ${just} ${x}`) + then, 'gi'), merge, t);
         t = this.replace(1, rx(apos(`((?<=\\w)'s) not ${just} ${x}`) + then, 'gi'), merge, t);
+        t = this.replace(1, rx(`\\b(is|are|was|were) more than (?:just )?(?=(?:an?|the) )${x}` + then, 'gi'), merge, t);
         const aux = 'do|does|did|is|are|was|were|has|have|had|can|could|will|would|should|may|might|must';
         const regex = `(?<!\\bdo )(?<!\\bdoes )(?<!\\bdid )(?<!\\bcan )(?<!\\bwill )\\b(not) ${just} (?!(?:${aux})\\b)${x},? but (?:also )?`;
         return this.replace(1, rx(regex, 'gi'), (m) => likeCase(m[1], m[2]) + ' and ', t);
@@ -194,7 +195,9 @@ class Humanizer {
     }
 
     salesAdjectives(t, strong) {
-        const words = strong ? this.rules.hype : 'breathtaking|stunning|groundbreaking|renowned|must-visit';
+        // In personal writing these are the writer's opinions.
+        const extra = this.type === 'personal' ? '' : `|${this.rules.hype_extra}`;
+        const words = strong ? this.rules.hype + extra : 'breathtaking|stunning|groundbreaking|renowned|must-visit';
         const comma = strong ? ',?' : '';
         const regex = rx(`(?<![\\w-])(?:(an?) )?(${words})${comma} (?!(?:${NOT_A_NOUN})\\b)(\\p{L}[\\w-]*)`, 'g');
         return this.replace(16, regex, (m, before) => {
@@ -363,7 +366,7 @@ class Humanizer {
     }
 
     plainHowever(t) {
-        const next = 'the|it|this|that|they|we|you|he|she|a|an|these|those|there|many|some|most|our|their|its|his|her|your|not|if|when';
+        const next = 'the|it|this|that|they|we|you|he|she|a|an|these|those|there|many|some|most|our|their|its|his|her|your|not|if|when|with|in|for|on|as|while|although|because|some|no|one|even|what|how|at|by|from|to';
         return this.replace(28, rx(SENTENCE_START + `However, ((?:${next})\\b)`, 'gm'), (m) => 'But ' + lcfirst(m[1]), t);
     }
 
@@ -379,7 +382,7 @@ class Humanizer {
         t = this.replace(29, rx(`${free}\\b(we|you|they) are${after}`, 'gi'), (m) => m[1] + "'re", t);
         t = this.replace(29, rx(`${free}\\bI am${after}`, 'g'), () => "I'm", t);
         t = this.replace(29, rx('\\b(I|we|you|they) will(?= \\p{Ll})', 'gi'), (m) => m[1] + "'ll", t);
-        return this.replace(29, rx('\\b(I|we|you|they) have(?= (?:been|already|seen|made|done|never|always|become|found|learned|used)\\b)', 'gi'), (m) => m[1] + "'ve", t);
+        return this.replace(29, rx('\\b(I|we|you|they) have(?= (?:been|already|seen|made|done|never|always|become|found|learned|used|\\p{Ll}{3,}ed)\\b)', 'gi'), (m) => m[1] + "'ve", t);
     }
 
     breakLong(line) {

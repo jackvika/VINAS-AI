@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Make AI text read like a person wrote it | VINAS AI</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://generativelanguage.googleapis.com https://openrouter.ai; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+    <title>AI text humanizer | VINAS AI</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
     <meta name="theme-color" content="#cc4400">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,14 +12,14 @@
 <main>
     <nav>
         <a class="brand" href="index.html">VINAS AI</a>
-        <a href="index.html" aria-current="page">Rewrite</a>
-        <a href="check.html">Check a rewrite</a>
+        <a href="index.html" aria-current="page">Humanizer</a>
+        <a href="check.html">Compare</a>
         <a href="guide.html">The 26 patterns</a>
         <a href="about.html">How it works</a>
     </nav>
     <header>
-        <h1>Make AI text read like a person wrote it</h1>
-        <p>Checks English text for 26 signs of AI writing, rewrites it with your own free AI key or cleans it instantly without AI, and checks that no facts were lost.</p>
+        <h1>AI text humanizer</h1>
+        <p>Paste AI-written English, press Humanize, and copy the result. Free, no sign-up, and your text never leaves your browser.</p>
     </header>
     <form>
         <div class="bar">
@@ -30,66 +30,42 @@
         <textarea id="text" name="text" rows="12" maxlength="50000">
 </textarea>
         <p class="muted" id="count" aria-live="polite"></p>
-        <div class="grid">
-            <div>
-                <label for="type">Kind of text</label>
-                <select id="type" name="type">
-                                        <option value="general" selected>General writing</option>
-                                        <option value="personal">Personal</option>
-                                        <option value="reference">Technical or legal</option>
-                                        <option value="informal">Informal (chat, review)</option>
-                                        <option value="reply">Reply to someone</option>
-                                    </select>
-            </div>
-            <div>
-                <label for="strength">Quick clean strength</label>
-                <select id="strength" name="strength">
-                    <option value="human">Human (strongest)</option>
-                    <option value="strong">Strong (cuts hype)</option>
-                    <option value="careful">Careful (safe fixes)</option>
-                </select>
-            </div>
-            <div>
-                <label for="file">Or a .txt / .md file</label>
-                <input id="file" name="file" type="file" accept=".txt,.md,.markdown">
-            </div>
-        </div>
-        <details>
-            <summary>Match my voice</summary>
-            <label for="sample" class="sr">Writing sample</label>
-            <textarea id="sample" name="sample" rows="5" maxlength="50000" placeholder="Paste 2 or 3 paragraphs you wrote yourself.">
-</textarea>
-            <p class="muted">Follows your dashes, quotation marks and contractions, and keeps words you use yourself. Needs at least 20 words.</p>
-        </details>
-        <label class="check"><input type="checkbox" name="dashes" value="1"> Keep my dashes</label>
-        <details id="ai">
-            <summary>AI rewrite settings (best result)</summary>
+        <button type="submit" class="main">Humanize</button>
+        <details class="options">
+            <summary>Options</summary>
             <div class="grid">
                 <div>
-                    <label for="provider">AI service</label>
-                    <select id="provider">
-                        <option value="gemini">Google Gemini</option>
-                        <option value="openrouter">OpenRouter</option>
+                    <label for="strength">Strength</label>
+                    <select id="strength" name="strength">
+                        <option value="human">Human (strongest)</option>
+                        <option value="strong">Strong (cuts hype)</option>
+                        <option value="careful">Careful (safe fixes)</option>
                     </select>
                 </div>
                 <div>
-                    <label for="key">Your key</label>
-                    <input id="key" type="password" autocomplete="off" spellcheck="false">
+                    <label for="type">Kind of text</label>
+                    <select id="type" name="type">
+                        <option value="general" selected>General writing</option>
+                        <option value="personal">Personal</option>
+                        <option value="reference">Technical or legal</option>
+                        <option value="informal">Informal (chat, review)</option>
+                        <option value="reply">Reply to someone</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="file">Or a .txt / .md file</label>
+                    <input id="file" name="file" type="file" accept=".txt,.md,.markdown">
                 </div>
             </div>
-            <label class="check"><input type="checkbox" id="remember"> Remember the key on this device (not on a shared computer)</label>
-            <p class="muted" data-provider="gemini">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>. On the free tier Google may use and review your text, so do not send private or confidential text. You must be 18 or older. In the EEA, Switzerland or the UK, use a paid key.</p>
-            <p class="muted" data-provider="openrouter" hidden>Get a free key at <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener noreferrer">OpenRouter</a>. Free models have a daily limit, and their providers may keep your text, so do not send private or confidential text.</p>
-            <p class="muted">AI rewrite sends your text, writing sample and key straight to the service you choose, never to VINAS AI. <button type="button" class="link" id="forget">Forget my key</button></p>
+            <label for="sample">Match my voice</label>
+            <textarea id="sample" name="sample" rows="4" maxlength="50000" placeholder="Paste 2 or 3 paragraphs you wrote yourself.">
+</textarea>
+            <p class="muted">Follows your dashes, quotation marks and contractions, and keeps words you use yourself. Needs at least 20 words.</p>
+            <label class="check"><input type="checkbox" name="dashes" value="1"> Keep my dashes</label>
         </details>
-        <div class="run">
-            <button type="button" id="ai-run">AI rewrite (best)</button>
-            <button type="submit" class="ghost">Quick clean, no AI</button>
-            <span class="muted" id="ai-status" role="status"></span>
-        </div>
     </form>
     <footer>
-        <p>Your text stays in your browser and is not saved, unless you use AI rewrite, which sends it to the AI service you choose. This site does not try to get past AI detectors.</p>
+        <p>Your text is processed in your browser and is not uploaded or saved. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>
@@ -98,7 +74,6 @@
 <script src="static/content.js"></script>
 <script src="static/engine.js"></script>
 <script src="static/pdf.js"></script>
-<script src="static/ai.js"></script>
 <script src="app.js"></script>
 <script src="static/site.js"></script>
 </body>

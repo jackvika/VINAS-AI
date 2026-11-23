@@ -312,7 +312,14 @@ const RULES = {
             "at its heart,",
             "ultimately,",
             "at the end of the day,",
-            "i am writing to inform you that"
+            "i am writing to inform you that",
+            "(?:moving|going) forward,",
+            "in essence,",
+            "simply put,",
+            "to put it simply,",
+            "rest assured(?: that|,)",
+            "at its best,",
+            "it is (?:clear|evident|obvious|no secret) that"
         ]
     },
     "human_open": {
@@ -324,7 +331,11 @@ const RULES = {
         "therefore,": "So",
         "thus,": "So",
         "as a result,": "So",
-        "first and foremost,": "First,"
+        "first and foremost,": "First,",
+        "that said,": "Still,",
+        "with that in mind,": "So",
+        "hence,": "So",
+        "as such,": "So"
     },
     "human_swap": {
         "27": {
@@ -424,7 +435,58 @@ const RULES = {
             "should you have any": "if you have any",
             "i would (?:greatly |really )?appreciate it if you could": "please",
             "i am writing to follow up on": "i'm following up on",
-            "regarding": "about"
+            "regarding": "about",
+            "(is|are|was|were) nothing short of": "$1",
+            "spearheaded": "led",
+            "spearheads": "leads",
+            "spearheading": "leading",
+            "spearhead": "lead",
+            "revolutionizing": "changing",
+            "revolutionizes": "changes",
+            "revolutionized": "changed",
+            "revolutionize": "change",
+            "(?:fully )?(?:harness|unlock|unleash) the (?:full |true )?(?:potential|power) of": "make good use of",
+            "(?:fully )?(?:harnessing|unlocking|unleashing) the (?:full |true )?(?:potential|power) of": "making good use of",
+            "striking (?:the right|a) balance between": "balancing",
+            "strike (?:the right|a) balance between": "balance",
+            "(?:thoughtfully|carefully|expertly) curated": "carefully chosen",
+            "perched (on|high in|atop)": "$1",
+            "indulge in": "enjoy",
+            "embark on": "start",
+            "embarks on": "starts",
+            "embarked on": "started",
+            "embarking on": "starting",
+            "navigate the (?:complexities|complex world) of": "deal with",
+            "navigating the (?:complexities|complex world) of": "dealing with",
+            "overall well-being": "well-being",
+            "work wonders": "help a lot",
+            "works wonders": "helps a lot",
+            "make (?:a big|a huge|a significant|all the) difference": "help a lot",
+            "makes (?:a big|a huge|a significant|all the) difference": "helps a lot",
+            "a wealth of": "a lot of",
+            "a host of": "many",
+            "an array of": "many",
+            "a growing number of": "more and more",
+            "pave the way for": "make way for",
+            "paves the way for": "makes way for",
+            "paved the way for": "made way for",
+            "paving the way for": "making way for",
+            "in the realm of": "in",
+            "at this juncture": "now",
+            "amongst": "among",
+            "resonates with": "appeals to",
+            "resonated with": "appealed to",
+            "resonate with": "appeal to",
+            "one of the most (?:pressing|significant|profound)": "one of the biggest",
+            "remains insufficient": "is still not enough",
+            "is committed to providing": "provides",
+            "are committed to providing": "provide",
+            "provides (users|people|teams|you|us|them|developers|customers|businesses|companies|students|employees|readers|visitors|writers|everyone|organizations|teachers|patients|workers|families) with": "gives $1",
+            "provide (users|people|teams|you|us|them|developers|customers|businesses|companies|students|employees|readers|visitors|writers|everyone|organizations|teachers|patients|workers|families) with": "give $1",
+            "the ultimate (solution|guide|tool|choice|destination)": "a $1",
+            "a key role": "a big part",
+            "stands out as": "is",
+            "is home to": "has"
         }
     },
     "vague": [
@@ -447,7 +509,6 @@ const RULES = {
         "detail": "The text has no number, name or date. Add one true detail only you would know.",
         "self": "The text never says \"I\" or \"we\". Add what you did, saw or think."
     },
-    "prompt": "Also write naturally: vary sentence length, use contractions where the kind of text allows, prefer short everyday words, use active voice, and start with the point. Keep every fact. Do not invent facts, experiences or quotations, and do not add mistakes on purpose. If a detail would help and you do not have it, ask me for it.",
     "hyphens": "high-quality|well-known|well-documented|long-term|real-time",
     "flag": {
         "1": [
@@ -475,7 +536,9 @@ const RULES = {
             "becomes a trap",
             "at its heart",
             "nothing would ever be the same",
-            "everything was about to change"
+            "everything was about to change",
+            "with great power comes great responsibility",
+            "small changes can"
         ],
         "4": [
             "let's (?:dive|take a look|look at|explore)[^.!?\\n]{0,60}",
@@ -485,7 +548,8 @@ const RULES = {
             "i'm (?:thrilled|excited|delighted|proud) to (?:announce|share)",
             "here's (?:why|how)(?=[:.])",
             "here's what changed[^.!?\\n]{0,30}",
-            "here's the truth"
+            "here's the truth",
+            "here are (?:some|a few|\\w+) (?:tips|ways|reasons|steps)[^.!?\\n]{0,40}(?=:)"
         ],
         "5": [
             "this isn't (?:mainly |really )?about",
@@ -536,7 +600,10 @@ const RULES = {
             "for generations to come",
             "greener tomorrow",
             "bygone era",
-            "in that moment"
+            "in that moment",
+            "rapidly (?:transforming|evolving|changing)",
+            "now more than ever",
+            "the future of \\w+"
         ],
         "14": [
             "associated with the",
@@ -582,7 +649,16 @@ const RULES = {
             "fascinating",
             "you won't regret",
             "designed with [^.,\\n]{2,30} in mind",
-            "with every \\w+(?=[.!])"
+            "with every \\w+(?=[.!])",
+            "where \\w+ meets \\w+",
+            "soak up the",
+            "every detail",
+            "hello to",
+            "state of the art",
+            "a must-have",
+            "second to none",
+            "like never before",
+            "take[sn]? (?:it|your \\w+) to the next level"
         ],
         "17": [
             "experts (?:believe|argue|say|agree)",
@@ -625,5 +701,6 @@ const RULES = {
         "28": [
             "i (?:hope|trust) this (?:email|message|note|letter) finds you well"
         ]
-    }
+    },
+    "hype_extra": "unparalleled|unrivaled|unmatched|innovative|sleek|pristine|world-class|best-in-class|exquisite|remarkable|fascinating|transformative|ever-evolving|ever-changing|fast-paced|game-changing|revolutionary|unwavering|invaluable"
 };
