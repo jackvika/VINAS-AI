@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tests | VINAS AI</title>
+</head>
+<body>
+<pre id="out">Running</pre>
+<script src="../static/rules.js"></script>
+<script src="../static/content.js"></script>
+<script src="../static/engine.js"></script>
+<script src="../static/pdf.js"></script>
+<script src="cases.js"></script>
+<script>
+const h = new Humanizer(RULES);
+const out = [];
+let passed = 0;
+let failed = 0;
+
+function check(kind, input, want, got) {
+    if (JSON.stringify(want) === JSON.stringify(got)) {
+        passed++;
+    } else {
+        failed++;
+        out.push(`FAIL ${kind}\n  in:   ${input}\n  want: ${JSON.stringify(want)}\n  got:  ${JSON.stringify(got)}`);
+    }
+}
+const text = (input, options) => h.run(input, options).text;
+const hits = (r) => [...r.edits, ...r.flags].map((x) => x.pattern);
+
+function run() {
+    for (const [input, want] of TESTS.rewrites) {
+        check('rewrite', input, want, text(input));
+        check('stable', want, want, text(want));
+    }
+    for (const input of TESTS.untouched) check('untouched', input, input, text(input));
+    for (const [input, n] of TESTS.flagged) check('flag', input, true, h.run(input).flags.some((f) => f.pattern === n));
+    for (const [input, want] of TESTS.strong) check('strong', input, want, text(input, { strong: true }));
+    for (const [input, want] of TESTS.human) check('human', input, want, text(input, { human: true }));
+    for (const [input, options, want] of TESTS.recorded) check('recorded ' + JSON.stringify(options), input, want, text(input, options));
+
+    // Patterns SKILL.md marks weak alone must be left when nothing else is wrong.
+    const weak = [10, 11, 14, 21];
+    for (const [n, kind, input] of TESTS.skill) {
+        const found = hits(h.run(input, { type: n === 26 ? 'reply' : 'general' }));
+        if (kind === 'After') {
+            check(`After §${n}`, input, [], found);
+            check(`After strong §${n}`, input, input, text(input, { strong: true }));
+        } else {
+            check(`Before §${n}`, input, !weak.includes(n), found.includes(n));
+        }
+    }
+
+    // Options
+    check('keep dashes', '', 'A — b, it is important — yes.', text('A — b, it is crucial — yes.', { dashes: true }));
+    check('informal lone tell', '', 'lol that was crucial', text('lol that was crucial', { type: 'informal' }));
+    check('human informal', '', 'i am fine, it is ok lmk', text('i am fine, it is ok lmk', { human: true, type: 'informal' }));
+    check('human reference', '', 'To start, it is not safe. However, the team can.', text('In order to start, it is not safe. However, the team is able to.', { human: true, type: 'reference' }));
+    check('tips', '', ['vague', 'in recent years'], h.run('It grew in recent years.', { human: true }).tips[0]);
+    check('tips only in human', '', [], h.run('It grew in recent years.', { strong: true }).tips);
+    const sample = "I don't think it's that hard — honestly we didn't plan much, and the trip was still vibrant and good. We can't complain about any of it.";
+    check('voice', '', "The town is vibrant and we don't mind — it is an important stop — at all.", text('The town is vibrant and we do not mind — it is a crucial stop — at all.', { sample }));
+    check('voice long', '', 'We do not help and cannot stay, it was important.', text("We don't help and can't stay, it was crucial.", { sample: 'We do not know what the plan is and we are not sure. '.repeat(3) }));
+
+    // File mode, facts and highlight positions
+    const md = '---\ntitle: A crucial — plan\n---\n\n# Notes\n\nThis is a crucial step. See [the guide](docs/crucial--a.md).\n\n| crucial | a — b |\n\n$ delve into --now\n\nC:\\work\\crucial\\x.txt\n\n```\ncrucial — code\n```';
+    const file = h.run(md, { strong: true });
+    check('file', '', md.replace('a crucial step', 'an important step'), file.text);
+    check('sections', '', 2, file.sections);
+    check('missing', '', ['12', 'https://a.example/x', 'Lisbon'], h.missing('We saw 12 cats in Lisbon at https://a.example/x today.', 'We saw cats today.'));
+    const r = h.run('Ünïcode — “quoted” 🚀 text. Experts believe it helps, ensuring a robust result.');
+    for (const f of r.flags) check('offset', r.text, f.text, r.text.slice(f.start, f.end));
+
+    // PDF
+    const pdf = String.fromCharCode(...Pdf.render('# Café (draft)\n\nIt costs €5 \\ “now”.\n\n- ' + 'word '.repeat(900) + '\n' + 'x'.repeat(400), 'Tést', DATA.widths));
+    check('pdf xref', '', 'xref', pdf.substr(Number(/startxref\n(\d+)/.exec(pdf)[1]), 4));
+    [...pdf.matchAll(/^(\d{10}) 00000 n $/gm)].forEach((m, i) => check('pdf object', '', true, pdf.startsWith(`${i + 1} 0 obj`, Number(m[1]))));
+    const streams = [...pdf.matchAll(/<< \/Length (\d+) >>\nstream\n([\s\S]*?)endstream/g)];
+    for (const m of streams) check('pdf length', '', Number(m[1]), m[2].length);
+    check('pdf pages', '', true, streams.length > 1);
+    check('pdf words', '', 900, pdf.split('word').length - 1);
+    check('pdf escapes', '', true, pdf.includes('(Caf\xE9 \\(draft\\))'));
+    check('pdf supports', '', [true, false, false, false], ['naïve “é” €', 'हिन्दी', '₹500', '🚀'].map((s) => Pdf.supports(s)));
+
+    const start = performance.now();
+    h.run("It's not just a feature; it's a whole new way — truly — to work, ensuring quality. ".repeat(240), { human: true });
+    const ms = Math.round(performance.now() - start);
+    check('speed', '', true, ms < 5000);
+    out.push(`20k characters in ${ms} ms`);
+}
+
+try {
+    run();
+    out.push(failed ? `${failed} failed, ${passed} passed` : `All ${passed} passed`);
+} catch (error) {
+    out.push('ERROR ' + error.stack);
+}
+document.getElementById('out').textContent = out.join('\n');
+</script>
+</body>
+</html>

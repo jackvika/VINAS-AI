@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>The 26 patterns | VINAS AI</title>
     <meta name="theme-color" content="#cc4400">
-    <link rel="stylesheet" href="style.css?92b228a9">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
     <nav>
         <a class="brand" href="index.html">VINAS AI</a>
-                <a href="index.html">Rewrite</a>
-                <a href="check.html">Check a rewrite</a>
-                <a href="guide.html" aria-current="page">The 26 patterns</a>
-                <a href="about.html">How it works</a>
-            </nav>
+        <a href="index.html">Rewrite</a>
+        <a href="check.html">Check a rewrite</a>
+        <a href="guide.html" aria-current="page">The 26 patterns</a>
+        <a href="about.html">How it works</a>
+    </nav>
     <header>
         <h1>The 26 patterns</h1>
         <p>Numbered from strongest to weakest. The first five are worth fixing on sight; a pattern marked weak alone counts only next to others.</p>
@@ -24,7 +24,6 @@
         <li><a href="#A">A. Staging instead of stating</a></li><li><a href="#B">B. Rhythm by rule</a></li><li><a href="#C">C. Inflation and borrowed authority</a></li><li><a href="#D">D. Formatting by rule</a></li><li><a href="#E">E. Leftovers from the chat and the draft</a></li><li><a href="#F">F. Writing for the wrong reader</a></li>        <li><a href="#exceptions">When not to act</a></li>
         <li><a href="#human">Human mode techniques</a></li>
     </ul>
-
         <section id="A">
         <h2>A. Staging instead of stating</h2>
         <p>These are the strongest and most frequent tells in current model prose. Act on one sighting.</p>                <details class="pattern" id="p1">
@@ -122,11 +121,9 @@
             <summary><strong>26. Re-explaining what the reader knows</strong> <span class="muted">Highlighted</span></summary>
             <p><strong>Watch for:</strong> a short reply that restates the problem, walks through the diagnosis, and lays out the evidence before it reaches the decision; a query, command, or set of numbers included to prove a plan will work; background the other person wrote or already agreed to; the answer itself sitting in the last line.</p><p><strong>Problem:</strong> In a reply the reader already has the context, so rebuilding it adds nothing and buries the point. Lead with the decision and keep only the reasoning that would change whether the reader agrees: usually one fact they lack and any link they need to act. Leave the diagnosis and the proof for the ticket or document that follows; a reviewer raising a topic is not asking for the full write-up. Each sentence can read fine on its own, so this survives sentence-level cleanup.</p><p><strong>Before:</strong></p><blockquote><p>Yeah, you&#039;re right, this works around the issue rather than fixing it. The real fix is in <code>MergeService</code>: when we move a child under a new parent, it should update <code>pipeline_id</code> along with <code>parent_id</code>. We can backfill the bad rows from the audit log with <code>Change.where(field: &quot;pipeline_id&quot;, source: &quot;merge&quot;)</code>. I checked QA: 123 past merges, only 6 rows wrong now, so the cleanup is small.</p><p>Since <code>MergeService</code> is shared and not specific to this account, I&#039;d rather open a separate ticket than widen this PR. The fallback here is fine to keep until then.</p></blockquote><p><strong>After:</strong></p><blockquote><p>Agreed, this is a workaround. I&#039;d rather keep this PR account-specific and open a separate ticket for the <code>MergeService</code> fix and the backfill.</p><p><code>MergeService</code> is shared code, so fixing it here means checking the merge flow for every account and backfilling the rows that are already wrong.</p></blockquote>        </details>
             </section>
-    
         <section id="exceptions">
         <h2>When not to act</h2>
         <p>Each pattern describes a default choice, and a person can use any one of them on purpose. Leave a watched phrase alone inside a quotation, a title, a proper name, or a passage that discusses the phrase rather than uses it. Salutations, sign-offs, and a plain &quot;let me know&quot; in a message predate chatbots. Text written before November 30, 2022 is not AI-written. People who judge by feel do little better than chance, and human writing keeps picking up AI habits, so look for several tells together before acting on weak ones.</p><p>Keep the details that carry the writer&#039;s voice unless they hurt the meaning:</p><ul><li>A specific, unusual detail: a real address, an odd quote, &quot;the lawyer who used to work upstairs from my dentist.&quot;</li><li>Mixed feelings and unresolved tension: &quot;I think this is mostly good, but it bothers me, and I can&#039;t fully explain why.&quot;</li><li>Dated, era-bound references: slang, memes, and in-jokes from a specific year and subculture.</li><li>A first-person choice the writer can explain.</li><li>A genuine aside, parenthetical, or self-correction: &quot;(I keep wanting to say &#039;almost&#039; here, but it really was certain.)&quot;</li></ul>    </section>
-
     <section id="human">
         <h2>Human mode techniques</h2>
         <p>These four are VINAS AI's own. They are not signs of AI writing; they are ordinary habits of clear writers.</p>

@@ -1,5 +1,4 @@
-// Browser version of src/Humanizer.php. Keep the two in step: tests/browser.html compares them.
-// Rules come from src/rules.php through tools/build.php.
+// The rewriting engine. Rules are in rules.js; tests are in tests/index.html.
 class Humanizer {
     constructor(rules) {
         this.rules = rules;

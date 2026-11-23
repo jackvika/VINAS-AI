@@ -1,4 +1,4 @@
-// Browser version of src/Pdf.php: plain or Markdown text as an A4 PDF in built-in fonts.
+// Writes plain or Markdown text as an A4 PDF in built-in fonts.
 const Pdf = (() => {
     const WIDTH = 595.28;
     const HEIGHT = 841.89;

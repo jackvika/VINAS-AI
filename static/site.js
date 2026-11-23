@@ -1,4 +1,4 @@
-// Runs the site in the browser, for hosts without PHP such as GitHub Pages.
+// Runs the rewrite and check pages.
 const engine = new Humanizer(DATA.rules);
 const names = { ...DATA.rules.patterns, 0: ['Voice match', 'Matched to your sample.'] };
 const byId = (id) => document.getElementById(id);
