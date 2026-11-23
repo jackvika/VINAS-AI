@@ -1,2 +1,3 @@
 # Never serve the Git folder or its settings files.
 RedirectMatch 404 /\.git
+DirectoryIndex index.php index.html

@@ -1,6 +1,8 @@
 # VINAS AI
 
-A PHP website that makes AI-written English read more like a person wrote it. It needs no API key, database or Composer packages.
+**Use it now: <https://jackvika.github.io/VINAS-AI/>**
+
+A website that makes AI-written English read more like a person wrote it. It runs on PHP, or entirely in the browser on hosts without PHP. It needs no API key, database or Composer packages.
 
 It checks text for common forms of 26 signs of AI writing, fixes the ones a program can fix safely, and highlights the rest for the writer.
 
@@ -28,13 +30,31 @@ Without Apache, run this in the folder and open <http://localhost:8000/>:
 php -S localhost:8000
 ```
 
-The `.htaccess` files work on Apache only. On another server, block `src`, `tests` and `.git` yourself.
+The `.htaccess` files work on Apache only. On another server, block `src`, `tests`, `tools` and `.git` yourself.
+
+## Two versions
+
+| Version | Where it runs | Entry page |
+|---|---|---|
+| PHP | XAMPP or any PHP host | `index.php` |
+| Browser | GitHub Pages or any static host; text is not uploaded | `index.html` |
+
+The `.html` pages and `static/data.js` are built from the PHP files. After you change a page, a rule or a file in `skill/`, run:
+
+```
+php tools/build.php
+```
+
+`static/engine.js` and `static/pdf.js` are written by hand. If you change `src/Humanizer.php` or `src/Pdf.php`, make the same change there.
 
 ## Test it
 
 ```
 php tests/run.php
+php tools/build.php --tests
 ```
+
+The second command writes `tests/cases.js`. Then run `php -S localhost:8000` and open <http://localhost:8000/tests/browser.html> to compare the browser version with PHP.
 
 ## Files
 
@@ -46,6 +66,8 @@ php tests/run.php
 | `pdf.php`, `src/Pdf.php` | PDF download |
 | `src/Humanizer.php` | Rewriting engine |
 | `src/rules.php` | Phrases and patterns to fix or highlight |
+| `static/` | Browser version of the engine, PDF writer and pages |
+| `tools/build.php` | Builds the browser version |
 | `skill/` | Files from the original Humanizer project |
 
 ## Limits
@@ -57,7 +79,7 @@ php tests/run.php
 
 ## Put it online
 
-GitHub stores the code but cannot run PHP, and GitHub Pages cannot either. Use a host that supports PHP 8.1 or newer and upload these files there. Leave out `.git` and `tests`.
+GitHub Pages serves the browser version from the root of the `main` branch. GitHub cannot run the PHP version. For that, use a host that supports PHP 8.1 or newer and leave out `.git`, `tests` and `tools`.
 
 ## License and credits
 

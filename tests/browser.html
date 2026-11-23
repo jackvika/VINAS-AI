@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Browser engine against PHP</title>
+</head>
+<body>
+<!-- First run: php tools/build.php --tests. Then open this page through a web server that allows /tests. -->
+<pre id="out">Running</pre>
+<script src="cases.js"></script>
+<script src="../static/data.js"></script>
+<script src="../static/engine.js"></script>
+<script src="../static/pdf.js"></script>
+<script>
+const out = [];
+let failed = 0;
+const engine = new Humanizer(DATA.rules);
+const strip = (flags) => flags.map((f) => [f.pattern, f.text]);
+for (const { in: text, options, want } of CASES) {
+    let got;
+    try {
+        const r = engine.run(text, options);
+        for (const f of r.flags) {
+            if (r.text.slice(f.start, f.end) !== f.text) throw new Error('bad offset for ' + f.text);
+        }
+        got = {
+            text: r.text, first: r.first, survived: strip(r.survived), flags: strip(r.flags),
+            edits: r.edits.map((c) => [c.pattern, c.before, c.after]),
+            missing: r.missing, held: r.held, sections: r.sections, voice: r.voice, average: engine.averageSentence(text),
+        };
+    } catch (error) {
+        got = { error: String(error) };
+    }
+    const keys = Object.keys({ ...want, ...got }).filter((k) => JSON.stringify(got[k]) !== JSON.stringify(want[k]));
+    if (keys.length) {
+        failed++;
+        if (failed <= 8) out.push(`FAIL ${JSON.stringify(options)} ${JSON.stringify(text.slice(0, 160))}` + keys.map((k) => `\n  ${k}\n    php ${JSON.stringify(want[k] ?? null).slice(0, 400)}\n    js  ${JSON.stringify(got[k] ?? null).slice(0, 400)}`).join(''));
+    }
+}
+let pdfFailed = 0;
+for (const { in: text, want } of PDFS) {
+    const got = Pdf.supports(text) && text.trim() !== '' ? [...Pdf.render(text, 'Tést', DATA.widths)].map((b) => b.toString(16).padStart(2, '0')).join('') : null;
+    if (got !== want) {
+        pdfFailed++;
+        if (pdfFailed <= 3) out.push(`FAIL pdf ${JSON.stringify(text.slice(0, 80))} php ${want && want.length} js ${got && got.length}`);
+    }
+}
+out.push(`${CASES.length - failed} of ${CASES.length} cases match, ${PDFS.length - pdfFailed} of ${PDFS.length} PDFs match`);
+document.getElementById('out').textContent = out.join('\n');
+</script>
+</body>
+</html>

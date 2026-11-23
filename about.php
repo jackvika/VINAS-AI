@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/src/page.php';
+require_once __DIR__ . '/src/page.php';
 
 $examples = examples();
 pageTop('How it works', 'What the rules look for, what this site does with them, and where its limits are.');

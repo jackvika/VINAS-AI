@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/src/page.php';
+require_once __DIR__ . '/src/page.php';
 
 // What this site does with each pattern.
 $flagOnly = [6, 14, 17, 25, 26];
