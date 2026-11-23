@@ -41,6 +41,7 @@ Open `tests/index.html` in a browser. The [live copy](https://jackvika.github.io
 | `guide.html`, `about.html` | Pattern guide and how it works |
 | `static/rules.js` | Phrases and patterns to fix or highlight |
 | `static/engine.js` | Rewriting engine |
+| `static/brain.js` | Sentence rebuilding for Human mode |
 | `static/pdf.js` | PDF writer |
 | `static/site.js`, `app.js` | Page behavior and buttons |
 | `static/content.js` | Examples, size limit and font widths |

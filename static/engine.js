@@ -355,6 +355,12 @@ class Humanizer {
         let t = this.protect(this.protect(text, CODE, 'C'), QUOTE, 'Q');
         t = this.strips('human_strip', this.deletes('human_delete', t));
         t = this.swaps('human_swap', [27], t);
+        // People write plainly already, so sentences are rebuilt only where there are signs of AI writing.
+        const signs = this.edits.filter((c) => c.pattern > 0).length + this.flags(this.restore(t, 'QC'), true).length;
+        if (signs > 0) {
+            t = Brain.rewrite(this, t);
+            if (this.type !== 'reference') t = this.swaps('human_words', [27], t);
+        }
         if (this.type !== 'reference') {
             for (const [from, to] of Object.entries(this.rules.human_open)) {
                 t = this.replace(28, rx(SENTENCE_START + from + '(?= \\p{L})', 'gim'), () => to, t);
