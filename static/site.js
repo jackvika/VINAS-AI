@@ -73,13 +73,14 @@ async function readFile(file) {
     }
 }
 
-function renderRewrite(r, text, sample, type, fileName) {
+function renderRewrite(r, text, sample, type, fileName, ai = null) {
     const edits = r.edits.length;
     const left = r.flags.length;
     const was = engine.metrics(text);
     const now = engine.metrics(r.text);
     let note = '';
-    if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
+    if (ai) note = `Rewritten by ${esc(ai.model)}${ai.rounds ? `, then sent back ${ai.rounds === 1 ? 'once' : 'twice'} for corrections` : ''}. AI can still change meaning, so compare it with your original.`;
+    else if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
     else if (r.text === '') note = 'Every sentence matched a filler pattern, so nothing is left. Add a concrete fact and try again.';
     else if (!edits && !left) note = 'No tells this site can detect were found. Your text is unchanged.';
 
@@ -110,6 +111,7 @@ function renderRewrite(r, text, sample, type, fileName) {
         </p>
         ${note ? `<p class="note">${note}</p>` : ''}
         ${r.missing.length ? `<p class="error" role="alert">Check these details, which are no longer in the result: ${esc(r.missing.join(', '))}</p>` : ''}
+        ${ai && ai.added.length ? `<p class="error" role="alert">Check these details, which are not in your text: ${esc(ai.added.join(', '))}</p>` : ''}
         <div class="output">${highlight(r.text, r.flags)}</div>
         <textarea id="output" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
         ${voice}
@@ -118,8 +120,8 @@ function renderRewrite(r, text, sample, type, fileName) {
         ${r.first !== null ? `<details><summary>First rewrite, and the ${r.survived.length} tells that survived it</summary><div class="output">${highlight(r.first, r.survived)}</div></details>` : ''}
         ${edits ? `<details><summary>What was fixed (${edits})</summary><ul class="list">${r.edits.map((c) => `<li>${tag(c.pattern)} <del>${esc(c.before)}</del>${c.after ? ` <ins>${esc(c.after)}</ins>` : ''}</li>`).join('')}</ul></details>` : ''}
         <div class="prompt">
-            <h3>Full rewrite in two steps</h3>
-            <p>A program can clean phrases, but rebuilding sentences takes an AI or your own edit. Copy the prompt into any AI chat, then bring the answer back to check that no facts were lost. Your text goes to that service.</p>
+            <h3>Full rewrite without a key</h3>
+            <p>Fixed rules can clean phrases, but rebuilding sentences takes an AI. Use AI rewrite above, or copy this prompt into any AI chat and bring the answer back to check it. Your text goes to that service.</p>
             <button type="button" class="ghost" data-copy="prompt">1. Copy full rewrite prompt</button>
             <textarea id="prompt" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
             <button type="button" class="ghost" data-check>2. Check the answer</button>
@@ -163,25 +165,100 @@ if (byId('strength')) {
         byId('text').value = example;
         byId('text').dispatchEvent(new Event('input'));
     }
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        try {
+    async function readForm() {
             const file = byId('file').files[0];
             const text = (file ? await readFile(file) : byId('text').value).replace(/\r\n/g, '\n');
             const sample = trim(byId('sample').value);
             const error = tooLong(text, sample) || (trim(text) === '' ? 'Paste some text or choose a file first.' : '');
             showError(error);
-            if (error) return;
+            if (error) return null;
             if (file) {
                 byId('text').value = text;
                 byId('text').dispatchEvent(new Event('input'));
                 byId('file').value = '';
             }
-            const type = byId('type').value;
-            const options = { type, strong: byId('strength').value === 'strong', human: byId('strength').value === 'human', sample, dashes: form.elements.dashes.checked };
-            renderRewrite(engine.run(text, options), text, sample, type, file ? file.name : '');
+            return { text, sample, type: byId('type').value, dashes: form.elements.dashes.checked, fileName: file ? file.name : '' };
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        try {
+            const input = await readForm();
+            if (!input) return;
+            const { text, sample, type, fileName } = input;
+            const options = { type, strong: byId('strength').value === 'strong', human: byId('strength').value === 'human', sample, dashes: input.dashes };
+            renderRewrite(engine.run(text, options), text, sample, type, fileName);
         } catch (error) {
             showError(error.message);
+        }
+    });
+
+    const slot = () => `vinas-key-${byId('provider').value}`;
+    const stored = (store, name) => {
+        try {
+            return store().getItem(name) || '';
+        } catch {
+            return ''; // Storage is blocked.
+        }
+    };
+    const loadKey = () => {
+        const kept = stored(() => localStorage, slot());
+        byId('key').value = kept || stored(() => sessionStorage, slot());
+        byId('remember').checked = kept !== '';
+        document.querySelectorAll('[data-provider]').forEach((p) => { p.hidden = p.dataset.provider !== byId('provider').value; });
+    };
+    const forget = () => {
+        for (const store of [() => localStorage, () => sessionStorage]) {
+            try {
+                store().removeItem(slot());
+            } catch {
+                // Storage is blocked, so nothing was kept.
+            }
+        }
+    };
+    byId('provider').addEventListener('change', loadKey);
+    byId('forget').addEventListener('click', () => {
+        forget();
+        loadKey();
+    });
+    loadKey();
+
+    byId('ai-run').addEventListener('click', async () => {
+        const button = byId('ai-run');
+        const label = button.textContent;
+        const key = byId('key').value.trim();
+        const status = (message) => { byId('ai-status').textContent = message ? `${message}…` : ''; };
+        try {
+            const input = await readForm();
+            if (!input) return;
+            if (!/^[\x21-\x7E]{10,300}$/.test(key)) {
+                byId('ai').open = true;
+                byId('key').focus();
+                showError('Add your free AI key first, under AI rewrite settings.');
+                return;
+            }
+            forget();
+            try {
+                (byId('remember').checked ? localStorage : sessionStorage).setItem(slot(), key);
+            } catch {
+                // Storage is blocked; the key lasts until the page closes.
+            }
+            button.disabled = true;
+            const { text, sample, type, dashes, fileName } = input;
+            const answer = await AI.rewrite(engine, trim(text), {
+                provider: byId('provider').value, key, kind: byId('type').selectedOptions[0].textContent, type, sample, status,
+            });
+            // One last safe pass for anything mechanical the AI left in.
+            const r = engine.run(answer.text, { type, sample, dashes });
+            r.missing = engine.missing(text, r.text);
+            r.tips = engine.tips(r.text);
+            renderRewrite(r, text, sample, type, fileName, { ...answer, added: engine.missing(r.text, text) });
+        } catch (error) {
+            showError(error.message);
+        } finally {
+            status('');
+            button.disabled = false;
+            button.textContent = label;
         }
     });
 } else if (byId('original')) {

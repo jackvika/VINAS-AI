@@ -2,12 +2,15 @@
 
 **Use it now: <https://jackvika.github.io/VINAS-AI/>**
 
-A website that makes AI-written English read more like a person wrote it. It is plain HTML, CSS and JavaScript and runs in the browser, so your text is not uploaded. It needs no server code, API key, database or build step.
+A website that makes AI-written English read more like a person wrote it. It is plain HTML, CSS and JavaScript with no server code, database or build step.
+
+There are two ways to use it. **AI rewrite** rebuilds the text with a Gemini or OpenRouter key that each visitor supplies, then checks the answer and sends problems back. **Quick clean** runs in the browser without AI and uploads nothing.
 
 It checks text for common forms of 26 signs of AI writing, fixes the ones a program can fix, and highlights the rest for the writer.
 
 ## Features
 
+- AI rewrite with automatic fact and style checks; the key goes only to the chosen service and is kept in the visitor's browser
 - Careful mode for safe fixes, Strong mode, which also cuts hype, and Human mode, which also uses plain words, contractions and varied sentence rhythm; every change is listed
 - Tips on where the writer should add a real detail, plus sentence variety and reading ease scores
 - First rewrite, the tells that survived it, and the final version
@@ -38,6 +41,7 @@ Open `tests/index.html` in a browser. The [live copy](https://jackvika.github.io
 | `guide.html`, `about.html` | Pattern guide and how it works |
 | `static/rules.js` | Phrases and patterns to fix or highlight |
 | `static/engine.js` | Rewriting engine |
+| `static/ai.js` | AI rewrite |
 | `static/pdf.js` | PDF writer |
 | `static/site.js`, `app.js` | Page behavior and buttons |
 | `static/content.js` | Examples, size limit, rewrite prompt and font widths |
@@ -48,7 +52,8 @@ The earlier PHP version is on the [`php` branch](https://github.com/jackvika/VIN
 
 ## Limits
 
-- It matches known phrasings. It does not rebuild whole paragraphs, and it misses tells worded another way.
+- Quick clean matches known phrasings. It does not rebuild whole paragraphs, and it misses tells worded another way.
+- AI rewrite depends on the chosen model and its free limits, and it can change meaning.
 - It works on English only.
 - It does not try to get past AI detectors, and it cannot certify that text is human written.
 - PDF download covers Western European characters. For other scripts, the result page offers the browser's print window.

@@ -27,6 +27,8 @@
     <section>
         <h2>What happens to your text</h2>
         <ul>
+            <li><strong>AI rewrite:</strong> an AI model rebuilds the text using all 26 rules. The site then checks numbers, links, likely names, length and remaining tells, and sends problems back to the AI up to two times. You see any detail that is still missing or new.</li>
+            <li><strong>Quick clean:</strong> the steps below run in your browser without AI.</li>
             <li><strong>Protected first:</strong> quotations, code, links, paths, commands, tables and front matter are set aside. In the result, curly quotation marks may become straight.</li>
             <li><strong>First rewrite:</strong> stock phrases, chatbot leftovers, "not just X but Y", inflated words, sales words, decoration and dashes are fixed.</li>
             <li><strong>Strong mode, second rewrite:</strong> hype, staged openers, empty clauses and clipped fragments are cut or merged. Every cut is listed.</li>
@@ -50,7 +52,7 @@
         <ul>
             <li>No tool can make AI text "100% human written", and this site does not certify who wrote anything.</li>
             <li>It edits for human readers. AI detectors may still flag the result.</li>
-            <li>It matches known phrasings, so it misses tells worded another way. It does not rebuild whole paragraphs.</li>
+            <li>Quick clean matches known phrasings, so it misses tells worded another way and does not rebuild paragraphs. AI rewrite does, but it can change meaning, so read it against your original.</li>
             <li>It works on English only.</li>
         </ul>
     </section>
@@ -90,7 +92,7 @@
         </ul>
     </section>
     <footer>
-        <p>Your text is processed in your browser and is not uploaded or saved. This site does not try to get past AI detectors.</p>
+        <p>Your text stays in your browser and is not saved, unless you use AI rewrite, which sends it to the AI service you choose. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>

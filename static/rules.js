@@ -270,7 +270,8 @@ const RULES = {
     },
     "strong_swap": {
         "1": {
-            "(it|this|that)('s| is) not [^.;,!?\\n]{2,60}[,;.] (?:it|this|that)(?:'s| is)": "$1$2"
+            "(it|this|that)('s| is) not [^.;,!?\\n]{2,60}[,;.] (?:it|this|that)(?:'s| is)": "$1$2",
+            "(is|are|was|were)(?:n't| not) (?:a|an|the|about) [^.;,!?\\n—–]{2,50}\\s*[;.,—–]\\s*(?:it|they)(?:'s|'re| is| are| was| were)(?= (?:a|an|the|about)\\b)": "$1"
         },
         "3": {
             "the real question is": "the question is",
@@ -285,7 +286,7 @@ const RULES = {
             "in the heart of": "in"
         },
         "18": {
-            "represents(?= an?\\b)": "is"
+            "represents(?= (?:an?|one of)\\b)": "is"
         }
     },
     "hype": "breathtaking|stunning|iconic|unforgettable|beloved|must-see|must-visit|renowned|groundbreaking|awe-inspiring",
@@ -307,7 +308,11 @@ const RULES = {
             "notably,",
             "importantly,",
             "interestingly,",
-            "indeed,"
+            "indeed,",
+            "at its heart,",
+            "ultimately,",
+            "at the end of the day,",
+            "i am writing to inform you that"
         ]
     },
     "human_open": {
@@ -413,7 +418,13 @@ const RULES = {
             "takes into consideration": "considers",
             "take into consideration": "consider",
             "is indicative of": "shows",
-            "came to the conclusion that": "concluded that"
+            "came to the conclusion that": "concluded that",
+            "at your earliest convenience": "when you can",
+            "please (?:do not|don't) hesitate to (?:reach out|contact (?:me|us)|get in touch)": "please get in touch",
+            "should you have any": "if you have any",
+            "i would (?:greatly |really )?appreciate it if you could": "please",
+            "i am writing to follow up on": "i'm following up on",
+            "regarding": "about"
         }
     },
     "vague": [
@@ -444,7 +455,8 @@ const RULES = {
             "(?\u003C=\\w)'s not [^.;,!?\\n]{2,60}[,;.] (?:it|they|this|that)(?:'s|'re| is| are| was| were)",
             "does(?:n't| not) mean [^.!?\\n]{2,100}[.;] it means",
             "not (?:just|only|merely|simply) [^.;!?\\n]{2,80}?,? but",
-            ", no (?:guessing|fuss|hassle|surprises|exceptions)(?=[.!])"
+            ", no (?:guessing|fuss|hassle|surprises|exceptions)(?=[.!])",
+            "(?:don't|doesn't|didn't) [^.;,!?\\n]{2,50}, they"
         ],
         "2": [
             "(?:this|that) (?:shows|highlights|demonstrates) the importance of",
@@ -460,7 +472,10 @@ const RULES = {
             "the heart of the matter",
             "at its core",
             "the (?:language|currency|architecture) of (?:trust|power|success|change)",
-            "becomes a trap"
+            "becomes a trap",
+            "at its heart",
+            "nothing would ever be the same",
+            "everything was about to change"
         ],
         "4": [
             "let's (?:dive|take a look|look at|explore)[^.!?\\n]{0,60}",
@@ -468,7 +483,9 @@ const RULES = {
             "the part (?:that|worth)",
             "let me tell you",
             "i'm (?:thrilled|excited|delighted|proud) to (?:announce|share)",
-            "here's (?:why|how)(?=[:.])"
+            "here's (?:why|how)(?=[:.])",
+            "here's what changed[^.!?\\n]{0,30}",
+            "here's the truth"
         ],
         "5": [
             "this isn't (?:mainly |really )?about",
@@ -513,7 +530,13 @@ const RULES = {
             "reflects? a broader",
             "despite (?:these|its|the) challenges",
             "continues to thrive",
-            "step in the right direction"
+            "step in the right direction",
+            "pav(?:e|es|ed|ing) the way for",
+            "one of the most (?:pressing|important|significant)",
+            "for generations to come",
+            "greener tomorrow",
+            "bygone era",
+            "in that moment"
         ],
         "14": [
             "associated with the",
@@ -544,7 +567,22 @@ const RULES = {
             "rich (?:cultural|history|heritage|tradition|tapestry)",
             "profound(?:ly)?",
             "exemplifies",
-            "commitment to (?:excellence|quality|innovation)"
+            "commitment to (?:excellence|quality|innovation)",
+            "unparalleled",
+            "the ultimate",
+            "elevat(?:e|es|ing) (?:any|your|the)",
+            "peace of mind",
+            "say goodbye to",
+            "look no further",
+            "game[- ]chang(?:er|ing)",
+            "world-class",
+            "best-in-class",
+            "innovative",
+            "sleek",
+            "fascinating",
+            "you won't regret",
+            "designed with [^.,\\n]{2,30} in mind",
+            "with every \\w+(?=[.!])"
         ],
         "17": [
             "experts (?:believe|argue|say|agree)",
@@ -577,6 +615,15 @@ const RULES = {
             "flagged rather than guessed",
             "(?:the )?(?:table|figures?|section) below (?:compares|shows|are|is)",
             "this (?:section|document|article) (?:is organi[sz]ed|will|explores|covers)"
+        ],
+        "22": [
+            "drop (?:it|them|your \\w+) in the comments",
+            "i hope this (?:email|message|note) finds you well"
+        ]
+    },
+    "human_delete": {
+        "28": [
+            "i (?:hope|trust) this (?:email|message|note|letter) finds you well"
         ]
     }
 };

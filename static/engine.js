@@ -58,8 +58,8 @@ class Humanizer {
         };
     }
 
-    inspect(text) {
-        const r = this.run(text);
+    inspect(text, type = 'general') {
+        const r = this.run(text, { type });
         this.edits = [];
         return [
             ...r.edits.map((c) => ({ pattern: c.pattern, text: c.before })),
@@ -177,9 +177,9 @@ class Humanizer {
     notJust(t) {
         const just = '(?:just|only|merely|simply)';
         const x = '([^,.;!?\\n—–]{2,80}?)';
-        const then = apos("\\s*(?:[;,.]|[—–]|--)\\s*(?:it|this|that|they)(?:'s|'re| is| are) (?:also )?");
+        const then = apos("\\s*(?:[;,.]|[—–]|--)\\s*(?:it|this|that|they|he|she)(?:'s|'re| is| are| was| were) (?:also )?");
         const merge = (m) => m[1] + ' ' + m[2] + ' and ';
-        t = this.replace(1, rx(apos(`\\b(is|are)(?:n't| not) ${just} ${x}`) + then, 'gi'), merge, t);
+        t = this.replace(1, rx(apos(`\\b(is|are|was|were)(?:n't| not) ${just} ${x}`) + then, 'gi'), merge, t);
         t = this.replace(1, rx(apos(`((?<=\\w)'s) not ${just} ${x}`) + then, 'gi'), merge, t);
         const aux = 'do|does|did|is|are|was|were|has|have|had|can|could|will|would|should|may|might|must';
         const regex = `(?<!\\bdo )(?<!\\bdoes )(?<!\\bdid )(?<!\\bcan )(?<!\\bwill )\\b(not) ${just} (?!(?:${aux})\\b)${x},? but (?:also )?`;
@@ -348,7 +348,7 @@ class Humanizer {
     natural(text, voice) {
         this.vault = [];
         let t = this.protect(this.protect(text, CODE, 'C'), QUOTE, 'Q');
-        t = this.strips('human_strip', t);
+        t = this.strips('human_strip', this.deletes('human_delete', t));
         t = this.swaps('human_swap', [27], t);
         if (this.type !== 'reference') {
             for (const [from, to] of Object.entries(this.rules.human_open)) {
@@ -357,6 +357,7 @@ class Humanizer {
             t = this.plainHowever(t);
             if (!voice || voice.contractions !== 'long') t = this.contract(t);
         }
+        if (!this.keepDashes) t = t.split('\n').map((line) => this.dashes(line)).join('\n');
         t = t.split('\n').map((line) => this.breakLong(line)).join('\n');
         return this.restore(t, 'QC');
     }

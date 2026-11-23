@@ -58,6 +58,11 @@ const TESTS = {
         ["Let's explore how it works. It caches data.","It caches data."],
     ],
     human: [
+        ["I hope this email finds you well. Please do not hesitate to reach out should you have any questions.","Please get in touch if you have any questions."],
+        ["Leadership isn't a title. It's a responsibility.","Leadership is a responsibility."],
+        ["The door isn't locked. It's open.","The door isn't locked. It's open."],
+        ["She wasn't just afraid, she was alive.","She was afraid and alive."],
+        ["I would greatly appreciate it if you could review the file at your earliest convenience.","Please review the file when you can."],
         ["In order to win, we utilize data.","To win, we use data."],
         ["It is important to note that the shop is closed.","The shop is closed."],
         ["However, the plan failed. However, Delhi agreed.","But the plan failed. However, Delhi agreed."],
