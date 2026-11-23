@@ -69,8 +69,6 @@ async function readFile(file) {
 function renderRewrite(r, text, fileName) {
     const edits = r.edits.length;
     const left = r.flags.length;
-    const was = engine.metrics(text);
-    const now = engine.metrics(r.text);
     let note = '';
     if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
     else if (r.text === '') note = 'Every sentence matched a filler pattern, so nothing is left. Add a concrete fact and try again.';
@@ -89,29 +87,154 @@ function renderRewrite(r, text, fileName) {
             <span class="actions">
                 <button type="button" class="ghost" data-copy="output">Copy</button>
                 <button type="button" class="ghost" data-download="output" data-name="${esc(fileName || 'rewrite.txt')}">Download text</button>
-                ${pdfButton(r.text, 'output', fileName || 'rewrite', true)}
+                <span id="pdf-slot"></span>
                 <button type="button" class="ghost" data-reuse="output">Edit and check again</button>
             </span>
         </div>
-        <p class="stats">
-            <span><b>${edits}</b> fixed</span>
-            <span><b>${left}</b> left to check</span>
-            <span><b>${engine.averageSentence(text)} → ${engine.averageSentence(r.text)}</b> words per sentence</span>
-            <span><b>${was.variety} → ${now.variety}</b> sentence variety</span>
-            <span><b>${was.ease} → ${now.ease}</b> reading ease</span>
-            <span><b>${r.sections} of ${r.sections}</b> sections reviewed</span>
-        </p>
+        <p class="stats" id="stats"></p>
         ${note ? `<p class="note">${note}</p>` : ''}
-        ${r.missing.length ? `<p class="error" role="alert">Check these details, which are no longer in the result: ${esc(r.missing.join(', '))}</p>` : ''}
-        <div class="output">${highlight(r.text, r.flags)}</div>
+        <p class="error" role="alert" id="lost" hidden></p>
+        <div class="output" id="shown"></div>
         <textarea id="output" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
         ${voice}
-        ${r.tips.length ? `<h3>Make it yours</h3><p class="muted">Only you can do these, and they make the biggest difference.</p><ul class="list">${r.tips.map(([kind, quote]) => `<li>${quote ? `<mark>${esc(quote)}</mark>` : ''}<span>${esc(DATA.rules.tips[kind])}</span></li>`).join('')}</ul>` : ''}
-        ${left ? `<h3>Left for you to check</h3>${tells(r.flags)}` : ''}
+        <div id="finish"></div>
         ${r.first !== null ? `<details><summary>First rewrite, and the ${r.survived.length} tells that survived it</summary><div class="output">${highlight(r.first, r.survived)}</div></details>` : ''}
         ${edits ? `<details><summary>What was fixed (${edits})</summary><ul class="list">${r.edits.map((c) => `<li>${tag(c.pattern)} <del>${esc(c.before)}</del>${c.after ? ` <ins>${esc(c.after)}</ins>` : ''}</li>`).join('')}</ul></details>` : ''}`);
     show(node);
-    byId('output').value = r.text;
+    finishEditor(node, r, text, fileName);
+}
+
+/** The choices a phrase offers, with the case of the phrase. */
+function choices(phrase) {
+    for (const [pattern, options] of Object.entries(RULES.suggest)) {
+        const m = rx('^(?:' + apos(pattern) + ')$', 'i').exec(phrase);
+        if (m) return options.map((o) => likeCase(phrase, o.replace(/\$(\d)/g, (_, n) => m[n] || '')));
+    }
+    return [];
+}
+
+/** Lets the writer settle each highlighted phrase and add their own details. */
+function finishEditor(node, r, original, fileName) {
+    let current = r.text;
+    let done = 0;
+    const history = [];
+    const kept = new Set();
+    const withTips = byId('strength').value === 'human';
+    let jobs = [];
+
+    function listJobs() {
+        const flags = engine.flags(current);
+        const list = flags.map((f) => ({ kind: 'flag', start: f.start, end: f.end, text: f.text, pattern: f.pattern, advice: names[f.pattern][1] }));
+        for (const [kind, quote] of withTips ? engine.tips(current) : []) {
+            const start = quote === '' ? current.length : current.indexOf(quote);
+            if (start >= 0) list.push({ kind, start, end: start + quote.length, text: quote, pattern: 0, advice: RULES.tips[kind] });
+        }
+        return { flags, list: list.filter((j) => !kept.has(j.kind + j.text)) };
+    }
+
+    /** True where cutting the phrase leaves a whole sentence: an aside, or a describing word before its noun. */
+    function removable(j) {
+        const before = current.slice(0, j.start);
+        const after = current.slice(j.end);
+        const opens = /(?:^|[.!?;:,(]\s|\n)$/.test(before);
+        const closes = /^(?:[,.;!?)\n]|$)/.test(after);
+        // A whole sentence, an opener with its comma, or an aside between commas.
+        if (opens && closes && !(/(?:^|[.!?]\s|\n)$/.test(before) && !after.startsWith(','))) return true;
+        const describes = /^(?:actually|quietly|innovative|sleek|stunning|breathtaking|fascinating|unparalleled|world-class|robust|valuable|iconic|unforgettable|must-see|must-visit|renowned|profound|profoundly)$/i.test(j.text);
+        return describes && /^ \p{L}/u.test(after) && !/^ (?:and|or|but|for)\b/.test(after) && (/(?:actually|quietly|profoundly)/i.test(j.text) || !rx(PREDICATE, 'i').test(before));
+    }
+
+    function item(j, i) {
+        const long = j.kind === 'long' || j.kind === 'even';
+        const field = long
+            ? `<textarea rows="3" aria-label="${esc(RULES.ask[j.kind])}">${esc(j.text)}</textarea>`
+            : `<input type="text" aria-label="${esc(RULES.ask[j.kind])}" placeholder="${esc(RULES.ask[j.kind])}">`;
+        return `<li data-job="${i}">
+            ${j.pattern ? tag(j.pattern) : ''}${j.text ? `<mark>${esc(j.text)}</mark>` : ''}<span>${esc(j.advice)}</span>
+            <div class="choose">
+                ${j.kind === 'flag' ? choices(j.text).map((c) => `<button type="button" class="chip" data-use="${esc(c)}">${esc(c)}</button>`).join('') : ''}
+                ${j.kind === 'flag' && removable(j) ? '<button type="button" class="chip" data-use="">Delete it</button>' : ''}
+                <button type="button" class="chip" data-keep>${j.text ? 'Keep' : 'Skip'}</button>
+            </div>
+            <div class="own">${field}<button type="button" class="ghost" data-own>${j.text ? 'Replace' : 'Add'}</button></div>
+        </li>`;
+    }
+
+    function draw() {
+        const state = listJobs();
+        jobs = state.list;
+        const was = engine.metrics(original);
+        const now = engine.metrics(current);
+        byId('output').value = current;
+        byId('shown').innerHTML = highlight(current, state.flags.filter((f) => !kept.has('flag' + f.text)));
+        byId('pdf-slot').innerHTML = pdfButton(current, 'output', fileName || 'rewrite', true);
+        byId('stats').innerHTML = `<span><b>${r.edits.length}</b> fixed for you</span><span><b>${done}</b> by you</span><span><b>${jobs.length}</b> left</span>`
+            + `<span><b>${was.variety} → ${now.variety}</b> sentence variety</span><span><b>${was.ease} → ${now.ease}</b> reading ease</span>`
+            + `<span><b>${r.sections} of ${r.sections}</b> sections reviewed</span>`;
+        const lost = engine.missing(original, current);
+        byId('lost').hidden = lost.length === 0;
+        byId('lost').textContent = `Check these details, which are no longer in the result: ${lost.join(', ')}`;
+        byId('finish').innerHTML = jobs.length || history.length
+            ? `<div class="bar"><h3>Finish it yourself</h3>${history.length ? '<button type="button" class="ghost" data-undo>Undo</button>' : ''}</div>
+               <p class="muted">${jobs.length ? 'Your own choices and details are what make it yours. Pick a word, type your own, or keep it.' : 'All done. Read it aloud once before you use it.'}</p>
+               <ul class="list">${jobs.map(item).join('')}</ul>` : '';
+    }
+
+    /** Puts new words in place of a job's phrase and tidies the spacing around a removal. */
+    function apply(j, words) {
+        history.push([current, done, [...kept]]);
+        let before = current.slice(0, j.start);
+        let after = current.slice(j.end);
+        if (j.text === '') {
+            current = `${trim(current)} ${words}`;
+        } else {
+            if (words === '') {
+                // "is, actually, fine" => "is fine"
+                if (/, $/.test(before) && /^, /.test(after)) before = before.replace(/, $/, ' ');
+                if (/ an? $/i.test(before)) before = before.replace(/(an?) $/i, (_, a) => `${articleFor(a, after.trimStart())} `);
+                after = after.replace(/^,? /, (gap) => (before === '' || /[\s(]$/.test(before) ? '' : gap));
+                if (/^[.,;!?]/.test(after)) before = before.replace(/,? $/, '');
+                if (/(?:^|[.!?]\s|\n)$/.test(before)) after = ucfirst(after);
+            }
+            current = before + words + after;
+        }
+        done++;
+        draw();
+    }
+
+    node.addEventListener('click', (event) => {
+        const button = event.target.closest('button');
+        if (!button) return;
+        if (button.dataset.undo !== undefined) {
+            const [text, count, keep] = history.pop();
+            current = text;
+            done = count;
+            kept.clear();
+            keep.forEach((k) => kept.add(k));
+            draw();
+            return;
+        }
+        const row = button.closest('[data-job]');
+        if (!row) return;
+        const j = jobs[Number(row.dataset.job)];
+        if (button.dataset.use !== undefined) {
+            apply(j, button.dataset.use);
+        } else if (button.dataset.keep !== undefined) {
+            history.push([current, done, [...kept]]);
+            kept.add(j.kind + j.text);
+            draw();
+        } else if (button.dataset.own !== undefined) {
+            const words = trim(row.querySelector('.own input, .own textarea').value);
+            if (words !== '' && words !== j.text) apply(j, words);
+        }
+    });
+    node.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && event.target.matches('.own input')) {
+            event.preventDefault();
+            event.target.closest('.own').querySelector('[data-own]').click();
+        }
+    });
+    draw();
 }
 
 function renderCheck(original, rewrite) {

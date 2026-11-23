@@ -734,5 +734,199 @@ const RULES = {
         "game-changing": "useful",
         "unwavering": "steady",
         "invaluable": "very useful"
+    },
+    "suggest": {
+        "experts (?:believe|argue|say|agree)": [
+            "I think"
+        ],
+        "some critics": [
+            "some people"
+        ],
+        "say goodbye to": [
+            "get rid of",
+            "clear away"
+        ],
+        "hello to": [
+            "get"
+        ],
+        "peace of mind": [
+            "less to worry about"
+        ],
+        "designed with [^.]* in mind": [
+            "made for everyday use"
+        ],
+        "elevat(?:e|es|ing) (any|your|the)": [
+            "suits $1",
+            "looks good in $1"
+        ],
+        "soak up the": [
+            "enjoy the"
+        ],
+        "every detail": [
+            "everything"
+        ],
+        "the ultimate": [
+            "a good"
+        ],
+        "innovative": [
+            "clever",
+            "new"
+        ],
+        "sleek": [
+            "stylish",
+            "simple"
+        ],
+        "unparalleled": [
+            "excellent"
+        ],
+        "world-class": [
+            "excellent"
+        ],
+        "fascinating": [
+            "interesting"
+        ],
+        "renowned": [
+            "well-known"
+        ],
+        "profound": [
+            "deep",
+            "big"
+        ],
+        "breathtaking": [
+            "great"
+        ],
+        "stunning": [
+            "beautiful"
+        ],
+        "iconic": [
+            "famous"
+        ],
+        "unforgettable": [
+            "memorable"
+        ],
+        "must-(?:see|visit)": [
+            "popular"
+        ],
+        "hidden gems?": [
+            "good place",
+            "little-known place"
+        ],
+        "natural beauty": [
+            "scenery"
+        ],
+        "rich (cultural|history|heritage|tradition)": [
+            "long $1",
+            "$1"
+        ],
+        "in the heart of": [
+            "in",
+            "in central"
+        ],
+        "robust": [
+            "strong",
+            "reliable"
+        ],
+        "valuable": [
+            "useful"
+        ],
+        "testament": [
+            "sign"
+        ],
+        "tapestry": [
+            "mix"
+        ],
+        "interplay": [
+            "link"
+        ],
+        "(?:digital|competitive|current|business|media) landscape": [
+            "market",
+            "field"
+        ],
+        "aligns with": [
+            "fits"
+        ],
+        "align with": [
+            "fit"
+        ],
+        "aligned with": [
+            "in line with"
+        ],
+        "key (role|factor|aspect|part|element|component|point)(s?)": [
+            "main $1$2",
+            "big $1$2"
+        ],
+        "quietly": [],
+        "actually": [],
+        "(?:pivotal|crucial|defining) moment": [
+            "big change"
+        ],
+        "indelible mark": [
+            "deep mark"
+        ],
+        "lasting legacy": [
+            "long influence"
+        ],
+        "bygone era": [
+            "earlier time"
+        ],
+        "in that moment": [
+            "then"
+        ],
+        "rapidly (transforming|evolving|changing)": [
+            "changing"
+        ],
+        "now more than ever": [
+            "now"
+        ],
+        "continues to thrive": [
+            "is doing well"
+        ],
+        "one of the most (?:pressing|important|significant)": [
+            "one of the biggest"
+        ],
+        "greener tomorrow": [
+            "cleaner future"
+        ],
+        "with great power comes great responsibility": [
+            "there are risks too"
+        ],
+        "the heart of the matter": [
+            "the main point"
+        ],
+        "becomes a trap": [
+            "causes problems"
+        ],
+        "drop (?:it|them|your \\w+) in the comments": [
+            "tell me below"
+        ],
+        "here's what changed[^.]*": [
+            "What I changed:"
+        ],
+        "represents (an?)": [
+            "is $1"
+        ],
+        "marks (an?)": [
+            "is $1"
+        ],
+        "served as (an?)": [
+            "was $1"
+        ],
+        "not publicly available": [
+            "private"
+        ],
+        "it is believed that": [
+            "people say"
+        ],
+        "active social media presence": [
+            "accounts on social media"
+        ]
+    },
+    "ask": {
+        "vague": "Your own detail, such as a number, name or place",
+        "long": "Rewrite it in your own words",
+        "even": "Rewrite it shorter or longer",
+        "detail": "One true sentence with a name, number or date",
+        "self": "One sentence on what you did, saw or think",
+        "flag": "Your own words"
     }
 };
