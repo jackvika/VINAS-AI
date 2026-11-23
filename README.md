@@ -28,7 +28,7 @@ Without Apache, run this in the folder and open <http://localhost:8000/>:
 php -S localhost:8000
 ```
 
-The `.htaccess` files in `src` and `tests` work on Apache only. On another server, block those two folders yourself.
+The `.htaccess` files work on Apache only. On another server, block `src`, `tests` and `.git` yourself.
 
 ## Test it
 
