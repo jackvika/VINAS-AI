@@ -55,6 +55,12 @@ php tests/run.php
 - It does not try to get past AI detectors, and it cannot certify that text is human written.
 - PDF download covers Western European characters. For other scripts, the result page offers the browser's print window.
 
-## Credits
+## Put it online
 
-The rules come from [blader/humanizer](https://github.com/blader/humanizer), copyright 2025 Siqi Chen, under the [MIT License](skill/LICENSE.txt). That license covers the files in `skill/`. This project is not affiliated with it.
+GitHub stores the code but cannot run PHP, and GitHub Pages cannot either. Use a host that supports PHP 8.1 or newer and upload these files there. Leave out `.git` and `tests`.
+
+## License and credits
+
+VINAS AI is under the [MIT License](LICENSE).
+
+The rules and the files in `skill/` come from [blader/humanizer](https://github.com/blader/humanizer), copyright 2025 Siqi Chen, under its own [MIT License](skill/LICENSE.txt). Keep that notice and credit in any copy. This project is not affiliated with it.
