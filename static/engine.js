@@ -194,16 +194,18 @@ class Humanizer {
         return this.swaps('swap', [13, 16, 18, 9, 12], t);
     }
 
+    /** Swaps hype for a plain word, so the claim stays: "stunning views" => "beautiful views". */
     salesAdjectives(t, strong) {
-        // In personal writing these are the writer's opinions.
-        const extra = this.type === 'personal' ? '' : `|${this.rules.hype_extra}`;
-        const words = strong ? this.rules.hype + extra : 'breathtaking|stunning|groundbreaking|renowned|must-visit';
-        const comma = strong ? ',?' : '';
-        const regex = rx(`(?<![\\w-])(?:(an?) )?(${words})${comma} (?!(?:${NOT_A_NOUN})\\b)(\\p{L}[\\w-]*)`, 'g');
+        // In personal writing the general list holds the writer's opinions.
+        const plain = { ...this.rules.hype, ...(strong ? this.rules.hype_strong : {}), ...(strong && this.type !== 'personal' ? this.rules.hype_general : {}) };
+        const regex = rx(`(?<![\\w-])(?:(an?) )?(${Object.keys(plain).join('|')})(,?) (?!(?:${NOT_A_NOUN})\\b)(\\p{L}[\\w-]*)`, 'g');
         return this.replace(16, regex, (m, before) => {
-            const article = m[1] || '';
-            if ((article === '' && rx(PREDICATE, 'i').test(before)) || this.inSample(m[2])) return null;
-            return (article === '' ? '' : articleFor(article, m[3]) + ' ') + m[3];
+            const [, article = '', hype, comma, noun] = m;
+            if ((article === '' && rx(PREDICATE, 'i').test(before)) || this.inSample(hype)) return null;
+            // "the breathtaking region of Gonder" names a place; praise there says nothing.
+            const word = /^(?:region|town|city|village|district|area|state|country|natural|beauty)$/.test(noun) ? '' : plain[hype];
+            const next = word === '' ? noun : `${word}${comma} ${noun}`;
+            return (article === '' ? '' : articleFor(article, next) + ' ') + next;
         }, t);
     }
 

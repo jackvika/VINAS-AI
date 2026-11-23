@@ -289,7 +289,6 @@ const RULES = {
             "represents(?= (?:an?|one of)\\b)": "is"
         }
     },
-    "hype": "breathtaking|stunning|iconic|unforgettable|beloved|must-see|must-visit|renowned|groundbreaking|awe-inspiring",
     "human_strip": {
         "28": [
             "(?:it is|it's) (?:important|worth|essential|crucial|vital|also important|also worth) (?:to note|noting|to mention|mentioning|to remember|remembering) that",
@@ -702,5 +701,38 @@ const RULES = {
             "i (?:hope|trust) this (?:email|message|note|letter) finds you well"
         ]
     },
-    "hype_extra": "unparalleled|unrivaled|unmatched|innovative|sleek|pristine|world-class|best-in-class|exquisite|remarkable|fascinating|transformative|ever-evolving|ever-changing|fast-paced|game-changing|revolutionary|unwavering|invaluable"
+    "hype": {
+        "breathtaking": "great",
+        "stunning": "beautiful",
+        "groundbreaking": "important",
+        "renowned": "well-known",
+        "must-visit": ""
+    },
+    "hype_strong": {
+        "iconic": "famous",
+        "unforgettable": "memorable",
+        "beloved": "much-loved",
+        "must-see": "",
+        "awe-inspiring": "impressive"
+    },
+    "hype_general": {
+        "unparalleled": "excellent",
+        "unrivaled": "excellent",
+        "unmatched": "excellent",
+        "world-class": "excellent",
+        "best-in-class": "excellent",
+        "innovative": "clever",
+        "sleek": "stylish",
+        "pristine": "clean",
+        "exquisite": "beautiful",
+        "remarkable": "impressive",
+        "fascinating": "interesting",
+        "transformative": "important",
+        "ever-evolving": "changing",
+        "ever-changing": "changing",
+        "fast-paced": "busy",
+        "game-changing": "useful",
+        "unwavering": "steady",
+        "invaluable": "very useful"
+    }
 };
