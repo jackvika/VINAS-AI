@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plain words | VINAS</title>
+    <meta name="description" content="Paste stiff English and get plainer words.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#cc4400">
+    <link rel="icon" href="static/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+    <nav>
+        <a class="brand" href="index.html">VINAS AI</a>
+        <a href="index.html">Ask</a>
+        <a href="humanize.html" aria-current="page">Plain words</a>
+        <a href="check.html">Compare</a>
+        <a href="guide.html">The 26 patterns</a>
+        <a href="about.html">How it works</a>
+    </nav>
+    <header>
+        <h1>Plain words</h1>
+        <p>Paste stiff English and get plainer words. Fixed rules and a word brain that learned from two million human sentences do the work. It changes words and phrases, not whole sentences.</p>
+    </header>
+    <form autocomplete="off">
+        <section class="step" aria-labelledby="step1">
+            <div class="bar">
+                <h2 id="step1"><span class="num">1</span> <label for="text">Paste your text</label></h2>
+                <span class="muted tries">Example: <a href="humanize.html?example=0">1</a> <a href="humanize.html?example=1">2</a></span>
+            </div>
+            <textarea id="text" name="text" rows="11" maxlength="50000" spellcheck="true" placeholder="Paste the AI-written text here."></textarea>
+            <div class="bar tools">
+                <p class="muted" id="count" aria-live="polite"></p>
+                <span class="actions">
+                    <button type="button" class="ghost" id="paste">Paste</button>
+                    <label class="ghost file">Open a file<input id="file" name="file" type="file" accept=".txt,.md,.markdown" class="sr"></label>
+                    <button type="button" class="ghost" id="clear">Clear</button>
+                </span>
+            </div>
+        </section>
+
+        <section class="step" aria-labelledby="step2">
+            <div class="bar">
+                <h2 id="step2"><span class="num">2</span> Choose your settings</h2>
+                <span class="status" id="status" role="status">Checking the brain</span>
+            </div>
+            <div class="grid">
+                <div>
+                    <label for="strength">How much to change</label>
+                    <select id="strength" name="strength">
+                        <option value="human">Full: rules and word brain</option>
+                        <option value="strong">Strong: cuts hype</option>
+                        <option value="careful">Careful: safe fixes only</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="type">Kind of text</label>
+                    <select id="type" name="type">
+                        <option value="general" selected>General writing</option>
+                        <option value="personal">Personal</option>
+                        <option value="reference">Technical or legal</option>
+                        <option value="informal">Informal (chat, review)</option>
+                        <option value="reply">Reply to someone</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="level">Brain power</label>
+                    <select id="level" name="level">
+                        <option value="light">Light: few changes</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="strong">Strong: most changes</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="contractions">Contractions</label>
+                    <select id="contractions" name="contractions">
+                        <option value="auto" selected>Where natural (don't, it's)</option>
+                        <option value="no">Never (do not, it is)</option>
+                    </select>
+                </div>
+            </div>
+            <label class="check"><input type="checkbox" name="brain" value="1" checked> Use the brain in Human mode (sends your text to this site's server)</label>
+            <label class="check"><input type="checkbox" name="dashes" value="1"> Keep my dashes</label>
+            <details class="options">
+                <summary>Match my own writing (optional)</summary>
+                <label for="sample">2 or 3 paragraphs you wrote yourself</label>
+                <textarea id="sample" name="sample" rows="4" maxlength="50000"></textarea>
+                <p class="muted">Follows your dashes, quotation marks and contractions, and keeps words you use yourself. Needs at least 20 words.</p>
+            </details>
+        </section>
+
+        <section class="step" aria-labelledby="step3">
+            <h2 id="step3"><span class="num">3</span> Get your text</h2>
+            <button type="submit" class="main">Humanize</button>
+            <p class="muted" id="progress" role="status"></p>
+        </section>
+    </form>
+    <footer>
+        <p>In Human mode your text goes to this site's own server, where the brain reads it and does not save or share it. Without the brain, and in the other modes, it stays in your browser. This site does not try to get past AI detectors.</p>
+        <p>Based on <a href="https://github.com/blader/humanizer" rel="noopener noreferrer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
+    </footer>
+</main>
+<noscript><p class="error">This page needs JavaScript.</p></noscript>
+<script src="static/rules.js"></script>
+<script src="static/content.js"></script>
+<script src="static/brain.js"></script>
+<script src="static/engine.js"></script>
+<script src="static/pdf.js"></script>
+<script src="app.js"></script>
+<script src="static/site.js"></script>
+</body>
+</html>

@@ -14,8 +14,8 @@
 <main>
     <nav>
         <a class="brand" href="index.html">VINAS AI</a>
-        <a href="index.html">Humanizer</a>
-        <a href="write.html">Write it yourself</a>
+        <a href="index.html">Ask</a>
+        <a href="humanize.html">Plain words</a>
         <a href="check.html">Compare</a>
         <a href="guide.html">The 26 patterns</a>
         <a href="about.html" aria-current="page">How it works</a>
@@ -25,6 +25,16 @@
         <p>What the rules look for, what this site does with them, and where its limits are.</p>
     </header>
         <section>
+        <h2>How a question is answered</h2>
+        <ul>
+            <li><strong>Reading the question:</strong> fixed patterns tell a definition, a list, a reason, a date, a number or a comparison apart, and pick out the topic.</li>
+            <li><strong>Finding:</strong> your browser searches Wikipedia and reads up to three articles.</li>
+            <li><strong>Ranking:</strong> every sentence gets a BM25 score against the question, with bonuses for its section, its place and the kind of answer wanted.</li>
+            <li><strong>Writing it up:</strong> the best sentences that say different things go back into reading order, with headings and a source for each. Sums are worked out by a small calculator.</li>
+            <li><strong>What it cannot do:</strong> it does not reason, argue or write new sentences, and it knows only what Wikipedia says. It tells you when it found little.</li>
+        </ul>
+    </section>
+    <section>
         <h2>Why AI text sounds the way it does</h2>
         <p>A language model writes whatever is most likely to come next, so it makes the choice that fits the widest range of readers. A person chooses for one reader and one subject. Each of the <a href="guide.html">26 patterns</a> is a form of that default choice.</p>
     </section>
@@ -35,7 +45,6 @@
             <li><strong>First rewrite:</strong> stock phrases, chatbot leftovers, "not just X but Y", inflated words, sales words, decoration and dashes are fixed.</li>
             <li><strong>Strong mode, second rewrite:</strong> hype, staged openers, empty clauses and clipped fragments are cut or merged. Every cut is listed.</li>
             <li><strong>Human mode, third rewrite:</strong> plain words, contractions, shorter connectors and better sentence rhythm. It also lists the details only you can add. It is the default, and it changes style even in text a person wrote.</li>
-            <li><strong>The AI writer:</strong> in Human mode, a large language model on Cloudflare reads each paragraph, writes it again, and then compares it with your original. A second checker in your browser throws away any version that loses or invents a number, name or link, or turns a yes into a no. If none passes, the paragraph is left to the other steps. Technical and legal text skips the writer.</li>
             <li><strong>The word brain:</strong> in Human mode, a model that learned from two million sentences people wrote compares the wordings it knows and picks what people say most. It runs on this site's server, and you can turn it off.</li>
             <li><strong>Fact check:</strong> you get a warning if a number, link or likely name from your text is missing.</li>
             <li><strong>Finish it yourself:</strong> for each phrase that is left, you pick a word, remove it, keep it or type your own. Where a claim is vague, you add your own number, name or example. You can undo any step.</li>
@@ -67,13 +76,13 @@
             <summary>Example 1</summary>
             <h3>Before</h3><blockquote><p>I&#039;m thrilled to announce that shared drafts are finally here! 🚀 For months, our own team was drowning in files named final_v7.docx — and we knew there had to be a better way. Now two people can edit the same doc at once, with every change appearing live for both of them. It&#039;s not just a feature; it&#039;s a whole new way to collaborate. Comments stay anchored to the exact sentence they reference, even as the text around them evolves. And the best part? It&#039;s available today on every plan, completely free. Let that sink in.</p></blockquote>
             <h3>After, by the original project</h3><blockquote><p>Shared drafts are out today. For months our own team passed around files named final_v7.docx, and we got sick of it. Now two people can edit the same doc at once and see each other&#039;s changes as they type. Comments stay attached to the sentence they&#039;re about, even when the text around it changes. It&#039;s free on every plan.</p></blockquote>
-            <p><a href="index.html?example=0">Try it here</a></p>
+            <p><a href="humanize.html?example=0">Try it here</a></p>
         </details>
                 <details>
             <summary>Example 2</summary>
             <h3>Before</h3><blockquote><p>I recently spent five unforgettable days in Lisbon last October, and let me tell you — this city completely stole my heart. From the moment I checked into my charming hotel perched high in the historic Alfama district, I knew I was somewhere truly special.</p><p>Yes, the famous hills are challenging — with countless stairs between my hotel and everything else, my legs certainly felt it! — but every climb rewards you with breathtaking, panoramic views that make it all worthwhile.</p><p>No trip would be complete without riding the iconic Tram 28, a roughly forty-minute journey shared with plenty of fellow travelers eager to capture the magic. And the food? Simply divine. While the pastéis de nata at Pastéis de Belém are a beloved national treasure, my absolute favorite came from a hidden gem in Graça, still warm from the oven.</p><p>But what truly makes Lisbon special isn&#039;t just the sights — it&#039;s the feeling. Wander just a block or two above the main squares and you&#039;ll discover a quieter, more authentic side of the city, inviting you to slow down and savor every moment.</p><p>Of course, the must-see São Jorge Castle offers stunning views over the rooftops below. The queues can be long, but the experience is absolutely worth it for any history buff or curious traveler.</p><p>Would I go back? Absolutely — next time in spring, and with better shoes! Lisbon isn&#039;t just a place to visit; it&#039;s a place to fall in love with, again and again. ✨</p></blockquote>
             <h3>After, by the original project</h3><blockquote><p>I spent five days in Lisbon last October. My hotel was up in Alfama, with a lot of stairs between it and everything else. My legs felt every one of them, but the views from the top made up for it.</p><p>Everyone tells you to ride Tram 28, so I did. It took about forty minutes, and most of the car was other tourists taking pictures out the windows.</p><p>The custard tarts at Pastéis de Belém are the famous ones. The best one I had came from a place in Graça, still warm from the oven.</p><p>The part of Lisbon I liked most starts a block or two above the main squares, where the streets go quiet and nobody is in a hurry. São Jorge Castle has good views over the rooftops and a long queue to get them.</p><p>I&#039;d go back, in spring next time, and with better shoes.</p></blockquote>
-            <p><a href="index.html?example=1">Try it here</a></p>
+            <p><a href="humanize.html?example=1">Try it here</a></p>
         </details>
             </section>
     <section>
@@ -96,7 +105,7 @@
         </ul>
     </section>
     <footer>
-        <p>The AI writer runs on Cloudflare Workers AI, through this site's server. The word brain runs on this site's server. This site does not save your text, and you can turn both off. This site does not try to get past AI detectors.</p>
+        <p>The word brain runs on this site's own server, which does not save or share your text, and you can turn it off. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>

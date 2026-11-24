@@ -10,11 +10,6 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.10
-      # You type these two in Render. They are never stored in this file.
-      - key: CLOUDFLARE_ACCOUNT_ID
-        sync: false
-      - key: CLOUDFLARE_API_TOKEN
-        sync: false
       # Optional. With a value, the site asks for this password.
       - key: SITE_PASSWORD
         sync: false

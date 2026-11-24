@@ -57,200 +57,20 @@ function pdfButton(text, source, name) {
 // The brain runs on the site's server. Pages opened without one, such as on GitHub Pages, use the rules alone.
 const api = (path, options, ms) => fetch(path, { ...options, credentials: 'same-origin', signal: AbortSignal.timeout(ms) }).then((r) => {
     if (r.status === 401) location.reload();
-    if (!r.ok) {
-        const said = r.json().then((x) => String(x.error || '').slice(0, 200), () => '');
-        return said.then((text) => { throw Object.assign(new Error(`The server answered ${r.status}.`), { status: r.status, said: text, busy: r.status === 429 || r.status === 503 }); });
-    }
+    if (!r.ok) throw Object.assign(new Error(`The server answered ${r.status}.`), { busy: r.status === 429 || r.status === 503 });
     return r.json();
 });
 let awake = null;
-let hasWriter = false;
 
 /** Asks once whether there is a brain. No text is sent, and the request wakes a sleeping server. */
 function wake() {
     if (!awake) {
         awake = /^https?:$/.test(location.protocol)
-            ? api('api/health', {}, 90000).then((x) => {
-                hasWriter = x.writer === true;
-                return x.ok === true;
-            }).catch(() => false)
+            ? api('api/health', {}, 90000).then((x) => x.ok === true).catch(() => false)
             : Promise.resolve(false);
         awake.then((ok) => { if (!ok) awake = null; });
     }
     return awake;
-}
-
-/** Tells the writer how to mend its last version. */
-function mend(why) {
-    if (why.startsWith('lost ') && !/too much|a link|its subject/.test(why)) return `It left out "${why.slice(5)}"`;
-    if (why.startsWith('invented ')) return `It added "${why.slice(9)}", which is not in the original`;
-    return {
-        'lost too much meaning': 'It left out points of the original', 'added too much': 'It added things that are not in the original', 'too long': 'It was too long', 'too short': 'It left out points of the original',
-        'barely changed': 'It copied the sentences of the original', 'changed a yes to a no': 'It changed a yes to a no, or a no to a yes', 'claims too much': 'It dropped "one of the"', 'changed a quotation': 'It changed a quotation',
-        'lost its subject': 'It did not name who or what the first sentence is about', 'lost a link': 'It left out a link or address', 'changed how much': 'It changed how much or how many, such as all to almost all', 'repeats a phrase': 'It said the same thing twice', 'repeats a word': 'It repeated a word',
-    }[why] || '';
-}
-
-const pause = (ms) => new Promise((done) => { setTimeout(done, ms); });
-
-/** Has the AI writer write every part again, and keeps the first version that passes both checks. */
-async function rewriteAll(text, options, tell, stopped) {
-    const pieces = Checker.pieces(text, 170);
-    const jobs = pieces.filter((p) => p.write);
-    for (const p of jobs) p.was = p.text;
-    const limit = { light: 0.92, normal: 0.8, strong: 0.7, deep: 0.7 }[options.level] ?? 0.8;
-    const overused = [0, 0];
-    let written = 0;
-    let trouble = '';
-    const words = (options.sample.match(WORD) || []).length;
-    const sample = words >= 20 ? options.sample.slice(0, 2000) : '';
-    let notes = options.notes.split('\n').map((n) => n.trim()).filter(Boolean);
-    for (const [done, p] of jobs.entries()) {
-        if (stopped()) break;
-        const before = pieces.slice(0, pieces.indexOf(p)).map((x) => x.text + x.end).join('');
-        tell(done, jobs.length, before);
-        let best = null;
-        let hint = '';
-        let bestShare = -1;
-        let counted = false;
-        const kept = (p.items || []).map((x) => x.body);
-        for (let attempt = 0; attempt < 4 && !stopped(); attempt++) {
-            let out;
-            const listed = p.items ? p.items.map((x, i) => `[${i + 1}] ${x.label ? `(${x.label}) ` : ''}${x.body}`).join('\n') : '';
-            try {
-                const body = JSON.stringify({
-                    text: listed || p.text, items: Boolean(p.items), type: options.type, level: attempt > 1 && options.level !== 'normal' ? 'strong' : options.level, contractions: !options.fullForms, hint, attempt, sample,
-                    notes: p.items ? '' : notes.join('\n'), context: before.trim().slice(-900),
-                });
-                out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
-            } catch (error) {
-                trouble = error.said || 'The AI writer could not be reached.';
-                if (error.status === 503 && attempt < 3) {
-                    await pause(3000);
-                    continue;
-                }
-                break;
-            }
-            trouble = '';
-            if (!out || typeof out.text !== 'string') break;
-            const issue = String(out.issue || '');
-            const stock = Array.isArray(out.stock) && out.stock.length === 2 ? out.stock.map(Number) : null;
-            const countStock = () => {
-                if (stock && stock.every(Number.isFinite)) stock.forEach((n, i) => { overused[i] += n; });
-            };
-            if (p.items) {
-                const bodies = Checker.readItems(out.text, p.items.length);
-                if (!bodies) {
-                    hint = 'It did not give one line for each item';
-                    continue;
-                }
-                // Each point is checked alone, so one bad point does not cost the others.
-                const fresh = bodies.map((b, i) => {
-                    const version = Checker.clean(b, p.items[i].body);
-                    const ok = Checker.judge(p.items[i].body, version, { limit: 1.01, keep: 0.1, add: 0.9, least: 0.35, item: true });
-                    return ok.ok ? version : p.items[i].body;
-                });
-                // The newest wording of each point that kept its meaning, from any of the tries.
-                if (issue === '') fresh.forEach((v, i) => { if (Checker.similarity(v, p.items[i].body) < Checker.similarity(kept[i], p.items[i].body)) kept[i] = v; });
-                const good = kept.slice();
-                const same = Checker.sameness(good);
-                const open = p.items.map((x, i) => i).filter((i) => !Checker.fixed(p.items[i].body));
-                const close = open.filter((i) => Checker.similarity(good[i], p.items[i].body) > 0.75);
-                const share = open.length ? 1 - close.length / open.length : 1;
-                hint = issue || (share < Checker.RULE ? `Items ${close.map((i) => i + 1).join(', ')} are still worded like the original` : same ? `Too many items say "${same}"` : '');
-                if (issue === '' && share >= bestShare) {
-                    best = p.items.map((x, i) => x.prefix + good[i] + x.end).join('');
-                    bestShare = share;
-                    if (!counted) countStock();
-                    counted = true;
-                }
-                if (issue === '' && share >= Checker.RULE && (!same || attempt >= 2)) break;
-                continue;
-            }
-            const version = Checker.clean(out.text, p.text);
-            const verdict = Checker.judge(p.text, version, { limit, keep: 0.25, add: 0.75, extra: notes.join('\n') });
-            hint = verdict.ok ? issue : mend(verdict.why);
-            // A version with a doubt about its meaning is never used.
-            if (verdict.ok && issue === '') {
-                if (!counted) countStock();
-                counted = true;
-                const now = Checker.changed(p.text, version);
-                if (now.share > bestShare) {
-                    best = version;
-                    bestShare = now.share;
-                }
-                if (now.share < Checker.RULE) {
-                    hint = `These sentences are still built like the original: ${now.close.slice(0, 2).join(' ').slice(0, 170)}`;
-                    continue;
-                }
-                // The author asked for their own facts, so a version without any is only the second choice.
-                const told = !notes.length || notes.some((n) => Checker.tells(version, n));
-                if (told) {
-                    best = version;
-                    break;
-                }
-                hint = "It left out the author's own facts, which have to be told";
-            }
-        }
-        // The rule: nine sentences in ten are new. What is still close is written again, one sentence at a time.
-        if (p.items && best && bestShare < Checker.RULE && !trouble) {
-            for (const [i, x] of p.items.entries()) {
-                if (Checker.fixed(x.body) || Checker.similarity(kept[i], x.body) <= 0.75) continue;
-                for (let attempt = 1; attempt < 3 && !stopped() && !trouble; attempt++) {
-                    try {
-                        const body = JSON.stringify({ text: `[1] ${x.label ? `(${x.label}) ` : ''}${x.body}`, items: true, type: options.type, level: 'strong', contractions: !options.fullForms, attempt, hint: 'It kept the build and wording of the original', context: before.trim().slice(-400) });
-                        const out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
-                        const one = out && typeof out.text === 'string' && !out.issue ? Checker.readItems(out.text, 1) : null;
-                        const version = one && Checker.clean(one[0], x.body);
-                        if (version && Checker.judge(x.body, version, { limit: 0.75, keep: 0.1, add: 0.9, least: 0.35, item: true }).ok) {
-                            kept[i] = version;
-                            break;
-                        }
-                    } catch (error) {
-                        trouble = error.said || 'The AI writer could not be reached.';
-                    }
-                }
-            }
-            best = p.items.map((x, i) => x.prefix + kept[i] + x.end).join('');
-        } else if (!p.items && bestShare < Checker.RULE && !trouble && !stopped()) {
-            const whole = best;
-            best = best || p.text;
-            for (const s of Checker.changed(p.text, best).close.slice(0, 10)) {
-                for (let attempt = 0; attempt < 2 && !stopped(); attempt++) {
-                    let out;
-                    try {
-                        const body = JSON.stringify({ text: s, type: options.type, level: 'strong', contractions: !options.fullForms, attempt: attempt + 1, sample, hint: 'It kept the build and wording of the original sentence', context: before.trim().slice(-400) });
-                        out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
-                    } catch (error) {
-                        trouble = error.said || 'The AI writer could not be reached.';
-                        break;
-                    }
-                    if (!out || typeof out.text !== 'string' || out.issue) continue;
-                    const version = Checker.clean(out.text, s);
-                    if (Checker.judge(s, version, { limit: 0.75, keep: s.split(' ').length < 13 ? 0 : 0.15, add: 1 }).ok && !Checker.changed(p.text, version).close.length) {
-                        best = best.replace(s, () => version);
-                        break;
-                    }
-                }
-                if (trouble || stopped()) break;
-            }
-            if (!whole && best === p.text) best = null;
-        }
-        if (best) {
-            // The text appears as if typed.
-            const step = Math.max(2, Math.round(best.length / 120));
-            for (let i = step; i < best.length && !stopped(); i += step) {
-                tell(done, jobs.length, before + best.slice(0, i));
-                await pause(16);
-            }
-            p.text = best;
-            // A fact is told once.
-            notes = notes.filter((n) => !Checker.tells(best, n));
-            written++;
-        }
-        if (trouble && !best) break;
-    }
-    return { text: pieces.map((p) => p.text + p.end).join(''), written, total: jobs.length, stopped: stopped(), trouble, unused: written ? notes : [], overused, was: jobs.map((p) => p.was).join('\n') };
 }
 
 /** Lets the brain finish what the rules started. Returns why it could not, or an empty string. */
@@ -292,9 +112,9 @@ function renderRewrite(r, text, fileName) {
     let note = '';
     if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
     else if (r.text === '') note = 'Every sentence matched a filler pattern, so nothing is left. Add a concrete fact and try again.';
-    else if (!edits && !left && !r.wrote) note = 'No tells this site can detect were found. Your text is unchanged.';
+    else if (!edits && !left) note = 'No tells this site can detect were found. Your text is unchanged.';
 
-    for (const extra of [r.writer, r.brain]) if (extra) note = `${note ? `${note} ` : ''}${extra}`;
+    if (r.brain) note = `${note ? `${note} ` : ''}${r.brain}`;
 
     let voice = '';
     if (r.voice) {
@@ -316,12 +136,8 @@ function renderRewrite(r, text, fileName) {
         <p class="stats" id="stats"></p>
         ${note ? `<p class="note">${esc(note)}</p>` : ''}
         <p class="error" role="alert" id="lost" hidden></p>
-        <div id="rule" hidden><span id="rule-text"></span> <button type="button" class="ghost" id="again" hidden>Write it again</button></div>
         <div class="output" id="shown"></div>
         <textarea id="output" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
-        <details class="compare"${r.wrote ? ' open' : ''}><summary>Compare with your original</summary>
-            <div class="sides"><div><h3>Original</h3><div class="output">${esc(text)}</div></div><div><h3>New</h3><div class="output" id="side"></div></div></div>
-        </details>
         ${voice}
         <div id="finish"></div>
         ${r.first !== null ? `<details><summary>First rewrite, and the ${r.survived.length} tells that survived it</summary><div class="output">${highlight(r.first, r.survived)}</div></details>` : ''}
@@ -402,7 +218,6 @@ function finishEditor(node, r, original, fileName) {
         const was = engine.metrics(original);
         const now = engine.metrics(current);
         byId('output').value = current;
-        byId('side').textContent = current;
         byId('shown').innerHTML = highlight(current, state.flags.filter((f) => !kept.has('flag' + f.text)));
         byId('pdf-slot').innerHTML = pdfButton(current, 'output', fileName || 'humanized-text');
         byId('stats').innerHTML = `<span><b>${r.edits.length}</b> fixed for you</span><span><b>${done}</b> by you</span><span><b>${jobs.length}</b> left</span>`
@@ -410,15 +225,6 @@ function finishEditor(node, r, original, fileName) {
             + `<span><b>${r.sections} of ${r.sections}</b> sections reviewed</span>`;
         const lost = engine.missing(original, current);
         byId('lost').hidden = lost.length === 0;
-        if (r.rule) {
-            // Headings, names and other lines that stay as they are do not count.
-            const now = Checker.changed(r.rule, current);
-            const low = now.total > 0 && now.share < Checker.RULE;
-            byId('rule').hidden = false;
-            byId('rule').className = low ? 'error' : 'note';
-            byId('rule-text').textContent = `${Math.round(100 * now.share)}% of the sentences are new. ${low ? `The rule is 90%. ${now.close.length} ${now.close.length === 1 ? 'sentence is' : 'sentences are'} still close to the original, because no other version kept the meaning or the AI writer was not available. ` : 'The rule of 90% is met.'}`;
-            byId('again').hidden = !low;
-        }
         byId('lost').textContent = `Check these details, which are no longer in the result: ${lost.join(', ')}`;
         byId('finish').innerHTML = jobs.length || history.length
             ? `<div class="bar"><h3>Finish it yourself</h3>${history.length ? '<button type="button" class="ghost" data-undo>Undo</button>' : ''}</div>
@@ -451,10 +257,6 @@ function finishEditor(node, r, original, fileName) {
     node.addEventListener('click', (event) => {
         const button = event.target.closest('button');
         if (!button) return;
-        if (button.id === 'again') {
-            document.querySelector('form').requestSubmit();
-            return;
-        }
         if (button.dataset.undo !== undefined) {
             const [text, count, keep] = history.pop();
             current = text;
@@ -533,24 +335,21 @@ if (byId('strength')) {
 
     const showStatus = async () => {
         const status = byId('status');
-        const human = byId('strength').value === 'human';
-        const wanted = human && (form.elements.brain.checked || form.elements.writer.checked);
+        const wanted = byId('strength').value === 'human' && form.elements.brain.checked;
         byId('level').disabled = !wanted;
         status.className = 'status';
         if (!wanted) {
-            status.textContent = 'Text stays in your browser';
+            status.textContent = 'Brain off: text stays in your browser';
             return;
         }
-        status.textContent = 'Waking the server';
+        status.textContent = 'Waking the brain';
         const ok = await wake();
         if (byId('level').disabled) return;
-        const full = ok && hasWriter && form.elements.writer.checked;
         status.classList.add(ok ? 'on' : 'off');
-        status.textContent = full ? 'AI writer ready' : ok ? (form.elements.writer.checked ? 'Word brain ready, AI writer not set up' : 'Word brain ready') : 'Server offline: rules only';
+        status.textContent = ok ? 'Brain ready' : 'Brain offline: rules only';
     };
     byId('strength').addEventListener('change', showStatus);
     form.elements.brain.addEventListener('change', showStatus);
-    form.elements.writer.addEventListener('change', showStatus);
     showStatus();
 
     byId('paste').addEventListener('click', async () => {
@@ -597,57 +396,13 @@ if (byId('strength')) {
             showError(error);
             if (error) return;
             const strength = byId('strength').value;
-            let options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked, fullForms: byId('contractions').value === 'no', level: byId('level').value };
-            let source = text;
-            let wrote = null;
-            let writerNote = '';
-            let unused = '';
-            const useWriter = options.human && form.elements.writer.checked;
-            button.disabled = true;
-            if (useWriter && options.type === 'reference') {
-                writerNote = 'Technical and legal text skips the AI writer, because every word can matter.';
-            } else if (useWriter) {
-                button.textContent = 'Writing...';
-                byId('progress').textContent = 'Waking the server. This can take a minute.';
-                if (!await wake()) {
-                    writerNote = 'The AI writer could not be reached.';
-                } else if (!hasWriter) {
-                    writerNote = 'The AI writer is not set up on this server yet, so only words and phrases were changed.';
-                } else {
-                    let halt = false;
-                    byId('stop').hidden = false;
-                    byId('live').hidden = false;
-                    byId('stop').onclick = () => { halt = true; };
-                    try {
-                        wrote = await rewriteAll(text, { ...options, notes: byId('notes').value }, (done, total, ready) => {
-                            byId('progress').textContent = `The AI writer is on part ${done + 1} of ${total}.`;
-                            byId('live').textContent = ready;
-                        }, () => halt);
-                    } finally {
-                        byId('stop').hidden = true;
-                        byId('live').hidden = true;
-                        byId('live').textContent = '';
-                    }
-                    source = wrote.text;
-                    const rest = wrote.total - wrote.written;
-                    if (options.level === 'deep' && wrote.overused[0]) unused += ` Overused words: ${wrote.overused[0]} before, ${wrote.overused[1]} now.`;
-                    if (wrote.unused.length) unused += ` These facts of yours did not fit anywhere: ${wrote.unused.join('; ')}`;
-                    writerNote = wrote.total === 0 ? 'The text has no full paragraphs for the AI writer.'
-                        : `The AI writer rewrote ${wrote.written} of ${wrote.total} parts.${rest ? ` ${rest} ${rest === 1 ? 'was' : 'were'} left to the word brain${wrote.trouble ? `: ${wrote.trouble}` : wrote.stopped ? ', because you stopped it.' : ', because no version passed the checks.'}` : ''}`;
-                }
-            }
-            // Text the AI wrote needs only safe fixes; the rest gets the full treatment.
-            const all = Boolean(wrote && wrote.total && wrote.written === wrote.total);
-            const options0 = options;
-            if (all) options = { ...options, human: false, strong: false };
-            const result = engine.run(source, options);
-            result.writer = writerNote + unused;
-            result.wrote = Boolean(wrote && wrote.written);
-            if (options0.human && options.type !== 'reference' && useWriter) result.rule = text;
-            if (strength === 'human' && !all && form.elements.brain.checked) {
+            const options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked, fullForms: byId('contractions').value === 'no', level: byId('level').value };
+            const result = engine.run(text, options);
+            if (options.human && form.elements.brain.checked) {
+                button.disabled = true;
                 button.textContent = 'Thinking...';
-                byId('progress').textContent = 'The word brain is polishing the text.';
-                slow = setTimeout(() => { byId('progress').textContent = 'The word brain was asleep. Waking it can take a minute.'; }, 4000);
+                byId('progress').textContent = 'The brain is reading your text.';
+                slow = setTimeout(() => { byId('progress').textContent = 'The brain was asleep. Waking it can take a minute.'; }, 4000);
                 result.brain = await think(result, options);
             }
             renderRewrite(result, text, fileName);

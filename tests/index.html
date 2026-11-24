@@ -9,10 +9,10 @@
 <pre id="out">Running</pre>
 <script src="../static/rules.js"></script>
 <script src="../static/content.js"></script>
-<script src="../static/checker.js"></script>
 <script src="../static/brain.js"></script>
 <script src="../static/engine.js"></script>
 <script src="../static/pdf.js"></script>
+<script src="../static/ask.js"></script>
 <script src="cases.js"></script>
 <script>
 const h = new Humanizer(RULES);
@@ -71,89 +71,47 @@ function run() {
     check('file', '', md.replace('a crucial step', 'an important step'), file.text);
     check('sections', '', 2, file.sections);
     check('missing', '', ['12', 'https://a.example/x', 'Lisbon'], h.missing('We saw 12 cats in Lisbon at https://a.example/x today.', 'We saw cats today.'));
-    check('missing after a heading', '', [], h.missing('Top Management\nThis is the top.', 'Top Management\nIt is the top.'));
     const r = h.run('Ünïcode — “quoted” 🚀 text. Experts believe it helps, ensuring a robust result.');
     for (const f of r.flags) check('offset', r.text, f.text, r.text.slice(f.start, f.end));
 
-    // The checker of the AI writer. The bad drafts are ones real models wrote.
-    const social = 'Social media has revolutionized the way in which people communicate and share information. It has enabled individuals to connect with others across the globe, thereby fostering a sense of community. Nevertheless, excessive utilization of social media can have detrimental effects on mental health.';
-    const laptop = 'When choosing a laptop, there are several key factors to consider. Firstly, the processor plays a vital role in determining the overall performance of the device. The Dell XPS 13, priced at $1,199, provides an excellent balance of performance and portability.';
-    const time = 'Breaking down larger projects into smaller, manageable steps can help you stay focused. Ultimately, time management is not just about getting more done; it is about creating a healthier work-life balance.';
-    const climate = 'Rising global temperatures have led to a multitude of environmental consequences, such as melting ice caps, rising sea levels, and increasingly severe weather events.';
-    const tower = 'The Eiffel Tower, constructed in 1889, stands as a testament to human ingenuity. Located in the heart of Paris, it attracts approximately seven million visitors annually.';
-    const good = [
-        [social, 'Social media has changed how we communicate and share information. It helps us connect with people all over the world, making us feel part of a community. However, using social media too much can be bad for our mental health.'],
-        [laptop, "When buying a laptop, there are several things to think about. First, the processor matters a lot for the device's overall performance. The Dell XPS 13, priced at $1,199, strikes a great balance between performance and portability."],
-        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million visitors each year.'],
-        ['Please do not hesitate to reach out should you have any questions or require further information about the project.', 'Please get in touch if you have any questions or need more information about the project.'],
-        ['Time management is not just about getting more done; it is about creating a healthier balance between work and life.', "Time management isn't simply about getting more done, but about building a healthier balance between work and life."],
-        ['Walking is an accessible form of exercise that requires minimal equipment, so it suits people of all ages.', "It's an easy way to exercise since you don't need much equipment, so it works for people of all ages."],
-        ['I will send you a comprehensive proposal for the project by March 14.', 'You will receive a full proposal for the project from me no later than March 14.'],
-        ['We took a moment to enjoy our productive meeting with you on Tuesday about the project.', 'It was a pleasure to have such a productive meeting with you about the project on Tuesday.'],
-        ['Big firms arrange their managers in a pyramid that consists of three levels.', 'In big firms the managers form a three-level pyramid.'],
-        ['Many hospitals now use AI-powered diagnostic tools that find serious diseases at an early stage.', 'Many hospitals now rely on diagnostic tools powered by AI, which find serious diseases early.'],
-    ];
-    for (const [a, b] of good) check('good draft', a, '', Checker.judge(a, b, { keep: 0.25, add: 0.75 }).why);
-    const bad = [
-        [laptop, 'When picking a laptop, think about the processor and how it keeps your device running well, since it decides the performance. The Dell XPS 13 is a great choice with an excellent balance of performance and portability.', 'lost 13'.replace('13', '1199')],
-        [laptop, laptop.replace('When choosing a laptop, there are', 'If you want a laptop, think about').replace('$1,199', '$1,299'), 'lost 1199'],
-        [time, 'Breaking down larger projects into small steps helps you stay focused. It is ultimately not about getting more done and is about creating a healthier work-life balance.', 'changed a yes to a no'],
-        [climate, 'High global temperatures have led to a wide variety of environmental consequences such as rising sea levels, rising sea levels and rising droughts.', 'repeats a phrase'],
-        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. It sits in Lyon and Paris, and around seven million visitors come each year.', 'invented Lyon'],
-        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around eight million visitors each year.', 'lost seven'],
-        [tower, tower, 'barely changed'],
-        ['Walking needs little equipment, so this kind of exercise is suitable for people of all ages.', 'You need little equipment to walk, so this kind of exercise suits people of almost any age.', 'changed how much'],
-        ['The medicine is safe for children who are older than ten years of age.', 'The medicine is not safe for children who are more than ten years old.', 'changed a yes to a no'],
-        ['The structure was initially met with criticism when it opened in the city.', 'They started off with a lot of criticism when they opened in the city.', 'lost its subject'],
-        ['However, it has subsequently become one of the most iconic landmarks in the world.', 'But now it is probably the most famous landmark in the world.', 'claims too much'],
-        [tower, 'It is a tower.', 'too short'],
-        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million', 'cut off'],
-        [social, 'Bananas grow quickly when the weather stays warm, and farmers pick them by hand before shipping each bunch to markets. Shoppers then buy them cheaply, eat them at breakfast, or bake them into sweet bread at home.', 'lost too much meaning'],
-        ['She said "we will win" and left the long meeting early.', 'She told them "we may win" and then left the long meeting early.', 'changed a quotation'],
-        ['Write to help@example.com before Friday if you need any more help.', 'If you need more help, write to us before Friday at our address.', 'lost a link'],
-    ];
-    for (const [a, b, why] of bad) check('bad draft', b, why, Checker.judge(a, b).why);
-    check('clean', '', 'It works well.', Checker.clean('Sure! Here it is.\n\nHere is the rewritten text: "It works well."', 'It is functional.'));
-    check('clean think', '', 'It works.', Checker.clean('<think>hmm</think>\n\nIt works.<|im_end|>', 'It is functional.'));
-    for (const t of [md, social + '\n\n' + laptop, '', '\n', 'a\n\n\nb', '# T\n\n' + tower + '\n- x\n\n\tcode', '```\n' + social + '\n```\n' + social]) {
-        check('pieces keep the text', t, t, Checker.pieces(t).map((p) => p.text + p.end).join(''));
+    check('missing after a heading', '', [], h.missing('Top Management\nThis is the top.', 'Top Management\nIt is the top.'));
+
+    // Questions
+    for (const [q, kind, topics] of [
+        ['What is photosynthesis?', 'define', ['photosynthesis']], ['Who was Ashoka', 'define', ['Ashoka']], ['Difference between mitosis and meiosis', 'compare', ['mitosis', 'meiosis']],
+        ['what is the difference between TCP and UDP?', 'compare', ['TCP', 'UDP']], ['cat vs dog', 'compare', ['cat', 'dog']], ['Why is the sky blue?', 'why', ['sky blue']], ['When did World War II end?', 'when', ['World War II end']],
+        ['How many bones are in the human body', 'number', ['bones are in the human body']], ['Explain the levels of management', 'list', ['levels of management', 'management']], ['Who invented the telephone?', 'who', ['Invention of the telephone', 'telephone']], ['define inertia', 'define', ['inertia']], ['What is the capital of France?', 'fact', ['capital of France', 'France']],
+        ['What do you mean by inflation?', 'define', ['inflation']], ['How does a battery work?', 'explain', ['battery']], ['प्रकाश संश्लेषण क्या है?', 'define', ['प्रकाश संश्लेषण']], ['?', 'explain', ['']],
+    ]) {
+        const u = Ask.understand(q);
+        check('understand', q, [kind, topics], [u.kind, u.topics]);
     }
-    check('pieces skip', '', [], Checker.pieces('```\n' + social + '\n```\n# ' + social + '\n| ' + social + ' |\n> ' + social + '\nSee `x`. ' + social).filter((p) => p.write));
-    check('pieces split', '', true, Checker.pieces(Array(12).fill(social).join(' ')).every((p) => p.text.split(' ').length < 70 && p.write));
-    check('must keep', '', ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'], Checker.mustKeep('The Dell XPS costs $1,199, has 16 ports, and 40% of seven buyers like it.').sort((a, b) => ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(a) - ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(b)));
-    const notes = 'I sold 40 of them in Pune\nI do not like the colour';
-    const shop = 'Small shops often struggle to attract customers when larger competitors open in the same neighbourhood.';
-    check('notes allowed', '', '', Checker.judge(shop, 'When a larger competitor opens in the same neighbourhood, small shops often find it hard to attract customers. I sold 40 of them in Pune.', { keep: 0.25, add: 0.75, extra: notes }).why);
-    check('notes needed', '', 'invented 40', Checker.judge(shop, 'When a larger competitor opens nearby, 40 small shops often find it hard to attract customers.', { keep: 0.25, add: 0.75 }).why);
-    check('notes do not allow others', '', 'invented 41', Checker.judge(shop, 'When a larger competitor opens in the same neighbourhood, small shops often find it hard to attract customers. I sold 41 of them.', { keep: 0.25, add: 0.75, extra: notes }).why);
-    check('told', '', [true, false], [Checker.tells('Last June I sold 40 of them in Pune.', 'I sold 40 of them in Pune'), Checker.tells('I sold some of them in Pune.', 'I sold 40 of them in Pune')]);
-    const rule = (a, b) => Checker.changed(a, b);
-    check('rule copy', '', [0, 2], [rule(climate + ' ' + tower, climate + ' ' + tower).share, rule(climate + ' ' + tower, climate + ' ' + tower).total - 1]);
-    check('rule new', '', 1, rule(tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million visitors each year.').share);
-    check('rule half', '', [0.5, ['The cat sat on the old mat today.']], (() => { const x = rule('The cat sat on the old mat today. It was warm and quiet inside the house.', 'The cat sat on the old mat today. Nobody made a sound, and the rooms held their heat.'); return [x.share, x.close]; })());
-    check('rule moved', '', 0, rule('He left early because the train was late. She stayed at home with the dog.', 'She stayed at home with the dog. He left early because the train was late.').share);
-    check('rule names', '', [1, 0], [rule('Divisional Managers, Plant Managers, Department Heads, and Regional Managers.', 'Divisional Managers, Plant Managers, Department Heads, and Regional Managers.').share, rule('"We will win this long game," she said.', '"We will win this."').total]);
-    check('rule empty', '', [1, 0], [rule('', '').share, rule('a', 'b').total]);
-    const ruleStart = performance.now();
-    rule('The quick brown fox jumps over it. '.repeat(400), 'A slow red hen walks under that. '.repeat(400));
-    check('rule speed', '', true, performance.now() - ruleStart < 6000);
-    const listText = 'Intro paragraph that has quite enough words to be written again by the writer.\n\nPrimary Functions:\n\nStrategic planning: Defining the mission and setting long-term goals for everyone.\n\n**Policy formulation:** Creating the broad frameworks that guide the rest.\n- Plain bullet that has more than enough words in it.\n\nConclusion\nA closing paragraph that has quite enough words to be written again by the writer.\n';
-    const listPieces = Checker.pieces(listText);
-    const list = listPieces.find((p) => p.items);
-    check('list keeps the text', '', listText, listPieces.map((p) => p.text + p.end).join(''));
-    check('list items', '', [['Strategic planning', 'Defining the mission and setting long-term goals for everyone.'], ['Policy formulation', 'Creating the broad frameworks that guide the rest.'], ['', 'Plain bullet that has more than enough words in it.']], list.items.map((x) => [x.label, x.body]));
-    list.items[1].body = 'New wording.';
-    Checker.settle(list);
-    check('list settles', '', listText.replace('Creating the broad frameworks that guide the rest.', 'New wording.'), listPieces.map((p) => p.text + p.end).join(''));
-    for (const t of ['- one item with more than six words in it', 'A: one item with more than six words in it\n', 'A: one item with more than six words in it\n\n\n', '\n\n- one item with more than six words in it\n\n# H', Array(40).fill('- one item with more than six words in it').join('\n\n')]) check('list round trip', t, t, Checker.pieces(t).map((p) => p.text + p.end).join(''));
-    check('mail lines stay', '', 0, Checker.pieces('Subject: one item with more than six words in it\nTo: one item with more than six words in it').filter((p) => p.items).length);
-    check('read items', '', [['a b', 'c'], null, null, null], [Checker.readItems('[1] a b\n[2] c', 2), Checker.readItems('[1] a', 2), Checker.readItems('[1] a\n[1] b', 2), Checker.readItems('[1] a\n[3] b', 2)]);
-    check('sameness', '', ['involves', ''], [Checker.sameness(['Planning involves x', 'Policy involves y', 'Work involves z', 'Other a b c']), Checker.sameness(['One two three', 'Four five six', 'Seven eight', 'Nine ten'])]);
-    const slow = performance.now();
-    Checker.judge('word '.repeat(600) + '.', 'other '.repeat(600) + '.');
-    Checker.pieces('a. '.repeat(16000));
-    Checker.clean('"'.repeat(50000), 'a');
-    check('checker speed', '', true, performance.now() - slow < 2000);
+    for (const [q, v] of [['2+2', 4], ['What is 15% of 2,400?', 360], ['(3 + 4) * 2^3', 56], ['10 / 4', 2.5], ['-3 + 5', 2], ['2^3^2', 512], ['12 x 12', 144], ['1,00,000 + 1', 100001], ['7 ÷ 0', null], ['2+', null], ['alert(1)', null], ['5', null], ['1998', null],
+        ['(((((1', null], ['what is 2 plus 2', null], ['2026-11-24', 1991], ['('.repeat(90) + '1+1', null], ['1'.repeat(99) + '*' + '9'.repeat(99), null]]) {
+        const c = Ask.calculate(q);
+        check('calculate', q, v, c ? c.value : null);
+    }
+    check('sentences', '', ['Dr. A. Smith met Mr. Hill in the U.S. capital on Monday.', 'He left at once for his own home.'], Ask.sentencesOf('Dr. A. Smith met Mr. Hill in the U.S. capital on Monday. He left at once for his own home. Too short. {\\displaystyle x} is not a sentence at all.'));
+    const page = (title, text, order = 0) => ({ title, text, order, url: 'https://en.wikipedia.org/wiki/' + title });
+    const leaf = page('Photosynthesis', 'Photosynthesis is the process by which plants turn light into chemical energy.\nIt was discovered over many years by several people.\n\n== Stages ==\nPhotosynthesis has two stages, the light reactions and the Calvin cycle.\nThe stages are:\nLight-dependent reactions\nCalvin cycle\n\n== History ==\nJan Ingenhousz showed in 1779 that light is needed for photosynthesis.\n\n== References ==\nSmith wrote a book about photosynthesis that nobody should see here.');
+    const other = page('Plant', 'Plants are living things that mostly make their food by photosynthesis in sunlight.', 1);
+    const pick = (q, n) => Ask.choose(Ask.rank(Ask.understand(q), [leaf, other]), n);
+    check('skips references', '', false, Ask.read(leaf).some((s) => /nobody/.test(s.text)));
+    check('finds list lines', '', ['Light-dependent reactions', 'Calvin cycle'], Ask.read(leaf).filter((s) => s.item).map((s) => s.text));
+    check('definition first', '', leaf.text.split('\n')[0], pick('What is photosynthesis?', 3).chosen[0].text);
+    check('date', '', true, pick('When was light shown to be needed for photosynthesis?', 1).chosen[0].text.includes('1779'));
+    check('list', '', true, pick('What are the stages of photosynthesis?', 4).chosen.some((s) => s.item));
+    check('cover', '', [1, true], [pick('What is photosynthesis?', 3).cover, pick('Who won the cricket photosynthesis cup?', 3).cover < 0.6]);
+    const isSure = (q) => Ask.sure(Ask.understand(q), pick(q, 2));
+    check('sure', '', [true, true, false, false], [isSure('What is photosynthesis?'), isSure('When was light shown to be needed for photosynthesis?'), isSure('Why is photosynthesis slow?'), isSure('Who won the cricket photosynthesis cup?')]);
+    const found = (...titles) => titles.map((title, i) => ({ title, pageid: title.length * 100 + i }));
+    check('titles', '', 'Management', Ask.pickTitles([found('Flat organization', 'Management', 'Middle management'), found('Management', 'Project management')], Ask.understand('What are the levels of management?'))[0].title);
+    check('titles extra words', '', 'Photosynthesis', Ask.pickTitles([found('Artificial photosynthesis', 'Photosynthesis')], Ask.understand('What is photosynthesis?'))[0].title);
+    const fast = performance.now();
+    Ask.rank(Ask.understand('What is photosynthesis?'), [page('Photosynthesis', (leaf.text + '\n').repeat(350))]);
+    for (const x of ['a ', '. ', 'A. ', '( ', '=', '1+', ' ', 'of the ', 'difference between ']) Ask.understand((x.repeat(300)).slice(0, 300));
+    Ask.sentencesOf('A. '.repeat(60000));
+    check('ask speed', '', true, performance.now() - fast < 4000);
 
     // PDF
     const pdf = String.fromCharCode(...Pdf.render('# Café (draft)\n\nIt costs €5 \\ “now”.\n\n- ' + 'word '.repeat(900) + '\n' + 'x'.repeat(400), 'Tést', DATA.widths));

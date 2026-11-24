@@ -19,11 +19,10 @@ from werkzeug.exceptions import HTTPException
 
 from brain.model import Model
 from brain.rewrite import LEVELS, LIMIT, TYPES, Rewriter
-from brain.writer import CONTEXT_LIMIT, PART_LIMIT, SAMPLE_LIMIT, Writer, WriterError
 
 ROOT = Path(__file__).resolve().parent
 # Only these are public, so the code, the model, the tests and the Git folder are not.
-PAGES = {'index.html', 'write.html', 'check.html', 'guide.html', 'about.html', 'style.css', 'app.js', 'LICENSE', 'skill/LICENSE.txt'}
+PAGES = {'index.html', 'humanize.html', 'check.html', 'guide.html', 'about.html', 'style.css', 'app.js', 'LICENSE', 'skill/LICENSE.txt'}
 MAX_BODY = 8 * LIMIT + 10_000
 ON_RENDER = os.environ.get('RENDER') == 'true'
 PER_MINUTE = int(os.environ.get('RATE_LIMIT', 30))
@@ -31,7 +30,8 @@ PASSWORD = os.environ.get('SITE_PASSWORD', '')       # without one, the site is 
 STAY = 30 * 24 * 3600                                # seconds a login lasts
 OPEN = {'/api/health', '/api/login', '/login.html', '/style.css', '/static/login.js', '/static/icon.svg'}
 HEADERS = {
-    'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; "
+    # The question page asks Wikipedia from the visitor's browser.
+    'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://en.wikipedia.org https://simple.wikipedia.org https://hi.wikipedia.org; "
                                "base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
     'Strict-Transport-Security': 'max-age=31536000',
     'X-Content-Type-Options': 'nosniff',
@@ -72,13 +72,10 @@ class Limiter:
             return True
 
 
-writer = Writer(natural=rewriter.natural, known=rewriter.model.ids)
 limiter = Limiter(PER_MINUTE)
-write_limiter = Limiter(2 * PER_MINUTE)
 thinking = threading.BoundedSemaphore(2)    # more at once would only make everyone wait
 login_limiter = Limiter(6)
 all_logins = Limiter(60)
-writing = threading.BoundedSemaphore(4)     # leaves threads free for the pages
 
 
 def visitor():
@@ -189,7 +186,7 @@ def page(name='index.html'):
 
 @app.get('/api/health')
 def health():
-    return jsonify(ok=True, writer=writer.ready) if inside() else jsonify(ok=True)
+    return jsonify(ok=True)
 
 
 @app.post('/api/brain')
@@ -222,64 +219,8 @@ def brain():
         thinking.release()
 
 
-def ask_writer(work):
-    """Checks a request for the AI writer, then runs work(data, text) and returns its answer."""
-    if request.headers.get('Sec-Fetch-Site', 'same-origin') not in ('same-origin', 'none'):
-        return refuse(403, 'Use this from its own site.')
-    if not writer.ready:
-        return refuse(503, 'The AI writer is not set up on this server.')
-    if not write_limiter.allow(visitor()):
-        return refuse(429, 'Too many requests. Wait a minute and try again.')
-    try:
-        data = request.get_json(silent=True)
-    except RecursionError:
-        data = None
-    if not isinstance(data, dict):
-        return refuse(400, 'Send JSON.')
-    clean = {}
-    for name, most in (('text', PART_LIMIT), ('hint', 1000), ('sample', SAMPLE_LIMIT), ('notes', SAMPLE_LIMIT), ('context', CONTEXT_LIMIT)):
-        value = data.get(name) or ''
-        if not isinstance(value, str) or len(value) > most:
-            return refuse(400, f'Keep the {name} under {most:,} characters.')
-        clean[name] = value.encode('utf-8', 'replace').decode()
-    if not clean['text'].strip():
-        return refuse(400, 'Send some text.')
-    if not writing.acquire(timeout=30):
-        return refuse(503, 'The AI writer is busy. Try again in a moment.')
-    try:
-        return jsonify(work(data, clean))
-    except WriterError as error:
-        app.logger.warning('writer: %s', error)
-        return refuse(error.status, str(error))
-    finally:
-        writing.release()
-
-
-@app.post('/api/write')
-def write():
-    """One new version of one part of a text."""
-    def work(data, clean):
-        kind, level, attempt = data.get('type'), data.get('level'), data.get('attempt')
-        return writer.write(
-            clean['text'], kind if isinstance(kind, str) else 'general', level if isinstance(level, str) else 'normal', data.get('contractions') is not False, clean['hint'],
-            attempt if type(attempt) is int and 0 <= attempt < 9 else 0, visitor(), clean['sample'], clean['notes'], clean['context'], data.get('items') is True)
-    return ask_writer(work)
-
-
-@app.post('/api/points')
-def points():
-    """What a text says, as notes for someone who will write it themselves."""
-    return ask_writer(lambda data, clean: writer.points(clean['text'], visitor()))
-
-
-@app.post('/api/polish')
-def polish():
-    """The visitor's own writing, proofread or put into English."""
-    return ask_writer(lambda data, clean: writer.polish(clean['text'], data.get('english') is True, visitor()))
-
-
 if __name__ == '__main__':
     serve(
-        app, host='0.0.0.0' if ON_RENDER else '127.0.0.1', port=int(os.environ.get('PORT', 8000)), threads=12, ident=None,
-        max_request_body_size=MAX_BODY, max_request_header_size=16_384, channel_timeout=240, connection_limit=200,
+        app, host='0.0.0.0' if ON_RENDER else '127.0.0.1', port=int(os.environ.get('PORT', 8000)), threads=8, ident=None,
+        max_request_body_size=MAX_BODY, max_request_header_size=16_384, channel_timeout=60, connection_limit=200,
     )
