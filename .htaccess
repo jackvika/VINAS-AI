@@ -1,3 +1,16 @@
-# Never serve the Git folder or its settings files.
-RedirectMatch 404 /\.git
+# For Apache, such as XAMPP. Render uses server.py instead.
 DirectoryIndex index.html
+Options -Indexes
+
+# Never serve hidden files, the Git folder, or the brain's code and data.
+RedirectMatch 404 /\.(?!well-known/)
+RedirectMatch 404 /(?:brain|__pycache__)(?:/|$)
+RedirectMatch 404 \.(?:py|bin|yaml|yml)$
+RedirectMatch 404 /requirements\.txt$
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "no-referrer"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+</IfModule>

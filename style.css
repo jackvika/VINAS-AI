@@ -75,9 +75,31 @@ code { overflow-wrap: anywhere; }
 .own input, .own textarea { flex: 1; min-width: 0; margin: 0; padding: 7px 10px; font: inherit; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
 .own button { margin: 0; }
 
+/* The three steps. */
+form .step { margin-top: 18px; padding: 18px 20px 20px; border: 1px solid var(--line); border-radius: 12px; }
+form .step:first-child { margin-top: 0; }
+form .step h2 { font-size: 1.12rem; }
+.num { display: inline-flex; align-items: center; justify-content: center; width: 1.7em; height: 1.7em; margin-right: 6px; border-radius: 50%; font-size: .9rem; color: var(--on-accent); background: var(--accent); }
+.step .grid { margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+.step label { font-size: .95rem; }
+.step h2 label { font-size: inherit; }
+.tools { margin-top: 8px; }
+.tools p.muted { margin: 0; }
+.tools .ghost { margin: 0; }
+.file { position: relative; overflow: hidden; display: inline-block; font-weight: 600; border: 1px solid var(--accent); border-radius: 8px; cursor: pointer; }
+.file input { width: 1px; min-height: 0; margin: 0; padding: 0; opacity: 0; }
+.file:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; }
+.status { padding: 3px 12px; font-size: .85rem; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; }
+.status.on { color: #1b6b2f; border-color: #1b6b2f; }
+.status.off { color: var(--error); border-color: var(--error); }
+.pdf { margin: 0; padding: 7px 16px; }
+#pdf-slot:empty { display: none; }
+#progress:empty { display: none; }
+button:disabled, select:disabled { opacity: .6; cursor: default; }
+
 /* Phones, small tablets and touch screens: finger-sized controls. */
 @media (max-width: 768px), (pointer: coarse) {
-    button, select, input[type=file], .own input, summary { min-height: 44px; }
+    button, select, .file, .own input, summary { min-height: 44px; }
     summary { padding: 10px 0; }
     .chip { padding: 8px 16px; }
     .choose { gap: 8px; }
@@ -98,7 +120,10 @@ code { overflow-wrap: anywhere; }
     .toc { columns: 1; }
     .stats { gap: 4px 16px; font-size: .92rem; }
     .actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
-    .actions button { width: 100%; height: 100%; padding: 9px 8px; }
+    .actions button, .actions .file { width: 100%; height: 100%; padding: 9px 8px; text-align: center; }
+    .actions #pdf-slot { grid-column: 1 / -1; }
+    .tools .actions { grid-template-columns: 1fr 1fr 1fr; }
+    form .step { padding: 14px 14px 16px; }
 }
 
 @media (max-width: 480px) {

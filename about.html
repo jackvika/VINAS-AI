@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>How it works | VINAS AI</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
     <meta name="theme-color" content="#cc4400">
+    <link rel="icon" href="static/icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,6 +34,7 @@
             <li><strong>First rewrite:</strong> stock phrases, chatbot leftovers, "not just X but Y", inflated words, sales words, decoration and dashes are fixed.</li>
             <li><strong>Strong mode, second rewrite:</strong> hype, staged openers, empty clauses and clipped fragments are cut or merged. Every cut is listed.</li>
             <li><strong>Human mode, third rewrite:</strong> plain words, contractions, shorter connectors and better sentence rhythm. It also lists the details only you can add. It is the default, and it changes style even in text a person wrote.</li>
+            <li><strong>The brain:</strong> in Human mode, a model that learned from two million sentences people wrote compares the wordings it knows and picks what people say most. It runs on this site's server, and you can turn it off under Options.</li>
             <li><strong>Fact check:</strong> you get a warning if a number, link or likely name from your text is missing.</li>
             <li><strong>Finish it yourself:</strong> for each phrase that is left, you pick a word, remove it, keep it or type your own. Where a claim is vague, you add your own number, name or example. You can undo any step.</li>
         </ul>
@@ -50,7 +54,7 @@
         <ul>
             <li>No tool can make AI text "100% human written", and this site does not certify who wrote anything.</li>
             <li>It edits for human readers. AI detectors may still flag the result.</li>
-            <li>It matches known phrasings, so it misses tells worded another way. It does not rebuild whole paragraphs.</li>
+            <li>The rules match known phrasings and the brain chooses among listed wordings, so both miss tells worded another way. It does not rebuild whole paragraphs.</li>
             <li>It works on English only.</li>
         </ul>
     </section>
@@ -90,7 +94,7 @@
         </ul>
     </section>
     <footer>
-        <p>Your text is processed in your browser and is not uploaded or saved. This site does not try to get past AI detectors.</p>
+        <p>Human mode sends your text to this site's own server, where the brain reads it and does not save or share it. The other modes stay in your browser. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>

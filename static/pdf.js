@@ -91,14 +91,12 @@ const Pdf = (() => {
         }
 
         const font = (name) => `<< /Type /Font /Subtype /Type1 /BaseFont /${name} /Encoding /WinAnsiEncoding >>`;
-        let hex = '';
-        for (let i = 0; i < title.length; i++) hex += title.charCodeAt(i).toString(16).toUpperCase().padStart(4, '0');
         const objects = [];
         objects[1] = '<< /Type /Catalog /Pages 2 0 R >>';
         objects[3] = font('Helvetica');
         objects[4] = font('Helvetica-Bold');
         objects[5] = font('Courier');
-        objects[6] = `<< /Title <FEFF${hex}> >>`;
+        objects[6] = info(title);
         const kids = [];
         pages.forEach((content, i) => {
             if (pages.length > 1) {
@@ -113,6 +111,104 @@ const Pdf = (() => {
         });
         objects[2] = `<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${pages.length} >>`;
 
+        return assemble(objects);
+    }
+
+    function info(title) {
+        let hex = '';
+        for (let i = 0; i < title.length; i++) hex += title.charCodeAt(i).toString(16).toUpperCase().padStart(4, '0');
+        return `<< /Title <FEFF${hex}> >>`;
+    }
+
+    /** Draws the text on pages with the fonts of the reader's device, for any script. */
+    async function draw(text, title) {
+        await document.fonts.ready;
+        const scale = 2.2;
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(WIDTH * scale);
+        canvas.height = Math.round(HEIGHT * scale);
+        const ctx = canvas.getContext('2d');
+        const pages = [];
+        let y = 0;
+        const start = () => {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(scale, 0, 0, scale, 0, 0);
+            ctx.fillStyle = '#000000';
+            y = MARGIN;
+        };
+        const finish = () => pages.push(atob(canvas.toDataURL('image/jpeg', 0.9).split(',')[1]));
+        const cut = (word, room) => {
+            const chars = [...new Intl.Segmenter().segment(word)].map((s) => s.segment);
+            let n = 1;
+            while (n < chars.length && ctx.measureText(chars.slice(0, n + 1).join('')).width <= room) n++;
+            return [chars.slice(0, n).join(''), chars.slice(n).join('')];
+        };
+        const paragraph = (line, size, weight, family) => {
+            const font = `${weight} ${size}px ${family}`;
+            ctx.font = font;
+            const lead = /^ *(?:[-*]|[0-9]+\.) /.exec(line);
+            const indent = lead ? ctx.measureText(lead[0]).width : 0;
+            const lines = [];
+            let row = '';
+            const room = () => WIDTH - 2 * MARGIN - (lines.length ? indent : 0);
+            for (let word of line.trimEnd().split(' ')) {
+                const attempt = row === '' ? word : `${row} ${word}`;
+                if (ctx.measureText(attempt).width <= room()) {
+                    row = attempt;
+                    continue;
+                }
+                if (row.trim() !== '') lines.push(row);
+                while (ctx.measureText(word).width > room() && word.length > 1) {
+                    const [head, tail] = cut(word, room());
+                    if (tail === '') break;
+                    lines.push(head);
+                    word = tail;
+                }
+                row = word;
+            }
+            lines.push(row);
+            lines.forEach((part, i) => {
+                if (y + size * 1.5 > HEIGHT - BOTTOM) {
+                    finish();
+                    start();
+                    ctx.font = font;
+                }
+                y += size * 1.5;
+                ctx.fillText(part, MARGIN + (i > 0 ? indent : 0), y);
+            });
+        };
+        start();
+        let code = false;
+        const sans = 'system-ui, "Segoe UI", "Nirmala UI", "Noto Sans", sans-serif';
+        for (const line of text.replace(/\r\n?/g, '\n').replace(/\t/g, '    ').split('\n')) {
+            const m = /^(#{1,6}) (.+)$/.exec(line);
+            if (line.startsWith('```')) code = !code;
+            else if (code) paragraph(line, 9.5, 400, 'Consolas, Menlo, monospace');
+            else if (m) paragraph(m[2], Math.max(12, 20 - 2.5 * m[1].length), 700, sans);
+            else if (line.trim() === '') y += 8;
+            else paragraph(line, 11, 400, sans);
+        }
+        finish();
+
+        const objects = [undefined, '<< /Type /Catalog /Pages 2 0 R >>', '', info(title)];
+        const kids = [];
+        for (const jpeg of pages) {
+            const id = objects.length;
+            kids.push(`${id} 0 R`);
+            const content = `q ${WIDTH} 0 0 ${HEIGHT} 0 0 cm /I Do Q\n`;
+            objects.push(
+                `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${WIDTH} ${HEIGHT}] /Resources << /XObject << /I ${id + 2} 0 R >> >> /Contents ${id + 1} 0 R >>`,
+                `<< /Length ${content.length} >>\nstream\n${content}endstream`,
+                `<< /Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n${jpeg}\nendstream`,
+            );
+        }
+        objects[2] = `<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${pages.length} >>`;
+        return assemble(objects, 3);
+    }
+
+    function assemble(objects, infoId = 6) {
         let out = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
         let xref = `xref\n0 ${objects.length}\n0000000000 65535 f \n`;
         for (let id = 1; id < objects.length; id++) {
@@ -120,9 +216,9 @@ const Pdf = (() => {
             out += `${id} 0 obj\n${objects[id]}\nendobj\n`;
         }
         const start = out.length;
-        out += `${xref}trailer << /Size ${objects.length} /Root 1 0 R /Info 6 0 R >>\nstartxref\n${start}\n%%EOF\n`;
+        out += `${xref}trailer << /Size ${objects.length} /Root 1 0 R /Info ${infoId} 0 R >>\nstartxref\n${start}\n%%EOF\n`;
         return Uint8Array.from(out, (c) => c.charCodeAt(0));
     }
 
-    return { supports: (text) => encode(text) !== null, render };
+    return { supports: (text) => encode(text) !== null, render, draw };
 })();
