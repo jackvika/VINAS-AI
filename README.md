@@ -64,6 +64,8 @@ Set these on the server, never in the code:
 
 The Workers Free plan gives 10,000 neurons a day and then refuses, so it costs nothing. The counts kept here start again when the server restarts. On the Workers Paid plan, also set a limit in Cloudflare.
 
+At least 90% of the sentences in a Human rewrite have to be new: none may keep more than three quarters of an original sentence's words in order. A part that falls short is written again, then sentence by sentence. Headings, quotations and lines that are mostly names do not count. The result shows the share, and says so when the rule could not be met without changing the meaning.
+
 The **Deep** level is slower. It asks for two versions, finds overused words in them, looks up other words in the Datamuse dictionary (single words only, never the text), has the model choose the one that fits, checks the meaning again, and keeps the version with the fewest overused words that people would most likely write.
 
 Without the two settings, the site works with the word brain alone.

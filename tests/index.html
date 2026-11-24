@@ -124,6 +124,16 @@ function run() {
     check('notes needed', '', 'invented 40', Checker.judge(shop, 'When a larger competitor opens nearby, 40 small shops often find it hard to attract customers.', { keep: 0.25, add: 0.75 }).why);
     check('notes do not allow others', '', 'invented 41', Checker.judge(shop, 'When a larger competitor opens in the same neighbourhood, small shops often find it hard to attract customers. I sold 41 of them.', { keep: 0.25, add: 0.75, extra: notes }).why);
     check('told', '', [true, false], [Checker.tells('Last June I sold 40 of them in Pune.', 'I sold 40 of them in Pune'), Checker.tells('I sold some of them in Pune.', 'I sold 40 of them in Pune')]);
+    const rule = (a, b) => Checker.changed(a, b);
+    check('rule copy', '', [0, 2], [rule(climate + ' ' + tower, climate + ' ' + tower).share, rule(climate + ' ' + tower, climate + ' ' + tower).total - 1]);
+    check('rule new', '', 1, rule(tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million visitors each year.').share);
+    check('rule half', '', [0.5, ['The cat sat on the old mat today.']], (() => { const x = rule('The cat sat on the old mat today. It was warm and quiet inside the house.', 'The cat sat on the old mat today. Nobody made a sound, and the rooms held their heat.'); return [x.share, x.close]; })());
+    check('rule moved', '', 0, rule('He left early because the train was late. She stayed at home with the dog.', 'She stayed at home with the dog. He left early because the train was late.').share);
+    check('rule names', '', [1, 0], [rule('Divisional Managers, Plant Managers, Department Heads, and Regional Managers.', 'Divisional Managers, Plant Managers, Department Heads, and Regional Managers.').share, rule('"We will win this long game," she said.', '"We will win this."').total]);
+    check('rule empty', '', [1, 0], [rule('', '').share, rule('a', 'b').total]);
+    const ruleStart = performance.now();
+    rule('The quick brown fox jumps over it. '.repeat(400), 'A slow red hen walks under that. '.repeat(400));
+    check('rule speed', '', true, performance.now() - ruleStart < 6000);
     const listText = 'Intro paragraph that has quite enough words to be written again by the writer.\n\nPrimary Functions:\n\nStrategic planning: Defining the mission and setting long-term goals for everyone.\n\n**Policy formulation:** Creating the broad frameworks that guide the rest.\n- Plain bullet that has more than enough words in it.\n\nConclusion\nA closing paragraph that has quite enough words to be written again by the writer.\n';
     const listPieces = Checker.pieces(listText);
     const list = listPieces.find((p) => p.items);

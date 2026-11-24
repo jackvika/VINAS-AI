@@ -181,6 +181,24 @@ const Checker = (() => {
         return { ok: true, score, why: '' };
     }
 
+    const RULE = 0.9;         // how many sentences have to be new
+    const CLOSE = 0.75;       // a sentence that keeps more of its words in order is not new
+    const sentencesOf = (text) => text.split(/(?<=[.!?]["”')]?)\s+(?=["“(]?[\p{Lu}\d])|\n+/u).map((s) => s.trim()).filter((s) => words(s).length >= 5);
+
+    /** True for sentences that are mostly names, such as a list of job titles. Those cannot be put in other words. */
+    function fixed(s) {
+        const list = words(s);
+        return list.filter((w) => /^\p{Lu}/u.test(w) || /\d/.test(w)).length > list.length / 2 || /^["“].*["”]$/.test(s);
+    }
+
+    /** @returns {{share: number, total: number, close: string[]}} how many sentences are new, and those that are not */
+    function changed(original, current) {
+        const before = sentencesOf(original);
+        const after = sentencesOf(current).filter((s) => !fixed(s));
+        const close = after.filter((s) => before.some((o) => similarity(s, o) > CLOSE || similarity(o, s) > 0.9));
+        return { share: after.length ? 1 - close.length / after.length : 1, total: after.length, close };
+    }
+
     /** Puts the text of a list together again. */
     function settle(piece) {
         piece.text = piece.items.map((x) => x.prefix + x.body + x.end).join('');
@@ -285,5 +303,5 @@ const Checker = (() => {
         return kept >= 0.6 && numbers(note).every((n) => numbers(text).includes(n));
     }
 
-    return { clean, judge, mustKeep, pieces, readItems, sameness, settle, similarity, tells };
+    return { RULE, changed, clean, fixed, judge, mustKeep, pieces, readItems, sameness, settle, similarity, tells };
 })();
