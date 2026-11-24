@@ -72,6 +72,7 @@
                         <option value="light">Light: few changes</option>
                         <option value="normal" selected>Normal</option>
                         <option value="strong">Strong: most changes</option>
+                        <option value="deep">Deep: replaces overused AI words too (slow)</option>
                     </select>
                 </div>
                 <div>
@@ -105,7 +106,7 @@
         </section>
     </form>
     <footer>
-        <p>With the AI writer on, your text goes to this site's own server and from there to Cloudflare Workers AI, which writes the new version. Cloudflare says it does not train on this text or keep it. The word brain runs on this site's server. This site does not save or share your text. With both off, it stays in your browser. Do not paste confidential text. AI can make mistakes, so compare the result with your original. This site does not try to get past AI detectors.</p>
+        <p>With the AI writer on, your text goes to this site's own server and from there to Cloudflare Workers AI, which writes the new version. Cloudflare says it does not train on this text or keep it. In Deep, single overused words, such as "crucial", are also looked up in the Datamuse dictionary; your text is not sent there. The word brain runs on this site's server. This site does not save or share your text. With both off, it stays in your browser. Do not paste confidential text. AI can make mistakes, so compare the result with your original. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer" rel="noopener noreferrer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>

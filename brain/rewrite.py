@@ -311,6 +311,18 @@ class Rewriter:
             edits += self.join(parts)
         return line[:lead] + ''.join(t + gap for t, gap in parts), edits
 
+    def natural(self, text):
+        """How likely people are to write this: the mean log probability of a token. Higher is more natural."""
+        total = count = 0
+        for line in text.split('\n'):
+            for a, b in sentences(line):
+                tokens = [norm(t) for t in TOKEN.findall(line[a:b])]
+                for t, x in zip([*tokens, '</s>'], self.model.score(tokens)):
+                    if t == '</s>' or self.model.id(t) != UNK:
+                        total += x
+                        count += 1
+        return total / count if count else -99.0
+
     def stiff(self, text, type_='general'):
         """Up to three sentences that are further from everyday English than 19 in 20 human ones."""
         bar = self.model.info['marks']['talk' if type_ == 'informal' else 'written'][19]

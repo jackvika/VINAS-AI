@@ -58,9 +58,13 @@ Set these on the server, never in the code:
 | `CLOUDFLARE_API_TOKEN` | A token with the Workers AI permission |
 | `CLOUDFLARE_MODEL` | Optional. `@cf/google/gemma-4-26b-a4b-it` unless set |
 | `DAILY_NEURONS` | Optional. The most to use in a day, 9500 unless set |
+| `THESAURUS` | Optional. `off` stops the dictionary lookups |
+| `DATAMUSE_KEY` | Optional until 1 February 2027, when [Datamuse](https://www.datamuse.com/api/) starts to ask for a key |
 | `VISITOR_NEURONS` | Optional. The most for one visitor in a day, 1500 unless set |
 
 The Workers Free plan gives 10,000 neurons a day and then refuses, so it costs nothing. The counts kept here start again when the server restarts. On the Workers Paid plan, also set a limit in Cloudflare.
+
+The **Deep** level is slower. It asks for two versions, finds overused words in them, looks up other words in the Datamuse dictionary (single words only, never the text), has the model choose the one that fits, checks the meaning again, and keeps the version with the fewest overused words that people would most likely write.
 
 Without the two settings, the site works with the word brain alone.
 

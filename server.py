@@ -72,7 +72,7 @@ class Limiter:
             return True
 
 
-writer = Writer()
+writer = Writer(natural=rewriter.natural, known=rewriter.model.ids)
 limiter = Limiter(PER_MINUTE)
 write_limiter = Limiter(2 * PER_MINUTE)
 thinking = threading.BoundedSemaphore(2)    # more at once would only make everyone wait

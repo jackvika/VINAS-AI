@@ -97,7 +97,8 @@ const pause = (ms) => new Promise((done) => { setTimeout(done, ms); });
 async function rewriteAll(text, options, tell, stopped) {
     const pieces = Checker.pieces(text, 170);
     const jobs = pieces.filter((p) => p.write);
-    const limit = { light: 0.92, normal: 0.8, strong: 0.7 }[options.level] ?? 0.8;
+    const limit = { light: 0.92, normal: 0.8, strong: 0.7, deep: 0.7 }[options.level] ?? 0.8;
+    const overused = [0, 0];
     let written = 0;
     let trouble = '';
     const words = (options.sample.match(WORD) || []).length;
@@ -129,6 +130,10 @@ async function rewriteAll(text, options, tell, stopped) {
             trouble = '';
             if (!out || typeof out.text !== 'string') break;
             const issue = String(out.issue || '');
+            const stock = Array.isArray(out.stock) && out.stock.length === 2 ? out.stock.map(Number) : null;
+            const countStock = () => {
+                if (stock && stock.every(Number.isFinite)) stock.forEach((n, i) => { overused[i] += n; });
+            };
             if (p.items) {
                 const bodies = Checker.readItems(out.text, p.items.length);
                 if (!bodies) {
@@ -145,6 +150,7 @@ async function rewriteAll(text, options, tell, stopped) {
                 hint = issue || (same ? `Too many items say "${same}"` : '');
                 if (issue === '' && (!same || attempt === 2)) {
                     best = p.items.map((x, i) => x.prefix + good[i] + x.end).join('');
+                    countStock();
                     break;
                 }
                 continue;
@@ -154,6 +160,7 @@ async function rewriteAll(text, options, tell, stopped) {
             hint = verdict.ok ? issue : mend(verdict.why);
             // A version with a doubt about its meaning is never used.
             if (verdict.ok && issue === '') {
+                if (!best) countStock();
                 best = best || version;
                 // The author asked for their own facts, so a version without any is only the second choice.
                 const told = !notes.length || notes.some((n) => Checker.tells(version, n));
@@ -178,7 +185,7 @@ async function rewriteAll(text, options, tell, stopped) {
         }
         if (trouble) break;
     }
-    return { text: pieces.map((p) => p.text + p.end).join(''), written, total: jobs.length, stopped: stopped(), trouble, unused: written ? notes : [] };
+    return { text: pieces.map((p) => p.text + p.end).join(''), written, total: jobs.length, stopped: stopped(), trouble, unused: written ? notes : [], overused };
 }
 
 /** Lets the brain finish what the rules started. Returns why it could not, or an empty string. */
@@ -544,7 +551,8 @@ if (byId('strength')) {
                     }
                     source = wrote.text;
                     const rest = wrote.total - wrote.written;
-                    if (wrote.unused.length) unused = ` These facts of yours did not fit anywhere: ${wrote.unused.join('; ')}`;
+                    if (options.level === 'deep' && wrote.overused[0]) unused += ` Overused words: ${wrote.overused[0]} before, ${wrote.overused[1]} now.`;
+                    if (wrote.unused.length) unused += ` These facts of yours did not fit anywhere: ${wrote.unused.join('; ')}`;
                     writerNote = wrote.total === 0 ? 'The text has no full paragraphs for the AI writer.'
                         : `The AI writer rewrote ${wrote.written} of ${wrote.total} parts.${rest ? ` ${rest} ${rest === 1 ? 'was' : 'were'} left to the word brain${wrote.trouble ? `: ${wrote.trouble}` : wrote.stopped ? ', because you stopped it.' : ', because no version passed the checks.'}` : ''}`;
                 }

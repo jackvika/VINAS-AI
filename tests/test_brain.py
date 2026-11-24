@@ -10,6 +10,7 @@ import unittest
 from unittest import mock
 
 import server
+from brain.thesaurus import Thesaurus, find
 from brain.writer import Writer, WriterError
 from brain.text import TOKEN, norm, sentences
 
@@ -88,6 +89,48 @@ class AIWriter(unittest.TestCase):
         self.assertIn('The text is a list', system)
         self.assertNotIn('as one paragraph', system)
         self.assertEqual(user.count('</context>'), 1)
+
+    def test_deep(self):
+        w = fake_writer(['It is a crucial and vital step.', 'OK', 'It is an important step.', 'OK', 'A crucial step.', 'FIX: lost it'])
+        w.thesaurus._fetch = lambda word: [{'word': 'important', 'tags': ['adj', 'f:310.0']}]
+        self.assertEqual(w.write('It is a pivotal, crucial step.', level='deep'), {'text': 'It is an important step.', 'issue': '', 'stock': [2, 0]})
+        self.assertIn('crucial: important', w.sent[2]['messages'][1]['content'])
+        w = fake_writer(['It is a crucial step.', 'OK', 'Gone.', 'FIX: lost it', 'Plain step.', 'OK'])
+        w.thesaurus._fetch = lambda word: []
+        self.assertEqual(w.write('It is a crucial step.', level='deep')['text'], 'Plain step.')
+        w = fake_writer(['A.', 'FIX: one', 'B.', 'FIX: two'])
+        self.assertEqual(w.write('Old.', level='deep'), {'text': 'B.', 'issue': 'two'})
+        w = fake_writer(['A crucial step.', 'OK', WriterError('busy'), 'A key step.', 'FIX: x'])
+        w.thesaurus._fetch = lambda word: []
+        self.assertEqual(w.write('Old.', level='deep')['text'], 'A crucial step.')
+
+    def test_overused_words(self):
+        self.assertEqual(find('It delves into a vital, crucial realm. Robust design at Pivotal Labs.'), ['delves', 'vital', 'crucial', 'realm', 'Robust'])
+        self.assertEqual(find('She said "it is crucial" at https://x.example/crucial and left.'), [])
+        self.assertEqual(find(''), [])
+
+    def test_thesaurus(self):
+        asked = []
+
+        def fetch(word):
+            asked.append(word)
+            return [{'word': 'improve', 'tags': ['v', 'f:60.5']}, {'word': 'elevate', 'tags': ['v', 'f:9']}, {'word': 'rareword', 'tags': ['v', 'f:0.1']}, {'word': 'betterment', 'tags': ['n', 'f:8']},
+                    {'word': 'two words', 'tags': ['v', 'f:90']}, {'word': '<b>', 'tags': ['v', 'f:90']}, {'word': 5}, 'x', {'word': 'raise', 'tags': None}, {'word': 'case', 'tags': ['n', 'v', 'f:300']}, {'word': 'lift', 'tags': ['v', 'f:20']}]
+        t = Thesaurus(env={})
+        t._fetch = fetch
+        self.assertEqual(t.options(['Enhanced', 'enhanced', 'private', 'enhancing']), {'enhanced': ['improved', 'lifted'], 'enhancing': ['improving', 'lifting']})
+        t.options(['enhances'])
+        self.assertEqual(set(asked), {'enhance'})                 # only listed words, in their base form
+        self.assertLessEqual(len(asked), 2)
+        self.assertEqual(Thesaurus(env={'THESAURUS': 'off'}).options(['crucial']), {})
+        for bad in (OSError('down'), ValueError('x')):
+            t = Thesaurus(env={})
+            t._fetch = mock.Mock(side_effect=bad)
+            self.assertEqual(t.options(['crucial', 'steadfast']), {'crucial': ['important']})    # the reviewed list still works
+        for bad in (None, {}, 5, [None], [{}]):
+            t = Thesaurus(env={})
+            t._fetch = lambda word, bad=bad: bad
+            self.assertEqual(t.options(['steadfast']), {})
 
     def test_points(self):
         self.assertEqual(fake_writer(['- one thing\n2. two 1889\n\n* three']).points('x')['points'], ['one thing', 'two 1889', 'three'])
