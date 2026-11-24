@@ -98,11 +98,27 @@ function run() {
     const pick = (q, n) => Ask.choose(Ask.rank(Ask.understand(q), [leaf, other]), n);
     check('skips references', '', false, Ask.read(leaf).some((s) => /nobody/.test(s.text)));
     check('finds list lines', '', ['Light-dependent reactions', 'Calvin cycle'], Ask.read(leaf).filter((s) => s.item).map((s) => s.text));
-    check('definition first', '', leaf.text.split('\n')[0], pick('What is photosynthesis?', 3).chosen[0].text);
-    check('date', '', true, pick('When was light shown to be needed for photosynthesis?', 1).chosen[0].text.includes('1779'));
-    check('list', '', true, pick('What are the stages of photosynthesis?', 4).chosen.some((s) => s.item));
-    check('cover', '', [1, true], [pick('What is photosynthesis?', 3).cover, pick('Who won the cricket photosynthesis cup?', 3).cover < 0.6]);
-    const isSure = (q) => Ask.sure(Ask.understand(q), pick(q, 2));
+    check('definition first', '', leaf.text.split('\n')[0], pick('What is photosynthesis?', 60).chosen[0].text);
+    check('date', '', true, pick('When was light shown to be needed for photosynthesis?', 60).chosen.some((x) => x.text.includes('1779')));
+    check('list', '', true, pick('What are the stages of photosynthesis?', 150).chosen.some((s) => s.item));
+    check('cover', '', [1, true], [pick('What is photosynthesis?', 60).cover, pick('Who won the cricket photosynthesis cup?', 60).cover < 0.6]);
+    for (const [q, words, left] of [
+        ['Explain democracy in 200 words', 200, 'Explain democracy'], ['What is inflation? (150-250 words)', 200, 'What is inflation'], ['Write in 300 words about climate change', 300, 'about climate change'], ['लोकतंत्र क्या है 100 शब्दों में', 100, 'लोकतंत्र क्या है'],
+        ['Explain gravity in detail', 300, 'Explain gravity'], ['Write an essay on water pollution', 300, 'explain water pollution'], ['Explain gravity in short', 90, 'Explain gravity'], ['Who wrote Hamlet?', 80, 'Who wrote Hamlet'], ['What are the causes of inflation?', 260, 'What are the causes of inflation'],
+        ['Explain x in 5000 words', 800, 'Explain x'], ['How many words are in English?', 60, 'How many words are in English'],
+    ]) check('length', q, [words, left], [Ask.understand(q).words, Ask.wish(q).q]);
+    const things = 'budget plan market branch law brand factory price goal risk team shift report skill rule machine order stock safety visit sale loan wage school road port farm mine bank ship'.split(' ');
+    const para = (w, n) => Array.from({ length: n }, (_, i) => { const k = { top: 0, middle: 10, line: 20 }[w] + 2 * i; return `At the ${w} level of management people look after the ${things[k % 30]} and the ${things[(k + 1) % 30]} of the whole firm.`; }).join(' ');
+    const big = page('Management', 'Management is the work of running an organization and its people.\nManagers plan, organize, lead and check the work that others do each day.\n\n== Levels ==\n' + para('top', 5) + '\n' + para('middle', 5) + '\n' + para('line', 5) + '\n\n== Schools ==\nMany universities teach courses in business and finance to young people.');
+    const write = (n) => Ask.choose(Ask.rank(Ask.understand('What are the levels of management?'), [big]), n);
+    const play = page('Hamlet', 'Hamlet is a tragedy by the English playwright William Shakespeare from about 1600.\nIt is the longest of his plays and is often performed.\n\n== Derivative works ==\nGilbert wrote a short comic play about Hamlet that few people know today.');
+    check('author', '', play.text.split('\n')[0], Ask.choose(Ask.rank(Ask.understand('Who wrote Hamlet?'), [play]), 60).chosen[0].text);
+    check('asides', '', [false, true], ['Who wrote Hamlet?', 'What are the derivative works of Hamlet?'].map((q) => Ask.choose(Ask.rank(Ask.understand(q), [play]), 150).chosen.some((x) => /Gilbert/.test(x.text))));
+    for (const n of [60, 150, 240]) check('about the asked length', String(n), true, write(n).words >= 0.7 * n && write(n).words <= 1.15 * n + 10);
+    check('stays on the subject', '', false, write(240).chosen.some((s) => s.section === 'Schools'));
+    check('starts with the topic', '', big.text.split('\n')[0], write(240).chosen[0].text);
+    check('whole stretches', '', true, (() => { const c = write(240).chosen.filter((s) => s.section === 'Levels'); return c.filter((s, i) => i && s.place === c[i - 1].place + 1).length >= c.length / 2; })());
+    const isSure = (q) => Ask.sure(Ask.understand(q), pick(q, 60));
     check('sure', '', [true, true, false, false], [isSure('What is photosynthesis?'), isSure('When was light shown to be needed for photosynthesis?'), isSure('Why is photosynthesis slow?'), isSure('Who won the cricket photosynthesis cup?')]);
     const found = (...titles) => titles.map((title, i) => ({ title, pageid: title.length * 100 + i }));
     check('titles', '', 'Management', Ask.pickTitles([found('Flat organization', 'Management', 'Middle management'), found('Management', 'Project management')], Ask.understand('What are the levels of management?'))[0].title);

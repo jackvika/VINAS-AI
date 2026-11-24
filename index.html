@@ -28,14 +28,16 @@
     <form id="ask" autocomplete="off">
         <section class="step">
             <label for="question">Your question</label>
-            <textarea id="question" rows="3" maxlength="300" placeholder="What is photosynthesis?  Difference between mitosis and meiosis  15% of 2400"></textarea>
+            <textarea id="question" rows="3" maxlength="300" placeholder="Explain the levels of management in 300 words&#10;Difference between mitosis and meiosis&#10;15% of 2400"></textarea>
             <div class="grid">
                 <div>
                     <label for="size">Length</label>
                     <select id="size">
-                        <option value="short">Short</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="long">Long</option>
+                        <option value="auto" selected>Let the question decide</option>
+                        <option value="short">Short, about 60 words</option>
+                        <option value="medium">Medium, about 150 words</option>
+                        <option value="long">Long, about 300 words</option>
+                        <option value="essay">Very long, about 500 words</option>
                     </select>
                 </div>
                 <div>
@@ -61,6 +63,7 @@
                 <button type="button" class="ghost" data-download="answer-text" data-name="answer.txt">Download text</button>
             </span>
         </div>
+        <p class="muted" id="answer-size"></p>
         <div id="answer-body"></div>
         <h3>Sources</h3>
         <ol id="sources"></ol>
