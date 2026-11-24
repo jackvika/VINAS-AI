@@ -125,6 +125,10 @@ const RULES = {
         "31": [
             "Sentence shape",
             "Rebuild the sentence the way you would say it."
+        ],
+        "32": [
+            "Brain",
+            "Use the wording people choose most often in a sentence like this."
         ]
     },
     "delete": {
@@ -510,7 +514,8 @@ const RULES = {
         "long": "Read it aloud. If you run out of breath, split it.",
         "even": "These sentences are about the same length. Shorten one or join two.",
         "detail": "The text has no number, name or date. Add one true detail only you would know.",
-        "self": "The text never says \"I\" or \"we\". Add what you did, saw or think."
+        "self": "The text never says \"I\" or \"we\". Add what you did, saw or think.",
+        "stiff": "The brain finds this far from everyday English. Say it aloud, then write what you said."
     },
     "hyphens": "high-quality|well-known|well-documented|long-term|real-time",
     "flag": {
@@ -931,6 +936,7 @@ const RULES = {
         "even": "Rewrite it shorter or longer",
         "detail": "One true sentence with a name, number or date",
         "self": "One sentence on what you did, saw or think",
+        "stiff": "Rewrite it the way you would say it",
         "flag": "Your own words"
     },
     "human_words": {

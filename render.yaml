@@ -1,0 +1,12 @@
+# Render reads this file when you choose New > Blueprint.
+services:
+  - type: web
+    name: vinas-ai
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10

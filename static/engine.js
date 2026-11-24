@@ -8,14 +8,16 @@ class Humanizer {
         this.sample = '';
         this.keepDashes = false;
         this.keepCurly = false;
+        this.fullForms = false;
     }
 
-    /** Options: type, strong (bool), human (bool, implies strong), sample (string), dashes (bool, keep them). */
+    /** Options: type, strong (bool), human (bool, implies strong), sample (string), dashes (bool, keep them), fullForms (bool, no contractions). */
     run(text, options = {}) {
         this.edits = [];
         this.type = Humanizer.TYPES.includes(options.type) ? options.type : 'general';
         this.sample = this.normalise(options.sample || '');
         const voice = this.readVoice();
+        this.fullForms = Boolean(options.fullForms);
         this.keepDashes = Boolean(options.dashes) || Boolean(voice && voice.dashes);
         this.keepCurly = Boolean(voice && voice.curly);
 
@@ -29,7 +31,7 @@ class Humanizer {
             survived = this.flags(result);
             result = this.pass(result, true);
         }
-        result = this.matchContractions(result, voice);
+        result = this.matchContractions(result, this.fullForms ? { contractions: 'long' } : voice);
         let flags = this.flags(result);
 
         let held = false;
@@ -48,6 +50,7 @@ class Humanizer {
         }
         if (human) {
             result = this.natural(result, voice);
+            if (this.fullForms) result = result.replace(/, so it['’]s /g, ', so it is ').replace(/, so they['’]re /g, ', so they are ');
             flags = this.flags(result);
         }
         const headings = original.match(rx('^#{1,6} ', 'gm')) || [];
@@ -366,7 +369,7 @@ class Humanizer {
                 t = this.replace(28, rx(SENTENCE_START + from + '(?= \\p{L})', 'gim'), () => to, t);
             }
             t = this.plainHowever(t);
-            if (!voice || voice.contractions !== 'long') t = this.contract(t);
+            if (!this.fullForms && (!voice || voice.contractions !== 'long')) t = this.contract(t);
         }
         if (!this.keepDashes) t = t.split('\n').map((line) => this.dashes(line)).join('\n');
         t = t.split('\n').map((line) => this.breakLong(line)).join('\n');

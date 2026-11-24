@@ -50,10 +50,49 @@ function section(id, html) {
     return node;
 }
 
-function pdfButton(text, source, name, canPrint) {
-    if (trim(text) === '') return '';
-    if (Pdf.supports(text)) return `<button type="button" class="ghost" data-pdf="${source}" data-name="${esc(name)}">Download PDF</button>`;
-    return canPrint ? '<button type="button" class="ghost" data-print>Save as PDF</button>' : '';
+function pdfButton(text, source, name) {
+    return trim(text) === '' ? '' : `<button type="button" class="pdf" data-pdf="${source}" data-name="${esc(name)}">Download PDF</button>`;
+}
+
+// The brain runs on the site's server. Pages opened without one, such as on GitHub Pages, use the rules alone.
+const api = (path, options, ms) => fetch(path, { ...options, credentials: 'omit', signal: AbortSignal.timeout(ms) }).then((r) => {
+    if (!r.ok) throw Object.assign(new Error(`The server answered ${r.status}.`), { busy: r.status === 429 || r.status === 503 });
+    return r.json();
+});
+let awake = null;
+
+/** Asks once whether there is a brain. No text is sent, and the request wakes a sleeping server. */
+function wake() {
+    if (!awake) {
+        awake = /^https?:$/.test(location.protocol)
+            ? api('api/health', {}, 90000).then((x) => x.ok === true).catch(() => false)
+            : Promise.resolve(false);
+        awake.then((ok) => { if (!ok) awake = null; });
+    }
+    return awake;
+}
+
+/** Lets the brain finish what the rules started. Returns why it could not, or an empty string. */
+async function think(r, options) {
+    const offline = 'The brain could not be reached, so only the built-in rules were used.';
+    if (r.held || trim(r.text) === '') return '';
+    if (!await wake()) return offline;
+    let out;
+    try {
+        const contractions = options.fullForms || (r.voice && r.voice.contractions === 'long') ? false : null;
+        const body = JSON.stringify({ text: r.text, type: options.type, sample: options.sample, contractions, level: options.level });
+        out = await api('api/brain', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 60000);
+    } catch (error) {
+        return error.busy ? 'The brain is busy, so only the built-in rules were used. Wait a minute and press Humanize again.' : offline;
+    }
+    // A change that loses a fact is worse than no change.
+    const valid = out && typeof out.text === 'string' && Array.isArray(out.edits) && Array.isArray(out.stiff);
+    if (!valid || trim(out.text) === '' || engine.missing(r.text, out.text).length) return offline;
+    r.text = out.text;
+    for (const e of out.edits) r.edits.push({ pattern: 32, before: String(e.before), after: String(e.after) });
+    r.flags = engine.flags(r.text);
+    r.stiff = out.stiff.map(String);
+    return '';
 }
 
 async function readFile(file) {
@@ -74,6 +113,8 @@ function renderRewrite(r, text, fileName) {
     else if (r.text === '') note = 'Every sentence matched a filler pattern, so nothing is left. Add a concrete fact and try again.';
     else if (!edits && !left) note = 'No tells this site can detect were found. Your text is unchanged.';
 
+    if (r.brain) note = `${note ? `${note} ` : ''}${r.brain}`;
+
     let voice = '';
     if (r.voice) {
         const habit = { short: 'uses contractions', long: 'avoids contractions', mixed: 'mixes contractions and full forms' }[r.voice.contractions];
@@ -85,9 +126,9 @@ function renderRewrite(r, text, fileName) {
         <div class="bar">
             <h2>Humanized text</h2>
             <span class="actions">
-                <button type="button" class="ghost" data-copy="output">Copy</button>
-                <button type="button" class="ghost" data-download="output" data-name="${esc(fileName || 'rewrite.txt')}">Download text</button>
                 <span id="pdf-slot"></span>
+                <button type="button" class="ghost" data-copy="output">Copy</button>
+                <button type="button" class="ghost" data-download="output" data-name="${esc(fileName || 'humanized-text.txt')}">Download text</button>
                 <button type="button" class="ghost" data-reuse="output">Edit and check again</button>
             </span>
         </div>
@@ -125,11 +166,21 @@ function finishEditor(node, r, original, fileName) {
     function listJobs() {
         const flags = engine.flags(current);
         const list = flags.map((f) => ({ kind: 'flag', start: f.start, end: f.end, text: f.text, pattern: f.pattern, advice: names[f.pattern][1] }));
-        for (const [kind, quote] of withTips ? engine.tips(current) : []) {
+        const stiff = (r.stiff || []).map((s) => ['stiff', s]);
+        for (const [kind, quote] of withTips ? [...engine.tips(current), ...stiff] : []) {
             const start = quote === '' ? current.length : current.indexOf(quote);
             if (start >= 0) list.push({ kind, start, end: start + quote.length, text: quote, pattern: 0, advice: RULES.tips[kind] });
         }
-        return { flags, list: list.filter((j) => !kept.has(j.kind + j.text)) };
+        // One sentence needs only one reason to rewrite it.
+        const whole = new Set();
+        return {
+            flags,
+            list: list.filter((j) => {
+                const again = ['long', 'even', 'stiff'].includes(j.kind) && whole.has(j.text);
+                whole.add(j.text);
+                return !again && !kept.has(j.kind + j.text);
+            }),
+        };
     }
 
     /** True where cutting the phrase leaves a whole sentence: an aside, or a describing word before its noun. */
@@ -145,7 +196,7 @@ function finishEditor(node, r, original, fileName) {
     }
 
     function item(j, i) {
-        const long = j.kind === 'long' || j.kind === 'even';
+        const long = ['long', 'even', 'stiff'].includes(j.kind);
         const field = long
             ? `<textarea rows="3" aria-label="${esc(RULES.ask[j.kind])}">${esc(j.text)}</textarea>`
             : `<input type="text" aria-label="${esc(RULES.ask[j.kind])}" placeholder="${esc(RULES.ask[j.kind])}">`;
@@ -167,7 +218,7 @@ function finishEditor(node, r, original, fileName) {
         const now = engine.metrics(current);
         byId('output').value = current;
         byId('shown').innerHTML = highlight(current, state.flags.filter((f) => !kept.has('flag' + f.text)));
-        byId('pdf-slot').innerHTML = pdfButton(current, 'output', fileName || 'rewrite', true);
+        byId('pdf-slot').innerHTML = pdfButton(current, 'output', fileName || 'humanized-text');
         byId('stats').innerHTML = `<span><b>${r.edits.length}</b> fixed for you</span><span><b>${done}</b> by you</span><span><b>${jobs.length}</b> left</span>`
             + `<span><b>${was.variety} → ${now.variety}</b> sentence variety</span><span><b>${was.ease} → ${now.ease}</b> reading ease</span>`
             + `<span><b>${r.sections} of ${r.sections}</b> sections reviewed</span>`;
@@ -243,7 +294,7 @@ function renderCheck(original, rewrite) {
     const before = engine.inspect(original).length;
     const left = engine.inspect(rewrite);
     show(section('report', `
-        <div class="bar"><h2>Report</h2>${pdfButton(rewrite, 'rewrite', 'rewrite', false)}</div>
+        <div class="bar"><h2>Report</h2>${pdfButton(rewrite, 'rewrite', 'rewrite')}</div>
         <p class="stats">
             <span><b>${before} → ${left.length}</b> tells</span>
             <span><b>${missing.length}</b> details missing</span>
@@ -267,30 +318,100 @@ for (const store of ['localStorage', 'sessionStorage']) {
 }
 
 if (byId('strength')) {
-    const example = DATA.examples[new URLSearchParams(location.search).get('example')];
+    const wanted = new URLSearchParams(location.search).get('example');
+    const example = /^\d$/.test(wanted || '') ? DATA.examples[Number(wanted)] : undefined;
     if (example !== undefined) {
         byId('text').value = example;
         byId('text').dispatchEvent(new Event('input'));
     }
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+    const button = form.querySelector('button.main');
+    const label = button.textContent;
+    const setText = (text) => {
+        byId('text').value = text;
+        byId('text').dispatchEvent(new Event('input'));
+    };
+    let fileName = '';
+
+    const showStatus = async () => {
+        const status = byId('status');
+        const wanted = byId('strength').value === 'human' && form.elements.brain.checked;
+        byId('level').disabled = !wanted;
+        status.className = 'status';
+        if (!wanted) {
+            status.textContent = 'Brain off: text stays in your browser';
+            return;
+        }
+        status.textContent = 'Waking the brain';
+        const ok = await wake();
+        if (byId('level').disabled) return;
+        status.classList.add(ok ? 'on' : 'off');
+        status.textContent = ok ? 'Brain ready' : 'Brain offline: rules only';
+    };
+    byId('strength').addEventListener('change', showStatus);
+    form.elements.brain.addEventListener('change', showStatus);
+    showStatus();
+
+    byId('paste').addEventListener('click', async () => {
         try {
-            const file = byId('file').files[0];
-            const text = (file ? await readFile(file) : byId('text').value).replace(/\r\n/g, '\n');
-            const sample = trim(byId('sample').value);
-            const error = tooLong(text, sample) || (trim(text) === '' ? 'Paste some text or choose a file first.' : '');
+            setText(await navigator.clipboard.readText());
+            fileName = '';
+            showError('');
+        } catch {
+            byId('text').focus();
+            showError('Your browser did not allow that. Click the box and press Ctrl+V, or Cmd+V on a Mac.');
+        }
+    });
+    byId('clear').addEventListener('click', () => {
+        setText('');
+        fileName = '';
+        showError('');
+        if (byId('result')) byId('result').remove();
+        byId('text').focus();
+    });
+    byId('file').addEventListener('change', async () => {
+        const file = byId('file').files[0];
+        if (!file) return;
+        try {
+            const text = (await readFile(file)).replace(/\r\n/g, '\n');
+            const error = tooLong(text);
             showError(error);
-            if (error) return;
-            if (file) {
-                byId('text').value = text;
-                byId('text').dispatchEvent(new Event('input'));
-                byId('file').value = '';
+            if (!error) {
+                setText(text);
+                fileName = file.name;
             }
-            const strength = byId('strength').value;
-            const options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked };
-            renderRewrite(engine.run(text, options), text, file ? file.name : '');
         } catch (error) {
             showError(error.message);
+        }
+        byId('file').value = '';
+    });
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (button.disabled) return;
+        let slow = 0;
+        try {
+            const text = byId('text').value;
+            const sample = trim(byId('sample').value);
+            const error = tooLong(text, sample) || (trim(text) === '' ? 'Paste some text first.' : '');
+            showError(error);
+            if (error) return;
+            const strength = byId('strength').value;
+            const options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked, fullForms: byId('contractions').value === 'no', level: byId('level').value };
+            const result = engine.run(text, options);
+            if (options.human && form.elements.brain.checked) {
+                button.disabled = true;
+                button.textContent = 'Thinking...';
+                byId('progress').textContent = 'The brain is reading your text.';
+                slow = setTimeout(() => { byId('progress').textContent = 'The brain was asleep. Waking it can take a minute.'; }, 4000);
+                result.brain = await think(result, options);
+            }
+            renderRewrite(result, text, fileName);
+        } catch (error) {
+            showError(error.message);
+        } finally {
+            clearTimeout(slow);
+            button.disabled = false;
+            button.textContent = label;
+            byId('progress').textContent = '';
         }
     });
 } else if (byId('original')) {
@@ -304,9 +425,21 @@ if (byId('strength')) {
     });
 }
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', async (event) => {
     const button = event.target.closest('[data-pdf]');
-    if (!button) return;
+    if (!button || button.disabled) return;
     const name = button.dataset.name.replace(/\.(?:txt|md|markdown)$/i, '').replace(/[^A-Za-z0-9 _-]+/g, '-').replace(/^[ -]+|[ -]+$/g, '') || 'rewrite';
-    saveFile(new Blob([Pdf.render(trim(byId(button.dataset.pdf).value), name, DATA.widths)], { type: 'application/pdf' }), `${name}.pdf`);
+    const text = trim(byId(button.dataset.pdf).value);
+    const label = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Making the PDF...';
+    try {
+        // Built-in PDF fonts cover Western European text. Other scripts, symbols and emoji are drawn instead.
+        const bytes = Pdf.supports(text) ? Pdf.render(text, name, DATA.widths) : await Pdf.draw(text, name);
+        saveFile(new Blob([bytes], { type: 'application/pdf' }), `${name}.pdf`);
+        button.textContent = label;
+    } catch {
+        button.textContent = 'PDF failed';
+    }
+    button.disabled = false;
 });
