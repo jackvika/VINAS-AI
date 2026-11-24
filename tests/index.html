@@ -84,6 +84,9 @@ function run() {
         [social, 'Social media has changed how we communicate and share information. It helps us connect with people all over the world, making us feel part of a community. However, using social media too much can be bad for our mental health.'],
         [laptop, "When buying a laptop, there are several things to think about. First, the processor matters a lot for the device's overall performance. The Dell XPS 13, priced at $1,199, strikes a great balance between performance and portability."],
         [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million visitors each year.'],
+        ['Please do not hesitate to reach out should you have any questions or require further information about the project.', 'Please get in touch if you have any questions or need more information about the project.'],
+        ['Time management is not just about getting more done; it is about creating a healthier balance between work and life.', "Time management isn't simply about getting more done, but about building a healthier balance between work and life."],
+        ['Many hospitals now use AI-powered diagnostic tools that find serious diseases at an early stage.', 'Many hospitals now rely on diagnostic tools powered by AI, which find serious diseases early.'],
     ];
     for (const [a, b] of good) check('good draft', a, '', Checker.judge(a, b).why);
     const bad = [
@@ -94,6 +97,7 @@ function run() {
         [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. It sits in Lyon and Paris, and around seven million visitors come each year.', 'invented Lyon'],
         [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around eight million visitors each year.', 'lost seven'],
         [tower, tower, 'barely changed'],
+        ['The medicine is safe for children who are older than ten years of age.', 'The medicine is not safe for children who are more than ten years old.', 'changed a yes to a no'],
         ['The structure was initially met with criticism when it opened in the city.', 'They started off with a lot of criticism when they opened in the city.', 'lost its subject'],
         ['However, it has subsequently become one of the most iconic landmarks in the world.', 'But now it is probably the most famous landmark in the world.', 'claims too much'],
         [tower, 'It is a tower.', 'too short'],

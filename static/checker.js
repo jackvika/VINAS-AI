@@ -111,7 +111,8 @@ const Checker = (() => {
 
         const inDraft = draft.toLowerCase();
         const inSource = source.toLowerCase();
-        for (const n of names(source)) if (!inDraft.includes(n.toLowerCase())) return no(`lost ${n}`);
+        // "AI-powered tools" may become "tools powered by AI".
+        for (const n of names(source)) if (!n.toLowerCase().split('-').every((part) => inDraft.includes(part))) return no(`lost ${n}`);
         for (const n of names(draft)) if (!inSource.includes(n.toLowerCase())) return no(`invented ${n}`);
         for (const q of source.match(/"[^"\n]{1,400}"|“[^”\n]{1,400}”/g) || []) if (!draft.includes(q.slice(1, -1))) return no('changed a quotation');
         for (const u of source.match(/https?:\/\/[^\s<>)\]]+|[\w.+-]{1,64}@[\w-]+\.[\w.]+/g) || []) if (!draft.includes(u)) return no('lost a link');
@@ -141,8 +142,10 @@ const Checker = (() => {
         const added = got.size ? [...got].filter((x) => !wanted.has(x)).length / got.size : 0;
         if (kept < (options.keep ?? 0.4)) return no('lost too much meaning');
         if (added > (options.add ?? 0.6)) return no('added too much');
-        const negBefore = (source.replace(/\bnot (?:just|only|merely|simply)\b/gi, '').match(NEGATION) || []).length;
-        const negAfter = (draft.replace(/\bnot (?:just|only|merely|simply)\b|n['’]t (?:just|only)\b/gi, '').match(NEGATION) || []).length;
+        // "not just" and "do not hesitate" say yes.
+        const yes = /\bnot (?:just|only|merely|simply)\b|n['’]t (?:just|only|merely|simply)\b|\b(?:do not|don['’]t) hesitate\b/gi;
+        const negBefore = (source.replace(yes, '').match(NEGATION) || []).length;
+        const negAfter = (draft.replace(yes, '').match(NEGATION) || []).length;
         if (Math.abs(negBefore - negAfter) > 1 || (negBefore === 0) !== (negAfter === 0)) return no('changed a yes to a no');
         if (/\bone of the\b/i.test(source) && !/\b(?:one of|among)\b/i.test(draft) && /\bthe (?:most|best|biggest|\p{L}+est)\b/iu.test(draft)) return no('claims too much');
         // "The structure was" must not become "They were": the reader would look for someone else.
