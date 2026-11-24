@@ -111,8 +111,12 @@ async function rewriteAll(text, options, tell, stopped) {
         let hint = '';
         for (let attempt = 0; attempt < 3 && !stopped(); attempt++) {
             let out;
+            const listed = p.items ? p.items.map((x, i) => `[${i + 1}] ${x.label ? `(${x.label}) ` : ''}${x.body}`).join('\n') : '';
             try {
-                const body = JSON.stringify({ text: p.text, type: options.type, level: options.level, contractions: !options.fullForms, hint, attempt, sample, notes: notes.join('\n') });
+                const body = JSON.stringify({
+                    text: listed || p.text, items: Boolean(p.items), type: options.type, level: options.level, contractions: !options.fullForms, hint, attempt, sample,
+                    notes: p.items ? '' : notes.join('\n'), context: before.trim().slice(-900),
+                });
                 out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
             } catch (error) {
                 trouble = error.said || 'The AI writer could not be reached.';
@@ -124,9 +128,29 @@ async function rewriteAll(text, options, tell, stopped) {
             }
             trouble = '';
             if (!out || typeof out.text !== 'string') break;
+            const issue = String(out.issue || '');
+            if (p.items) {
+                const bodies = Checker.readItems(out.text, p.items.length);
+                if (!bodies) {
+                    hint = 'It did not give one line for each item';
+                    continue;
+                }
+                // Each point is checked alone, so one bad point does not cost the others.
+                const good = bodies.map((b, i) => {
+                    const version = Checker.clean(b, p.items[i].body);
+                    const ok = Checker.judge(p.items[i].body, version, { limit: 1.01, keep: 0.2, add: 0.8, least: 0.4 });
+                    return ok.ok ? version : p.items[i].body;
+                });
+                const same = Checker.sameness(good);
+                hint = issue || (same ? `Too many items say "${same}"` : '');
+                if (issue === '' && (!same || attempt === 2)) {
+                    best = p.items.map((x, i) => x.prefix + good[i] + x.end).join('');
+                    break;
+                }
+                continue;
+            }
             const version = Checker.clean(out.text, p.text);
             const verdict = Checker.judge(p.text, version, { limit, keep: 0.25, add: 0.75, extra: notes.join('\n') });
-            const issue = String(out.issue || '');
             hint = verdict.ok ? issue : mend(verdict.why);
             // A version with a doubt about its meaning is never used.
             if (verdict.ok && issue === '') {

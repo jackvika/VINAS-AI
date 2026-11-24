@@ -114,7 +114,7 @@ function run() {
     for (const t of [md, social + '\n\n' + laptop, '', '\n', 'a\n\n\nb', '# T\n\n' + tower + '\n- x\n\n\tcode', '```\n' + social + '\n```\n' + social]) {
         check('pieces keep the text', t, t, Checker.pieces(t).map((p) => p.text + p.end).join(''));
     }
-    check('pieces skip', '', [], Checker.pieces('```\n' + social + '\n```\n# ' + social + '\n- ' + social + '\n| ' + social + ' |\n> ' + social + '\nSee `x`. ' + social).filter((p) => p.write));
+    check('pieces skip', '', [], Checker.pieces('```\n' + social + '\n```\n# ' + social + '\n| ' + social + ' |\n> ' + social + '\nSee `x`. ' + social).filter((p) => p.write));
     check('pieces split', '', true, Checker.pieces(Array(12).fill(social).join(' ')).every((p) => p.text.split(' ').length < 70 && p.write));
     check('must keep', '', ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'], Checker.mustKeep('The Dell XPS costs $1,199, has 16 ports, and 40% of seven buyers like it.').sort((a, b) => ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(a) - ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(b)));
     const notes = 'I sold 40 of them in Pune\nI do not like the colour';
@@ -123,6 +123,18 @@ function run() {
     check('notes needed', '', 'invented 40', Checker.judge(shop, 'When a larger competitor opens nearby, 40 small shops often find it hard to attract customers.', { keep: 0.25, add: 0.75 }).why);
     check('notes do not allow others', '', 'invented 41', Checker.judge(shop, 'When a larger competitor opens in the same neighbourhood, small shops often find it hard to attract customers. I sold 41 of them.', { keep: 0.25, add: 0.75, extra: notes }).why);
     check('told', '', [true, false], [Checker.tells('Last June I sold 40 of them in Pune.', 'I sold 40 of them in Pune'), Checker.tells('I sold some of them in Pune.', 'I sold 40 of them in Pune')]);
+    const listText = 'Intro paragraph that has quite enough words to be written again by the writer.\n\nPrimary Functions:\n\nStrategic planning: Defining the mission and setting long-term goals for everyone.\n\n**Policy formulation:** Creating the broad frameworks that guide the rest.\n- Plain bullet that has more than enough words in it.\n\nConclusion\nA closing paragraph that has quite enough words to be written again by the writer.\n';
+    const listPieces = Checker.pieces(listText);
+    const list = listPieces.find((p) => p.items);
+    check('list keeps the text', '', listText, listPieces.map((p) => p.text + p.end).join(''));
+    check('list items', '', [['Strategic planning', 'Defining the mission and setting long-term goals for everyone.'], ['Policy formulation', 'Creating the broad frameworks that guide the rest.'], ['', 'Plain bullet that has more than enough words in it.']], list.items.map((x) => [x.label, x.body]));
+    list.items[1].body = 'New wording.';
+    Checker.settle(list);
+    check('list settles', '', listText.replace('Creating the broad frameworks that guide the rest.', 'New wording.'), listPieces.map((p) => p.text + p.end).join(''));
+    for (const t of ['- one item with more than six words in it', 'A: one item with more than six words in it\n', 'A: one item with more than six words in it\n\n\n', '\n\n- one item with more than six words in it\n\n# H', Array(40).fill('- one item with more than six words in it').join('\n\n')]) check('list round trip', t, t, Checker.pieces(t).map((p) => p.text + p.end).join(''));
+    check('mail lines stay', '', 0, Checker.pieces('Subject: one item with more than six words in it\nTo: one item with more than six words in it').filter((p) => p.items).length);
+    check('read items', '', [['a b', 'c'], null, null, null], [Checker.readItems('[1] a b\n[2] c', 2), Checker.readItems('[1] a', 2), Checker.readItems('[1] a\n[1] b', 2), Checker.readItems('[1] a\n[3] b', 2)]);
+    check('sameness', '', ['involves', ''], [Checker.sameness(['Planning involves x', 'Policy involves y', 'Work involves z', 'Other a b c']), Checker.sameness(['One two three', 'Four five six', 'Seven eight', 'Nine ten'])]);
     const slow = performance.now();
     Checker.judge('word '.repeat(600) + '.', 'other '.repeat(600) + '.');
     Checker.pieces('a. '.repeat(16000));

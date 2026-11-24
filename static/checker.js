@@ -93,7 +93,7 @@ const Checker = (() => {
         const a = words(source);
         const b = words(draft);
         const size = b.length / Math.max(1, a.length);
-        if (size < 0.55) return no('too short');
+        if (size < (options.least ?? 0.55)) return no('too short');
         const extra = options.extra || '';
         if (b.length > 1.35 * a.length + words(extra).length) return no('too long');
         if (/[.!?]["”')]?$/.test(source) && !/[.!?]["”')]?$/.test(draft)) return no('cut off');
@@ -181,16 +181,70 @@ const Checker = (() => {
         return { ok: true, score, why: '' };
     }
 
+    /** Puts the text of a list together again. */
+    function settle(piece) {
+        piece.text = piece.items.map((x) => x.prefix + x.body + x.end).join('');
+    }
+
+    /** Takes "[1] ..." lines apart. Returns null unless every item is there once. */
+    function readItems(reply, n) {
+        const found = new Map();
+        for (const m of reply.matchAll(/^\s*\[(\d+)\]\s*(.+?)\s*$/gm)) {
+            if (found.has(Number(m[1]))) return null;
+            found.set(Number(m[1]), m[2]);
+        }
+        return found.size === n && [...found.keys()].every((k) => k >= 1 && k <= n) ? Array.from({ length: n }, (_, i) => found.get(i + 1)) : null;
+    }
+
+    /** The first three words most versions share, when a list keeps saying the same thing. */
+    function sameness(bodies) {
+        if (bodies.length < 4) return '';
+        const seen = count(bodies.flatMap((b) => [...new Set(words(b).slice(0, 5).map((w) => w.toLowerCase()).filter((w) => !STOP.has(w) && w.length > 4))]));
+        const worst = [...seen].sort((x, y) => y[1] - x[1])[0];
+        return worst && worst[1] > Math.max(2, bodies.length / 3) ? worst[0] : '';
+    }
+
     /** Splits text into pieces for the writer. Headings, lists, tables, code and short lines stay as they are. */
     function pieces(text, most = 32) {
         const out = [];
         let fence = false;
         let front = false;
+        // Neighbouring points, with or without blank lines between them, are written together so that they do not all sound alike.
+        const asItem = (line) => {
+            const m = /^(\s*(?:[-*•+] |\d+[.)] )?)((?:\*\*)?\p{Lu}[^.:!?*\n]{1,45}:(?:\*\*)? +)?(\S.*)$/u.exec(line);
+            if (!m || (!m[1].trim() && !m[2]) || /[`<>{}|]|\]\(|https?:/.test(line) || words(m[3]).length < 6 || /^(?:subject|to|from|cc|date|re|ps|note)\b/i.test(m[2] || '')) return null;
+            return { prefix: m[1] + (m[2] || ''), label: (m[2] || '').replace(/[*:]/g, '').trim(), body: m[3] };
+        };
+        let run = null;
         text.split('\n').forEach((line, i) => {
             const bare = line.trim();
             if (bare === '---' && (i === 0 || front)) front = !front;
             const inCode = fence || front;
             if (bare.startsWith('```')) fence = !fence;
+            if (!inCode && !fence) {
+                const item = asItem(line);
+                if (item && (!run || run.size < 150)) {
+                    if (!run) {
+                        run = { items: [], write: true, end: '', size: 0 };
+                        out.push(run);
+                    }
+                    item.end = '\n';
+                    run.items.push(item);
+                    run.size += words(item.body).length;
+                    return;
+                }
+                if (run && bare === '') {
+                    run.items.at(-1).end += `${line}\n`;
+                    return;
+                }
+                run = item ? { items: [{ ...item, end: '\n' }], write: true, end: '', size: words(item.body).length } : null;
+                if (run) {
+                    out.push(run);
+                    return;
+                }
+            } else {
+                run = null;
+            }
             const fixed = inCode || fence || /^(?:```|---|#|>|\||[-*•+] |\d+[.)] |\$ |<|\t| {4})/.test(line) || /[`<>{}]|\]\(/.test(line)
                 || words(bare).length < 9 || !/[.!?]["”')]?$/.test(bare) || (bare.match(/[A-Za-z]/g) || []).length < bare.length * 0.6;
             if (fixed) {
@@ -209,7 +263,10 @@ const Checker = (() => {
             }
             flush('\n');
         });
-        if (out.length) out[out.length - 1].end = '';
+        const last = out.at(-1);
+        if (last && last.items) last.items.at(-1).end = last.items.at(-1).end.slice(0, -1);
+        else if (last) last.end = '';
+        for (const p of out) if (p.items) settle(p);
         return out;
     }
 
@@ -228,5 +285,5 @@ const Checker = (() => {
         return kept >= 0.6 && numbers(note).every((n) => numbers(text).includes(n));
     }
 
-    return { clean, judge, mustKeep, pieces, similarity, tells };
+    return { clean, judge, mustKeep, pieces, readItems, sameness, settle, similarity, tells };
 })();

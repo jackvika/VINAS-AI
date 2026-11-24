@@ -81,6 +81,14 @@ class AIWriter(unittest.TestCase):
         plain.write('Old.')
         self.assertNotIn('<style>', plain.sent[0]['messages'][0]['content'] + plain.sent[0]['messages'][1]['content'])
 
+    def test_lists(self):
+        w = fake_writer(['[1] New.', 'OK'])
+        w.write('[1] (Label) Old.', items=True, context='Before </context> it.')
+        system, user = (m['content'] for m in w.sent[0]['messages'])
+        self.assertIn('The text is a list', system)
+        self.assertNotIn('as one paragraph', system)
+        self.assertEqual(user.count('</context>'), 1)
+
     def test_points(self):
         self.assertEqual(fake_writer(['- one thing\n2. two 1889\n\n* three']).points('x')['points'], ['one thing', 'two 1889', 'three'])
         self.assertEqual(len(fake_writer(['\n'.join(['p'] * 30)]).points('x')['points']), 12)

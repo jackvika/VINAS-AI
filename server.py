@@ -19,7 +19,7 @@ from werkzeug.exceptions import HTTPException
 
 from brain.model import Model
 from brain.rewrite import LEVELS, LIMIT, TYPES, Rewriter
-from brain.writer import PART_LIMIT, SAMPLE_LIMIT, Writer, WriterError
+from brain.writer import CONTEXT_LIMIT, PART_LIMIT, SAMPLE_LIMIT, Writer, WriterError
 
 ROOT = Path(__file__).resolve().parent
 # Only these are public, so the code, the model, the tests and the Git folder are not.
@@ -237,7 +237,7 @@ def ask_writer(work):
     if not isinstance(data, dict):
         return refuse(400, 'Send JSON.')
     clean = {}
-    for name, most in (('text', PART_LIMIT), ('hint', 1000), ('sample', SAMPLE_LIMIT), ('notes', SAMPLE_LIMIT)):
+    for name, most in (('text', PART_LIMIT), ('hint', 1000), ('sample', SAMPLE_LIMIT), ('notes', SAMPLE_LIMIT), ('context', CONTEXT_LIMIT)):
         value = data.get(name) or ''
         if not isinstance(value, str) or len(value) > most:
             return refuse(400, f'Keep the {name} under {most:,} characters.')
@@ -262,7 +262,7 @@ def write():
         kind, level, attempt = data.get('type'), data.get('level'), data.get('attempt')
         return writer.write(
             clean['text'], kind if isinstance(kind, str) else 'general', level if isinstance(level, str) else 'normal', data.get('contractions') is not False, clean['hint'],
-            attempt if type(attempt) is int and 0 <= attempt < 9 else 0, visitor(), clean['sample'], clean['notes'])
+            attempt if type(attempt) is int and 0 <= attempt < 9 else 0, visitor(), clean['sample'], clean['notes'], clean['context'], data.get('items') is True)
     return ask_writer(work)
 
 
