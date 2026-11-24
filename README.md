@@ -8,6 +8,7 @@ Ask a question, and get an answer put together from Wikipedia, with a source for
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
 - Ranks every sentence with a small neural network and BM25, with bonuses for section, place and kind of answer
 - Puts the best sentences in reading order, with headings, sources, and a warning when little was found
+- Checks that a sentence really answers: a height for "how tall", a doer for "who", a date of that event for "when". If none does, it says "Not sure", also in the copy and the PDF
 - Works out sums such as `15% of 2400`, without running any code
 - Copy, text and PDF, always with the sources
 

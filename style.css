@@ -41,7 +41,7 @@ nav .brand { font: 700 1.3rem var(--serif); letter-spacing: .06em; margin-right:
 nav .brand:hover { border-bottom-color: transparent; }
 header { margin-bottom: 26px; }
 header p { margin: 10px 0 0; max-width: 62ch; color: var(--muted); }
-.hero { padding: clamp(26px, 6vw, 56px) 0 96px; margin: 0; }
+.hero { padding: clamp(26px, 6vw, 56px) 0 96px; margin: 0; clip-path: inset(-2px -100vmax 0); }
 .hero p { color: #b6cbc9; font-size: 1.06rem; }
 
 /* The question. */
@@ -51,7 +51,7 @@ header p { margin: 10px 0 0; max-width: 62ch; color: var(--muted); }
 .askbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); }
 .picks { display: flex; flex-wrap: wrap; gap: 12px; }
 .picks label { font-size: .8rem; color: var(--muted); }
-.picks select { display: block; width: auto; margin-top: 2px; padding: 7px 10px; }
+.picks select { display: block; width: auto; margin-top: 2px; padding: 7px 10px; font-size: 1rem; }
 .askbar .main { width: auto; margin: 0; padding: 12px 26px; border-radius: 12px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
 .sum { margin: 18px 0 0; padding: 18px 22px; font: 600 1.5rem var(--serif); background: var(--paper); border: 1px solid var(--line); border-left: 5px solid var(--bright); border-radius: 12px; overflow-wrap: anywhere; }
@@ -165,7 +165,7 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
 }
 @media (max-width: 768px) {
     nav { gap: 0 16px; padding: 12px 0 8px; margin-bottom: 24px; }
-    nav .brand { width: 100%; }
+    nav .brand { display: flex; align-items: center; width: 100%; min-height: 44px; }
     nav a:not(.brand) { display: flex; align-items: center; min-height: 44px; font-size: .95rem; }
     #text { height: clamp(180px, 38vh, 360px); }
     .toc { columns: 1; }
@@ -176,6 +176,7 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
     .step { padding: 14px 14px 16px; }
 }
 @media (max-width: 560px) {
+    .askbox textarea { font-size: 1.1rem; }
     .askbar .main, .picks, .picks label { width: 100%; }
     .picks label { flex: 1; }
     .picks select { width: 100%; }
@@ -185,6 +186,11 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
     .toolbar .muted { margin: 0 auto; }
     .own { flex-direction: column; align-items: stretch; }
     .own input, .own textarea { flex: none; width: 100%; }
+}
+@media (max-width: 340px) {
+    .askbox { padding: 12px 12px 12px; }
+    .askbox textarea { padding: 4px 2px; font-size: 1rem; }
+    .picks { gap: 8px; }
 }
 @media (min-width: 1100px) {
     main.app:has(#result) { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 0 36px; max-width: 1320px; }

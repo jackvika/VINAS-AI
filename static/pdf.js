@@ -186,7 +186,15 @@ const Pdf = (() => {
             const m = /^(#{1,6}) (.+)$/.exec(line);
             if (line.startsWith('```')) code = !code;
             else if (code) paragraph(line, 9.5, 400, 'Consolas, Menlo, monospace');
-            else if (m) paragraph(m[2], Math.max(12, 20 - 2.5 * m[1].length), 700, sans);
+            else if (m) {
+                const size = Math.max(12, 20 - 2.5 * m[1].length);
+                // Keep a heading with the line after it.
+                if (y + size * 3.5 > HEIGHT - BOTTOM) {
+                    finish();
+                    start();
+                }
+                paragraph(m[2], size, 700, sans);
+            }
             else if (line.trim() === '') y += 8;
             else paragraph(line, 11, 400, sans);
         }

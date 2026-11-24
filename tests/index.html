@@ -128,6 +128,47 @@ function run() {
     check('kin', '', true, Ask.choose(Ask.rank(Ask.understand('How tall is Mount Everest?'), [peak]), 60).chosen.some((x) => /8,848/.test(x.text)));
     const paint = page('Sky blue', 'Sky blue refers to shades like the colour of the sky in the day.\nCoventry City have had sky blue as their colour since the 1960s.');
     check('no reason, not sure', '', false, Ask.sure(Ask.understand('Why is the sky blue?'), Ask.choose(Ask.rank(Ask.understand('Why is the sky blue?'), [paint]), 150)));
+    // Sure only when a sentence answers; otherwise the page says so.
+    const ask = (q, ...pages) => { const u = Ask.understand(q); const got = Ask.choose(Ask.rank(u, pages), u.words); return [got.chosen.map((s) => s.text).join(' '), Ask.sure(u, got)]; };
+    const art = (title, ...lines) => page(title, lines.join('\n'));
+    const everest = art('Mount Everest', 'Mount Everest is the highest mountain on Earth above sea level.', 'Its height was most recently measured in 2020 by both countries as 8,848.86 m (29,031 ft).', 'To approximate a climb of the entire height of Mount Everest, one would start from the coast in 1990.', '', '== Plants ==', 'A plant called Arenaria grows below 5,500 metres (18,000 ft) in the region of the mountain.');
+    const low = art('Mount Everest', 'Mount Everest is the highest mountain on Earth above sea level.', '', '== Plants ==', 'A plant called Arenaria grows below 5,500 metres (18,000 ft) in the region of the mountain.');
+    const taj = art('Taj Mahal', 'The Taj Mahal is a white mausoleum on the bank of the river in Agra.', 'It was commissioned in 1631 by the emperor Shah Jahan for his wife.');
+    const hotel = { ...art('Taj Mahal Palace Hotel', 'Built in the Indo-Saracenic style, it opened in 1903 as the Taj Mahal Hotel in Bombay.'), order: 1 };
+    const gravity = art('Gravity', 'Gravity is the attraction between all things that have mass.', 'The Greek philosopher Archimedes discovered the center of gravity of a triangle.');
+    const moon = art('Moon', 'The Moon is the only natural satellite of the planet Earth.', 'The splitting of the Moon is a miracle attributed to the prophet Mohammad.');
+    const radium = art('Radium', 'Radium is a chemical element with the symbol Ra and number 88.', 'Radium was discovered by Marie and Pierre Curie in a sample of ore.');
+    const phone = art('Telephone', 'A telephone is a device that lets people talk over a long distance.', 'It can be argued that Bell invented the telephone industry in that country.');
+    const light = art('Speed of light', 'The speed of light is the speed of electromagnetic waves in space.');
+    const lightly = art('Speed of light', 'The speed of light in vacuum is exactly 299,792,458 metres per second.');
+    const yen = art('Japanese mon', 'The mon was the currency of Japan from the Muromachi period in 1336 until 1870.');
+    const yens = art('Japanese yen', 'The yen is the official currency of Japan and is used by many banks.');
+    const capital = art('Capital punishment in Australia', 'Capital punishment in Australia was a form of punishment in the past.');
+    const sea = art('Sea', 'A sea is a very large body of salty water on a planet.', 'Meanwhile, the Red Sea is very salty due to its high evaporation rate.');
+    const bones = art('Human skeleton', 'The human skeleton is the internal frame of the human body.', 'It is made of 206 bones in a grown human body, and more in a child.');
+    const town = art('Guernica', 'Guernica is a town in the province of Biscay in the north of Spain.', 'In 1937, Guernica was bombed by the Condor Legion of Nazi Germany from the air.');
+    const mural = art('Guernica (Picasso)', 'Guernica is a large 1937 oil painting by the Spanish artist Pablo Picasso.');
+    const ferris = art('Ferris wheel', 'Two triple wheels were built for clients in Asia: Tree Triple Wheel in Japan and one more.');
+    const solar = art('Outline of the Solar System', 'Of those objects, the largest eight are the planets of the Solar System.');
+    const house = art('Farnsworth House', 'The house is raised 5 feet (1.6 m) above the ground on white columns.');
+    const hundred = art('Hindi', 'दिल्ली भारत की राजधानी है और यहाँ संसद भवन भी स्थित है।');
+    for (const [q, pages, wanted, sure] of [
+        ['How tall is Mount Everest?', [everest], /8,848/, true], ['How tall is Mount Everest?', [low], /./, false], ['When was the Taj Mahal built?', [taj, hotel], /1631/, true],
+        ['Who discovered gravity?', [gravity], /./, false], ['Who invented the moon?', [moon], /./, false], ['Who discovered radium?', [radium], /Curie/, true], ['Who invented the telephone?', [phone], /./, false],
+        ['What is the speed of light?', [light], /./, false], ['What is the speed of light?', [lightly], /299/, true], ['What is the currency of Japan?', [yen], /./, false], ['What is the currency of Japan?', [yens], /yen/, true],
+        ['What is the capital of Australia?', [capital], /./, false], ['Why is the sea salty?', [sea], /./, false], ['How many bones are in the human body?', [bones], /206/, true], ['What is the largest planet in the Solar System?', [solar], /./, false],
+        ['Who painted Guernica?', [town], /./, false], ['Who painted Guernica?', [mural], /Picasso/, true], ['How many wheels does a tree have?', [ferris], /./, false],
+        ['How tall is my house?', [house], /./, false], ['भारत की राजधानी क्या है?', [hundred], /दिल्ली/, true],
+    ]) {
+        const [text, isit] = ask(q, ...pages);
+        check('answers', q, [true, sure], [wanted.test(text) || !sure, isit]);
+    }
+    check('no hotel', '', false, /1903/.test(ask('When was the Taj Mahal built?', taj, hotel)[0]));
+    check('empty brackets', '', 'Mitosis is a part of the cell cycle of many living things.', Ask.read(art('Mitosis', 'Mitosis () is a part of the cell cycle of many living things.'))[0].text);
+    check('asked length', '', [true, false], [Ask.understand('Explain x in 200 words').told, Ask.understand('Explain x').told]);
+    const roles = art('Management', 'Management is the work of running an organization and all its people.', 'Organizations generally have three levels of managers:', 'Senior management roles include the board and a chief executive of the whole firm.', 'Middle management roles include branch managers and regional managers of a large firm.', 'Line management roles include supervisors and team leaders who oversee the daily work.', 'Management is taught as a subject at many universities around the world.', 'In 2013, a survey of 160 directors found that 10% of firms never rated the chief.');
+    const levels = ask('Explain the levels of management in 60 to 120 words', roles)[0];
+    check('every level, nothing else', '', [true, true, true, false, false], [/Senior/, /Middle/, /Line/, /universities/, /survey/].map((x) => x.test(levels)));
     check('titles extra words', '', 'Photosynthesis', Ask.pickTitles([found('Artificial photosynthesis', 'Photosynthesis')], Ask.understand('What is photosynthesis?'))[0].title);
     const fast = performance.now();
     Ask.rank(Ask.understand('What is photosynthesis?'), [page('Photosynthesis', (leaf.text + '\n').repeat(350))]);
