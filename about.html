@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>How it works | VINAS AI</title>
+    <title>How it works | VINAS</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
     <meta name="referrer" content="no-referrer">
-    <meta name="theme-color" content="#cc4400">
+    <meta name="theme-color" content="#10323a">
     <link rel="icon" href="static/icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
     <nav>
-        <a class="brand" href="index.html">VINAS AI</a>
+        <a class="brand" href="index.html">VINAS</a>
         <a href="index.html">Ask</a>
         <a href="humanize.html">Plain words</a>
         <a href="check.html">Compare</a>
@@ -29,7 +29,7 @@
         <ul>
             <li><strong>Reading the question:</strong> fixed patterns tell a definition, a list, a reason, a date, a number or a comparison apart, and pick out the topic.</li>
             <li><strong>Finding:</strong> your browser searches Wikipedia and reads up to three articles.</li>
-            <li><strong>Ranking:</strong> every sentence gets a BM25 score against the question, with bonuses for its section, its place and the kind of answer wanted.</li>
+            <li><strong>Ranking:</strong> a small neural network, trained on 87,599 questions people asked about Wikipedia, judges every sentence together with a BM25 word score. Its section, its place and the kind of answer wanted count too. On articles it had never seen, its first choice was right 75% of the time, against 72% for word scores alone.</li>
             <li><strong>Writing it up:</strong> the best sentences that say different things go back into reading order, with headings and a source for each. Sums are worked out by a small calculator.</li>
             <li><strong>What it cannot do:</strong> it does not reason, argue or write new sentences, and it knows only what Wikipedia says. It tells you when it found little.</li>
         </ul>

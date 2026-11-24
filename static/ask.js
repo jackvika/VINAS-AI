@@ -11,6 +11,8 @@ const Ask = (() => {
     const NATURAL = { fact: 50, when: 60, number: 60, who: 80, define: 130, why: 170, compare: 260, list: 260, explain: 220 };
     // Parts of an article that seldom explain its subject. They count only when the question names them.
     const ASIDE = /\b(?:education|training|etymology|popular culture|derivative|adaptations?|legacy|awards|honou?rs|naming|namesakes|media|film|music|organi[sz]ations|journals|criticism)\b/i;
+    const KIN = { tall: 'height high elevation metres meters feet', high: 'height elevation altitude metres meters feet', deep: 'depth metres meters feet', far: 'distance km miles kilometres', long: 'length km miles years', big: 'area size large', large: 'area size',
+        old: 'age born founded built', fast: 'speed km/h mph', heavy: 'weight mass kg', independent: 'independence', died: 'death', born: 'birth', wrote: 'author written writer', invented: 'inventor invention patent', discovered: 'discovery discoverer' };
     const SKIP = /^(?:see also|references|notes|further reading|external links|bibliography|citations|sources|footnotes|gallery|works cited|इन्हें भी देखें|सन्दर्भ|संदर्भ|बाहरी कड़ियाँ)$/i;
 
     function stem(word) {
@@ -146,7 +148,7 @@ const Ask = (() => {
             }
             if (skip || !line || /\\displaystyle|\{\\/.test(line)) continue;
             const whole = sentencesOf(line);
-            for (const text of whole) out.push({ text, section, place: out.length, page, item: false, block, area });
+            for (const text of whole) if (!/^(?:this is an? (?:\w+ )?list|the following is|below is)\b/i.test(text)) out.push({ text, section, place: out.length, page, item: false, block, area });
             if (/:$/.test(line) && words(line).length < 40) {
                 intro = line;
             } else if (!whole.length && words(line).length >= 1 && words(line).length <= 40 && (intro || section)) {
@@ -160,6 +162,7 @@ const Ask = (() => {
     function rank(asked, pages) {
         const all = pages.flatMap(read);
         const wanted = [...new Set(terms(asked.q))];
+        const kin = new Set(words(asked.q).flatMap((w) => (KIN[w.toLowerCase()] || '').split(' ')).filter(Boolean).map(stem));
         const seen = new Map();
         for (const s of all) {
             s.terms = terms(s.text);
@@ -168,11 +171,24 @@ const Ask = (() => {
         const mean = all.reduce((n, s) => n + s.terms.length, 0) / Math.max(1, all.length);
         const weight = (w) => Math.log(1 + (all.length - (seen.get(w) || 0) + 0.5) / ((seen.get(w) || 0) + 0.5));
         const titles = new Map(pages.map((p) => [p, new Set(terms(p.title))]));
+        // The network judges the sentences of each article among themselves. It learned from English.
+        const taught = typeof Mind === 'object' && Mind.ready() && !/\p{Script=Devanagari}/u.test(asked.q);
+        if (taught) {
+            for (const p of pages) {
+                const mine = all.filter((x) => x.page === p && !x.item);
+                const z = mine.length ? Mind.score(asked.q, p.title, mine.map((x, i) => ({ text: x.text, block: x.block, first: !i || mine[i - 1].block !== x.block }))) : [];
+                mine.forEach((x, i) => { x.mind = z[i]; });
+            }
+        }
+        const best = Math.max(...all.map((x) => x.mind ?? -Infinity));
         for (const s of all) {
             const have = new Map();
             for (const w of s.terms) have.set(w, (have.get(w) || 0) + 1);
             const head = new Set(terms(s.section));
+            // A word for the thing ("elevation") says more than a unit ("metres").
+            const related = [...kin].filter((w) => have.has(w)).reduce((v, w) => v + (/^(?:met(?:er|re)|feet|km|mil|kilomet|year|kg|km\/h|mph)/.test(w) ? 0.4 : 1.4), 0);
             let score = 0;
+            s.related = related;
             s.hits = 0;
             s.lead = !s.section;
             s.inHead = wanted.some((w) => head.has(w) && !titles.get(s.page).has(w));
@@ -183,10 +199,14 @@ const Ask = (() => {
                 if (head.has(w)) score += 0.9 * weight(w);
                 if (titles.get(s.page).has(w)) score += 0.3;
             }
+            // Its judgement, from 0 to 10, counts for more than the plain word count.
+            if (s.mind !== undefined) score = ['list', 'define', 'compare', 'explain'].includes(asked.kind) ? score + 3 * Math.exp((s.mind - best) / 2.5) : 0.45 * score + 10 * Math.exp((s.mind - best) / 2.5);
             if (s.place === 0) score += asked.kind === 'define' || asked.kind === 'compare' ? 7 : ['who', 'when', 'number', 'fact'].includes(asked.kind) ? 1 : 3;
             else if (!s.section) score += 1.5 / (1 + s.place / 3);
             if (asked.kind === 'when' && /\b(?:1\d{3}|20\d{2})\b/.test(s.text)) score += 2;
             if (asked.kind === 'number' && /\d/.test(s.text)) score += 2;
+            // In the article on a thing, "its elevation" is about that thing.
+            if (related >= 1) score += (2 * Math.min(2.5, related) + (asked.kind === 'number' && /\d/.test(s.text) ? 3 : 0) + (!s.section ? 4 : 0)) * (titles.get(s.page).size && [...titles.get(s.page)].every((w) => wanted.includes(w)) ? 1 : 0.4);
             if (asked.kind === 'why' && /\b(?:because|due to|since|caused?|causes|reasons?|results?|therefore|leads? to|led to)\b/i.test(s.text)) score += 2;
             if (asked.kind === 'who' && /\b(?:invent(?:ed|or|s)|discover(?:ed|er)|patent(?:ed)?|credited|founded|founder|wrote|written by|built by|designed by|first)\b/i.test(s.text) && /(?<=[\p{Ll},] )\p{Lu}\p{Ll}+/u.test(s.text)) score += 2.5;
             if (wanted.length > 1 && s.hits === wanted.length) score += asked.kind === 'fact' ? 5 : 1.5;
@@ -229,7 +249,7 @@ const Ask = (() => {
             const said = new Set(list.flatMap((x) => [...x.terms, ...terms(x.section), ...terms(x.page.title)]));
             const hits = ranked.wanted.filter((w) => said.has(w)).length;
             const lead = !list[0].section;
-            return { list, top, lead, good: (hits >= need || lead) && !list[0].aside, score: top.score + 0.25 * rest.reduce((n, x) => n + x, 0) + (lead ? 1 : 0) + (list[0].inHead ? 2 : 0) };
+            return { list, top, lead, good: (hits >= need || lead || list.some((x) => x.related >= 1)) && !list[0].aside, score: top.score + 0.25 * rest.reduce((n, x) => n + x, 0) + (lead ? 1 : 0) + (list[0].inHead ? 2 : 0) };
         }).filter((x) => x.good && x.top.score > 0).sort((x, y) => y.score - x.score);
         if (!passages.length) return { chosen: [], cover: 0, wanted: ranked.wanted.length, words: 0 };
 
@@ -264,7 +284,7 @@ const Ask = (() => {
             // A short answer is only the sentences that answer.
             for (const s of passages.slice(0, 6).flatMap((p) => p.list).filter((x) => !x.item || x.inHead).sort((x, y) => y.score - x.score)) {
                 if (total >= target * 0.75) break;
-                if (s.hits >= need || s.place === 0) add(s);
+                if ((s.hits >= need || s.related >= 1) && s.score > 2) add(s);
             }
         } else {
             if (opening && (opening === direct || target >= 120)) take(opening, 0.35);
@@ -294,9 +314,11 @@ const Ask = (() => {
     function sure(asked, got) {
         const any = (re, all = false) => got.chosen.some((s) => re.test(s.text) && (!all || s.hits >= Math.min(2, got.wanted)));
         if (got.cover < 0.6) return false;
-        if (asked.kind === 'why') return any(/\b(?:because|due to|since|caused?|causes|reasons?|results? (?:from|in|of)|therefore|leads? to|led to|owing to)\b|क्योंकि|कारण/i, true);
+        // The sentence that answers should be among the best, not somewhere further down.
+        got = { ...got, chosen: [...got.chosen].sort((x, y) => y.score - x.score).slice(0, 4) };
+        if (asked.kind === 'why') return any(/\b(?:because|due to|caused? by|causes|the reasons?|results? from|as a result|owing to|consequence of|explained by|which is why)\b|क्योंकि|कारण/i, true);
         if (asked.kind === 'when') return any(/\b(?:1\d{3}|20\d{2})\b|[०-९]{4}/, true);
-        if (asked.kind === 'number') return any(/\d|[०-९]/, true);
+        if (asked.kind === 'number') return got.chosen.some((x) => /\d|[०-९]/.test(x.text) && (x.related >= 1 || x.hits >= Math.max(1, got.wanted - 1)));
         if (asked.kind === 'who') return any(/\b(?:invent|discover|patent|credit|found|wr[io]t|buil[td]|paint|design)\p{L}*\b/iu, true);
         if (asked.kind === 'fact') return got.chosen.some((s) => s.hits >= got.wanted);
         return true;
@@ -331,13 +353,14 @@ const Ask = (() => {
         const table = new Map();
         searches.forEach((list, k) => list.forEach((x, i) => {
             // A short name such as TCP is better known to the search than to the titles.
-            const points = asked.kind === 'compare' ? 1 / (i + 1) + 0.3 * fit(x.title, wanted) : fit(x.title, wanted) + 0.5 / (i + 1) - 0.1 * k - (/^(?:list|index|outline|glossary|timeline) of\b/i.test(x.title) && asked.kind !== 'number' ? 0.4 : 0);
+            // For a reason, Wikipedia's own search on the whole question knows best: the answer is seldom under the question's words.
+            const points = asked.kind === 'compare' || asked.kind === 'why' ? 1 / (i + 1) - 0.4 * k + 0.3 * fit(x.title, wanted) : fit(x.title, wanted) + 0.5 / (i + 1) - 0.1 * k - (/^(?:list|index|outline|glossary|timeline) of\b/i.test(x.title) && asked.kind !== 'number' ? 0.4 : 0);
             const old = table.get(x.pageid);
             // Found by two searches is a little better than by one.
             table.set(x.pageid, { pageid: x.pageid, title: x.title, points: old ? Math.max(old.points, points + 0.12) : points });
         }));
         const sorted = [...table.values()].sort((x, y) => y.points - x.points);
-        return asked.kind === 'compare' ? sorted : sorted.filter((x) => x.points > sorted[0].points - 0.45);
+        return asked.kind === 'compare' ? sorted : sorted.filter((x) => x.points > sorted[0].points - (asked.kind === 'why' ? 0.8 : 0.45));
     }
 
     /** Reads articles whole, as plain text. Pages that only list other pages are left out. */
@@ -352,8 +375,24 @@ const Ask = (() => {
         return pages.filter(Boolean).slice(0, most).map((p, order) => ({ ...p, order }));
     }
 
+    /** The openings of some articles in one request, to see which of them are about the question. */
+    async function openings(lang, titles) {
+        if (lang === 'hi' || typeof Mind !== 'object' || !Mind.ready() || titles.length < 2) return new Map();
+        const d = await get(lang, { action: 'query', prop: 'extracts', explaintext: '1', exintro: '1', exlimit: 'max', pageids: titles.map((x) => x.pageid).join('|') });
+        return new Map((d && d.query && Array.isArray(d.query.pages) ? d.query.pages : []).filter((x) => x && typeof x.extract === 'string').map((x) => [x.pageid, x.extract.slice(0, 3000)]));
+    }
+
     async function answer(question, lang, size) {
+        if (typeof Mind === 'object') await Mind.load('static/mind.bin');
         const asked = understand(question);
+        if (typeof Mind === 'object' && Mind.ready() && !/\p{Script=Devanagari}/u.test(asked.q)) {
+            const chances = Mind.typesOf(asked.q);
+            const top = Math.max(...chances);
+            if (!['list', 'define', 'compare'].includes(asked.kind)) asked.wants = { type: Mind.TYPES[chances.indexOf(top)], chance: top };
+            // Where the patterns see nothing special, the network may.
+            const learned = asked.wants && { date: 'when', number: 'number', reason: 'why', person: 'who' }[asked.wants.type];
+            if (learned && top > 0.8 && asked.kind === 'explain') Object.assign(asked, { kind: learned, words: /\d+ words/i.test(question) ? asked.words : Math.max(asked.words === NATURAL.explain ? NATURAL[learned] : asked.words, 60) });
+        }
         if (!size) size = asked.words;
         if (asked.kind === 'compare') {
             const parts = [];
@@ -372,7 +411,16 @@ const Ask = (() => {
         const searches = [];
         for (const q of queries) searches.push(await search(lang, q, 5));
         if (!searches.some((x) => x.length)) return { asked, parts: [] };
-        const merged = await articles(lang, pickTitles(searches, asked), 3);
+        let titles = pickTitles(searches, asked);
+        const seen = await openings(lang, titles.slice(0, 8));
+        if (seen.size) {
+            titles = titles.slice(0, 8).map((x) => {
+                const lines = sentencesOf(seen.get(x.pageid) || '').slice(0, 12);
+                const fit = lines.length ? Math.max(...lines.map((t) => Mind.near(asked.q, t))) : 0;
+                return { ...x, points: x.points + 0.5 * fit };
+            }).sort((x, y) => y.points - x.points);
+        }
+        const merged = await articles(lang, titles, 3);
         const ranked = rank(asked, merged);
         if (!ranked.all.length) return { asked, parts: [] };
         const got = choose(ranked, size);
@@ -393,6 +441,15 @@ const Ask = (() => {
         return node;
     };
 
+    /** A source number that jumps to the source. */
+    const cite = (n) => {
+        const sup = el('sup');
+        const link = el('a', `[${n}]`);
+        link.href = `#source-${n}`;
+        sup.append(link);
+        return sup;
+    };
+
     /** Builds the answer from text nodes only, so nothing from outside can become a tag. */
     function show(question, result) {
         const sources = [];
@@ -400,6 +457,9 @@ const Ask = (() => {
         const body = by('answer-body');
         body.replaceChildren();
         by('answer-title').textContent = question;
+        const wants = { person: 'a person', place: 'a place', date: 'a date or time', number: 'a number', reason: 'a reason', other: 'a fact or explanation' };
+        const kinds = { compare: 'a comparison', list: 'a list of points', define: 'a definition', why: 'a reason', when: 'a date or time', number: 'a number', who: 'a person', fact: 'one fact', explain: 'an explanation' };
+        by('understood').textContent = `Understood as ${kinds[result.asked.kind]}${result.asked.wants && result.asked.wants.type !== 'other' && wants[result.asked.wants.type] !== kinds[result.asked.kind] ? `, about ${wants[result.asked.wants.type]}` : ''}. Topic: ${result.asked.topics[0]}`;
         for (const part of result.parts) {
             if (part.head) {
                 body.append(el('h3', part.head));
@@ -427,7 +487,7 @@ const Ask = (() => {
                 }
                 block = s.block;
                 const spot = s.item ? el('li') : home;
-                spot.append(`${s.text} `, el('sup', `[${n}]`), ' ');
+                spot.append(`${s.text} `, cite(n), ' ');
                 if (s.item) {
                     home.append(spot);
                     lines.push(`- ${s.text} [${n}]`);
@@ -436,8 +496,9 @@ const Ask = (() => {
             }
             lines.push('');
         }
-        by('sources').replaceChildren(...sources.map((s) => {
+        by('sources').replaceChildren(...sources.map((s, i) => {
             const item = el('li');
+            item.id = `source-${i + 1}`;
             const link = el('a', `${s.title}, Wikipedia`);
             link.href = s.url;
             link.target = '_blank';
@@ -454,6 +515,22 @@ const Ask = (() => {
         by('answer').hidden = false;
         by('answer').scrollIntoView();
     }
+
+    document.addEventListener('click', (event) => {
+        const chip = event.target.closest('[data-ask]');
+        if (!chip) return;
+        by('question').value = chip.dataset.ask;
+        if (chip.dataset.lang) by('lang').value = chip.dataset.lang;
+        box.requestSubmit();
+    });
+    by('question').addEventListener('keydown', (event) => {
+        // Enter asks; Shift and Enter starts a new line.
+        if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+            event.preventDefault();
+            box.requestSubmit();
+        }
+    });
+    if (typeof Mind === 'object' && /^https?:$/.test(location.protocol)) Mind.load('static/mind.bin');
 
     box.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -473,7 +550,8 @@ const Ask = (() => {
             return;
         }
         button.disabled = true;
-        button.textContent = 'Searching Wikipedia...';
+        button.textContent = 'Reading Wikipedia...';
+        by('busy').hidden = false;
         try {
             const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0);
             if (result.parts.length) show(question, result);
@@ -483,6 +561,7 @@ const Ask = (() => {
         } finally {
             button.disabled = false;
             button.textContent = 'Find the answer';
+            by('busy').hidden = true;
         }
     });
 })();

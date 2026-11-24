@@ -7,67 +7,76 @@
     <meta name="description" content="Ask a question and get an answer put together from Wikipedia, with its sources.">
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://en.wikipedia.org https://simple.wikipedia.org https://hi.wikipedia.org; base-uri 'none'; form-action 'none'">
     <meta name="referrer" content="no-referrer">
-    <meta name="theme-color" content="#cc4400">
+    <meta name="theme-color" content="#10323a">
     <link rel="icon" href="static/icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
     <nav>
-        <a class="brand" href="index.html">VINAS AI</a>
+        <a class="brand" href="index.html">VINAS</a>
         <a href="index.html" aria-current="page">Ask</a>
         <a href="humanize.html">Plain words</a>
         <a href="check.html">Compare</a>
         <a href="guide.html">The 26 patterns</a>
         <a href="about.html">How it works</a>
     </nav>
-    <header>
-        <h1>Ask a question</h1>
-        <p>It reads your question, finds the answer in Wikipedia and shows where every sentence comes from. No AI writes here, and there is nothing to sign up for.</p>
+    <header class="hero">
+        <h1>Ask anything. See where it comes from.</h1>
+        <p>A small neural network reads your question, finds the answer in Wikipedia, and gives every sentence its source.</p>
     </header>
     <form id="ask" autocomplete="off">
-        <section class="step">
-            <label for="question">Your question</label>
-            <textarea id="question" rows="3" maxlength="300" placeholder="Explain the levels of management in 300 words&#10;Difference between mitosis and meiosis&#10;15% of 2400"></textarea>
-            <div class="grid">
-                <div>
-                    <label for="size">Length</label>
-                    <select id="size">
-                        <option value="auto" selected>Let the question decide</option>
-                        <option value="short">Short, about 60 words</option>
-                        <option value="medium">Medium, about 150 words</option>
-                        <option value="long">Long, about 300 words</option>
-                        <option value="essay">Very long, about 500 words</option>
-                    </select>
+        <div class="askbox">
+            <label for="question" class="sr">Your question</label>
+            <textarea id="question" rows="2" maxlength="300" placeholder="Explain the levels of management in 300 words"></textarea>
+            <div class="askbar">
+                <div class="picks">
+                    <label>Length
+                        <select id="size">
+                            <option value="auto" selected>Auto</option>
+                            <option value="short">60 words</option>
+                            <option value="medium">150 words</option>
+                            <option value="long">300 words</option>
+                            <option value="essay">500 words</option>
+                        </select>
+                    </label>
+                    <label>Look in
+                        <select id="lang">
+                            <option value="en">English</option>
+                            <option value="simple">Simple English</option>
+                            <option value="hi">हिन्दी</option>
+                        </select>
+                    </label>
                 </div>
-                <div>
-                    <label for="lang">Look in</label>
-                    <select id="lang">
-                        <option value="en">Wikipedia in English</option>
-                        <option value="simple">Wikipedia in simple English</option>
-                        <option value="hi">Wikipedia in Hindi</option>
-                    </select>
-                </div>
+                <button type="submit" class="main">Find the answer</button>
             </div>
-            <button type="submit" class="main">Find the answer</button>
-            <p class="error" id="ask-note" role="status"></p>
-            <p class="output" id="sum" role="status" hidden></p>
-        </section>
-    </form>
-    <section id="answer" class="step" hidden>
-        <div class="bar">
-            <h2 id="answer-title"></h2>
-            <span class="actions">
-                <button type="button" class="pdf" data-pdf="answer-text" data-name="answer">Download PDF</button>
-                <button type="button" class="ghost" data-copy="answer-text">Copy with sources</button>
-                <button type="button" class="ghost" data-download="answer-text" data-name="answer.txt">Download text</button>
-            </span>
         </div>
-        <p class="muted" id="answer-size"></p>
-        <div id="answer-body"></div>
-        <h3>Sources</h3>
-        <ol id="sources"></ol>
-        <p class="muted">These are sentences from Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
+        <div class="busy" id="busy" hidden></div>
+        <p class="error" id="ask-note" role="status"></p>
+        <p class="sum" id="sum" role="status" hidden></p>
+        <div class="chips">
+            <button type="button" class="chip" data-ask="What is photosynthesis?" data-lang="en">What is photosynthesis?</button>
+            <button type="button" class="chip" data-ask="Difference between mitosis and meiosis" data-lang="en">Mitosis and meiosis</button>
+            <button type="button" class="chip" data-ask="What are the causes of inflation in 200 words?" data-lang="en">Causes of inflation</button>
+            <button type="button" class="chip" data-ask="महात्मा गांधी कौन थे?" data-lang="hi">महात्मा गांधी कौन थे?</button>
+            <button type="button" class="chip" data-ask="15% of 2400" data-lang="en">15% of 2400</button>
+        </div>
+    </form>
+    <section id="answer" class="sheet" hidden>
+        <div class="toolbar">
+            <button type="button" class="pdf" data-pdf="answer-text" data-name="answer">Download PDF</button>
+            <button type="button" class="ghost" data-copy="answer-text">Copy with sources</button>
+            <button type="button" class="ghost" data-download="answer-text" data-name="answer.txt">Text file</button>
+            <span class="muted" id="answer-size"></span>
+        </div>
+        <article class="paper">
+            <p class="kicker" id="understood"></p>
+            <h2 id="answer-title"></h2>
+            <div id="answer-body"></div>
+            <h3>Sources</h3>
+            <ol id="sources"></ol>
+            <p class="muted">These are sentences from Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
+        </article>
         <textarea id="answer-text" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
     </section>
     <footer>
@@ -82,6 +91,7 @@
 <script src="static/pdf.js"></script>
 <script src="app.js"></script>
 <script src="static/site.js"></script>
+<script src="static/mind.js"></script>
 <script src="static/ask.js"></script>
 </body>
 </html>

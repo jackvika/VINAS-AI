@@ -135,7 +135,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/mind.js', '/static/mind.bin', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -208,6 +208,18 @@ class Server(unittest.TestCase):
                 self.assertEqual(r.status_code, 401)
         with mock.patch.object(server, 'PASSWORD', 'x'), mock.patch.object(server, 'login_limiter', server.Limiter(3)):
             self.assertEqual([self.web.post('/api/login', json={'password': 'no'}).status_code for _ in range(4)], [401, 401, 401, 429])
+
+    def test_mind_file(self):
+        import json
+        import struct
+        raw = (server.ROOT / 'static' / 'mind.bin').read_bytes()
+        size = struct.unpack('<I', raw[:4])[0]
+        head = json.loads(raw[4:4 + size])
+        self.assertEqual(len(raw), 4 + size + sum(a[3] for a in head['arrays']))
+        self.assertEqual((4 + size) % 4, 0)
+        # It has to be better than plain word counting on the articles it never saw.
+        for network, plain in zip(head['info']['network'], head['info']['bm25']):
+            self.assertGreater(network, plain)
 
     def test_no_ai_service_is_left(self):
         for path in ('/api/write', '/api/points', '/api/polish'):

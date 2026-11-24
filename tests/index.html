@@ -12,6 +12,7 @@
 <script src="../static/brain.js"></script>
 <script src="../static/engine.js"></script>
 <script src="../static/pdf.js"></script>
+<script src="../static/mind.js"></script>
 <script src="../static/ask.js"></script>
 <script src="cases.js"></script>
 <script>
@@ -122,6 +123,11 @@ function run() {
     check('sure', '', [true, true, false, false], [isSure('What is photosynthesis?'), isSure('When was light shown to be needed for photosynthesis?'), isSure('Why is photosynthesis slow?'), isSure('Who won the cricket photosynthesis cup?')]);
     const found = (...titles) => titles.map((title, i) => ({ title, pageid: title.length * 100 + i }));
     check('titles', '', 'Management', Ask.pickTitles([found('Flat organization', 'Management', 'Middle management'), found('Management', 'Project management')], Ask.understand('What are the levels of management?'))[0].title);
+    check('titles why', '', 'Diffuse sky radiation', Ask.pickTitles([found('Diffuse sky radiation', 'Sky blue'), found('Sky blue', 'Blue Sky')], Ask.understand('Why is the sky blue?'))[0].title);
+    const peak = page('Mount Everest', 'Mount Everest is a mountain between two countries in Asia.\nIts elevation of 8,848 metres was measured again in 2020 by both countries.\n\n== Climate ==\nThe closest sea to Mount Everest is 700 km away from the top.');
+    check('kin', '', true, Ask.choose(Ask.rank(Ask.understand('How tall is Mount Everest?'), [peak]), 60).chosen.some((x) => /8,848/.test(x.text)));
+    const paint = page('Sky blue', 'Sky blue refers to shades like the colour of the sky in the day.\nCoventry City have had sky blue as their colour since the 1960s.');
+    check('no reason, not sure', '', false, Ask.sure(Ask.understand('Why is the sky blue?'), Ask.choose(Ask.rank(Ask.understand('Why is the sky blue?'), [paint]), 150)));
     check('titles extra words', '', 'Photosynthesis', Ask.pickTitles([found('Artificial photosynthesis', 'Photosynthesis')], Ask.understand('What is photosynthesis?'))[0].title);
     const fast = performance.now();
     Ask.rank(Ask.understand('What is photosynthesis?'), [page('Photosynthesis', (leaf.text + '\n').repeat(350))]);

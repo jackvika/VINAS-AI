@@ -1,12 +1,12 @@
 # VINAS
 
-Ask a question, and get an answer put together from Wikipedia, with a source for every sentence. No AI model is used, there is no key, and nothing is saved.
+Ask a question, and get an answer put together from Wikipedia, with a source for every sentence. There is no AI service and no key, and nothing is saved.
 
 ## What it does
 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
-- Ranks every sentence with BM25, with bonuses for section, place and kind of answer
+- Ranks every sentence with a small neural network and BM25, with bonuses for section, place and kind of answer
 - Puts the best sentences in reading order, with headings, sources, and a warning when little was found
 - Works out sums such as `15% of 2400`, without running any code
 - Copy, text and PDF, always with the sources
@@ -18,6 +18,23 @@ It quotes; it does not reason or write new sentences, and it knows only what Wik
 - `humanize.html`: plainer words for stiff English, by fixed rules and a word brain
 - `check.html`: compares two versions of a text
 - `guide.html`: 26 signs of AI writing
+
+## The neural network
+
+`brain/train_mind.py` trains it with numpy on the 87,599 questions of [SQuAD 1.1](https://rajpurkar.github.io/SQuAD-explorer/) (CC BY-SA 4.0), which people asked about Wikipedia. `static/mind.js` runs it in the browser; the weights in `static/mind.bin` are 2 MB.
+
+- **Types:** says whether a question wants a person, a place, a date, a number, a reason or something else
+- **Encoder:** 48-number vectors that put a question near the sentences that answer such questions
+- **Ranker:** one hidden layer of 32 that weighs 20 facts about a sentence
+
+The encoder and the ranker learn from different articles, because a ranker taught on the encoder's own articles trusts it too much. On 8,175 questions about 48 articles none of the parts had seen, choosing among all sentences of the article:
+
+| | First choice right | In the first 3 | In the first 5 |
+|---|---|---|---|
+| BM25 alone | 71.7% | 85.3% | 89.3% |
+| Network | **75.4%** | **88.4%** | **91.3%** |
+
+The type labels come from patterns over questions and answers, so their 95% is agreement with those patterns. The network learned from English; Hindi questions use patterns and BM25.
 
 ## Run it
 
