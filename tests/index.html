@@ -89,7 +89,7 @@ function run() {
         ['Walking is an accessible form of exercise that requires minimal equipment, so it suits people of all ages.', "It's an easy way to exercise since you don't need much equipment, so it works for people of all ages."],
         ['Many hospitals now use AI-powered diagnostic tools that find serious diseases at an early stage.', 'Many hospitals now rely on diagnostic tools powered by AI, which find serious diseases early.'],
     ];
-    for (const [a, b] of good) check('good draft', a, '', Checker.judge(a, b).why);
+    for (const [a, b] of good) check('good draft', a, '', Checker.judge(a, b, { keep: 0.25, add: 0.75 }).why);
     const bad = [
         [laptop, 'When picking a laptop, think about the processor and how it keeps your device running well, since it decides the performance. The Dell XPS 13 is a great choice with an excellent balance of performance and portability.', 'lost 13'.replace('13', '1199')],
         [laptop, laptop.replace('When choosing a laptop, there are', 'If you want a laptop, think about').replace('$1,199', '$1,299'), 'lost 1199'],
@@ -98,6 +98,7 @@ function run() {
         [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. It sits in Lyon and Paris, and around seven million visitors come each year.', 'invented Lyon'],
         [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around eight million visitors each year.', 'lost seven'],
         [tower, tower, 'barely changed'],
+        ['Walking needs little equipment, so this kind of exercise is suitable for people of all ages.', 'You need little equipment to walk, so this kind of exercise suits people of almost any age.', 'changed how much'],
         ['The medicine is safe for children who are older than ten years of age.', 'The medicine is not safe for children who are more than ten years old.', 'changed a yes to a no'],
         ['The structure was initially met with criticism when it opened in the city.', 'They started off with a lot of criticism when they opened in the city.', 'lost its subject'],
         ['However, it has subsequently become one of the most iconic landmarks in the world.', 'But now it is probably the most famous landmark in the world.', 'claims too much'],

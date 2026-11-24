@@ -87,7 +87,7 @@ function mend(why) {
     return {
         'lost too much meaning': 'It left out points of the original', 'added too much': 'It added things that are not in the original', 'too long': 'It was too long', 'too short': 'It left out points of the original',
         'barely changed': 'It copied the sentences of the original', 'changed a yes to a no': 'It changed a yes to a no, or a no to a yes', 'claims too much': 'It dropped "one of the"', 'changed a quotation': 'It changed a quotation',
-        'lost its subject': 'It did not name who or what the first sentence is about', 'lost a link': 'It left out a link or address', 'repeats a phrase': 'It said the same thing twice', 'repeats a word': 'It repeated a word',
+        'lost its subject': 'It did not name who or what the first sentence is about', 'lost a link': 'It left out a link or address', 'changed how much': 'It changed how much or how many, such as all to almost all', 'repeats a phrase': 'It said the same thing twice', 'repeats a word': 'It repeated a word',
     }[why] || '';
 }
 
@@ -130,8 +130,14 @@ async function rewriteAll(text, options, tell, stopped) {
             hint = verdict.ok ? issue : mend(verdict.why);
             // A version with a doubt about its meaning is never used.
             if (verdict.ok && issue === '') {
-                best = version;
-                break;
+                best = best || version;
+                // The author asked for their own facts, so a version without any is only the second choice.
+                const told = !notes.length || notes.some((n) => Checker.tells(version, n));
+                if (told) {
+                    best = version;
+                    break;
+                }
+                hint = "It left out the author's own facts, which have to be told";
             }
         }
         if (best) {

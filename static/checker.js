@@ -164,6 +164,12 @@ const Checker = (() => {
         // "The structure was" must not become "They were": the reader would look for someone else.
         const opener = /^(they|he|she|it)\b/i.exec(draft);
         if (opener && !new RegExp(`\\b${opener[1]}\\b`, 'i').test(source)) return no('lost its subject');
+        // "all ages" is not "almost any age"
+        for (const w of ['almost', 'nearly', 'mostly', 'always', 'never', 'every', 'everyone', 'only']) {
+            const said = new RegExp(`\\b${w}\\b`, 'i');
+            const same = { every: /\b(?:every|each|all|any|dail|annual|year|whole|entire|\w+ly)/i, everyone: /\b(?:everyone|everybody|all|every|any)/i, always: /\b(?:always|all|every|constant)/i, only: /\b(?:only|just|sole|solely|merely|simply|limited|exclusively)\b/i, never: NEGATION }[w];
+            if (said.test(draft) && !said.test(both) && !(same && new RegExp(same.source, 'i').test(both))) return no('changed how much');
+        }
         const self = /\b(?:I|my|me|we|our|us)\b/;
         if (self.test(draft) && !self.test(both) && options.strict) return no('speaks as someone');
 
