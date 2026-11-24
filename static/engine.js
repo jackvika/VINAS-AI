@@ -78,7 +78,7 @@ class Humanizer {
             if (!after.includes(url)) lost.push(url);
         }
         const lower = after.toLowerCase();
-        for (const hit of before.match(rx("(?<=[\\p{L}\\d,;)]\\s)\\p{Lu}[\\p{L}\\d]*(?:['’-]\\p{L}+)*", 'g')) || []) {
+        for (const hit of before.match(rx("(?<=[\\p{L}\\d,;)] )\\p{Lu}[\\p{L}\\d]*(?:['’-]\\p{L}+)*", 'g')) || []) {
             const name = hit.replace(/['’]s$/u, '');
             if (!/^I(?:['’]|$)/u.test(name) && !lower.includes(name.toLowerCase())) lost.push(name);
         }

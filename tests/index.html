@@ -71,6 +71,7 @@ function run() {
     check('file', '', md.replace('a crucial step', 'an important step'), file.text);
     check('sections', '', 2, file.sections);
     check('missing', '', ['12', 'https://a.example/x', 'Lisbon'], h.missing('We saw 12 cats in Lisbon at https://a.example/x today.', 'We saw cats today.'));
+    check('missing after a heading', '', [], h.missing('Top Management\nThis is the top.', 'Top Management\nIt is the top.'));
     const r = h.run('Ünïcode — “quoted” 🚀 text. Experts believe it helps, ensuring a robust result.');
     for (const f of r.flags) check('offset', r.text, f.text, r.text.slice(f.start, f.end));
 
