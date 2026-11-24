@@ -56,20 +56,94 @@ function pdfButton(text, source, name) {
 
 // The brain runs on the site's server. Pages opened without one, such as on GitHub Pages, use the rules alone.
 const api = (path, options, ms) => fetch(path, { ...options, credentials: 'omit', signal: AbortSignal.timeout(ms) }).then((r) => {
-    if (!r.ok) throw Object.assign(new Error(`The server answered ${r.status}.`), { busy: r.status === 429 || r.status === 503 });
+    if (!r.ok) {
+        const said = r.json().then((x) => String(x.error || '').slice(0, 200), () => '');
+        return said.then((text) => { throw Object.assign(new Error(`The server answered ${r.status}.`), { status: r.status, said: text, busy: r.status === 429 || r.status === 503 }); });
+    }
     return r.json();
 });
 let awake = null;
+let hasWriter = false;
 
 /** Asks once whether there is a brain. No text is sent, and the request wakes a sleeping server. */
 function wake() {
     if (!awake) {
         awake = /^https?:$/.test(location.protocol)
-            ? api('api/health', {}, 90000).then((x) => x.ok === true).catch(() => false)
+            ? api('api/health', {}, 90000).then((x) => {
+                hasWriter = x.writer === true;
+                return x.ok === true;
+            }).catch(() => false)
             : Promise.resolve(false);
         awake.then((ok) => { if (!ok) awake = null; });
     }
     return awake;
+}
+
+/** Tells the writer how to mend its last version. */
+function mend(why) {
+    if (why.startsWith('lost ') && !/too much|a link|its subject/.test(why)) return `It left out "${why.slice(5)}"`;
+    if (why.startsWith('invented ')) return `It added "${why.slice(9)}", which is not in the original`;
+    return {
+        'lost too much meaning': 'It left out points of the original', 'added too much': 'It added things that are not in the original', 'too long': 'It was too long', 'too short': 'It left out points of the original',
+        'barely changed': 'It copied the sentences of the original', 'changed a yes to a no': 'It changed a yes to a no, or a no to a yes', 'claims too much': 'It dropped "one of the"', 'changed a quotation': 'It changed a quotation',
+        'lost its subject': 'It did not name who or what the first sentence is about', 'lost a link': 'It left out a link or address', 'repeats a phrase': 'It said the same thing twice', 'repeats a word': 'It repeated a word',
+    }[why] || '';
+}
+
+const pause = (ms) => new Promise((done) => { setTimeout(done, ms); });
+
+/** Has the AI writer write every part again, and keeps the first version that passes both checks. */
+async function rewriteAll(text, options, tell, stopped) {
+    const pieces = Checker.pieces(text, 170);
+    const jobs = pieces.filter((p) => p.write);
+    const limit = { light: 0.92, normal: 0.8, strong: 0.7 }[options.level] ?? 0.8;
+    let written = 0;
+    let trouble = '';
+    for (const [done, p] of jobs.entries()) {
+        if (stopped()) break;
+        const before = pieces.slice(0, pieces.indexOf(p)).map((x) => x.text + x.end).join('');
+        tell(done, jobs.length, before);
+        let best = null;
+        let hint = '';
+        for (let attempt = 0; attempt < 3 && !stopped(); attempt++) {
+            let out;
+            try {
+                const body = JSON.stringify({ text: p.text, type: options.type, level: options.level, contractions: !options.fullForms, hint, attempt });
+                out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
+            } catch (error) {
+                trouble = error.said || 'The AI writer could not be reached.';
+                if (error.status === 503 && attempt < 2) {
+                    await pause(3000);
+                    continue;
+                }
+                break;
+            }
+            trouble = '';
+            if (!out || typeof out.text !== 'string') break;
+            const version = Checker.clean(out.text, p.text);
+            const verdict = Checker.judge(p.text, version, { limit, keep: 0.25, add: 0.75 });
+            const issue = String(out.issue || '');
+            hint = verdict.ok ? issue : mend(verdict.why);
+            // A version with a doubt about its meaning is never used.
+            if (verdict.ok && issue === '') {
+                best = version;
+                break;
+            }
+        }
+        if (best) {
+            // The text appears as if typed.
+            const step = Math.max(2, Math.round(best.length / 120));
+            for (let i = step; i < best.length && !stopped(); i += step) {
+                tell(done, jobs.length, before + best.slice(0, i));
+                await pause(16);
+            }
+            p.text = best;
+            p.done = true;
+            written++;
+        }
+        if (trouble) break;
+    }
+    return { text: pieces.map((p) => p.text + p.end).join(''), written, total: jobs.length, stopped: stopped(), trouble };
 }
 
 /** Lets the brain finish what the rules started. Returns why it could not, or an empty string. */
@@ -111,9 +185,9 @@ function renderRewrite(r, text, fileName) {
     let note = '';
     if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
     else if (r.text === '') note = 'Every sentence matched a filler pattern, so nothing is left. Add a concrete fact and try again.';
-    else if (!edits && !left) note = 'No tells this site can detect were found. Your text is unchanged.';
+    else if (!edits && !left && !r.wrote) note = 'No tells this site can detect were found. Your text is unchanged.';
 
-    if (r.brain) note = `${note ? `${note} ` : ''}${r.brain}`;
+    for (const extra of [r.writer, r.brain]) if (extra) note = `${note ? `${note} ` : ''}${extra}`;
 
     let voice = '';
     if (r.voice) {
@@ -133,10 +207,13 @@ function renderRewrite(r, text, fileName) {
             </span>
         </div>
         <p class="stats" id="stats"></p>
-        ${note ? `<p class="note">${note}</p>` : ''}
+        ${note ? `<p class="note">${esc(note)}</p>` : ''}
         <p class="error" role="alert" id="lost" hidden></p>
         <div class="output" id="shown"></div>
         <textarea id="output" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
+        <details class="compare"${r.wrote ? ' open' : ''}><summary>Compare with your original</summary>
+            <div class="sides"><div><h3>Original</h3><div class="output">${esc(text)}</div></div><div><h3>New</h3><div class="output" id="side"></div></div></div>
+        </details>
         ${voice}
         <div id="finish"></div>
         ${r.first !== null ? `<details><summary>First rewrite, and the ${r.survived.length} tells that survived it</summary><div class="output">${highlight(r.first, r.survived)}</div></details>` : ''}
@@ -217,6 +294,7 @@ function finishEditor(node, r, original, fileName) {
         const was = engine.metrics(original);
         const now = engine.metrics(current);
         byId('output').value = current;
+        byId('side').textContent = current;
         byId('shown').innerHTML = highlight(current, state.flags.filter((f) => !kept.has('flag' + f.text)));
         byId('pdf-slot').innerHTML = pdfButton(current, 'output', fileName || 'humanized-text');
         byId('stats').innerHTML = `<span><b>${r.edits.length}</b> fixed for you</span><span><b>${done}</b> by you</span><span><b>${jobs.length}</b> left</span>`
@@ -334,21 +412,24 @@ if (byId('strength')) {
 
     const showStatus = async () => {
         const status = byId('status');
-        const wanted = byId('strength').value === 'human' && form.elements.brain.checked;
+        const human = byId('strength').value === 'human';
+        const wanted = human && (form.elements.brain.checked || form.elements.writer.checked);
         byId('level').disabled = !wanted;
         status.className = 'status';
         if (!wanted) {
-            status.textContent = 'Brain off: text stays in your browser';
+            status.textContent = 'Text stays in your browser';
             return;
         }
-        status.textContent = 'Waking the brain';
+        status.textContent = 'Waking the server';
         const ok = await wake();
         if (byId('level').disabled) return;
+        const full = ok && hasWriter && form.elements.writer.checked;
         status.classList.add(ok ? 'on' : 'off');
-        status.textContent = ok ? 'Brain ready' : 'Brain offline: rules only';
+        status.textContent = full ? 'AI writer ready' : ok ? (form.elements.writer.checked ? 'Word brain ready, AI writer not set up' : 'Word brain ready') : 'Server offline: rules only';
     };
     byId('strength').addEventListener('change', showStatus);
     form.elements.brain.addEventListener('change', showStatus);
+    form.elements.writer.addEventListener('change', showStatus);
     showStatus();
 
     byId('paste').addEventListener('click', async () => {
@@ -395,13 +476,52 @@ if (byId('strength')) {
             showError(error);
             if (error) return;
             const strength = byId('strength').value;
-            const options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked, fullForms: byId('contractions').value === 'no', level: byId('level').value };
-            const result = engine.run(text, options);
-            if (options.human && form.elements.brain.checked) {
-                button.disabled = true;
+            let options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked, fullForms: byId('contractions').value === 'no', level: byId('level').value };
+            let source = text;
+            let wrote = null;
+            let writerNote = '';
+            const useWriter = options.human && form.elements.writer.checked;
+            button.disabled = true;
+            if (useWriter && options.type === 'reference') {
+                writerNote = 'Technical and legal text skips the AI writer, because every word can matter.';
+            } else if (useWriter) {
+                button.textContent = 'Writing...';
+                byId('progress').textContent = 'Waking the server. This can take a minute.';
+                if (!await wake()) {
+                    writerNote = 'The AI writer could not be reached.';
+                } else if (!hasWriter) {
+                    writerNote = 'The AI writer is not set up on this server yet, so only words and phrases were changed.';
+                } else {
+                    let halt = false;
+                    byId('stop').hidden = false;
+                    byId('live').hidden = false;
+                    byId('stop').onclick = () => { halt = true; };
+                    try {
+                        wrote = await rewriteAll(text, options, (done, total, ready) => {
+                            byId('progress').textContent = `The AI writer is on part ${done + 1} of ${total}.`;
+                            byId('live').textContent = ready;
+                        }, () => halt);
+                    } finally {
+                        byId('stop').hidden = true;
+                        byId('live').hidden = true;
+                        byId('live').textContent = '';
+                    }
+                    source = wrote.text;
+                    const rest = wrote.total - wrote.written;
+                    writerNote = wrote.total === 0 ? 'The text has no full paragraphs for the AI writer.'
+                        : `The AI writer rewrote ${wrote.written} of ${wrote.total} parts.${rest ? ` ${rest} ${rest === 1 ? 'was' : 'were'} left to the word brain${wrote.trouble ? `: ${wrote.trouble}` : wrote.stopped ? ', because you stopped it.' : ', because no version passed the checks.'}` : ''}`;
+                }
+            }
+            // Text the AI wrote needs only safe fixes; the rest gets the full treatment.
+            const all = Boolean(wrote && wrote.total && wrote.written === wrote.total);
+            if (all) options = { ...options, human: false, strong: false };
+            const result = engine.run(source, options);
+            result.writer = writerNote;
+            result.wrote = Boolean(wrote && wrote.written);
+            if (strength === 'human' && !all && form.elements.brain.checked) {
                 button.textContent = 'Thinking...';
-                byId('progress').textContent = 'The brain is reading your text.';
-                slow = setTimeout(() => { byId('progress').textContent = 'The brain was asleep. Waking it can take a minute.'; }, 4000);
+                byId('progress').textContent = 'The word brain is polishing the text.';
+                slow = setTimeout(() => { byId('progress').textContent = 'The word brain was asleep. Waking it can take a minute.'; }, 4000);
                 result.brain = await think(result, options);
             }
             renderRewrite(result, text, fileName);

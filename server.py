@@ -3,6 +3,7 @@
     pip install -r requirements.txt
     python server.py
 """
+import mimetypes
 import os
 import threading
 import time
@@ -15,6 +16,7 @@ from werkzeug.exceptions import HTTPException
 
 from brain.model import Model
 from brain.rewrite import LEVELS, LIMIT, TYPES, Rewriter
+from brain.writer import PART_LIMIT, Writer, WriterError
 
 ROOT = Path(__file__).resolve().parent
 # Only these are public, so the code, the model, the tests and the Git folder are not.
@@ -29,10 +31,13 @@ HEADERS = {
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
     'Referrer-Policy': 'no-referrer',
-    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=(), bluetooth=(), display-capture=()',
     'Cross-Origin-Opener-Policy': 'same-origin',
+    'Cross-Origin-Embedder-Policy': 'require-corp',
     'Cross-Origin-Resource-Policy': 'same-origin',
 }
+
+mimetypes.add_type('text/javascript', '.js')
 
 rewriter = Rewriter(Model(ROOT / 'brain' / 'human.bin'))
 app = Flask(__name__, static_folder=None)
@@ -61,8 +66,11 @@ class Limiter:
             return True
 
 
+writer = Writer()
 limiter = Limiter(PER_MINUTE)
+write_limiter = Limiter(2 * PER_MINUTE)
 thinking = threading.BoundedSemaphore(2)    # more at once would only make everyone wait
+writing = threading.BoundedSemaphore(4)     # leaves threads free for the pages
 
 
 def visitor():
@@ -82,7 +90,10 @@ def refuse(status, message):
 def headers(response):
     for name, value in HEADERS.items():
         response.headers[name] = value
-    response.headers['Cache-Control'] = 'no-store' if request.path.startswith('/api/') else 'no-cache'
+    if request.path.startswith('/api/'):
+        response.headers['Cache-Control'] = 'no-store'
+    else:
+        response.headers['Cache-Control'] = 'no-cache'
     return response
 
 
@@ -110,7 +121,7 @@ def page(name='index.html'):
 
 @app.get('/api/health')
 def health():
-    return jsonify(ok=True)
+    return jsonify(ok=True, writer=writer.ready)
 
 
 @app.post('/api/brain')
@@ -143,8 +154,42 @@ def brain():
         thinking.release()
 
 
+@app.post('/api/write')
+def write():
+    """One new version of one part of a text, from the AI writer."""
+    if request.headers.get('Sec-Fetch-Site', 'same-origin') not in ('same-origin', 'none'):
+        return refuse(403, 'Use this from its own site.')
+    if not writer.ready:
+        return refuse(503, 'The AI writer is not set up on this server.')
+    if not write_limiter.allow(visitor()):
+        return refuse(429, 'Too many requests. Wait a minute and try again.')
+    try:
+        data = request.get_json(silent=True)
+    except RecursionError:
+        data = None
+    if not isinstance(data, dict):
+        return refuse(400, 'Send JSON.')
+    text, hint = data.get('text'), data.get('hint') or ''
+    if not isinstance(text, str) or not text.strip() or len(text) > PART_LIMIT:
+        return refuse(400, f'Send between 1 and {PART_LIMIT:,} characters of text.')
+    if not isinstance(hint, str):
+        return refuse(400, 'The hint must be text.')
+    kind, level, attempt = data.get('type'), data.get('level'), data.get('attempt')
+    if not writing.acquire(timeout=30):
+        return refuse(503, 'The AI writer is busy. Try again in a moment.')
+    try:
+        return jsonify(writer.write(
+            text.encode('utf-8', 'replace').decode(), kind if isinstance(kind, str) else 'general', level if isinstance(level, str) else 'normal',
+            data.get('contractions') is not False, hint.encode('utf-8', 'replace').decode(), attempt if type(attempt) is int and 0 <= attempt < 9 else 0, visitor()))
+    except WriterError as error:
+        app.logger.warning('writer: %s', error)
+        return refuse(error.status, str(error))
+    finally:
+        writing.release()
+
+
 if __name__ == '__main__':
     serve(
-        app, host='0.0.0.0' if ON_RENDER else '127.0.0.1', port=int(os.environ.get('PORT', 8000)), threads=8, ident=None,
-        max_request_body_size=MAX_BODY, max_request_header_size=16_384, channel_timeout=60, connection_limit=200,
+        app, host='0.0.0.0' if ON_RENDER else '127.0.0.1', port=int(os.environ.get('PORT', 8000)), threads=12, ident=None,
+        max_request_body_size=MAX_BODY, max_request_header_size=16_384, channel_timeout=240, connection_limit=200,
     )

@@ -97,6 +97,15 @@ form .step h2 { font-size: 1.12rem; }
 #progress:empty { display: none; }
 button:disabled, select:disabled { opacity: .6; cursor: default; }
 
+#live { margin-top: 10px; }
+#live::after { content: ''; display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: text-bottom; background: var(--accent); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #live::after { animation: none; } }
+.compare { margin: 12px 0; }
+.sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px; }
+.sides h3 { margin: 8px 0 6px; }
+[hidden] { display: none !important; }
+
 /* Phones, small tablets and touch screens: finger-sized controls. */
 @media (max-width: 768px), (pointer: coarse) {
     button, select, .file, .own input, summary { min-height: 44px; }
