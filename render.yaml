@@ -15,3 +15,6 @@ services:
         sync: false
       - key: CLOUDFLARE_API_TOKEN
         sync: false
+      # Optional. With a value, the site asks for this password.
+      - key: SITE_PASSWORD
+        sync: false

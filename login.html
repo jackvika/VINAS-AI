@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in | VINAS AI</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#cc4400">
+    <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+    <nav><span class="brand">VINAS AI</span></nav>
+    <header><h1>Log in</h1><p>This site is private.</p></header>
+    <form id="login">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required class="field">
+        <p class="error" id="wrong" role="alert"></p>
+        <button type="submit" class="main">Log in</button>
+    </form>
+</main>
+<noscript><p class="error">This page needs JavaScript.</p></noscript>
+<script src="/static/login.js"></script>
+</body>
+</html>

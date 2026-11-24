@@ -16,6 +16,7 @@
     <nav>
         <a class="brand" href="index.html">VINAS AI</a>
         <a href="index.html" aria-current="page">Humanizer</a>
+        <a href="write.html">Write it yourself</a>
         <a href="check.html">Compare</a>
         <a href="guide.html">The 26 patterns</a>
         <a href="about.html">How it works</a>
@@ -85,10 +86,13 @@
             <label class="check"><input type="checkbox" name="brain" value="1" checked> Polish the result with the word brain (sends the text to this site's server)</label>
             <label class="check"><input type="checkbox" name="dashes" value="1"> Keep my dashes</label>
             <details class="options">
-                <summary>Match my own writing (optional)</summary>
-                <label for="sample">2 or 3 paragraphs you wrote yourself</label>
-                <textarea id="sample" name="sample" rows="4" maxlength="50000"></textarea>
-                <p class="muted">Follows your dashes, quotation marks and contractions, and keeps words you use yourself. Needs at least 20 words.</p>
+                <summary>Make it sound like me (recommended)</summary>
+                <label for="sample">My style: 2 or 3 paragraphs you wrote yourself</label>
+                <textarea id="sample" name="sample" rows="5" maxlength="50000" placeholder="An email, a post, anything you wrote without AI. The writer follows how you write, not what it says."></textarea>
+                <p class="muted">The first 2,000 characters guide the AI writer. At least 20 words.</p>
+                <label for="notes">My own facts: one on each line</label>
+                <textarea id="notes" name="notes" rows="4" maxlength="2000" placeholder="I tried this for three weeks in June&#10;My shop in Pune sells about 40 a month&#10;I think the second option is better"></textarea>
+                <p class="muted">Real examples, numbers and opinions. The writer works each one in where it belongs. Write only what is true.</p>
             </details>
         </section>
 

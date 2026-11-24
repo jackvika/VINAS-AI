@@ -64,6 +64,16 @@ The Workers Free plan gives 10,000 neurons a day and then refuses, so it costs n
 
 Without the two settings, the site works with the word brain alone.
 
+Under **Make it sound like me**, visitors can paste their own writing, which the writer follows for style only, and their own facts, which it works in where they belong.
+
+## Write it yourself
+
+`write.html` turns a text into short points. The visitor writes each point in their own words, and the site corrects only their mistakes, or puts Hindi or Hinglish into English. A correction that changes more than 30% of the words is not used.
+
+## Private
+
+Set `SITE_PASSWORD` on the server to put the whole site behind a password. A login lasts 30 days in a cookie that scripts cannot read. Changing the password ends every login. Making the GitHub repository private does not make the site private.
+
 ## The brain
 
 It is a language model in the older sense: it remembers how often people put words together, up to four at a time. It learned from 2,073,129 sentences (25 million words and marks), most of them speech and everyday sentences, all from before ChatGPT.

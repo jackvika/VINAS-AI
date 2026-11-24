@@ -94,26 +94,34 @@ const Checker = (() => {
         const b = words(draft);
         const size = b.length / Math.max(1, a.length);
         if (size < 0.55) return no('too short');
-        if (size > 1.35) return no('too long');
+        const extra = options.extra || '';
+        if (b.length > 1.35 * a.length + words(extra).length) return no('too long');
         if (/[.!?]["”')]?$/.test(source) && !/[.!?]["”')]?$/.test(draft)) return no('cut off');
         if (/\b(?:as an ai|language model|rewritten|rewrite this|plain, natural english|original text)\b/i.test(draft) && !/\b(?:as an ai|language model|rewrit|original text)/i.test(source)) return no('talks about itself');
 
+        const both = `${source}\n${extra}`;
         const numbersBefore = count(numbers(source));
+        const numbersKnown = count(numbers(both));
         const numbersAfter = count(numbers(draft));
         for (const n of numbersBefore.keys()) if (!numbersAfter.has(n)) return no(`lost ${n}`);
-        for (const n of numbersAfter.keys()) if (!numbersBefore.has(n)) return no(`invented ${n}`);
+        for (const n of numbersAfter.keys()) if (!numbersKnown.has(n)) return no(`invented ${n}`);
         const spelled = (text) => new Set(words(text).map((w) => w.toLowerCase()).filter((w) => NUMBER_WORDS.has(w)));
         const spelledBefore = spelled(source);
         const spelledAfter = spelled(draft);
         for (const n of spelledBefore) if (!spelledAfter.has(n)) return no(`lost ${n}`);
-        for (const n of spelledAfter) if (!spelledBefore.has(n)) return no(`invented ${n}`);
-        for (const mark of ['%', '$', '€', '£', '₹']) if (source.includes(mark) !== draft.includes(mark)) return no(`changed ${mark}`);
+        const spelledKnown = spelled(both);
+        for (const n of spelledAfter) if (!spelledKnown.has(n)) return no(`invented ${n}`);
+        for (const mark of ['%', '$', '€', '£', '₹']) {
+            if (source.includes(mark) && !draft.includes(mark)) return no(`changed ${mark}`);
+            if (draft.includes(mark) && !both.includes(mark)) return no(`changed ${mark}`);
+        }
 
         const inDraft = draft.toLowerCase();
         const inSource = source.toLowerCase();
+        const inBoth = both.toLowerCase();
         // "AI-powered tools" may become "tools powered by AI".
         for (const n of names(source)) if (!n.toLowerCase().split('-').every((part) => inDraft.includes(part))) return no(`lost ${n}`);
-        for (const n of names(draft)) if (!inSource.includes(n.toLowerCase())) return no(`invented ${n}`);
+        for (const n of names(draft)) if (!inBoth.includes(n.toLowerCase())) return no(`invented ${n}`);
         for (const q of source.match(/"[^"\n]{1,400}"|“[^”\n]{1,400}”/g) || []) if (!draft.includes(q.slice(1, -1))) return no('changed a quotation');
         for (const u of source.match(/https?:\/\/[^\s<>)\]]+|[\w.+-]{1,64}@[\w-]+\.[\w.]+/g) || []) if (!draft.includes(u)) return no('lost a link');
 
@@ -139,20 +147,22 @@ const Checker = (() => {
         const wanted = ideas(source);
         const got = ideas(draft);
         const kept = wanted.size ? [...wanted].filter((x) => got.has(x)).length / wanted.size : 1;
-        const added = got.size ? [...got].filter((x) => !wanted.has(x)).length / got.size : 0;
+        const known = ideas(both);
+        const added = got.size ? [...got].filter((x) => !known.has(x)).length / got.size : 0;
         if (kept < (options.keep ?? 0.4)) return no('lost too much meaning');
         if (added > (options.add ?? 0.6)) return no('added too much');
         // "not just" and "do not hesitate" say yes.
         const yes = /\bnot (?:just|only|merely|simply)\b|n['’]t (?:just|only|merely|simply)\b|\b(?:do not|don['’]t) hesitate\b/gi;
         const negBefore = (source.replace(yes, '').match(NEGATION) || []).length;
         const negAfter = (draft.replace(yes, '').match(NEGATION) || []).length;
-        if (Math.abs(negBefore - negAfter) > 1 || (negBefore === 0) !== (negAfter === 0)) return no('changed a yes to a no');
+        const negExtra = (extra.match(NEGATION) || []).length;
+        if (negAfter < negBefore - 1 || negAfter > negBefore + 1 + negExtra || (negBefore > 0 && negAfter === 0) || (negBefore === 0 && negAfter > negExtra)) return no('changed a yes to a no');
         if (/\bone of the\b/i.test(source) && !/\b(?:one of|among)\b/i.test(draft) && /\bthe (?:most|best|biggest|\p{L}+est)\b/iu.test(draft)) return no('claims too much');
         // "The structure was" must not become "They were": the reader would look for someone else.
         const opener = /^(they|he|she|it)\b/i.exec(draft);
         if (opener && !new RegExp(`\\b${opener[1]}\\b`, 'i').test(source)) return no('lost its subject');
         const self = /\b(?:I|my|me|we|our|us)\b/;
-        if (self.test(draft) && !self.test(source) && options.strict) return no('speaks as someone');
+        if (self.test(draft) && !self.test(both) && options.strict) return no('speaks as someone');
 
         const same = similarity(source, draft);
         if (same > (options.limit ?? 0.85)) return { ok: false, score: 0, why: 'barely changed' };
@@ -201,5 +211,13 @@ const Checker = (() => {
         return [...new Set(list)].slice(0, 12);
     }
 
-    return { clean, judge, mustKeep, pieces, similarity };
+    /** True where a text already says a note. */
+    function tells(text, note) {
+        const wanted = ideas(note);
+        const got = ideas(text);
+        const kept = wanted.size ? [...wanted].filter((x) => got.has(x)).length / wanted.size : 1;
+        return kept >= 0.6 && numbers(note).every((n) => numbers(text).includes(n));
+    }
+
+    return { clean, judge, mustKeep, pieces, similarity, tells };
 })();

@@ -115,6 +115,12 @@ function run() {
     check('pieces skip', '', [], Checker.pieces('```\n' + social + '\n```\n# ' + social + '\n- ' + social + '\n| ' + social + ' |\n> ' + social + '\nSee `x`. ' + social).filter((p) => p.write));
     check('pieces split', '', true, Checker.pieces(Array(12).fill(social).join(' ')).every((p) => p.text.split(' ').length < 70 && p.write));
     check('must keep', '', ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'], Checker.mustKeep('The Dell XPS costs $1,199, has 16 ports, and 40% of seven buyers like it.').sort((a, b) => ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(a) - ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(b)));
+    const notes = 'I sold 40 of them in Pune\nI do not like the colour';
+    const shop = 'Small shops often struggle to attract customers when larger competitors open in the same neighbourhood.';
+    check('notes allowed', '', '', Checker.judge(shop, 'When a larger competitor opens in the same neighbourhood, small shops often find it hard to attract customers. I sold 40 of them in Pune.', { keep: 0.25, add: 0.75, extra: notes }).why);
+    check('notes needed', '', 'invented 40', Checker.judge(shop, 'When a larger competitor opens nearby, 40 small shops often find it hard to attract customers.', { keep: 0.25, add: 0.75 }).why);
+    check('notes do not allow others', '', 'invented 41', Checker.judge(shop, 'When a larger competitor opens in the same neighbourhood, small shops often find it hard to attract customers. I sold 41 of them.', { keep: 0.25, add: 0.75, extra: notes }).why);
+    check('told', '', [true, false], [Checker.tells('Last June I sold 40 of them in Pune.', 'I sold 40 of them in Pune'), Checker.tells('I sold some of them in Pune.', 'I sold 40 of them in Pune')]);
     const slow = performance.now();
     Checker.judge('word '.repeat(600) + '.', 'other '.repeat(600) + '.');
     Checker.pieces('a. '.repeat(16000));

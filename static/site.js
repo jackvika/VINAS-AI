@@ -55,7 +55,8 @@ function pdfButton(text, source, name) {
 }
 
 // The brain runs on the site's server. Pages opened without one, such as on GitHub Pages, use the rules alone.
-const api = (path, options, ms) => fetch(path, { ...options, credentials: 'omit', signal: AbortSignal.timeout(ms) }).then((r) => {
+const api = (path, options, ms) => fetch(path, { ...options, credentials: 'same-origin', signal: AbortSignal.timeout(ms) }).then((r) => {
+    if (r.status === 401) location.reload();
     if (!r.ok) {
         const said = r.json().then((x) => String(x.error || '').slice(0, 200), () => '');
         return said.then((text) => { throw Object.assign(new Error(`The server answered ${r.status}.`), { status: r.status, said: text, busy: r.status === 429 || r.status === 503 }); });
@@ -99,6 +100,9 @@ async function rewriteAll(text, options, tell, stopped) {
     const limit = { light: 0.92, normal: 0.8, strong: 0.7 }[options.level] ?? 0.8;
     let written = 0;
     let trouble = '';
+    const words = (options.sample.match(WORD) || []).length;
+    const sample = words >= 20 ? options.sample.slice(0, 2000) : '';
+    let notes = options.notes.split('\n').map((n) => n.trim()).filter(Boolean);
     for (const [done, p] of jobs.entries()) {
         if (stopped()) break;
         const before = pieces.slice(0, pieces.indexOf(p)).map((x) => x.text + x.end).join('');
@@ -108,7 +112,7 @@ async function rewriteAll(text, options, tell, stopped) {
         for (let attempt = 0; attempt < 3 && !stopped(); attempt++) {
             let out;
             try {
-                const body = JSON.stringify({ text: p.text, type: options.type, level: options.level, contractions: !options.fullForms, hint, attempt });
+                const body = JSON.stringify({ text: p.text, type: options.type, level: options.level, contractions: !options.fullForms, hint, attempt, sample, notes: notes.join('\n') });
                 out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
             } catch (error) {
                 trouble = error.said || 'The AI writer could not be reached.';
@@ -121,7 +125,7 @@ async function rewriteAll(text, options, tell, stopped) {
             trouble = '';
             if (!out || typeof out.text !== 'string') break;
             const version = Checker.clean(out.text, p.text);
-            const verdict = Checker.judge(p.text, version, { limit, keep: 0.25, add: 0.75 });
+            const verdict = Checker.judge(p.text, version, { limit, keep: 0.25, add: 0.75, extra: notes.join('\n') });
             const issue = String(out.issue || '');
             hint = verdict.ok ? issue : mend(verdict.why);
             // A version with a doubt about its meaning is never used.
@@ -138,12 +142,13 @@ async function rewriteAll(text, options, tell, stopped) {
                 await pause(16);
             }
             p.text = best;
-            p.done = true;
+            // A fact is told once.
+            notes = notes.filter((n) => !Checker.tells(best, n));
             written++;
         }
         if (trouble) break;
     }
-    return { text: pieces.map((p) => p.text + p.end).join(''), written, total: jobs.length, stopped: stopped(), trouble };
+    return { text: pieces.map((p) => p.text + p.end).join(''), written, total: jobs.length, stopped: stopped(), trouble, unused: written ? notes : [] };
 }
 
 /** Lets the brain finish what the rules started. Returns why it could not, or an empty string. */
@@ -384,7 +389,7 @@ function renderCheck(original, rewrite) {
         ${left.length ? `<h3>Tells still in the rewrite</h3>${tells(left)}` : '<p class="note">No tells this site can detect are left.</p>'}`));
 }
 
-const form = document.querySelector('form');
+const form = document.querySelector('form') || document.createElement('form');
 
 // An earlier version could keep an AI key in the browser. Remove it.
 for (const store of ['localStorage', 'sessionStorage']) {
@@ -480,6 +485,7 @@ if (byId('strength')) {
             let source = text;
             let wrote = null;
             let writerNote = '';
+            let unused = '';
             const useWriter = options.human && form.elements.writer.checked;
             button.disabled = true;
             if (useWriter && options.type === 'reference') {
@@ -497,7 +503,7 @@ if (byId('strength')) {
                     byId('live').hidden = false;
                     byId('stop').onclick = () => { halt = true; };
                     try {
-                        wrote = await rewriteAll(text, options, (done, total, ready) => {
+                        wrote = await rewriteAll(text, { ...options, notes: byId('notes').value }, (done, total, ready) => {
                             byId('progress').textContent = `The AI writer is on part ${done + 1} of ${total}.`;
                             byId('live').textContent = ready;
                         }, () => halt);
@@ -508,6 +514,7 @@ if (byId('strength')) {
                     }
                     source = wrote.text;
                     const rest = wrote.total - wrote.written;
+                    if (wrote.unused.length) unused = ` These facts of yours did not fit anywhere: ${wrote.unused.join('; ')}`;
                     writerNote = wrote.total === 0 ? 'The text has no full paragraphs for the AI writer.'
                         : `The AI writer rewrote ${wrote.written} of ${wrote.total} parts.${rest ? ` ${rest} ${rest === 1 ? 'was' : 'were'} left to the word brain${wrote.trouble ? `: ${wrote.trouble}` : wrote.stopped ? ', because you stopped it.' : ', because no version passed the checks.'}` : ''}`;
                 }
@@ -516,7 +523,7 @@ if (byId('strength')) {
             const all = Boolean(wrote && wrote.total && wrote.written === wrote.total);
             if (all) options = { ...options, human: false, strong: false };
             const result = engine.run(source, options);
-            result.writer = writerNote;
+            result.writer = writerNote + unused;
             result.wrote = Boolean(wrote && wrote.written);
             if (strength === 'human' && !all && form.elements.brain.checked) {
                 button.textContent = 'Thinking...';

@@ -3,8 +3,11 @@
     pip install -r requirements.txt
     python server.py
 """
+import hashlib
+import hmac
 import mimetypes
 import os
+import secrets
 import threading
 import time
 from collections import OrderedDict, deque
@@ -16,14 +19,17 @@ from werkzeug.exceptions import HTTPException
 
 from brain.model import Model
 from brain.rewrite import LEVELS, LIMIT, TYPES, Rewriter
-from brain.writer import PART_LIMIT, Writer, WriterError
+from brain.writer import PART_LIMIT, SAMPLE_LIMIT, Writer, WriterError
 
 ROOT = Path(__file__).resolve().parent
 # Only these are public, so the code, the model, the tests and the Git folder are not.
-PAGES = {'index.html', 'check.html', 'guide.html', 'about.html', 'style.css', 'app.js', 'LICENSE', 'skill/LICENSE.txt'}
+PAGES = {'index.html', 'write.html', 'check.html', 'guide.html', 'about.html', 'style.css', 'app.js', 'LICENSE', 'skill/LICENSE.txt'}
 MAX_BODY = 8 * LIMIT + 10_000
 ON_RENDER = os.environ.get('RENDER') == 'true'
 PER_MINUTE = int(os.environ.get('RATE_LIMIT', 30))
+PASSWORD = os.environ.get('SITE_PASSWORD', '')       # without one, the site is open to everyone
+STAY = 30 * 24 * 3600                                # seconds a login lasts
+OPEN = {'/api/health', '/api/login', '/login.html', '/style.css', '/static/login.js', '/static/icon.svg'}
 HEADERS = {
     'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; "
                                "base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
@@ -70,6 +76,8 @@ writer = Writer()
 limiter = Limiter(PER_MINUTE)
 write_limiter = Limiter(2 * PER_MINUTE)
 thinking = threading.BoundedSemaphore(2)    # more at once would only make everyone wait
+login_limiter = Limiter(6)
+all_logins = Limiter(60)
 writing = threading.BoundedSemaphore(4)     # leaves threads free for the pages
 
 
@@ -83,6 +91,40 @@ def refuse(status, message):
     response.status_code = status
     if status in (429, 503):
         response.headers['Retry-After'] = '20'
+    return response
+
+
+def make_key(password):
+    """Slow on purpose, so a stolen cookie is little help in guessing the password."""
+    return hashlib.scrypt(password.encode('utf-8', 'replace'), salt=b'vinas-ai-login', n=2 ** 14, r=8, p=1)
+
+
+KEY = make_key(PASSWORD) if PASSWORD else b''
+
+
+def ticket(expires):
+    """A login that cannot be made without the password. Changing the password ends every login."""
+    return f'{expires}.{hmac.new(KEY, str(expires).encode(), hashlib.sha256).hexdigest()}'
+
+
+def inside():
+    if not PASSWORD:
+        return True
+    given = request.cookies.get('login') or ''
+    expires = given.partition('.')[0]
+    if not (expires.isascii() and expires.isdigit() and len(expires) < 12 and int(expires) > time.time()):
+        return False
+    return hmac.compare_digest(given.encode('utf-8', 'replace'), ticket(int(expires)).encode())
+
+
+@app.before_request
+def gate():
+    if request.path in OPEN or inside():
+        return None
+    if request.path.startswith('/api/'):
+        return refuse(401, 'Log in first.')
+    response = send_from_directory(ROOT, 'login.html')
+    response.status_code = 401
     return response
 
 
@@ -109,6 +151,32 @@ def failure(error):
     return refuse(500, 'Something went wrong.')
 
 
+@app.get('/login.html')
+def login_page():
+    return send_from_directory(ROOT, 'login.html')
+
+
+@app.post('/api/login')
+def login():
+    if request.headers.get('Sec-Fetch-Site', 'same-origin') not in ('same-origin', 'none'):
+        return refuse(403, 'Use this from its own site.')
+    if not PASSWORD:
+        return refuse(404, 'There is no password.')
+    if not login_limiter.allow(visitor()) or not all_logins.allow('login'):
+        return refuse(429, 'Too many tries. Wait a minute and try again.')
+    try:
+        data = request.get_json(silent=True)
+    except RecursionError:
+        data = None
+    given = data.get('password') if isinstance(data, dict) else None
+    if not isinstance(given, str) or not secrets.compare_digest(given.encode('utf-8', 'replace'), PASSWORD.encode('utf-8', 'replace')):
+        return refuse(401, 'That password is not right.')
+    expires = int(time.time()) + STAY
+    response = jsonify(ok=True)
+    response.set_cookie('login', ticket(expires), max_age=STAY, httponly=True, secure=ON_RENDER, samesite='Strict', path='/')
+    return response
+
+
 @app.get('/')
 @app.get('/<path:name>')
 def page(name='index.html'):
@@ -121,7 +189,7 @@ def page(name='index.html'):
 
 @app.get('/api/health')
 def health():
-    return jsonify(ok=True, writer=writer.ready)
+    return jsonify(ok=True, writer=writer.ready) if inside() else jsonify(ok=True)
 
 
 @app.post('/api/brain')
@@ -154,9 +222,8 @@ def brain():
         thinking.release()
 
 
-@app.post('/api/write')
-def write():
-    """One new version of one part of a text, from the AI writer."""
+def ask_writer(work):
+    """Checks a request for the AI writer, then runs work(data, text) and returns its answer."""
     if request.headers.get('Sec-Fetch-Site', 'same-origin') not in ('same-origin', 'none'):
         return refuse(403, 'Use this from its own site.')
     if not writer.ready:
@@ -169,23 +236,46 @@ def write():
         data = None
     if not isinstance(data, dict):
         return refuse(400, 'Send JSON.')
-    text, hint = data.get('text'), data.get('hint') or ''
-    if not isinstance(text, str) or not text.strip() or len(text) > PART_LIMIT:
-        return refuse(400, f'Send between 1 and {PART_LIMIT:,} characters of text.')
-    if not isinstance(hint, str):
-        return refuse(400, 'The hint must be text.')
-    kind, level, attempt = data.get('type'), data.get('level'), data.get('attempt')
+    clean = {}
+    for name, most in (('text', PART_LIMIT), ('hint', 1000), ('sample', SAMPLE_LIMIT), ('notes', SAMPLE_LIMIT)):
+        value = data.get(name) or ''
+        if not isinstance(value, str) or len(value) > most:
+            return refuse(400, f'Keep the {name} under {most:,} characters.')
+        clean[name] = value.encode('utf-8', 'replace').decode()
+    if not clean['text'].strip():
+        return refuse(400, 'Send some text.')
     if not writing.acquire(timeout=30):
         return refuse(503, 'The AI writer is busy. Try again in a moment.')
     try:
-        return jsonify(writer.write(
-            text.encode('utf-8', 'replace').decode(), kind if isinstance(kind, str) else 'general', level if isinstance(level, str) else 'normal',
-            data.get('contractions') is not False, hint.encode('utf-8', 'replace').decode(), attempt if type(attempt) is int and 0 <= attempt < 9 else 0, visitor()))
+        return jsonify(work(data, clean))
     except WriterError as error:
         app.logger.warning('writer: %s', error)
         return refuse(error.status, str(error))
     finally:
         writing.release()
+
+
+@app.post('/api/write')
+def write():
+    """One new version of one part of a text."""
+    def work(data, clean):
+        kind, level, attempt = data.get('type'), data.get('level'), data.get('attempt')
+        return writer.write(
+            clean['text'], kind if isinstance(kind, str) else 'general', level if isinstance(level, str) else 'normal', data.get('contractions') is not False, clean['hint'],
+            attempt if type(attempt) is int and 0 <= attempt < 9 else 0, visitor(), clean['sample'], clean['notes'])
+    return ask_writer(work)
+
+
+@app.post('/api/points')
+def points():
+    """What a text says, as notes for someone who will write it themselves."""
+    return ask_writer(lambda data, clean: writer.points(clean['text'], visitor()))
+
+
+@app.post('/api/polish')
+def polish():
+    """The visitor's own writing, proofread or put into English."""
+    return ask_writer(lambda data, clean: writer.polish(clean['text'], data.get('english') is True, visitor()))
 
 
 if __name__ == '__main__':
