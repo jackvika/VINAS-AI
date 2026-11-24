@@ -66,11 +66,12 @@ async function readFile(file) {
     }
 }
 
-function renderRewrite(r, text, fileName) {
+function renderRewrite(r, text, fileName, full = null) {
     const edits = r.edits.length;
     const left = r.flags.length;
     let note = '';
-    if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
+    if (full) note = full;
+    else if (r.held) note = 'Only one kind of tell was found. In informal text that is not enough to act on, so nothing was changed.';
     else if (r.text === '') note = 'Every sentence matched a filler pattern, so nothing is left. Add a concrete fact and try again.';
     else if (!edits && !left) note = 'No tells this site can detect were found. Your text is unchanged.';
 
@@ -119,7 +120,7 @@ function finishEditor(node, r, original, fileName) {
     let done = 0;
     const history = [];
     const kept = new Set();
-    const withTips = byId('strength').value === 'human';
+    const withTips = byId('strength').value === 'human' || r.full;
     let jobs = [];
 
     function listJobs() {
@@ -272,15 +273,13 @@ if (byId('strength')) {
         byId('text').value = example;
         byId('text').dispatchEvent(new Event('input'));
     }
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        try {
+    async function readForm() {
             const file = byId('file').files[0];
             const text = (file ? await readFile(file) : byId('text').value).replace(/\r\n/g, '\n');
             const sample = trim(byId('sample').value);
             const error = tooLong(text, sample) || (trim(text) === '' ? 'Paste some text or choose a file first.' : '');
             showError(error);
-            if (error) return;
+            if (error) return null;
             if (file) {
                 byId('text').value = text;
                 byId('text').dispatchEvent(new Event('input'));
@@ -288,9 +287,50 @@ if (byId('strength')) {
             }
             const strength = byId('strength').value;
             const options = { type: byId('type').value, strong: strength === 'strong', human: strength === 'human', sample, dashes: form.elements.dashes.checked };
-            renderRewrite(engine.run(text, options), text, file ? file.name : '');
+            return { text, options, name: file ? file.name : '' };
+    }
+
+    function quick({ text, options, name }, note = null) {
+        renderRewrite(engine.run(text, options), text, name, note);
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        try {
+            const job = await readForm();
+            if (job) quick(job);
         } catch (error) {
             showError(error.message);
+        }
+    });
+
+    Full.ready().then((ready) => {
+        if (!ready) return;
+        byId('full').hidden = false;
+        byId('quick-run').textContent = 'Quick clean, no AI';
+        byId('quick-run').classList.add('ghost');
+    });
+
+    byId('full-run').addEventListener('click', async () => {
+        const status = (message) => { byId('full-status').textContent = message; };
+        let job = null;
+        try {
+            job = await readForm();
+            if (!job) return;
+            byId('full-run').disabled = true;
+            const answer = await Full.rewrite(engine, job.text, job.options, status);
+            // One last safe pass for anything mechanical the AI left in.
+            const r = engine.run(answer.text, { type: job.options.type, sample: job.options.sample, dashes: job.options.dashes });
+            r.missing = engine.missing(job.text, r.text);
+            r.full = true;
+            const added = engine.missing(r.text, job.text);
+            renderRewrite(r, job.text, job.name, `Rewritten by AI${answer.rounds ? ` and sent back ${answer.rounds === 1 ? 'once' : 'twice'} for corrections` : ''}. AI can change meaning, so compare it with your original.${added.length ? ` Check these details, which are not in your text: ${esc(added.join(', '))}.` : ''}`);
+        } catch (error) {
+            if (job) quick(job, `${esc(error.message)} This is the Quick clean result instead.`);
+            else showError(error.message);
+        } finally {
+            status('');
+            byId('full-run').disabled = false;
         }
     });
 } else if (byId('original')) {

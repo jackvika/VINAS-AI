@@ -1,0 +1,5 @@
+.git
+.gitattributes
+.env*
+tests
+README.md

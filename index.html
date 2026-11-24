@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI text humanizer | VINAS AI</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
     <meta name="theme-color" content="#cc4400">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -19,7 +19,7 @@
     </nav>
     <header>
         <h1>AI text humanizer</h1>
-        <p>Paste AI-written English, press Humanize, and copy the result. Free, no sign-up, and your text never leaves your browser.</p>
+        <p>Paste AI-written English, press Humanize, and copy the result. Free, with no sign-up.</p>
     </header>
     <form>
         <div class="bar">
@@ -30,7 +30,12 @@
         <textarea id="text" name="text" rows="12" maxlength="50000">
 </textarea>
         <p class="muted" id="count" aria-live="polite"></p>
-        <button type="submit" class="main">Humanize</button>
+        <div id="full" hidden>
+            <button type="button" class="main" id="full-run">Humanize</button>
+            <p class="muted">Full rewrite by AI. Your text goes through this server to an AI service (Google Gemini or OpenRouter), which may keep and review it. Do not paste private or confidential text. For people aged 18 or over, and not for use in the EEA, Switzerland or the UK.</p>
+            <p class="muted" id="full-status" role="status"></p>
+        </div>
+        <button type="submit" class="main" id="quick-run">Humanize</button>
         <details class="options">
             <summary>Options</summary>
             <div class="grid">
@@ -65,7 +70,7 @@
         </details>
     </form>
     <footer>
-        <p>Your text is processed in your browser and is not uploaded or saved. This site does not try to get past AI detectors.</p>
+        <p>Quick clean and Compare run in your browser. Full rewrite, where it is offered, sends your text to an AI service. This site saves no text. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>
@@ -76,6 +81,7 @@
 <script src="static/engine.js"></script>
 <script src="static/pdf.js"></script>
 <script src="app.js"></script>
+<script src="static/full.js"></script>
 <script src="static/site.js"></script>
 </body>
 </html>
