@@ -113,12 +113,13 @@ async function rewriteAll(text, options, tell, stopped) {
         let hint = '';
         let bestShare = -1;
         let counted = false;
+        const kept = (p.items || []).map((x) => x.body);
         for (let attempt = 0; attempt < 4 && !stopped(); attempt++) {
             let out;
             const listed = p.items ? p.items.map((x, i) => `[${i + 1}] ${x.label ? `(${x.label}) ` : ''}${x.body}`).join('\n') : '';
             try {
                 const body = JSON.stringify({
-                    text: listed || p.text, items: Boolean(p.items), type: options.type, level: options.level, contractions: !options.fullForms, hint, attempt, sample,
+                    text: listed || p.text, items: Boolean(p.items), type: options.type, level: attempt > 1 && options.level !== 'normal' ? 'strong' : options.level, contractions: !options.fullForms, hint, attempt, sample,
                     notes: p.items ? '' : notes.join('\n'), context: before.trim().slice(-900),
                 });
                 out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
@@ -144,17 +145,20 @@ async function rewriteAll(text, options, tell, stopped) {
                     continue;
                 }
                 // Each point is checked alone, so one bad point does not cost the others.
-                const good = bodies.map((b, i) => {
+                const fresh = bodies.map((b, i) => {
                     const version = Checker.clean(b, p.items[i].body);
-                    const ok = Checker.judge(p.items[i].body, version, { limit: 1.01, keep: 0.2, add: 0.8, least: 0.4 });
+                    const ok = Checker.judge(p.items[i].body, version, { limit: 1.01, keep: 0.1, add: 0.9, least: 0.35, item: true });
                     return ok.ok ? version : p.items[i].body;
                 });
+                // The newest wording of each point that kept its meaning, from any of the tries.
+                if (issue === '') fresh.forEach((v, i) => { if (Checker.similarity(v, p.items[i].body) < Checker.similarity(kept[i], p.items[i].body)) kept[i] = v; });
+                const good = kept.slice();
                 const same = Checker.sameness(good);
                 const open = p.items.map((x, i) => i).filter((i) => !Checker.fixed(p.items[i].body));
                 const close = open.filter((i) => Checker.similarity(good[i], p.items[i].body) > 0.75);
                 const share = open.length ? 1 - close.length / open.length : 1;
                 hint = issue || (share < Checker.RULE ? `Items ${close.map((i) => i + 1).join(', ')} are still worded like the original` : same ? `Too many items say "${same}"` : '');
-                if (issue === '' && share > bestShare) {
+                if (issue === '' && share >= bestShare) {
                     best = p.items.map((x, i) => x.prefix + good[i] + x.end).join('');
                     bestShare = share;
                     if (!counted) countStock();
@@ -189,7 +193,26 @@ async function rewriteAll(text, options, tell, stopped) {
             }
         }
         // The rule: nine sentences in ten are new. What is still close is written again, one sentence at a time.
-        if (bestShare < Checker.RULE && !trouble && !stopped()) {
+        if (p.items && best && bestShare < Checker.RULE && !trouble) {
+            for (const [i, x] of p.items.entries()) {
+                if (Checker.fixed(x.body) || Checker.similarity(kept[i], x.body) <= 0.75) continue;
+                for (let attempt = 1; attempt < 3 && !stopped() && !trouble; attempt++) {
+                    try {
+                        const body = JSON.stringify({ text: `[1] ${x.label ? `(${x.label}) ` : ''}${x.body}`, items: true, type: options.type, level: 'strong', contractions: !options.fullForms, attempt, hint: 'It kept the build and wording of the original', context: before.trim().slice(-400) });
+                        const out = await api('api/write', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 240000);
+                        const one = out && typeof out.text === 'string' && !out.issue ? Checker.readItems(out.text, 1) : null;
+                        const version = one && Checker.clean(one[0], x.body);
+                        if (version && Checker.judge(x.body, version, { limit: 0.75, keep: 0.1, add: 0.9, least: 0.35, item: true }).ok) {
+                            kept[i] = version;
+                            break;
+                        }
+                    } catch (error) {
+                        trouble = error.said || 'The AI writer could not be reached.';
+                    }
+                }
+            }
+            best = p.items.map((x, i) => x.prefix + kept[i] + x.end).join('');
+        } else if (!p.items && bestShare < Checker.RULE && !trouble && !stopped()) {
             const whole = best;
             best = best || p.text;
             for (const s of Checker.changed(p.text, best).close.slice(0, 10)) {
@@ -204,7 +227,7 @@ async function rewriteAll(text, options, tell, stopped) {
                     }
                     if (!out || typeof out.text !== 'string' || out.issue) continue;
                     const version = Checker.clean(out.text, s);
-                    if (Checker.judge(s, version, { limit: 0.75, keep: 0.2, add: 0.8 }).ok && !Checker.changed(p.text, version).close.length) {
+                    if (Checker.judge(s, version, { limit: 0.75, keep: s.split(' ').length < 13 ? 0 : 0.15, add: 1 }).ok && !Checker.changed(p.text, version).close.length) {
                         best = best.replace(s, () => version);
                         break;
                     }

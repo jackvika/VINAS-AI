@@ -80,7 +80,7 @@ class Humanizer {
         const lower = after.toLowerCase();
         for (const hit of before.match(rx("(?<=[\\p{L}\\d,;)] )\\p{Lu}[\\p{L}\\d]*(?:['’-]\\p{L}+)*", 'g')) || []) {
             const name = hit.replace(/['’]s$/u, '');
-            if (!/^I(?:['’]|$)/u.test(name) && !lower.includes(name.toLowerCase())) lost.push(name);
+            if (!/^I(?:['’]|$)/u.test(name) && !name.toLowerCase().split('-').every((part) => lower.includes(part))) lost.push(name);
         }
         return [...new Set(lost)];
     }

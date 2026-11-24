@@ -105,7 +105,7 @@ const Checker = (() => {
         const numbersAfter = count(numbers(draft));
         for (const n of numbersBefore.keys()) if (!numbersAfter.has(n)) return no(`lost ${n}`);
         for (const n of numbersAfter.keys()) if (!numbersKnown.has(n)) return no(`invented ${n}`);
-        const spelled = (text) => new Set(words(text).map((w) => w.toLowerCase()).filter((w) => NUMBER_WORDS.has(w)));
+        const spelled = (text) => new Set(words(text).flatMap((w) => w.toLowerCase().split('-')).filter((w) => NUMBER_WORDS.has(w)));
         const spelledBefore = spelled(source);
         const spelledAfter = spelled(draft);
         for (const n of spelledBefore) if (!spelledAfter.has(n)) return no(`lost ${n}`);
@@ -152,7 +152,7 @@ const Checker = (() => {
         if (kept < (options.keep ?? 0.4)) return no('lost too much meaning');
         if (added > (options.add ?? 0.6)) return no('added too much');
         // "not just" and "do not hesitate" say yes.
-        const yes = /\bnot (?:just|only|merely|simply)\b|n['’]t (?:just|only|merely|simply)\b|\b(?:do not|don['’]t) hesitate\b/gi;
+        const yes = /\bnot (?:just|only|merely|simply)\b|n['’]t (?:just|only|merely|simply)\b|\b(?:do not|don['’]t) hesitate\b|\bno (?:later|sooner|earlier|less|fewer|more) than\b|\bno doubt\b|\bnot to mention\b/gi;
         const negBefore = (source.replace(yes, '').match(NEGATION) || []).length;
         // "minimal equipment" may become "you don't need much equipment".
         const little = /\b(?:minimal|little|few|less|fewer|low|easy|easily|simple|accessible|affordable|free|reduced?|avoid)\b/i.test(source)
@@ -163,11 +163,13 @@ const Checker = (() => {
         if (/\bone of the\b/i.test(source) && !/\b(?:one of|among)\b/i.test(draft) && /\bthe (?:most|best|biggest|\p{L}+est)\b/iu.test(draft)) return no('claims too much');
         // "The structure was" must not become "They were": the reader would look for someone else.
         const opener = /^(they|he|she|it)\b/i.exec(draft);
-        if (opener && !new RegExp(`\\b${opener[1]}\\b`, 'i').test(source)) return no('lost its subject');
+        // "It was a pleasure to" points at nothing, and after a label the subject is known.
+        const empty = /^it(?: is|['’]s| was| has been) (?:an? |the |also |often |important|essential|necessary|possible|easy|hard|clear|good|great|best|worth|time)/i.test(draft);
+        if (opener && !empty && !options.item && !new RegExp(`\\b${opener[1]}\\b`, 'i').test(source)) return no('lost its subject');
         // "all ages" is not "almost any age"
         for (const w of ['almost', 'nearly', 'mostly', 'always', 'never', 'every', 'everyone', 'only']) {
             const said = new RegExp(`\\b${w}\\b`, 'i');
-            const same = { every: /\b(?:every|each|all|any|dail|annual|year|whole|entire|\w+ly)/i, everyone: /\b(?:everyone|everybody|all|every|any)/i, always: /\b(?:always|all|every|constant)/i, only: /\b(?:only|just|sole|solely|merely|simply|limited|exclusively)\b/i, never: NEGATION }[w];
+            const same = { every: /\b(?:every|each|all|any|rest|throughout|dail|annual|year|whole|entire|\w+ly)/i, everyone: /\b(?:everyone|everybody|all|every|any)/i, always: /\b(?:always|all|every|constant)/i, only: /\b(?:only|just|sole|solely|merely|simply|limited|exclusively)\b/i, never: NEGATION }[w];
             if (said.test(draft) && !said.test(both) && !(same && new RegExp(same.source, 'i').test(both))) return no('changed how much');
         }
         const self = /\b(?:I|my|me|we|our|us)\b/;
