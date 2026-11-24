@@ -22,7 +22,7 @@
     </nav>
     <header>
         <h1>AI text humanizer</h1>
-        <p>Paste AI-written text, choose your settings, and press Humanize. The brain learned from two million sentences people wrote.</p>
+        <p>Paste AI-written text, choose your settings, and press Humanize. An AI writer reads the whole text, understands it, and writes it again in new sentences. Free, with no sign-up.</p>
     </header>
     <form autocomplete="off">
         <section class="step" aria-labelledby="step1">
@@ -81,7 +81,8 @@
                     </select>
                 </div>
             </div>
-            <label class="check"><input type="checkbox" name="brain" value="1" checked> Use the brain in Human mode (sends your text to this site's server)</label>
+            <label class="check"><input type="checkbox" name="writer" value="1" checked> Use the AI writer in Human mode (sends the text to this site's server and to Cloudflare)</label>
+            <label class="check"><input type="checkbox" name="brain" value="1" checked> Polish the result with the word brain (sends the text to this site's server)</label>
             <label class="check"><input type="checkbox" name="dashes" value="1"> Keep my dashes</label>
             <details class="options">
                 <summary>Match my own writing (optional)</summary>
@@ -95,16 +96,19 @@
             <h2 id="step3"><span class="num">3</span> Get your text</h2>
             <button type="submit" class="main">Humanize</button>
             <p class="muted" id="progress" role="status"></p>
+            <div id="live" class="output" hidden></div>
+            <button type="button" class="ghost" id="stop" hidden>Stop</button>
         </section>
     </form>
     <footer>
-        <p>In Human mode your text goes to this site's own server, where the brain reads it and does not save or share it. Without the brain, and in the other modes, it stays in your browser. This site does not try to get past AI detectors.</p>
+        <p>With the AI writer on, your text goes to this site's own server and from there to Cloudflare Workers AI, which writes the new version. Cloudflare says it does not train on this text or keep it. The word brain runs on this site's server. This site does not save or share your text. With both off, it stays in your browser. Do not paste confidential text. AI can make mistakes, so compare the result with your original. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer" rel="noopener noreferrer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>
 <noscript><p class="error">This page needs JavaScript.</p></noscript>
 <script src="static/rules.js"></script>
 <script src="static/content.js"></script>
+<script src="static/checker.js"></script>
 <script src="static/brain.js"></script>
 <script src="static/engine.js"></script>
 <script src="static/pdf.js"></script>

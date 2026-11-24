@@ -4,14 +4,16 @@
 
 A website that makes AI-written English read more like a person wrote it. The pages are plain HTML, CSS and JavaScript. A small Python server adds a brain that learned English from text people wrote.
 
-Paste text, choose your settings, press Humanize, then copy the result or download a PDF. Fixed rules in the browser fix the known signs of AI writing. Then, in Human mode, the brain on the site's own server picks the wording people use most. It needs no database, AI service or key. The text is not saved, and you can turn the brain off.
+Paste text, choose your settings, press Humanize, then copy the result or download a PDF. Fixed rules in the browser fix the known signs of AI writing. In Human mode, an AI writer on Cloudflare writes each paragraph again, and a word brain on the site's own server handles what is left. This site does not save the text.
 
 It checks text for common forms of 26 signs of AI writing, fixes the ones a program can fix, and highlights the rest for the writer.
 
 ## Features
 
 - Careful mode for safe fixes, Strong mode, which also cuts hype, and Human mode, which also uses plain words, contractions and varied sentence rhythm; every change is listed
-- A brain trained on 2 million human sentences, which chooses wording by context and points out stiff sentences
+- An AI writer that rewrites whole paragraphs, and two checks that throw away versions with lost or invented facts
+- The original and the result side by side
+- A word brain trained on 2 million human sentences, which chooses wording by context and points out stiff sentences
 - A finishing editor: pick, remove, keep or retype each phrase that is left, add your own details where a claim is vague, and undo any step
 - Sentence variety and reading ease scores
 - First rewrite, the tells that survived it, and the final version
@@ -44,6 +46,24 @@ Without it, open `index.html` in a browser or use any static host, such as GitHu
 
 The free plan sleeps when nobody visits. The first visit after that can take about a minute.
 
+## The AI writer
+
+`brain/writer.py` sends each part of a text to a large model on [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) and asks it to write the part again. A second request has the model compare its version with the original. `static/checker.js` then checks numbers, names, quotations, links and negation in the browser. A version that fails either check is tried again, up to three times, and after that the part is left to the word brain. Technical and legal text skips the writer.
+
+Set these on the server, never in the code:
+
+| Variable | Value |
+|---|---|
+| `CLOUDFLARE_ACCOUNT_ID` | Your account ID |
+| `CLOUDFLARE_API_TOKEN` | A token with the Workers AI permission |
+| `CLOUDFLARE_MODEL` | Optional. `@cf/google/gemma-4-26b-a4b-it` unless set |
+| `DAILY_NEURONS` | Optional. The most to use in a day, 9500 unless set |
+| `VISITOR_NEURONS` | Optional. The most for one visitor in a day, 1500 unless set |
+
+The Workers Free plan gives 10,000 neurons a day and then refuses, so it costs nothing. The counts kept here start again when the server restarts. On the Workers Paid plan, also set a limit in Cloudflare.
+
+Without the two settings, the site works with the word brain alone.
+
 ## The brain
 
 It is a language model in the older sense: it remembers how often people put words together, up to four at a time. It learned from 2,073,129 sentences (25 million words and marks), most of them speech and everyday sentences, all from before ChatGPT.
@@ -70,6 +90,7 @@ Run `python -m unittest tests.test_brain` for the brain and server. For the rule
 | `static/rules.js` | Phrases and patterns to fix or highlight |
 | `static/engine.js` | Rewriting engine |
 | `static/brain.js` | Sentence rebuilding for Human mode |
+| `brain/writer.py`, `static/checker.js` | The AI writer and its checks |
 | `server.py` | Serves the pages and the brain |
 | `brain/model.py`, `brain/human.bin` | What the brain learned |
 | `brain/rewrite.py`, `brain/phrases.py` | How it rewrites, and the wordings it can choose |
@@ -85,6 +106,7 @@ The earlier PHP version is on the [`php` branch](https://github.com/jackvika/VIN
 ## Security
 
 - Only the pages, scripts and styles are served. The code, model, tests and hidden files are not.
+- The Cloudflare token stays on the server. It is never logged, sent to a browser or sent along a redirect.
 - A strict content security policy blocks inline scripts, other sites and framing, and all text is escaped before it is shown.
 - The brain accepts up to 50,000 characters, 30 requests a minute from each visitor, and no requests from other sites' pages.
 - Patterns are written so that hostile text cannot freeze the server. `tests/test_brain.py` checks this.

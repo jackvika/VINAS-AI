@@ -9,6 +9,7 @@
 <pre id="out">Running</pre>
 <script src="../static/rules.js"></script>
 <script src="../static/content.js"></script>
+<script src="../static/checker.js"></script>
 <script src="../static/brain.js"></script>
 <script src="../static/engine.js"></script>
 <script src="../static/pdf.js"></script>
@@ -72,6 +73,49 @@ function run() {
     check('missing', '', ['12', 'https://a.example/x', 'Lisbon'], h.missing('We saw 12 cats in Lisbon at https://a.example/x today.', 'We saw cats today.'));
     const r = h.run('Ünïcode — “quoted” 🚀 text. Experts believe it helps, ensuring a robust result.');
     for (const f of r.flags) check('offset', r.text, f.text, r.text.slice(f.start, f.end));
+
+    // The checker of the AI writer. The bad drafts are ones real models wrote.
+    const social = 'Social media has revolutionized the way in which people communicate and share information. It has enabled individuals to connect with others across the globe, thereby fostering a sense of community. Nevertheless, excessive utilization of social media can have detrimental effects on mental health.';
+    const laptop = 'When choosing a laptop, there are several key factors to consider. Firstly, the processor plays a vital role in determining the overall performance of the device. The Dell XPS 13, priced at $1,199, provides an excellent balance of performance and portability.';
+    const time = 'Breaking down larger projects into smaller, manageable steps can help you stay focused. Ultimately, time management is not just about getting more done; it is about creating a healthier work-life balance.';
+    const climate = 'Rising global temperatures have led to a multitude of environmental consequences, such as melting ice caps, rising sea levels, and increasingly severe weather events.';
+    const tower = 'The Eiffel Tower, constructed in 1889, stands as a testament to human ingenuity. Located in the heart of Paris, it attracts approximately seven million visitors annually.';
+    const good = [
+        [social, 'Social media has changed how we communicate and share information. It helps us connect with people all over the world, making us feel part of a community. However, using social media too much can be bad for our mental health.'],
+        [laptop, "When buying a laptop, there are several things to think about. First, the processor matters a lot for the device's overall performance. The Dell XPS 13, priced at $1,199, strikes a great balance between performance and portability."],
+        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million visitors each year.'],
+    ];
+    for (const [a, b] of good) check('good draft', a, '', Checker.judge(a, b).why);
+    const bad = [
+        [laptop, 'When picking a laptop, think about the processor and how it keeps your device running well, since it decides the performance. The Dell XPS 13 is a great choice with an excellent balance of performance and portability.', 'lost 13'.replace('13', '1199')],
+        [laptop, laptop.replace('When choosing a laptop, there are', 'If you want a laptop, think about').replace('$1,199', '$1,299'), 'lost 1199'],
+        [time, 'Breaking down larger projects into small steps helps you stay focused. It is ultimately not about getting more done and is about creating a healthier work-life balance.', 'changed a yes to a no'],
+        [climate, 'High global temperatures have led to a wide variety of environmental consequences such as rising sea levels, rising sea levels and rising droughts.', 'repeats a phrase'],
+        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. It sits in Lyon and Paris, and around seven million visitors come each year.', 'invented Lyon'],
+        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around eight million visitors each year.', 'lost seven'],
+        [tower, tower, 'barely changed'],
+        ['The structure was initially met with criticism when it opened in the city.', 'They started off with a lot of criticism when they opened in the city.', 'lost its subject'],
+        ['However, it has subsequently become one of the most iconic landmarks in the world.', 'But now it is probably the most famous landmark in the world.', 'claims too much'],
+        [tower, 'It is a tower.', 'too short'],
+        [tower, 'Built in 1889, the Eiffel Tower is a symbol of human ingenuity. You will find it in Paris, where it draws around seven million', 'cut off'],
+        [social, 'Bananas grow quickly when the weather stays warm, and farmers pick them by hand before shipping each bunch to markets. Shoppers then buy them cheaply, eat them at breakfast, or bake them into sweet bread at home.', 'lost too much meaning'],
+        ['She said "we will win" and left the long meeting early.', 'She told them "we may win" and then left the long meeting early.', 'changed a quotation'],
+        ['Write to help@example.com before Friday if you need any more help.', 'If you need more help, write to us before Friday at our address.', 'lost a link'],
+    ];
+    for (const [a, b, why] of bad) check('bad draft', b, why, Checker.judge(a, b).why);
+    check('clean', '', 'It works well.', Checker.clean('Sure! Here it is.\n\nHere is the rewritten text: "It works well."', 'It is functional.'));
+    check('clean think', '', 'It works.', Checker.clean('<think>hmm</think>\n\nIt works.<|im_end|>', 'It is functional.'));
+    for (const t of [md, social + '\n\n' + laptop, '', '\n', 'a\n\n\nb', '# T\n\n' + tower + '\n- x\n\n\tcode', '```\n' + social + '\n```\n' + social]) {
+        check('pieces keep the text', t, t, Checker.pieces(t).map((p) => p.text + p.end).join(''));
+    }
+    check('pieces skip', '', [], Checker.pieces('```\n' + social + '\n```\n# ' + social + '\n- ' + social + '\n| ' + social + ' |\n> ' + social + '\nSee `x`. ' + social).filter((p) => p.write));
+    check('pieces split', '', true, Checker.pieces(Array(12).fill(social).join(' ')).every((p) => p.text.split(' ').length < 70 && p.write));
+    check('must keep', '', ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'], Checker.mustKeep('The Dell XPS costs $1,199, has 16 ports, and 40% of seven buyers like it.').sort((a, b) => ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(a) - ['$1,199', '16', '40%', 'seven', 'Dell', 'XPS'].indexOf(b)));
+    const slow = performance.now();
+    Checker.judge('word '.repeat(600) + '.', 'other '.repeat(600) + '.');
+    Checker.pieces('a. '.repeat(16000));
+    Checker.clean('"'.repeat(50000), 'a');
+    check('checker speed', '', true, performance.now() - slow < 2000);
 
     // PDF
     const pdf = String.fromCharCode(...Pdf.render('# Café (draft)\n\nIt costs €5 \\ “now”.\n\n- ' + 'word '.repeat(900) + '\n' + 'x'.repeat(400), 'Tést', DATA.widths));

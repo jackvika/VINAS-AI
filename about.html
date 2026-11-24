@@ -34,7 +34,8 @@
             <li><strong>First rewrite:</strong> stock phrases, chatbot leftovers, "not just X but Y", inflated words, sales words, decoration and dashes are fixed.</li>
             <li><strong>Strong mode, second rewrite:</strong> hype, staged openers, empty clauses and clipped fragments are cut or merged. Every cut is listed.</li>
             <li><strong>Human mode, third rewrite:</strong> plain words, contractions, shorter connectors and better sentence rhythm. It also lists the details only you can add. It is the default, and it changes style even in text a person wrote.</li>
-            <li><strong>The brain:</strong> in Human mode, a model that learned from two million sentences people wrote compares the wordings it knows and picks what people say most. It runs on this site's server, and you can turn it off under Options.</li>
+            <li><strong>The AI writer:</strong> in Human mode, a large language model on Cloudflare reads each paragraph, writes it again, and then compares it with your original. A second checker in your browser throws away any version that loses or invents a number, name or link, or turns a yes into a no. If none passes, the paragraph is left to the other steps. Technical and legal text skips the writer.</li>
+            <li><strong>The word brain:</strong> in Human mode, a model that learned from two million sentences people wrote compares the wordings it knows and picks what people say most. It runs on this site's server, and you can turn it off.</li>
             <li><strong>Fact check:</strong> you get a warning if a number, link or likely name from your text is missing.</li>
             <li><strong>Finish it yourself:</strong> for each phrase that is left, you pick a word, remove it, keep it or type your own. Where a claim is vague, you add your own number, name or example. You can undo any step.</li>
         </ul>
@@ -94,7 +95,7 @@
         </ul>
     </section>
     <footer>
-        <p>Human mode sends your text to this site's own server, where the brain reads it and does not save or share it. The other modes stay in your browser. This site does not try to get past AI detectors.</p>
+        <p>The AI writer runs on Cloudflare Workers AI, through this site's server. The word brain runs on this site's server. This site does not save your text, and you can turn both off. This site does not try to get past AI detectors.</p>
         <p>Based on <a href="https://github.com/blader/humanizer">blader/humanizer</a>, copyright 2025 Siqi Chen, <a href="skill/LICENSE.txt">MIT License</a>. Not affiliated with that project.</p>
     </footer>
 </main>
