@@ -154,7 +154,10 @@ const Checker = (() => {
         // "not just" and "do not hesitate" say yes.
         const yes = /\bnot (?:just|only|merely|simply)\b|n['’]t (?:just|only|merely|simply)\b|\b(?:do not|don['’]t) hesitate\b/gi;
         const negBefore = (source.replace(yes, '').match(NEGATION) || []).length;
-        const negAfter = (draft.replace(yes, '').match(NEGATION) || []).length;
+        // "minimal equipment" may become "you don't need much equipment".
+        const little = /\b(?:minimal|little|few|less|fewer|low|easy|easily|simple|accessible|affordable|free|reduced?|avoid)\b/i.test(source)
+            ? /(?:\b(?:do|does|did|will|can)(?: not|n['’]t)|\bcannot|\bnot)(?: \p{L}+){0,2} (?:need|require|take|cost|have to|much|many)\b|\bwithout (?:much|any|many)\b|\bno (?:need|special)\b/giu : /(?!)/g;
+        const negAfter = (draft.replace(yes, '').replace(little, '').match(NEGATION) || []).length;
         const negExtra = (extra.match(NEGATION) || []).length;
         if (negAfter < negBefore - 1 || negAfter > negBefore + 1 + negExtra || (negBefore > 0 && negAfter === 0) || (negBefore === 0 && negAfter > negExtra)) return no('changed a yes to a no');
         if (/\bone of the\b/i.test(source) && !/\b(?:one of|among)\b/i.test(draft) && /\bthe (?:most|best|biggest|\p{L}+est)\b/iu.test(draft)) return no('claims too much');

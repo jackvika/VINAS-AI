@@ -78,6 +78,7 @@
             text = own;
             note = 'Your text is shown as you wrote it, because the correction changed too much or could not be made.';
         }
+        text = text.replace(/(^|[.!?]\s+|\n)(\p{Ll})/gu, (_, gap, c) => gap + c.toUpperCase()).replace(/\bi\b(?=[ ,.!?]|['’])/g, 'I');
         byId('mine').value = text;
         byId('mine-note').textContent = note;
         const found = engine.inspect(text);
