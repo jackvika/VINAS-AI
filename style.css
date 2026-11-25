@@ -237,3 +237,21 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
 .expect { margin: 18px 0 0; padding-left: 1.2rem; color: var(--muted); font-size: .92rem; }
 .expect li { margin: 4px 0; }
 #semester { max-width: 12rem; }
+.block { margin: 22px 0; padding: 12px 14px; font-style: normal; background: var(--panel); border: 1px dashed var(--line); border-radius: 12px; }
+.block .made { margin: 0; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.block h4 { margin: 4px 0 10px; color: var(--text); }
+.block .wide { overflow-x: auto; }
+.block table { width: 100%; border-collapse: collapse; font-size: .92rem; color: var(--text); }
+.block th, .block td { padding: 6px 8px; text-align: left; vertical-align: top; border: 1px solid var(--line); }
+.block thead th { background: var(--ink); color: var(--ink-text); }
+.pyramid { display: block; width: 100%; max-width: 520px; margin: 0 auto; }
+.pyramid text { font: 15px var(--sans); fill: var(--on-accent); }
+.pyramid .name { font-weight: 700; }
+.pyramid .row { fill: var(--accent); }
+.pyramid .row1 { opacity: .92; }
+.pyramid .row2 { opacity: .86; }
+.pyramid .row3 { opacity: .8; }
+.pyramid .row4 { opacity: .74; }
+.flow { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 0; padding: 0; list-style: none; color: var(--text); }
+.flow li { position: relative; padding: 8px 12px; background: var(--paper); border: 1px solid var(--accent); border-radius: 8px; }
+.flow:not(.plain) li:not(:last-child)::after { content: "\2192"; position: absolute; right: -21px; top: 50%; transform: translateY(-50%); color: var(--accent); }

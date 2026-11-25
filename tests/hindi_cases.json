@@ -1,0 +1,25 @@
+{
+ "about": "Twenty questions in Hindi, each marked with the key points of the English question it stands for.",
+ "cases": [
+  { "q": "प्रबंध के स्तरों की व्याख्या कीजिए (10 अंक)", "as": "Explain the levels of management (10 marks)" },
+  { "q": "हेनरी फेयोल के प्रबंध के 14 सिद्धांतों को समझाइए (10 अंक)", "as": "Explain Fayol's 14 principles of management. (10 marks)" },
+  { "q": "मास्लो के आवश्यकता सोपान सिद्धांत को समझाइए (10 अंक)", "as": "Explain Maslow's hierarchy of needs. (10 marks)" },
+  { "q": "उत्पाद जीवन चक्र की अवस्थाओं का वर्णन कीजिए (10 अंक)", "as": "Explain the stages of the product life cycle. (10 marks)" },
+  { "q": "प्रबंध के कार्यों का वर्णन कीजिए (10 अंक)", "as": "Explain the functions of management. (10 marks)" },
+  { "q": "नियोजन की परिभाषा दीजिए। इसके प्रकार और महत्व समझाइए। (10 अंक)", "as": "Define planning. Explain its types and importance. (10 marks)" },
+  { "q": "संगठन क्या है? इसका महत्व समझाइए। (10 अंक)", "as": "What is organizing? Explain its importance. (10 marks)" },
+  { "q": "भारार्पण की प्रक्रिया समझाइए (10 अंक)", "as": "Explain the process of delegation of authority. (10 marks)" },
+  { "q": "केंद्रीकरण और विकेंद्रीकरण में अंतर बताइए (10 अंक)", "as": "Differentiate between centralization and decentralization. (10 marks)" },
+  { "q": "नियंत्रण की प्रक्रिया का वर्णन कीजिए (10 अंक)", "as": "Explain the process of controlling. (10 marks)" },
+  { "q": "भर्ती और चयन में अंतर स्पष्ट कीजिए (10 अंक)", "as": "Distinguish between recruitment and selection. (10 marks)" },
+  { "q": "प्रशिक्षण क्या है? प्रशिक्षण की विधियाँ समझाइए। (10 अंक)", "as": "What is training? Explain the methods of training. (10 marks)" },
+  { "q": "कार्य विश्लेषण को समझाइए (5 अंक)", "as": "Explain job analysis. (5 marks)" },
+  { "q": "अभिप्रेरणा क्या है? इसका महत्व बताइए। (10 अंक)", "as": "What is motivation? Explain its importance. (10 marks)" },
+  { "q": "नेतृत्व की शैलियों को समझाइए (10 अंक)", "as": "Explain different leadership styles. (10 marks)" },
+  { "q": "बाजार विभक्तीकरण क्या है? इसके आधार समझाइए। (10 अंक)", "as": "What is market segmentation? Explain its bases. (10 marks)" },
+  { "q": "मांग का नियम समझाइए (10 अंक)", "as": "Explain the law of demand. (10 marks)" },
+  { "q": "एकाधिकार की विशेषताएँ बताइए (10 अंक)", "as": "Explain the features of monopoly. (10 marks)" },
+  { "q": "राष्ट्रीय आय क्या है? इसे मापने की विधियाँ समझाइए। (10 अंक)", "as": "What is national income? Explain the methods of measuring it. (10 marks)" },
+  { "q": "संप्रेषण की प्रक्रिया समझाइए (10 अंक)", "as": "Explain the process of communication. (10 marks)" }
+ ]
+}

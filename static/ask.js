@@ -362,6 +362,29 @@ const Ask = (() => {
     }
 
     const length = (s) => words(s.text).length;
+    // British and Indian spelling for what is shown: a fixed list of words, and only their spelling. A name in capitals stays.
+    const IZE = 'organi|reali|recogni|speciali|centrali|decentrali|standardi|maximi|minimi|utili|emphasi|categori|summari|characteri|prioriti|globali|privati|liberali|nationali|industriali|mobili|optimi|computeri|customi|finali|formali|generali|harmoni|ideali|institutionali|legali|moderni|monopoli|normali|penali|personali|reorgani|stabili|subsidi|symboli|visuali|authori|capitali|criticiz|critici|economi|equali|initiali|materiali|publici|rationali|scrutini|socioli|sociali|sympathi|theori|urbani|unioni|departmentali|actuali|commerciali|digiti|incentivi|hypothesi|locali|memori|neutrali|polari|revitali|routini|synchroni|systemati|verbali';
+    const SPELLING = [
+        [new RegExp(`\\b(${IZE})z(e|es|ed|er|ers|ing|ation|ations|ational|ationally|able)\\b`, 'gi'), '$1s$2'], [/\b(self-actuali)z(ation|ed|ing|e)\b/gi, '$1s$2'],
+        [/\b(anal|paral|catal)yz(e|es|ed|er|ers|ing)\b/gi, '$1ys$2'], [/\b(behavi|lab|fav|col|hon|neighb|endeav|hum|rum|vig|harb|arm|sav|flav|od)or(s|ed|ing|al|ally|able|ably|ism|ist|ists|er|ers|hood|less|ful|y)?\b/gi, (m, a, b = '') => (/^(?:vigor|humor|honor|odor|labor|rumor|favor|color|armor|harbor|savor|flavor|neighbor|endeavor|behavior)/i.test(m) && !/^(?:honorary|humorous|vigorous|laborious|coloration)/i.test(`${a}or${b}`) ? `${a}our${b}` : m)],
+        [/\b(c)enter(s|ed|ing)?\b/gi, (m, c, e = '') => `${c}ent${e === 'ed' ? 'red' : e === 'ing' ? 'ring' : `re${e}`}`], [/\b(fulfi|enro|ski)ll(ment|ments|ful|fully)\b/gi, '$1l$2'], [/\bfulfill\b/g, 'fulfil'], [/\b(instal)l(ment|ments)\b/gi, '$1$2'],
+        [/\b(model|label|travel|cancel|counsel|level|signal|channel|total|fuel|equal)(ed|ing|er|ers|or|ors)\b/gi, (m, a, b) => (/^(?:model|label|travel|cancel|counsel|level|signal|channel|fuel)$/i.test(a) && !(/^cancel$/i.test(a) && /^(?:er|or)/.test(b)) ? `${a}l${b}` : m)],
+        [/\b(defen|offen)se(s)?\b/gi, '$1ce$2'], [/\b(catal|dial|anal)og(s)?\b/gi, '$1ogue$2'], [/\bgray\b/g, 'grey'], [/\bjewelry\b/g, 'jewellery'], [/\bpracticing\b/g, 'practising'], [/\bmaneuver/g, 'manoeuvre'], [/\bper cent\b/g, 'per cent'],
+    ];
+    function british(text) {
+        let out = text;
+        for (const [pattern, to] of SPELLING) {
+            out = out.replace(pattern, (...m) => {
+                const at = m[m.length - 2];
+                const was = m[0];
+                const now = typeof to === 'string' ? to.replace(/\$(\d)/g, (_, n) => m[Number(n)] || '') : to(...m);
+                if (!/^[A-Z]/.test(was)) return now;
+                // A capital inside a sentence is a name: the World Trade Organization, the Labor Party.
+                return /(?:^|[.!?:–—]\s*["“'‘(]?)$/.test(text.length === out.length || at === 0 ? out.slice(0, at) : out.slice(0, at)) && !/^\s[A-Z]/.test(out.slice(at + was.length, at + was.length + 2)) ? now : was;
+            });
+        }
+        return out;
+    }
     // Sentences of a textbook that only show the way.
     const SIGNPOST = /\b(?:we (?:now )?turn (?:now )?to|we turn now|we now\b|in this (?:chapter|section|module|unit|lesson|text|book|article)|as (?:we(?: will|['’]ll| shall)|you(?: will|['’]ll)) see|as (?:discussed|mentioned|noted|described|seen|explained|we saw|we have seen) (?:earlier|above|before|previously|in)|learning (?:objectives?|outcomes?)|(?:figure|exhibit|table|chapter) \d+|see (?:chapter|section|figure|table|exhibit)|(?:next|previous|last|preceding) (?:section|chapter|module)|later in (?:this|the) (?:chapter|section|book)|(?:this|the) (?:chapter|section|module|unit) (?:will|is|covers|looks|discusses|examines|explores|begins|presents|describes|explains)|(?:shown|listed|described|discussed|explained|given|summari[sz]ed|presented|illustrated|outlined|see) (?:below|above|in (?:figure|table|exhibit))|the following (?:section|paragraph|chapter|discussion|are|is|list|table|pages?|example)|let['’]?s (?:look|turn|consider|examine|explore)|let us (?:look|turn|consider|examine|explore)|we (?:will|shall) (?:look|discuss|examine|explore|consider|turn|learn|focus|see|describe|review)|you will (?:learn|read|see|explore|be able))\b/i;
     const LINKS = /^(?:this|these|that|those|such|thus|however|therefore|unlike|also|it|they|he|she|his|her|its|their|hence|because of this|as a result|in contrast|on the other hand|similarly|moreover|furthermore|in addition|additionally|for example|for instance|instead|then|consequently|conversely|but|and|so|yet|another|both of these|finally|second(?!-)|third(?!-))\b/i;
@@ -899,6 +922,9 @@ const Ask = (() => {
         const parts = [];
         const missing = [];
         const named = (t) => terms(t).filter((w) => !['principl', 'manag'].includes(w));
+        // The source that has a line for most items comes first.
+        const lined = (p) => items.filter(([name, , , , own = {}]) => pool.some((x) => x.page === p && !x.item && [name, ...(own.aliases || [])].some((n) => x.text.toLowerCase().startsWith(n.toLowerCase())))).length;
+        const most = [...pages].sort((x, y) => lined(y) - lined(x))[0];
         for (const [name, , , , own = {}] of items) {
             const blocked = phrases(own.blocked || []);
             const names = [name, ...(own.aliases || [])];
@@ -910,7 +936,7 @@ const Ask = (() => {
                 const mine = new Set(named(m[1]));
                 return names.some((n) => named(n).length && named(n).every((w) => mine.has(w))) && mine.size <= named(name).length + 2;
             };
-            let best = free.filter((x) => !x.item && label(x)).sort((x, y) => (y.page === pages[0]) - (x.page === pages[0]))[0];
+            let best = free.filter((x) => !x.item && label(x)).sort((x, y) => (y.page === most) - (x.page === most))[0];
             if (!best) {
                 const says = phrases(names.map((n) => plainly(n)));
                 const some = free.filter((x) => !x.item && length(x) >= 8 && length(x) < 60 && says.test(x.text.slice(0, 90)) && !LEANS.test(x.text)).slice(0, 12);
@@ -1464,7 +1490,7 @@ const Ask = (() => {
         return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: !off && sure(asked, got) };
     }
 
-    return { ITEMS, NATURAL, SIZES, answer, asksOf, clean, leans, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { ITEMS, NATURAL, SIZES, answer, british, asksOf, clean, leans, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
@@ -1486,6 +1512,125 @@ const Ask = (() => {
         sup.append(link);
         return sup;
     };
+
+    // Diagrams and tables that were written by hand (static/prepared.json).
+    let hand = { diagrams: [], tables: [] };
+    const NOTQUOTED = 'Prepared by VINAS, not quoted from a source';
+    const SVG = 'http://www.w3.org/2000/svg';
+    const draw = (name, attributes, text) => {
+        const node = document.createElementNS(SVG, name);
+        for (const [k, v] of Object.entries(attributes)) node.setAttribute(k, String(v));
+        if (text) node.textContent = text;
+        return node;
+    };
+    /** A pyramid of some rows, the top one first. */
+    function pyramid(d) {
+        const high = 54;
+        const svg = draw('svg', { viewBox: `0 0 600 ${high * d.rows.length + 8}`, role: 'img', 'aria-label': `${d.title}: ${d.rows.join('; ')}`, class: 'pyramid' });
+        d.rows.forEach((row, i) => {
+            const half = (k) => 60 + 235 * k / d.rows.length;
+            const y = 4 + i * high;
+            svg.append(draw('polygon', { points: `${300 - half(i)},${y} ${300 + half(i)},${y} ${300 + half(i + 1)},${y + high - 4} ${300 - half(i + 1)},${y + high - 4}`, class: `row row${i % 5}` }));
+            // A long name is written on two lines.
+            const [a, b] = row.split(': ');
+            svg.append(draw('text', { x: 300, y: y + (b ? 22 : 31), 'text-anchor': 'middle', class: 'name' }, a));
+            if (b) svg.append(draw('text', { x: 300, y: y + 40, 'text-anchor': 'middle' }, b));
+        });
+        return svg;
+    }
+    /** A block that the site made, with its label. */
+    function block(title) {
+        const box = el('div');
+        box.className = 'prepared block';
+        const tag = el('p', NOTQUOTED);
+        tag.className = 'made';
+        box.append(tag, el('h4', title));
+        return box;
+    }
+    const sameTopic = (a, b) => typeof Parse === 'object' && Parse.norm(a) === Parse.norm(b);
+    /** The tables for what is compared: above the answer. */
+    function tables(query, lines) {
+        const out = [];
+        for (const p of query.parts) {
+            const sides = p.sides || (p.facet === 'statement-conclusion' && /unity of command and unity of direction/i.test(p.topic) ? ['unity of command', 'unity of direction'] : p.facet === 'statement-conclusion' && /^management as both science and art$/i.test(p.topic) ? ['management as a science', 'management as an art'] : null);
+            if (!sides) continue;
+            const t = hand.tables.find((x) => (sameTopic(x.sides[0], sides[0]) && sameTopic(x.sides[1], sides[1])) || (sameTopic(x.sides[0], sides[1]) && sameTopic(x.sides[1], sides[0])));
+            if (!t) continue;
+            const name = (x) => x[0].toUpperCase() + x.slice(1);
+            const box = block(`${name(t.sides[0])} and ${t.sides[1]}`);
+            const table = el('table');
+            const head = el('tr');
+            for (const x of ['Basis', ...t.sides.map(name)]) {
+                const cell = el('th', x);
+                cell.scope = 'col';
+                head.append(cell);
+            }
+            const top = el('thead');
+            top.append(head);
+            const body = el('tbody');
+            lines.push(`${NOTQUOTED}. Comparison of ${t.sides[0]} and ${t.sides[1]}:`, '');
+            for (const [basis, a, b] of t.rows) {
+                const row = el('tr');
+                const cell = el('th', basis);
+                cell.scope = 'row';
+                row.append(cell, el('td', a), el('td', b));
+                body.append(row);
+                lines.push(`- ${basis}: ${name(t.sides[0])}: ${a}. ${name(t.sides[1])}: ${b}.`);
+            }
+            lines.push('');
+            table.append(top, body);
+            const wide = el('div');
+            wide.className = 'wide';
+            wide.append(table);
+            box.append(wide);
+            out.push(box);
+        }
+        return out;
+    }
+    /** The diagrams of the topics, and the topics worth a word as well: below the answer. */
+    function extras(query, lines) {
+        const out = [];
+        const shown = new Set();
+        for (const p of query.parts) {
+            const d = hand.diagrams.find((x) => sameTopic(x.topic, p.topic) && (!x.facets || x.facets.includes(p.facet)) && !shown.has(x));
+            if (!d || p.facet === 'definition' || p.facet === 'short-note') continue;
+            shown.add(d);
+            const box = block(`Diagram: ${d.title}`);
+            if (d.kind === 'pyramid') box.append(pyramid(d));
+            else {
+                const list = el('ol');
+                list.className = d.plain ? 'flow plain' : 'flow';
+                for (const row of d.rows) list.append(el('li', row));
+                box.append(list);
+            }
+            out.push(box);
+            lines.push(`${NOTQUOTED}. Diagram, ${d.title}${d.kind === 'pyramid' ? ' (from the top)' : ''}: ${d.rows.join(d.kind === 'pyramid' || d.plain ? ' | ' : ' > ')}.`, '');
+        }
+        if (query.with.includes('diagram') && !shown.size) {
+            const none = el('p', `${MADE}. No prepared diagram is available for this topic.`);
+            none.className = 'prepared';
+            out.push(none);
+            lines.push(`${MADE}. No prepared diagram is available for this topic.`, '');
+        }
+        const related = [...new Set(query.parts.flatMap((p) => { const x = Ask.ITEMS.find(([pattern]) => pattern.test(p.topic)); return x && x[3] ? x[3].related || [] : []; }))].filter((x) => !query.parts.some((p) => sameTopic(p.topic, x))).slice(0, 4);
+        if (related.length) {
+            const box = el('div');
+            box.className = 'prepared block';
+            const line = el('p', `${MADE}. Also mention for extra marks: `);
+            for (const x of related) {
+                const chip = press(x, 'chip', () => {
+                    by('question').value = `Explain ${x}`;
+                    box_.requestSubmit();
+                });
+                line.append(chip, ' ');
+            }
+            const box_ = by('ask');
+            box.append(line);
+            out.push(box);
+            lines.push(`${MADE}. Also mention for extra marks: ${related.join(', ')}.`, '');
+        }
+        return out;
+    }
 
     // What the site says itself is always told apart from what it quotes.
     const MADE = 'Prepared by VINAS';
@@ -1614,10 +1759,12 @@ const Ask = (() => {
             lines.push('Closest sentences:', '');
         }
         by('answer-title').textContent = question;
+        const course = result.query && result.query.course ? result.query : null;
+        if (course && !note) body.append(...tables(course, lines));
         for (const part of result.parts) {
             if (part.head) {
-                body.append(el('h3', part.head));
-                lines.push(`## ${part.head}`, '');
+                body.append(el('h3', Ask.british(part.head)));
+                lines.push(`## ${Ask.british(part.head)}`, '');
             }
             if (part.note) {
                 const made = el('p', `${MADE}: ${part.note}`);
@@ -1626,8 +1773,8 @@ const Ask = (() => {
                 lines.push(`${MADE}: ${part.note}`, '');
             }
             if (part.sub) {
-                body.append(el('h4', part.sub));
-                lines.push(`### ${part.sub}`, '');
+                body.append(el('h4', Ask.british(part.sub)));
+                lines.push(`### ${Ask.british(part.sub)}`, '');
             }
             let section = null;
             let home = null;
@@ -1639,8 +1786,8 @@ const Ask = (() => {
                     section = s.section + s.page.url;
                     home = null;
                     if (s.section) {
-                        body.append(el('h4', s.section));
-                        lines.push('', `### ${s.section}`, '');
+                        body.append(el('h4', Ask.british(s.section)));
+                        lines.push('', `### ${Ask.british(s.section)}`, '');
                     }
                 }
                 const kind = s.item ? 'UL' : 'P';
@@ -1651,7 +1798,7 @@ const Ask = (() => {
                 }
                 block = s.block;
                 const spot = s.item ? el('li') : home;
-                const text = s.text;
+                const text = Ask.british(s.text);
                 spot.append(text);
                 if (s.item) {
                     home.append(spot);
@@ -1668,7 +1815,10 @@ const Ask = (() => {
             }
             lines.push('');
         }
-        for (const line of [gap, result.checklist && result.checklist.length ? `To cover: ${result.checklist.join(', ')}.` : ''].filter(Boolean)) {
+        // An example that was asked for, and that no sentence gives.
+        const eg = course && course.with.includes('examples') && !/\b(?:for example|for instance|such as|e\.g\.|examples?)\b/i.test(result.parts.flatMap((p) => p.chosen.map((x) => x.text)).join(' ')) ? 'Not sure: no example was found in the sources.' : '';
+        if (course) by('answer-body').append(...extras(course, lines));
+        for (const line of [eg, gap, result.checklist && result.checklist.length ? `To cover: ${result.checklist.join(', ')}.` : ''].filter(Boolean)) {
             const made = el('p', `${MADE}. ${line}`);
             made.className = 'prepared gap';
             by('answer-body').append(made);
@@ -1746,8 +1896,9 @@ const Ask = (() => {
                 group.append(option);
                 subjects.set(c.code, c);
             }
-            const [glossary, statements] = await Promise.all(['static/glossary.json', 'static/statements.json'].map(async (path) => (await fetch(path, { credentials: 'same-origin' })).json()));
+            const [glossary, statements, made] = await Promise.all(['static/glossary.json', 'static/statements.json', 'static/prepared.json'].map(async (path) => (await fetch(path, { credentials: 'same-origin' })).json()));
             if (typeof Parse === 'object') Parse.teach({ bba, glossary, statements });
+            hand = made;
         } catch { /* the page works without them */ }
     };
     // What was asked about last, for "its advantages?".

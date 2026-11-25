@@ -136,7 +136,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/glossary.json', '/static/statements.json', '/static/bba.js', '/static/parse.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/glossary.json', '/static/statements.json', '/static/prepared.json', '/static/bba.js', '/static/parse.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -272,6 +272,20 @@ class Server(unittest.TestCase):
             for pattern in s['say']:
                 re.compile(pattern)
             self.assertEqual(s['parts'][-1][1], 'statement-conclusion')
+
+    def test_prepared(self):
+        import json
+        made = json.loads((server.ROOT / 'static' / 'prepared.json').read_text(encoding='utf-8'))
+        names = {line.split(' | ')[0] for group in json.loads((server.ROOT / 'static' / 'glossary.json').read_text(encoding='utf-8'))['subjects'].values() for line in group}
+        for d in made['diagrams']:
+            self.assertIn(d['topic'], names)
+            self.assertIn(d['kind'], ('pyramid', 'flow'))
+            self.assertGreater(len(d['rows']), 2)
+        for t in made['tables']:
+            self.assertEqual(len(t['sides']), 2)
+            for side in t['sides']:
+                self.assertIn(side, names)
+            self.assertTrue(all(len(row) == 3 and all(row) for row in t['rows']))
 
     def test_vendor_files_are_unchanged(self):
         folder = server.ROOT / 'static' / 'vendor'

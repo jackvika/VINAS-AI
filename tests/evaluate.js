@@ -37,7 +37,7 @@
     const { Ask, Parse, Judge, Book } = site.VINAS;
 
     // What Wikipedia said is kept, and everything read is remembered to see which sentence stood before which.
-    const flat = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+    const flat = (text) => site.VINAS.Ask.british(text).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
     const read = new Map();
     const direct = site.fetch.bind(site);
     let asked = 0;
@@ -127,7 +127,7 @@
     };
 
     const rate = (good, all) => (all ? Math.round(1000 * good / all) / 10 : null);
-    const result = { when: new Date().toISOString(), reader, set: held ? 'held' : 'working' };
+    const result = { when: new Date().toISOString(), reader, set: wants.get('set') || 'working' };
 
     // ---- How questions are read ----
 
@@ -309,6 +309,18 @@
         await ask('What is photosynthesis?');
         checks['other questions as before'] = /Understood as a definition\. Topic: photosynthesis/.test(by('understood').textContent) && !by('answer').hidden;
         checks['nothing from outside is HTML'] = !by('understood').querySelector('img, script') && (await (async () => { await ask('Explain <img src=x onerror=alert(1)> planning'); return !by('answer').querySelector('img'); })());
+        await ask('Distinguish between recruitment and selection. (10 marks)');
+        const label = 'Prepared by VINAS, not quoted from a source';
+        checks['a prepared table'] = Boolean(by('answer-body').querySelector('.prepared table')) && by('answer-text').value.includes(`${label}. Comparison of recruitment and selection:`) && by('answer-body').querySelector('.prepared .made').textContent === label;
+        await ask('Explain the levels of management with the help of a neat diagram.');
+        checks['a prepared diagram'] = Boolean(by('answer-body').querySelector('.prepared svg.pyramid')) && by('answer-text').value.includes(`${label}. Diagram, Levels of management`);
+        const also = [...by('answer-body').querySelectorAll('.prepared .chip')].find((x) => x.textContent === 'managerial skills');
+        checks['also mention'] = Boolean(also) && by('answer-text').value.includes('Also mention for extra marks: managerial skills');
+        also.click();
+        await done();
+        checks['a link asks its topic'] = /^Understood as: Managerial skills/.test(line());
+        await ask('Explain grapevine communication with diagram.');
+        checks['no diagram is told'] = /No prepared diagram is available/.test(by('answer-text').value);
         result.page = checks;
         result.answers = { page: Object.entries(checks).map(([k, v]) => `${v ? 'ok  ' : 'FAIL'}  ${k}`).join('\n') };
     }
@@ -325,7 +337,7 @@
         const both = [...x].filter((w) => y.has(w)).length;
         return both / Math.max(1, x.size + y.size - both);
     };
-    const plain = (t) => t.replace(/isation/gi, 'ization').replace(/([a-z])ise(d|s|r|rs)?\b/gi, '$1ize$2').replace(/([a-z])ising\b/gi, '$1izing').replace(/behaviour/gi, 'behavior').replace(/labour/gi, 'labor').replace(/neighbour/gi, 'neighbor').replace(/favour/gi, 'favor').replace(/fulfill/gi, 'fulfil');
+    const plain = (t) => t.replace(/isation/gi, 'ization').replace(/([a-z])ise(d|s|r|rs)?\b/gi, '$1ize$2').replace(/([a-z])ising\b/gi, '$1izing').replace(/behaviour/gi, 'behavior').replace(/labour/gi, 'labor').replace(/neighbour/gi, 'neighbor').replace(/favour/gi, 'favor').replace(/fulfill/gi, 'fulfil').replace(/centre/gi, 'center').replace(/colour/gi, 'color').replace(/honour/gi, 'honor').replace(/analys(e|ed|es|ing)\b/gi, 'analyz$1').replace(/(model|label|travel|counsel|level)l(ed|ing)/gi, '$1$2');
     /** True when the sentence before this one in its source is the one shown before it. */
     const follows = (before, s) => {
         if (!before) return false;
@@ -386,6 +398,11 @@
 
     if (what.includes('quality')) {
         let cases = held ? (await json('held_back.json')).quality : (await json('answer_quality.json')).cases;
+        if (wants.get('set') === 'hindi') {
+            // Each Hindi question has the key points of an English one.
+            const english = new Map(cases.map((c) => [c.q, c]));
+            cases = (await json('hindi_cases.json')).cases.map((c) => ({ ...english.get(c.as), q: c.q }));
+        }
         if (only) cases = cases.filter((c) => only.test(c.q));
         const rows = [];
         result.answers = {};

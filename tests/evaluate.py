@@ -4,6 +4,7 @@
     python -m tests.evaluate --what parse
     python -m tests.evaluate --what parse,quality,general,squad --squad dev-v1.1.json --out tests/results/step1.json --against tests/results/baseline.json
     python -m tests.evaluate --what page          what a visitor can do with the line above an answer
+    python -m tests.evaluate --set hindi --what quality   the answers to twenty Hindi questions
     python -m tests.evaluate --set held            only for the final report
 
 The real page runs in Chrome (tests/evaluate.js). What Wikipedia says is kept in tests/.cache, so that two runs see the same sources.
@@ -97,7 +98,7 @@ def main():
     sys.stderr.reconfigure(encoding='utf-8')
     a = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     a.add_argument('--what', default='parse,quality')
-    a.add_argument('--set', default='working', choices=['working', 'held'])
+    a.add_argument('--set', default='working', choices=['working', 'held', 'hindi'])
     a.add_argument('--only', default='', help='only the answers to questions that match this pattern')
     a.add_argument('--ask', default='', help='one question: prints what the page shows')
     a.add_argument('--read', default='', help='a question, or @file with one on each line: prints how it is read')

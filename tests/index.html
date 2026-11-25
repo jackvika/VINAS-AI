@@ -141,6 +141,7 @@ function run() {
         const got = Ask.clean([{ head: '', chosen: [all[1], all[2], all[3], all[4]], words: 0 }]);
         check('clean', '', [all[0].text, all[1].text], got[0].chosen.map((x) => x.text));
     }
+    for (const [from, to] of [['Organizing the behavior of workers', 'Organising the behaviour of workers'], ['the World Trade Organization is a labor matter', 'the World Trade Organization is a labour matter'], ['They analyzed the size of the prize.', 'They analysed the size of the prize.'], ['Centers are centered on skillful, labeled models.', 'Centres are centred on skilful, labelled models.'], ['decentralization and self-actualization', 'decentralisation and self-actualisation'], ['vigorous, humorous and laborious work', 'vigorous, humorous and laborious work'], ['Top management: Organization of work', 'Top management: Organisation of work']]) check('spelling shown', from, to, Ask.british(from));
     for (const [pattern, topic, items, whole = {}] of Ask.ITEMS) {
         check('items are whole', topic, true, items.length > 1 && items.every(([name, words_, title, also, own]) => name && words_ && typeof title === 'string' && (own === undefined || [own.aliases, own.keywords, own.blocked].every((x) => x === undefined || Array.isArray(x)))));
         check('items have patterns', topic, true, [...items.flatMap((x) => (x[4] || {}).blocked || []), ...(whole.blocked || []), ...Object.values(whole.facet_blocked || {}).flat()].every((x) => { try { return Boolean(new RegExp(x, 'iu')); } catch { return false; } }));
