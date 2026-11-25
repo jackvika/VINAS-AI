@@ -31,6 +31,8 @@ On 480 questions from SQuAD 1.1 about 48 articles, choosing among all the senten
 | BM25 | 72.3% | 88.3% | 91.7% |
 | Reader on the best candidates | **81.9%** | **91.0%** | **94.0%** |
 
+On 65 real questions asked through the page, an answer that held the expected word came up for 61: 44 of 45 that were at hand during the work, and 17 of 20 asked afterwards for the first time. Of those 20, the other three were wrong without a warning.
+
 An earlier network trained for this site is gone. Its figures here had been measured on sentences already sifted by BM25; among all sentences its first choice was right only 61.7% of the time, worse than BM25 alone.
 
 Hindi questions use patterns and BM25, as does a browser that cannot run the reader.

@@ -456,8 +456,10 @@ const Ask = (() => {
     /** True when the chosen sentences hold the kind of thing that was asked for. */
     function sure(asked, got) {
         if (/\b(?:my|mine|our|ours|your|today|tomorrow|yesterday)\b/i.test(asked.q)) return false;
-        if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind)) return got.chosen.some((s) => s.replies);
-        if (got.cover < 0.6) return false;
+        // Where the reader has read the sentences, it has to think one of them likely.
+        const read = got.chosen.some((s) => s.judged !== undefined);
+        if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind)) return got.chosen.some((s) => s.replies && (!read || s.judged > (asked.kind === 'why' ? 0.15 : 0.5)));
+        if (got.cover < 0.6 || (read && Math.max(...got.chosen.map((s) => s.judged || 0)) < 0.05)) return false;
         if (asked.kind === 'define' && !/\p{Script=Devanagari}/u.test(asked.q)) {
             const topic = terms(asked.topics[0]);
             return topic.length === 0 || got.chosen.some((s) => topic.every((w) => terms(s.page.title).includes(w) || (s.lead && s.terms.includes(w))));
