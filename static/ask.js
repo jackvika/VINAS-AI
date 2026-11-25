@@ -687,7 +687,7 @@ const Ask = (() => {
         }
         if (parts.length < Math.max(2, items.length - 1)) return null;
         // A short opening that says what the whole is.
-        const pool = main.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p, terms: terms(x.text) }))).filter((x) => !used.has(x.text) && !x.item && !LEANS.test(x.text) && !/^(?:this|these|in this) (?:chapter|module|section|book)|^(?:let|now|so)\b|\balso\b|\?/i.test(x.text)).slice(0, 40);
+        const pool = main.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p, terms: terms(x.text) }))).filter((x) => !used.has(x.text) && !x.item && !LEANS.test(x.text) && !/^[^:.]{2,40}:\s/.test(x.text) && !/^(?:this|these|in this) (?:chapter|module|section|book)|^(?:let|now|so)\b|\balso\b|\?/i.test(x.text)).slice(0, 40);
         const p = pool.length ? await Judge.score(`What are the ${asked.topics[0]}?`, pool.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
         if (p) {
             pool.forEach((x, i) => { x.judged = p[i]; });
@@ -888,7 +888,9 @@ const Ask = (() => {
             const book = await Book.find(asked.q, 2, books ? 0.5 : 0.9, books);
             if (book.length) merged = (asked.kind === 'define' ? [...merged.slice(0, 2), ...book.slice(0, 1)] : [...book, ...merged.slice(0, 2)]).map((p, order) => ({ ...p, order }));
         }
-        if (subject) merged = merged.filter((p) => p.from || !NAMESAKE.test(p.text.slice(0, 260)));
+        // Nor is the life of a person who had to do with it.
+        const apart = (p) => !p.from && (NAMESAKE.test(p.text.slice(0, 260)) || (/\(born\b|\(\d{4}\s?[–-]\s?\d{4}\)|\b(?:politician|actor|actress|businessman|businesswoman|lawyer|academic|civil servant)\b/i.test(p.text.slice(0, 220)) && !speaks(coreOf(asked), p.title)));
+        if (subject) merged = merged.filter((p) => !apart(p));
         // An article that only shares a word with the topic is not on it.
         let off = false;
         if (topical && lang !== 'hi' && ['explain', 'list', 'define'].includes(asked.kind)) {
@@ -897,7 +899,7 @@ const Ask = (() => {
             const field = subject && core.length < 3 ? [...new Set(terms(subject))] : [];
             const ours = (p) => p.from || !field.length || (() => { const have = new Set(terms(p.text)); return field.some((w) => have.has(w)); })();
             let on = merged.filter((p) => onTopic(core, p) && ours(p));
-            if (!on.length && titles.length > 3) on = (await articles(lang, titles.slice(3), 3)).filter((p) => onTopic(core, p) && ours(p) && !(subject && NAMESAKE.test(p.text.slice(0, 260))));
+            if (!on.length && titles.length > 3) on = (await articles(lang, titles.slice(3), 3)).filter((p) => onTopic(core, p) && ours(p) && !(subject && apart(p)));
             if (on.length) merged = on.map((p, order) => ({ ...p, order }));
             else off = true;
         }
