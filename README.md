@@ -6,7 +6,7 @@ Ask a question, and get an answer put together from Wikipedia, with a source for
 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
-- Ranks every sentence with a small neural network and BM25, with bonuses for section, place and kind of answer
+- Ranks every sentence with a neural network and BM25, with bonuses for section, place and kind of answer
 - Puts the best sentences in reading order, with headings, sources, and a warning when little was found
 - Checks that a sentence really answers: a height for "how tall", a doer for "who", a date of that event for "when". If none does, it says "Not sure", also in the copy and the PDF
 - Works out sums such as `15% of 2400`, without running any code
@@ -20,22 +20,20 @@ It quotes; it does not reason or write new sentences, and it knows only what Wik
 - `check.html`: compares two versions of a text
 - `guide.html`: 26 signs of AI writing
 
-## The neural network
+## The reader
 
-`brain/train_mind.py` trains it with numpy on the 87,599 questions of [SQuAD 1.1](https://rajpurkar.github.io/SQuAD-explorer/) (CC BY-SA 4.0), which people asked about Wikipedia. `static/mind.js` runs it in the browser; the weights in `static/mind.bin` are 2 MB.
+A MiniLM cross-encoder, [`cross-encoder/ms-marco-MiniLM-L6-v2`](https://huggingface.co/cross-encoder/ms-marco-MiniLM-L6-v2) (Apache-2.0), reads the question together with each of the likeliest sentences and says how likely the sentence is an answer. It also helps to choose the articles. `static/judge-worker.js` runs it in the browser with ONNX Runtime Web, in its own thread. It is a 37 MB download from this site, the first time someone asks, and the files and their hashes are in `static/vendor/`.
 
-- **Types:** says whether a question wants a person, a place, a date, a number, a reason or something else
-- **Encoder:** 48-number vectors that put a question near the sentences that answer such questions
-- **Ranker:** one hidden layer of 32 that weighs 20 facts about a sentence
-
-The encoder and the ranker learn from different articles, because a ranker taught on the encoder's own articles trusts it too much. On 8,175 questions about 48 articles none of the parts had seen, choosing among all sentences of the article:
+On 480 questions from SQuAD 1.1 about 48 articles, choosing among all the sentences of the article:
 
 | | First choice right | In the first 3 | In the first 5 |
 |---|---|---|---|
-| BM25 alone | 71.7% | 85.3% | 89.3% |
-| Network | **75.4%** | **88.4%** | **91.3%** |
+| BM25 | 72.3% | 88.3% | 91.7% |
+| Reader on the best candidates | **81.9%** | **91.0%** | **94.0%** |
 
-The type labels come from patterns over questions and answers, so their 95% is agreement with those patterns. The network learned from English; Hindi questions use patterns and BM25.
+An earlier network trained for this site is gone. Its figures here had been measured on sentences already sifted by BM25; among all sentences its first choice was right only 61.7% of the time, worse than BM25 alone.
+
+Hindi questions use patterns and BM25, as does a browser that cannot run the reader.
 
 ## Run it
 

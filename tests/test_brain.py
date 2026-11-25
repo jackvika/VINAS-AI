@@ -1,4 +1,5 @@
 """Tests the brain and the server. Run from the main folder: python -m unittest tests.test_brain"""
+import hashlib
 import math
 import random
 import re
@@ -135,7 +136,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/mind.js', '/static/mind.bin', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -209,17 +210,20 @@ class Server(unittest.TestCase):
         with mock.patch.object(server, 'PASSWORD', 'x'), mock.patch.object(server, 'login_limiter', server.Limiter(3)):
             self.assertEqual([self.web.post('/api/login', json={'password': 'no'}).status_code for _ in range(4)], [401, 401, 401, 429])
 
-    def test_mind_file(self):
-        import json
-        import struct
-        raw = (server.ROOT / 'static' / 'mind.bin').read_bytes()
-        size = struct.unpack('<I', raw[:4])[0]
-        head = json.loads(raw[4:4 + size])
-        self.assertEqual(len(raw), 4 + size + sum(a[3] for a in head['arrays']))
-        self.assertEqual((4 + size) % 4, 0)
-        # It has to be better than plain word counting on the articles it never saw.
-        for network, plain in zip(head['info']['network'], head['info']['bm25']):
-            self.assertGreater(network, plain)
+    def test_vendor_files_are_unchanged(self):
+        folder = server.ROOT / 'static' / 'vendor'
+        listed = dict(re.findall(r'^\| `([^`]+)` \|.*\| `([0-9a-f]{64})` \|$', (folder / 'README.md').read_text(encoding='utf-8'), re.M))
+        here = {p.name for p in folder.iterdir() if p.suffix in ('.mjs', '.wasm', '.onnx') or p.name == 'vocab.txt'}
+        self.assertEqual(set(listed), here)
+        for name, want in listed.items():
+            self.assertEqual(hashlib.sha256((folder / name).read_bytes()).hexdigest(), want, name)
+
+    def test_reader_files(self):
+        for path, kind in (('/static/vendor/ort.wasm.min.mjs', 'text/javascript'), ('/static/vendor/ort-wasm-simd-threaded.wasm', 'application/wasm'), ('/static/vendor/minilm-l6.onnx', 'application/octet-stream')):
+            with self.web.get(path) as r:
+                self.assertEqual((r.status_code, r.mimetype), (200, kind), path)
+                self.assertIn('max-age', r.headers['Cache-Control'])
+                self.assertEqual(r.headers['Cross-Origin-Embedder-Policy'], 'require-corp')
 
     def test_no_ai_service_is_left(self):
         for path in ('/api/write', '/api/points', '/api/polish'):
@@ -236,7 +240,8 @@ class Server(unittest.TestCase):
         meta = re.search(r'Content-Security-Policy" content="([^"]+)"', page)[1]
         sent = server.HEADERS['Content-Security-Policy']
         self.assertEqual(set(meta.split('; ')) | {"frame-ancestors 'none'"}, set(sent.split('; ')))
-        self.assertNotIn('unsafe', sent)
+        self.assertNotIn('unsafe-inline', sent)
+        self.assertNotIn("'unsafe-eval'", sent)
 
     def test_bad_requests(self):
         for body in ([], {}, {'text': ''}, {'text': 5}, {'text': 'a' * 50_001}):

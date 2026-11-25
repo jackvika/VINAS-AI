@@ -31,7 +31,7 @@ STAY = 30 * 24 * 3600                                # seconds a login lasts
 OPEN = {'/api/health', '/api/login', '/login.html', '/style.css', '/static/login.js', '/static/icon.svg'}
 HEADERS = {
     # The question page asks Wikipedia from the visitor's browser.
-    'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://en.wikipedia.org https://simple.wikipedia.org https://hi.wikipedia.org; "
+    'Content-Security-Policy': "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://en.wikipedia.org https://simple.wikipedia.org https://hi.wikipedia.org; "
                                "base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
     'Strict-Transport-Security': 'max-age=31536000',
     'X-Content-Type-Options': 'nosniff',
@@ -44,6 +44,9 @@ HEADERS = {
 }
 
 mimetypes.add_type('text/javascript', '.js')
+mimetypes.add_type('text/javascript', '.mjs')
+mimetypes.add_type('application/wasm', '.wasm')
+mimetypes.add_type('application/octet-stream', '.onnx')
 
 rewriter = Rewriter(Model(ROOT / 'brain' / 'human.bin'))
 app = Flask(__name__, static_folder=None)
@@ -131,6 +134,9 @@ def headers(response):
         response.headers[name] = value
     if request.path.startswith('/api/'):
         response.headers['Cache-Control'] = 'no-store'
+    elif request.path.startswith('/static/vendor/') and response.status_code in (200, 206, 304):
+        # 37 MB that never change under the same name.
+        response.headers['Cache-Control'] = 'public, max-age=2592000'
     else:
         response.headers['Cache-Control'] = 'no-cache'
     return response

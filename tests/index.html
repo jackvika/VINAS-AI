@@ -12,7 +12,7 @@
 <script src="../static/brain.js"></script>
 <script src="../static/engine.js"></script>
 <script src="../static/pdf.js"></script>
-<script src="../static/mind.js"></script>
+<script src="../static/judge.js"></script>
 <script src="../static/ask.js"></script>
 <script src="cases.js"></script>
 <script>
@@ -119,6 +119,11 @@ function run() {
     check('stays on the subject', '', false, write(240).chosen.some((s) => s.section === 'Schools'));
     check('starts with the topic', '', big.text.split('\n')[0], write(240).chosen[0].text);
     check('whole stretches', '', true, (() => { const c = write(240).chosen.filter((s) => s.section === 'Levels'); return c.filter((s, i) => i && s.place === c[i - 1].place + 1).length >= c.length / 2; })());
+    for (const [q, text, yes] of [
+        ['Why is the sky blue?', 'Sky blue refers to a collection of shades.', false], ['Why is the sky blue?', 'The sky is blue because air scatters blue light most.', true],
+        ['What is the smallest country in the world?', 'Maldives is the smallest country in Asia.', false], ['What is the smallest country in the world?', 'Vatican City is the smallest country in the world.', true],
+        ['When did it end?', 'It ended quickly.', false], ['When did it end?', 'It ended in 1945.', true], ['How many are there?', 'There are many.', false], ['How many are there?', 'There are seven.', true],
+    ]) check('shape', text, yes, Ask.shape(Ask.understand(q), text));
     const isSure = (q) => Ask.sure(Ask.understand(q), pick(q, 60));
     check('sure', '', [true, true, false, false], [isSure('What is photosynthesis?'), isSure('When was light shown to be needed for photosynthesis?'), isSure('Why is photosynthesis slow?'), isSure('Who won the cricket photosynthesis cup?')]);
     const found = (...titles) => titles.map((title, i) => ({ title, pageid: title.length * 100 + i }));

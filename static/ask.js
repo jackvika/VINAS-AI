@@ -293,16 +293,6 @@ const Ask = (() => {
         const mean = all.reduce((n, s) => n + s.terms.length, 0) / Math.max(1, all.length);
         const weight = (w) => Math.log(1 + (all.length - (seen.get(w) || 0) + 0.5) / ((seen.get(w) || 0) + 0.5));
         const titles = new Map(pages.map((p) => [p, new Set(terms(p.title))]));
-        // The network judges the sentences of each article among themselves. It learned from English.
-        const taught = typeof Mind === 'object' && Mind.ready() && !/\p{Script=Devanagari}/u.test(asked.q);
-        if (taught) {
-            for (const p of pages) {
-                const mine = all.filter((x) => x.page === p && !x.item);
-                const z = mine.length ? Mind.score(asked.q, p.title, mine.map((x, i) => ({ text: x.text, block: x.block, first: !i || mine[i - 1].block !== x.block }))) : [];
-                mine.forEach((x, i) => { x.mind = z[i]; });
-            }
-        }
-        const best = Math.max(...all.map((x) => x.mind ?? -Infinity));
         const about = aboutOf(asked, wanted, titles);
         const known = new Set([...wanted, ...[...about.verbs.values()].flat()]);
         const exact = pages.filter((p) => titles.get(p).size && [...titles.get(p)].every((w) => known.has(w)));
@@ -327,8 +317,6 @@ const Ask = (() => {
                 if (head.has(w)) score += 0.9 * weight(w);
                 if (titles.get(s.page).has(w)) score += 0.3;
             }
-            // Its judgement, from 0 to 10, counts for more than the plain word count.
-            if (s.mind !== undefined) score = ['list', 'define', 'compare', 'explain'].includes(asked.kind) ? score + 3 * Math.exp((s.mind - best) / 2.5) : 0.45 * score + 10 * Math.exp((s.mind - best) / 2.5);
             if (s.place === 0) score += asked.kind === 'define' || asked.kind === 'compare' ? 7 : ['who', 'when', 'number', 'fact'].includes(asked.kind) ? 1 : 3;
             else if (!s.section) score += 1.5 / (1 + s.place / 3);
             if (asked.kind === 'when' && /\b(?:1\d{3}|20\d{2})\b/.test(s.text)) score += 2;
@@ -528,24 +516,64 @@ const Ask = (() => {
         return pages.filter(Boolean).slice(0, most).map((p, order) => ({ ...p, order }));
     }
 
+    const SHARP = ['why', 'when', 'number', 'who', 'fact'];
+    const english = (asked) => !/\p{Script=Devanagari}/u.test(asked.q);
+    const readerReady = () => typeof Judge === 'object' && Judge.ready();
+
     /** The openings of some articles in one request, to see which of them are about the question. */
     async function openings(lang, titles) {
-        if (lang === 'hi' || typeof Mind !== 'object' || !Mind.ready() || titles.length < 2) return new Map();
         const d = await get(lang, { action: 'query', prop: 'extracts', explaintext: '1', exintro: '1', exlimit: 'max', pageids: titles.map((x) => x.pageid).join('|') });
         return new Map((d && d.query && Array.isArray(d.query.pages) ? d.query.pages : []).filter((x) => x && typeof x.extract === 'string').map((x) => [x.pageid, x.extract.slice(0, 3000)]));
     }
 
+    /** Puts the titles whose openings speak to the question first. */
+    async function sortTitles(lang, titles, asked) {
+        if (!readerReady() || !english(asked) || titles.length < 2) return titles;
+        const some = titles.slice(0, 8);
+        const seen = await openings(lang, some);
+        const texts = some.map((x) => `${x.title}. ${sentencesOf(seen.get(x.pageid) || '').slice(0, 3).join(' ').slice(0, 600)}`);
+        const p = await Judge.score(asked.q, texts);
+        if (!p) return titles;
+        return some.map((x, i) => ({ ...x, points: x.points + ({ why: 0.35, when: 0.8, number: 0.8, who: 1, fact: 1 }[asked.kind] || 0.7) * p[i] })).sort((x, y) => y.points - x.points);
+    }
+
+    /** True when a sentence holds the kind of thing asked for. The reader knows what a sentence is about better than whether it gives a reason. */
+    function shape(asked, text) {
+        // "The smallest in the world" is not "the smallest in Asia".
+        if (/\b(?:in|of) the world\b|\bon earth\b|\bever\b/i.test(asked.q) && !/\b(?:world(?:'s|’s)?|earth(?:'s|’s)?|global(?:ly)?|planet|ever|any)\b/i.test(text)) return false;
+        if (asked.kind === 'why') return /\b(?:because|due to|caus(?:e|ed|es|ing)|reasons?|results?|owing to|consequence|explain(?:s|ed)?|therefore|thus|so that|as a result|leads? to|led to|makes?|allow(?:s|ing)?)\b/i.test(text);
+        if (asked.kind === 'when') return /\b(?:1\d{3}|20\d{2})\b|\bcentury\b/i.test(text);
+        if (asked.kind === 'number') return /\d|\b(?:two|three|four|five|six|seven|eight|nine|ten|hundred|thousand|million|billion)\b/i.test(text);
+        if (asked.kind === 'who') return /\p{Lu}\p{Ll}+/u.test(text.slice(1));
+        return true;
+    }
+
+    /**
+     * Has the reader read the likeliest sentences together with the question. What it says decides for questions with one answer,
+     * and helps for the others, where the sections of an article say more than any one sentence.
+     */
+    async function judge(asked, ranked) {
+        if (!readerReady() || !english(asked) || !ranked.all.length) return;
+        const pool = ranked.all.filter((x) => !x.item && !x.aside);
+        const some = new Set([...pool].sort((x, y) => y.score - x.score).slice(0, 30));
+        // The opening of each article often answers without using the question's words.
+        for (const x of pool) if (x.lead && x.place < 8 && some.size < 44) some.add(x);
+        const list = [...some];
+        const p = await Judge.score(asked.q, list.map((x) => `${x.page.title}. ${x.text}`));
+        if (!p) return;
+        ranked.judged = true;
+        list.forEach((x, i) => {
+            x.judged = p[i];
+            if (SHARP.includes(asked.kind)) x.score = 0.4 * x.score + 16 * p[i];
+            else x.score += 5 * p[i];
+        });
+        for (const x of ranked.all) if (x.judged === undefined && SHARP.includes(asked.kind)) x.score *= 0.4;
+        // A pattern can be fooled by a date or a name; the reader has read what it belongs to.
+        if (SHARP.includes(asked.kind)) for (const x of list) x.replies = shape(asked, x.text) && ((x.replies && x.judged > 0.02) || x.judged > 0.6);
+    }
+
     async function answer(question, lang, size) {
-        if (typeof Mind === 'object') await Mind.load('static/mind.bin');
         const asked = understand(question);
-        if (typeof Mind === 'object' && Mind.ready() && !/\p{Script=Devanagari}/u.test(asked.q)) {
-            const chances = Mind.typesOf(asked.q);
-            const top = Math.max(...chances);
-            if (!['list', 'define', 'compare'].includes(asked.kind)) asked.wants = { type: Mind.TYPES[chances.indexOf(top)], chance: top };
-            // Where the patterns see nothing special, the network may.
-            const learned = asked.wants && { date: 'when', number: 'number', reason: 'why', person: 'who' }[asked.wants.type];
-            if (learned && top > 0.8 && asked.kind === 'explain') Object.assign(asked, { kind: learned, words: /\d+ words/i.test(question) ? asked.words : Math.max(asked.words === NATURAL.explain ? NATURAL[learned] : asked.words, 60) });
-        }
         // Only a length that was asked for is worth a remark when it cannot be met.
         const told = size > 0 || asked.told;
         if (!size) size = asked.words;
@@ -554,6 +582,7 @@ const Ask = (() => {
             for (const topic of asked.topics) {
                 const pages = await articles(lang, pickTitles([await search(lang, topic, 4)], { kind: 'compare', topics: [topic], q: topic }), 1);
                 const ranked = rank({ kind: 'compare', q: topic }, pages);
+                await judge({ kind: 'compare', q: `What is ${topic}?` }, ranked);
                 if (!ranked.all.length) continue;
                 const got = choose(ranked, Math.round(size / 2));
                 if (got.chosen.length) parts.push({ head: pages[0].title, ...got });
@@ -571,31 +600,26 @@ const Ask = (() => {
         for (const q of queries) searches.push(await search(lang, q, 5));
         if (!searches.some((x) => x.length)) return { asked, parts: [] };
         let titles = pickTitles(searches, asked);
-        const seen = await openings(lang, titles.slice(0, 8));
-        if (seen.size) {
-            titles = titles.slice(0, 8).map((x) => {
-                const lines = sentencesOf(seen.get(x.pageid) || '').slice(0, 12);
-                const fit = lines.length ? Math.max(...lines.map((t) => Mind.near(asked.q, t))) : 0;
-                return { ...x, points: x.points + 0.5 * fit };
-            }).sort((x, y) => y.points - x.points);
-        }
+        titles = await sortTitles(lang, titles, asked);
         let merged = await articles(lang, titles, 3);
         let ranked = rank(asked, merged);
+        await judge(asked, ranked);
         if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind) && titles.length > 3 && !ranked.all.some((x) => x.replies)) {
             // None of these answers, so look at the next ones too.
             const more = (await articles(lang, titles.slice(3), 3)).map((p) => ({ ...p, order: p.order + 1 }));
             const again = rank(asked, [...merged, ...more]);
+            await judge(asked, again);
             if (again.all.some((x) => x.replies)) {
                 merged = [...merged, ...more];
                 ranked = again;
-            } else ranked = rank(asked, merged);
+            }
         }
         if (!ranked.all.length) return { asked, parts: [] };
         const got = choose(ranked, size);
         return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: sure(asked, got) };
     }
 
-    return { NATURAL, SIZES, answer, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { NATURAL, SIZES, answer, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
@@ -629,9 +653,8 @@ const Ask = (() => {
         const body = by('answer-body');
         body.replaceChildren();
         by('answer-title').textContent = question;
-        const wants = { person: 'a person', place: 'a place', date: 'a date or time', number: 'a number', reason: 'a reason', other: 'a fact or explanation' };
         const kinds = { compare: 'a comparison', list: 'a list of points', define: 'a definition', why: 'a reason', when: 'a date or time', number: 'a number', who: 'a person', fact: 'one fact', explain: 'an explanation' };
-        by('understood').textContent = `Understood as ${kinds[result.asked.kind]}${result.asked.wants && result.asked.wants.type !== 'other' && wants[result.asked.wants.type] !== kinds[result.asked.kind] ? `, about ${wants[result.asked.wants.type]}` : ''}. Topic: ${result.asked.topics[0]}`;
+        by('understood').textContent = `Understood as ${kinds[result.asked.kind]}. Topic: ${result.asked.topics[0]}`;
         for (const part of result.parts) {
             if (part.head) {
                 body.append(el('h3', part.head));
@@ -701,7 +724,21 @@ const Ask = (() => {
             box.requestSubmit();
         }
     });
-    if (typeof Mind === 'object' && /^https?:$/.test(location.protocol)) Mind.load('static/mind.bin');
+    const reader = by('reader');
+    let patience = 0;
+    /** Gets the reader, for a while. The first time it is a download; an answer does not wait for it longer than this. */
+    const getReader = async () => {
+        if (typeof Judge !== 'object' || Judge.ready() || by('lang').value === 'hi') return;
+        if (!Judge.able() || (navigator.connection && navigator.connection.saveData)) return;
+        const say = (part) => { reader.textContent = `Getting the reader ready, once only: ${Math.round(100 * part)}%`; };
+        say(0);
+        const ok = Judge.load(say).then((yes) => {
+            reader.textContent = yes ? 'Reader ready' : 'Reader not available here: plain word search is used';
+            return yes;
+        });
+        patience++;
+        await Promise.race([ok, new Promise((done) => { setTimeout(done, patience > 1 ? 8000 : 45000); })]);
+    };
 
     box.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -724,6 +761,7 @@ const Ask = (() => {
         button.textContent = 'Reading Wikipedia...';
         by('busy').hidden = false;
         try {
+            await getReader();
             const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0);
             if (result.parts.length) show(question, result);
             else by('ask-note').textContent = 'Nothing was found for this question. Use the main words of the topic, and check the spelling.';

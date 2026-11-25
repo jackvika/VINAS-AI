@@ -29,7 +29,7 @@
         <ul>
             <li><strong>Reading the question:</strong> fixed patterns tell a definition, a list, a reason, a date, a number or a comparison apart, and pick out the topic.</li>
             <li><strong>Finding:</strong> your browser searches Wikipedia and reads up to three articles.</li>
-            <li><strong>Ranking:</strong> a small neural network, trained on 87,599 questions people asked about Wikipedia, judges every sentence together with a BM25 word score. Its section, its place and the kind of answer wanted count too. On articles it had never seen, its first choice was right 75% of the time, against 72% for word scores alone.</li>
+            <li><strong>Ranking:</strong> every sentence gets a BM25 word score. Then a neural network on your device, a MiniLM cross-encoder, reads the question together with the best ones and says how likely each is an answer. On 480 test questions its first choice was right 82% of the time, against 72% for word scores alone.</li>
             <li><strong>Writing it up:</strong> the best sentences that say different things go back into reading order, with headings and a source for each. Sums are worked out by a small calculator.</li>
             <li><strong>What it cannot do:</strong> it does not reason, argue or write new sentences, and it knows only what Wikipedia says. When no sentence says the kind of thing you asked, about the thing you asked, it says "Not sure", and the warning goes into the copy and the PDF too.</li>
         </ul>

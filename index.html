@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ask a question | VINAS</title>
     <meta name="description" content="Ask a question and get an answer put together from Wikipedia, with its sources.">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://en.wikipedia.org https://simple.wikipedia.org https://hi.wikipedia.org; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://en.wikipedia.org https://simple.wikipedia.org https://hi.wikipedia.org; base-uri 'none'; form-action 'none'">
     <meta name="referrer" content="no-referrer">
     <meta name="theme-color" content="#10323a">
     <link rel="icon" href="static/icon.svg" type="image/svg+xml">
@@ -23,7 +23,7 @@
     </nav>
     <header class="hero">
         <h1>Ask anything. See where it comes from.</h1>
-        <p>A small neural network reads your question, finds the answer in Wikipedia, and gives every sentence its source.</p>
+        <p>A neural network reads your question, finds the answer in Wikipedia, and gives every sentence its source.</p>
     </header>
     <form id="ask" autocomplete="off">
         <div class="askbox">
@@ -52,6 +52,7 @@
             </div>
         </div>
         <div class="busy" id="busy" hidden></div>
+        <p class="muted reader" id="reader" role="status"></p>
         <p class="error" id="ask-note" role="status"></p>
         <p class="sum" id="sum" role="status" hidden></p>
         <div class="chips">
@@ -80,7 +81,7 @@
         <textarea id="answer-text" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
     </section>
     <footer>
-        <p>Your question goes from your browser to Wikipedia, which can see it and your address. This site does not receive or save it. Wikipedia can be wrong, so check what matters.</p>
+        <p>Your question goes from your browser to Wikipedia, which can see it and your address. This site does not receive or save it. The reader, a 37 MB download from this site the first time you ask, works on your device. Wikipedia can be wrong, so check what matters.</p>
     </footer>
 </main>
 <noscript><p class="error">This page needs JavaScript.</p></noscript>
@@ -91,7 +92,7 @@
 <script src="static/pdf.js"></script>
 <script src="app.js"></script>
 <script src="static/site.js"></script>
-<script src="static/mind.js"></script>
+<script src="static/judge.js"></script>
 <script src="static/ask.js"></script>
 </body>
 </html>
