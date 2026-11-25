@@ -1,5 +1,5 @@
 {
- "about": "Held back: not looked at while working, used only for the final report. past_papers is for the questions supplied by the owner.",
+ "about": "Held back: not looked at while working, used only for the final report. past_papers: questions taken by a script, unread, from papers of Vardhman Mahaveer Open University (2019) and UPES (2024); what each should become is written down only when the work is done.",
  "parse": [
   {
    "q": "What do you meant by technical skills?",
@@ -211,10 +211,6 @@
       {
        "topic": "Maslow's hierarchy of needs",
        "facet": "importance"
-      },
-      {
-       "topic": "Maslow's hierarchy of needs",
-       "facet": "importance"
       }
      ],
      [
@@ -239,10 +235,6 @@
       {
        "topic": "Maslow's hierarchy of needs",
        "facet": "importance"
-      },
-      {
-       "topic": "Maslow's hierarchy of needs",
-       "facet": "features"
       }
      ],
      [
@@ -264,18 +256,6 @@
       }
      ],
      [
-      {
-       "topic": "Maslow's hierarchy of needs",
-       "facet": "definition"
-      },
-      {
-       "topic": "Maslow's hierarchy of needs",
-       "facet": "features"
-      },
-      {
-       "topic": "Maslow's hierarchy of needs",
-       "facet": "importance"
-      },
       {
        "topic": "Maslow's hierarchy of needs",
        "facet": "definition"
@@ -2266,5 +2246,166 @@
    ]
   }
  ],
- "past_papers": []
+ "past_papers": [
+  {
+   "q": "Critically examine the theory of rent. (7 marks)",
+   "source": "VMOU BBA-03, June 2019"
+  },
+  {
+   "q": "What is monopoly? How prices are determined under it. (14 marks)",
+   "source": "VMOU BBA-03, June 2019"
+  },
+  {
+   "q": "There are some advantages of written communication. Describe these advantages. (7 marks)",
+   "source": "VMOU BBA-06, June 2019"
+  },
+  {
+   "q": "Describe the basic elements for effective speech. (7 marks)",
+   "source": "VMOU BBA-06, June 2019"
+  },
+  {
+   "q": "Write some Email Etiquette tips. Does it make any difference? (7 marks)",
+   "source": "VMOU BBA-06, June 2019"
+  },
+  {
+   "q": "Explain the process of Setting-up of Small scale Unit. (14 marks)",
+   "source": "VMOU BBA-12, June 2019"
+  },
+  {
+   "q": "Give characteristics of business economics. (7 marks)",
+   "source": "VMOU BBA-03, December 2019"
+  },
+  {
+   "q": "What is perfect competition? How you will determined prices in perfect competition. (14 marks)",
+   "source": "VMOU BBA-03, December 2019"
+  },
+  {
+   "q": "How wages rate is determined? (7 marks)",
+   "source": "VMOU BBA-03, June 2019"
+  },
+  {
+   "q": "Describe the contents of EDP. (7 marks)",
+   "source": "VMOU BBA-12, December 2019"
+  },
+  {
+   "q": "Give main characteristics of monetary policy in India. (7 marks)",
+   "source": "VMOU BBA-04, June 2019"
+  },
+  {
+   "q": "Give the objectives of Dis investment policy in India. (7 marks)",
+   "source": "VMOU BBA-04, December 2019"
+  },
+  {
+   "q": "Describe factors affecting supply function. (7 marks)",
+   "source": "VMOU BBA-03, December 2019"
+  },
+  {
+   "q": "Explain the advantages of career planning in detail? 5.According to you what should be done to have an effective performance appraisal system in your organization. (7 marks)",
+   "source": "VMOU BBA-08, December 2019"
+  },
+  {
+   "q": "Define Bank as per the Indian Banking Companies Act. Also describe the various types of Banks. (14 marks)",
+   "source": "VMOU BBA-10, June 2019"
+  },
+  {
+   "q": "Describe the process of Coordination. (7 marks)",
+   "source": "VMOU BBA-01, December 2019"
+  },
+  {
+   "q": "Write a note on Header and Footer. (7 marks)",
+   "source": "VMOU BBA-11, June 2019"
+  },
+  {
+   "q": "Explain the concept of Industrial Relations. What is the significance of good industrial relations and what are its objectives? (14 marks)",
+   "source": "VMOU BBA-08, December 2019"
+  },
+  {
+   "q": "Describe the institutional setup for small business. (7 marks)",
+   "source": "VMOU BBA-12, June 2019"
+  },
+  {
+   "q": "Discuss silent features of policy for small business in India. (7 marks)",
+   "source": "VMOU BBA-12, December 2019"
+  },
+  {
+   "q": "Describe personal loan and home loan. (7 marks)",
+   "source": "VMOU BBA-10, June 2019"
+  },
+  {
+   "q": "Explain the various limitation of Insurance. (7 marks)",
+   "source": "VMOU BBA-10, June 2019"
+  },
+  {
+   "q": "What is production function. (7 marks)",
+   "source": "VMOU BBA-03, June 2019"
+  },
+  {
+   "q": "Examine Marketing Management of Small Business. (14 marks)",
+   "source": "VMOU BBA-12, June 2019"
+  },
+  {
+   "q": "Discuss important theories of Motivation. (14 marks)",
+   "source": "VMOU BBA-01, June 2019"
+  },
+  {
+   "q": "Explain modern theory of rent. (7 marks)",
+   "source": "VMOU BBA-03, December 2019"
+  },
+  {
+   "q": "Discuss the process of Entrepreneurship Development Programme. (14 marks)",
+   "source": "VMOU BBA-12, June 2019"
+  },
+  {
+   "q": "Explain various factors affecting compensation planning? (7 marks)",
+   "source": "VMOU BBA-08, December 2019"
+  },
+  {
+   "q": "Explain the need of privatisation in India. (7 marks)",
+   "source": "VMOU BBA-04, June 2019"
+  },
+  {
+   "q": "Describe the main features of industrial policy. (7 marks)",
+   "source": "VMOU BBA-04, December 2019"
+  },
+  {
+   "q": "Explain your view point on this statement- Is money the prime trigger of 10 employee performance?",
+   "source": "UPES Human Resource Management, May 2024"
+  },
+  {
+   "q": "What is the purpose of a Business - Level Strategy! Using \"Basis for Customer Value\" & \"Target Market\" explain five business-level strategies 5 a firm chooses to establish and defend their strategic position against their competitors.",
+   "source": "UPES Essentials of Strategic Management, May 2024"
+  },
+  {
+   "q": "Distinguish between job design and job evaluation.",
+   "source": "UPES Human Resource Management, May 2024"
+  },
+  {
+   "q": "With the help of example explain how innovators support in penetrating a 5 new product in the market.",
+   "source": "UPES Marketing Management, May 2024"
+  },
+  {
+   "q": "Illustrate with example the concept of repositioning a brand.",
+   "source": "UPES Marketing Management, May 2024"
+  },
+  {
+   "q": "What are the modern sources of recruitment?",
+   "source": "UPES Human Resource Management, May 2024"
+  },
+  {
+   "q": "Tesla is planning to Launch portfolio of electric vehicles in India. As a consultant analyze five competitive forces within the industry to identify opportunities and threats and prepare a detail set of recommendations to the Tesla board for successful India market entry.",
+   "source": "UPES Essentials of Strategic Management, May 2024"
+  },
+  {
+   "q": "Do you prefer centralized recruitment or decentralized recruitment for 10 recruiting chief executive officers? Justify your opinion.",
+   "source": "UPES Human Resource Management, May 2024"
+  },
+  {
+   "q": "Explain RBV & I/O view of Strategic Planning! Identify one key model each used by supporters of RBV & IO view respectively. Briefly explain any one model of your choice!",
+   "source": "UPES Essentials of Strategic Management, May 2024"
+  },
+  {
+   "q": "Explain channel design and its significance in distribution management.",
+   "source": "UPES Marketing Management, May 2024"
+  }
+ ]
 }
