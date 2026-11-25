@@ -134,6 +134,13 @@ function run() {
         const hit = Ask.ITEMS.find((x) => x[0].test(q));
         check('items', q, n, hit ? hit[2].length : 0);
     }
+    for (const [text, yes] of [['However, plans change.', true], ['This approach saves time.', true], ['Meeting these challenges takes skill.', true], ['Planning is deciding in advance.', false], ['First-line managers supervise workers.', false], ['Order - this principle is about places.', false], ['Managers who plan this way do well.', true]]) check('leans', text, yes, Ask.leans(text));
+    {
+        const p = page('Planning', 'Planning is deciding in advance what is to be done by whom. It gives direction to the work of everybody in the firm. In this chapter we will look at planning and at control.\nPlanning is deciding in advance what should be done by whom. However, some plans fail for want of good information.');
+        const all = Ask.read({ ...p, order: 0 }).map((x) => ({ ...x, page: p }));
+        const got = Ask.clean([{ head: '', chosen: [all[1], all[2], all[3], all[4]], words: 0 }]);
+        check('clean', '', [all[0].text, all[1].text], got[0].chosen.map((x) => x.text));
+    }
     for (const [pattern, topic, items, whole = {}] of Ask.ITEMS) {
         check('items are whole', topic, true, items.length > 1 && items.every(([name, words_, title, also, own]) => name && words_ && typeof title === 'string' && (own === undefined || [own.aliases, own.keywords, own.blocked].every((x) => x === undefined || Array.isArray(x)))));
         check('items have patterns', topic, true, [...items.flatMap((x) => (x[4] || {}).blocked || []), ...(whole.blocked || []), ...Object.values(whole.facet_blocked || {}).flat()].every((x) => { try { return Boolean(new RegExp(x, 'iu')); } catch { return false; } }));

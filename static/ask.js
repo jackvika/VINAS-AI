@@ -348,6 +348,7 @@ const Ask = (() => {
             // "Characteristics of ..." over a section, where characteristics are asked for.
             if (asked.aspect && ASPECT[asked.aspect] && ASPECT[asked.aspect].test(s.section)) score += 3;
             if (s.dull) score -= 4;
+            if (asked.course && !s.item) score -= (SIGNPOST.test(s.text) || row(s.text) ? 12 : 0) + (s.place > 0 && leans(s.text) ? 0.5 : 0);
             if (s.item) score -= asked.kind === 'list' && s.inHead ? 0.5 : 6;
             // "This process..." points at a sentence that may not be shown.
             if (/^(?:this|these|those|such|he|she|they|it|however|also|for example|in addition|therefore|thus)\b/i.test(s.text) && s.place > 0) score -= 0.8;
@@ -361,6 +362,107 @@ const Ask = (() => {
     }
 
     const length = (s) => words(s.text).length;
+    // Sentences of a textbook that only show the way.
+    const SIGNPOST = /\b(?:we (?:now )?turn (?:now )?to|we turn now|we now\b|in this (?:chapter|section|module|unit|lesson|text|book|article)|as (?:we(?: will|['’]ll| shall)|you(?: will|['’]ll)) see|as (?:discussed|mentioned|noted|described|seen|explained|we saw|we have seen) (?:earlier|above|before|previously|in)|learning (?:objectives?|outcomes?)|(?:figure|exhibit|table|chapter) \d+|see (?:chapter|section|figure|table|exhibit)|(?:next|previous|last|preceding) (?:section|chapter|module)|later in (?:this|the) (?:chapter|section|book)|(?:this|the) (?:chapter|section|module|unit) (?:will|is|covers|looks|discusses|examines|explores|begins|presents|describes|explains)|(?:shown|listed|described|discussed|explained|given|summari[sz]ed|presented|illustrated|outlined|see) (?:below|above|in (?:figure|table|exhibit))|the following (?:section|paragraph|chapter|discussion|are|is|list|table|pages?|example)|let['’]?s (?:look|turn|consider|examine|explore)|let us (?:look|turn|consider|examine|explore)|we (?:will|shall) (?:look|discuss|examine|explore|consider|turn|learn|focus|see|describe|review)|you will (?:learn|read|see|explore|be able))\b/i;
+    const LINKS = /^(?:this|these|that|those|such|thus|however|therefore|unlike|also|it|they|he|she|his|her|its|their|hence|because of this|as a result|in contrast|on the other hand|similarly|moreover|furthermore|in addition|additionally|for example|for instance|instead|then|consequently|conversely|but|and|so|yet|another|both of these|finally|second(?!-)|third(?!-))\b/i;
+    const BACK = /\b(?:this|these|such)\s+(?!(?:as|is|are|was|were|an?|that|can|may|will|means?|has|have|would|could|should|includes?|requires?)\b)[a-z]+/i;
+    /** True when a sentence leans on the one before it: a linking word, or "this approach" in its first words. A line with its own label does not. */
+    const leans = (text) => !/^[^.:–—]{3,70}?\s*(?:\s[-–—]\s|:\s)/.test(text) && (LINKS.test(text) || BACK.test(text.split(/,/)[0].split(/\s+/).slice(0, 9).join(' ')));
+    /** Mostly a row of names or fields, such as "public administration, finance, calculus, information". */
+    const row = (text) => {
+        const bits = text.split(/[,;]/).map((x) => x.trim()).filter(Boolean);
+        return bits.length > 5 && bits.filter((x) => words(x).length < 4).length / bits.length > 0.75 && !/\b(?:such as|includ(?:e|es|ing)|are|consists? of|namely)\b/i.test(text) ;
+    };
+    const jaccard = (a, b) => {
+        const [x, y] = [new Set(terms(a)), new Set(terms(b))];
+        const both = [...x].filter((w) => y.has(w)).length;
+        return both / Math.max(1, x.size + y.size - both);
+    };
+
+    /**
+     * The last look at an answer on the course: no sentence twice, none that shows the way, and none that leans on a sentence that is
+     * not shown. What leans brings the sentence before it along, when that one stands by itself; otherwise it goes.
+     */
+    function clean(parts, pool = [], size = 0, about = '') {
+        const kept = [];
+        const lines = new Map();
+        const before = (s) => {
+            if (!lines.has(s.page)) lines.set(s.page, read({ ...s.page, order: 0 }));
+            const list = lines.get(s.page);
+            const k = list.findIndex((x) => x.text === s.text && x.place === s.place);
+            const at = k < 0 ? list.findIndex((x) => x.text === s.text) : k;
+            return at > 0 && list[at - 1].block === list[at].block ? list[at - 1] : null;
+        };
+        const again = (text) => kept.some((x) => jaccard(x, text) >= 0.6);
+        const out = [];
+        for (const part of parts) {
+            const chosen = [];
+            for (const s of part.chosen) {
+                if (SIGNPOST.test(s.text) || row(s.text) || again(s.text)) continue;
+                if (!s.item && leans(s.text)) {
+                    // What it leans on, one or two sentences back.
+                    const chain = [];
+                    let x = s;
+                    let ok = false;
+                    for (let n = 0; n < 2; n++) {
+                        x = before(x);
+                        if (!x || SIGNPOST.test(x.text) || length(x) > 60) break;
+                        const last = chosen[chosen.length - 1];
+                        if (last && last.text === x.text) { ok = true; break; }
+                        if (again(x.text)) break;
+                        x = { ...x, page: s.page, section: s.section };
+                        chain.unshift(x);
+                        if (!leans(x.text)) { ok = true; break; }
+                    }
+                    if (!ok) {
+                        // It leans on a sentence that is shown elsewhere: then it belongs there.
+                        const prior = before(s);
+                        const home = prior && [...out.map((p) => p.chosen), chosen].find((list) => list.some((y) => y.text === prior.text));
+                        if (!home) continue;
+                        const k = home.findIndex((y) => y.text === prior.text);
+                        if (home[k + 1] && leans(home[k + 1].text)) continue;
+                        home.splice(k + 1, 0, { ...s, section: home[k].section });
+                        kept.push(s.text);
+                        continue;
+                    }
+                    for (const y of chain) {
+                        chosen.push(y);
+                        kept.push(y.text);
+                    }
+                }
+                chosen.push(s);
+                kept.push(s.text);
+            }
+            if (chosen.length || part.note || !part.chosen.length) out.push({ ...part, chosen, words: chosen.reduce((n, x) => n + length(x), 0) });
+            // A heading that loses all its sentences gives its place to the next part of the same heading.
+            else if (part.head) out.push({ ...part, chosen, words: 0 });
+        }
+        for (const p of out) p.words = p.chosen.reduce((n, x) => n + length(x), 0);
+        // What went leaves room for the next best sentences that stand by themselves.
+        let total = out.reduce((n, p) => n + p.words, 0);
+        const core = about ? [...new Set(terms(about))] : [];
+        const was = parts.reduce((n, p) => n + p.words, 0);
+        const room = Math.min(size, was);
+        const fill = total < 0.95 * room && core.length ? pool.filter((x) => !x.item && !x.aside && !x.dull && length(x) >= 8 && length(x) <= 45 && !leans(x.text) && !SIGNPOST.test(x.text) && !row(x.text) && !/\?/.test(x.text) && core.every((w) => x.terms.includes(w) || terms(x.page.title).includes(w))).sort((x, y) => y.score - x.score).slice(0, 12) : [];
+        const floor = Math.min(...parts.flatMap((p) => p.chosen.map((x) => (x.score === undefined ? Infinity : x.score))));
+        for (const x of fill) {
+            if (total >= room) break;
+            if (again(x.text) || x.score < floor || total + length(x) > room * 1.05) continue;
+            const at = out.filter((p) => p.head !== 'Conclusion' && p.chosen.length);
+            const home = at.find((p) => p.chosen.some((y) => y.page.url === x.page.url && y.block === x.block)) || at.find((p) => p.chosen.some((y) => y.page.url === x.page.url)) || at[at.length - 1];
+            if (!home) break;
+            const k = home.chosen.findIndex((y) => y.page.url === x.page.url && y.place > x.place);
+            // It does not come between a sentence and the one that leans on it.
+            if (k > 0 && leans(home.chosen[k].text)) home.chosen.push({ ...x, section: home.chosen[0].section });
+            else if (k >= 0) home.chosen.splice(k, 0, { ...x, section: home.chosen[k].section });
+            else home.chosen.push({ ...x, section: home.chosen[home.chosen.length - 1].section });
+            home.words += length(x);
+            total += length(x);
+            kept.push(x.text);
+        }
+        // Empty headings go, unless sub-headings with sentences follow.
+        return out.filter((p, i) => p.chosen.length || p.note || (p.head && out[i + 1] && !out[i + 1].head && out[i + 1].chosen.length)).map((p) => (p.chosen.length || p.note ? p : { ...p, sub: '' }));
+    }
     const alike = (a, b) => {
         const mine = new Set(a.terms);
         return [...new Set(b.terms)].filter((w) => mine.has(w)).length / Math.max(1, Math.min(mine.size, new Set(b.terms).size));
@@ -675,7 +777,7 @@ const Ask = (() => {
             const also = phrases((own.aliases || []).filter((x) => x.includes(' ') || x.includes('-')).map(plainly));
             const pages = [...found_, ...main, ...(wiki.has(title) ? [wiki.get(title)] : [])].filter((p, i, a) => a.findIndex((x) => x.url === p.url) === i);
             const words_ = new Set(terms(`${name} ${other} ${alias || ''} ${(own.aliases || []).join(' ')}`));
-            const pool = pages.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p }))).filter((x) => !used.has(x.text) && !/\?/.test(x.text) && !(alike_ && alike_.test(x.text)));
+            const pool = pages.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p }))).filter((x) => !used.has(x.text) && !/\?/.test(x.text) && !SIGNPOST.test(x.text) && !(alike_ && alike_.test(x.text)));
             for (const x of pool) {
                 x.terms = terms(x.text);
                 x.hits = new Set([...x.terms, ...terms(x.section)].filter((w) => words_.has(w))).size;
@@ -1084,7 +1186,8 @@ const Ask = (() => {
             const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null, about: one.topic || '' });
             if (asks) result.told = told_;
             if (asks && result.parts.length && !result.sure && !(result.missing || []).length) result.missing = [one.gap || one.head];
-            return { ...(format === 'exam' && result.parts.length ? exam(result, pool) : result), plan };
+            const formed = format === 'exam' && result.parts.length ? exam(result, pool) : result;
+            return { ...formed, ...(asks && formed.parts.length ? { parts: clean(formed.parts, pool, size, one.claim || (result.checklist || []).length ? '' : one.topic) } : {}), plan };
         }
         // Several things are asked: each is looked up by itself and has its own heading.
         const told = wish(question);
@@ -1113,6 +1216,7 @@ const Ask = (() => {
             const few = [];
             for (const x of says) if (few.length < 3 && (!few.length || /\b(?:is|are) (?:an?|the) |refers? to|\bmeans\b|\bdefine[sd]?\b|^[^:.]{2,40}:\s/i.test(x.text)) && !few.some((y) => alikeText(x, y)) && (!few.length || few.reduce((n, y) => n + length(y), length(x)) <= share)) few.push({ ...x, section: '' });
             const formed = few.length ? { ...got, parts: [{ head: '', chosen: few, cover: 1, wanted: 1, words: few.reduce((n, x) => n + length(x), 0) }] } : got.asked.kind === 'compare' || part.claim ? got : exam({ ...got, asked: { ...got.asked, kind: 'explain' } }, pool);
+            if (asks && !part.claim && !few.length && formed.parts.length) formed.parts = clean(formed.parts, pool, share, (got.checklist || []).length || got.asked.kind === 'compare' ? '' : part.topic);
             const name = part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`;
             let opened = false;
             for (const p of formed.parts) {
@@ -1136,7 +1240,10 @@ const Ask = (() => {
             const result = await find(long(read_.q), lang, size, books, pool, subject);
             return { ...(format === 'exam' && result.parts.length ? exam(result, pool) : result), ...(asks ? { sure: false, missing } : {}), plan };
         }
-        return { asked, parts: out, size: whole, told: asks ? told_ : size > 0 || told.words > 0, sure: true, missing, checklist, plan };
+        // What a part had only in common with another is told as missing.
+        const last = asks ? clean(out) : out;
+        for (const p of asks ? out : []) if (p.head && !last.some((x) => x.head === p.head) && !missing.includes(p.head.replace(/^\d+\.\s*/, ''))) missing.push(p.head.replace(/^\d+\.\s*/, ''));
+        return { asked, parts: last, size: whole, told: asks ? told_ : size > 0 || told.words > 0, sure: true, missing, checklist, plan };
     }
 
     const Judge_ = async (q, list) => (readerReady() ? Judge.score(q, list.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null);
@@ -1357,7 +1464,7 @@ const Ask = (() => {
         return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: !off && sure(asked, got) };
     }
 
-    return { ITEMS, NATURAL, SIZES, answer, asksOf, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { ITEMS, NATURAL, SIZES, answer, asksOf, clean, leans, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
