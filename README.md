@@ -1,14 +1,17 @@
 # VINAS
 
-Ask a question, and get an answer put together from Wikipedia, with a source for every sentence. There is no AI service and no key, and nothing is saved.
+Ask a question, and get an answer put together from Wikipedia and an open business textbook, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
 
 ## What it does
 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
+- Business questions are looked up first in OpenStax *Introduction to Business*; definitions, comparisons and everything else in Wikipedia
+- Reads exam wording: "examine", "discuss", "in a large business organization" are set aside, and "(10 marks)" sets the length (3 marks 80 words, 6 marks 220, 10 marks 400)
+- Textbook lists (levels and functions of management, marketing mix, product life cycle, Maslow and others, in `ITEMS` in `static/ask.js`) are answered item by item, each under its own heading
 - Ranks every sentence with a neural network and BM25, with bonuses for section, place and kind of answer
 - Puts the best sentences in reading order, with headings, sources, and a warning when little was found
-- Checks that a sentence really answers: a height for "how tall", a doer for "who", a date of that event for "when". If none does, it says "Not sure", also in the copy and the PDF
+- Checks that a sentence really answers: a height for "how tall", a doer for "who", a date of that event for "when". If none does, it says "Not sure: no right answer was found" and folds the closest sentences away; the warning is also in the copy and the PDF
 - Works out sums such as `15% of 2400`, without running any code
 - Copy, text and PDF, always with the sources
 
@@ -36,6 +39,24 @@ On 65 real questions asked through the page, an answer that held the expected wo
 An earlier network trained for this site is gone. Its figures here had been measured on sentences already sifted by BM25; among all sentences its first choice was right only 61.7% of the time, worse than BM25 alone.
 
 Hindi questions use patterns and BM25, as does a browser that cannot run the reader.
+
+
+## The textbook
+
+`static/book.json` holds the running text of [*Introduction to Business*](https://openstax.org/details/books/introduction-business) by OpenStax (CC BY 4.0), without figures, tables, chapter stories and exercises. `brain/build_book.py` builds it from OpenStax's own repository. OpenStax does not endorse this site. OpenStax asks that the book not be used to train, or be fed to, generative AI without permission; this site has none, so keep it that way or leave the book out. *Principles of Management* and *Organizational Behavior* are under a non-commercial licence and are not used.
+
+The search was measured on 261 questions the book itself asks, 1,608 passages, with the right section counted among the first 1, 3 and 5. The book has since lost its chapter stories, so treat these as a comparison of methods:
+
+| Method | 1 | 3 | 5 |
+|---|---|---|---|
+| BM25, no titles | 34.5% | 58.6% | 69.3% |
+| BM25, with titles | 38.3% | 60.5% | 70.1% |
+| multi-qa-MiniLM-L6-cos-v1 | 43.7% | 59.4% | 68.6% |
+| BM25 and multi-qa together | 44.8% | 65.1% | 72.4% |
+| BM25 with titles, then the reader (used) | 47.5% | 63.6% | 72.0% |
+| BM25 and multi-qa, then the reader | 46.7% | 64.4% | 74.7% |
+
+With the reader in place, the second model would cost another 23 MB download and not find the right section first more often, so it is not used.
 
 ## Run it
 

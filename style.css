@@ -207,3 +207,5 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
     main, section { max-width: none; margin: 0; padding: 0; border: 0; }
     .output, .paper { padding: 0; border: 0; box-shadow: none; }
 }
+
+#answer-body summary { cursor: pointer; padding: .6rem 0; font-weight: 600; }

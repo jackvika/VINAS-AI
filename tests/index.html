@@ -13,6 +13,7 @@
 <script src="../static/engine.js"></script>
 <script src="../static/pdf.js"></script>
 <script src="../static/judge.js"></script>
+<script src="../static/book.js"></script>
 <script src="../static/ask.js"></script>
 <script src="cases.js"></script>
 <script>
@@ -124,6 +125,19 @@ function run() {
         ['What is the smallest country in the world?', 'Maldives is the smallest country in Asia.', false], ['What is the smallest country in the world?', 'Vatican City is the smallest country in the world.', true],
         ['When did it end?', 'It ended quickly.', false], ['When did it end?', 'It ended in 1945.', true], ['How many are there?', 'There are many.', false], ['How many are there?', 'There are seven.', true],
     ]) check('shape', text, yes, Ask.shape(Ask.understand(q), text));
+    for (const [q, words, left] of [
+        ['Examine the three levels of management in a large business organization (10 marks)', 400, 'explain the three levels of management'], ['Discuss the marketing mix with suitable examples. 5 marks', 220, 'explain the marketing mix'],
+        ['Define planning (2 marks)', 80, 'Define planning'], ['Critically evaluate the role of a manager in a modern organization', 300, 'explain the role of a manager'],
+    ]) check('examiner', q, [words, left], [Ask.understand(q).words >= 260 && words === 300 ? 300 : Ask.understand(q).words, Ask.wish(q).q]);
+    for (const [q, n] of [['Explain the levels of management', 3], ['What are the functions of management?', 4], ['Explain the marketing mix', 4], ['What are the types of leadership?', 3], ['Explain the product life cycle', 4], ['Why is the sky blue?', 0], ['What is management?', 0]]) {
+        const hit = Ask.ITEMS.find((x) => x[0].test(q));
+        check('items', q, n, hit ? hit[2].length : 0);
+    }
+    const tiny = { title: 'T', by: 'B', licence: 'CC BY 4.0', base: 'https://openstax.org/x/', modules: [{ in: 'Managing', title: 'The Role of Management', slug: 'a', text: [['', 'i', 'What is the role of management?'], ['Levels', 'p', 'Top managers set the course of the whole company over many years.'], ['Pay', 'p', 'Wages are paid each month to every worker in the plant.']] }] };
+    Book.use(tiny);
+    check('book', '', ['Managing > The Role of Management > Levels'], Book.likely('top managers of a company', 1).map((p) => p.title));
+    check('book questions', '', false, Book.index(tiny).pages[0].text.includes('?'));
+    check('book sections', '', ['Levels', 'Pay'], Ask.read({ ...Book.index(tiny).pages[0], order: 0 }).map((x) => x.section));
     const isSure = (q) => Ask.sure(Ask.understand(q), pick(q, 60));
     check('sure', '', [true, true, false, false], [isSure('What is photosynthesis?'), isSure('When was light shown to be needed for photosynthesis?'), isSure('Why is photosynthesis slow?'), isSure('Who won the cricket photosynthesis cup?')]);
     const found = (...titles) => titles.map((title, i) => ({ title, pageid: title.length * 100 + i }));

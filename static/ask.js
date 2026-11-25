@@ -3,7 +3,7 @@
 const Ask = (() => {
     const STOP = new Set(('a an the of in on at to for from by with and or but is are was were be been being am do does did has have had can could will would shall should may might must not no what which '
         + 'who whom whose that this these those when where why how many much it its as about into than then there their they them you your i me my we our us please tell explain describe define write give '
-        + 'list name mean means meaning definition short long note notes answer question detail details brief example examples between difference differences compare comparison vs versus '
+        + 'examine analyse analyze evaluate outline state enumerate illustrate elaborate discuss assess comment briefly critically list name mean means meaning definition short long note notes answer question detail details brief example examples between difference differences compare comparison vs versus '
         + 'क्या है हैं था थी थे कौन किसने कब कहाँ कहां कैसे क्यों किसे किस का की के को में से पर और या एक यह वह ये वे होता होती होते बताओ बताइए समझाओ समझाइए परिभाषा अर्थ मतलब').split(' '));
     const LISTY = /\b(?:types?|kinds?|levels?|stages?|steps?|parts?|components?|functions?|features?|characteristics|advantages?|disadvantages?|benefits?|uses?|causes?|effects?|principles?|elements?|examples?|methods?|examples|symptoms?|objectives?|roles?|factors?|limitations?)\b/i;
     const HOSTS = { en: 'https://en.wikipedia.org', simple: 'https://simple.wikipedia.org', hi: 'https://hi.wikipedia.org' };
@@ -60,6 +60,12 @@ const Ask = (() => {
     function wish(question) {
         let q = question.replace(/\s+/g, ' ').trim();
         let count = 0;
+        // "(10 marks)" says how long, as examiners expect.
+        q = q.replace(/[([]?\s*(?:for\s+)?(\d{1,2})\s*(?:marks?|अंक)\s*[)\]]?/i, (_, n) => {
+            const m = Number(n);
+            count = m <= 3 ? 80 : m <= 6 ? 220 : m <= 10 ? 400 : 550;
+            return ' ';
+        });
         // "in 200 words", "200-300 words", "(150 शब्द)", "100 shabd mein"
         q = q.replace(/[([]?\s*(?:(?:write|answer)\s+)?(?:in|within|about|around|of|upto|up to|approximately)?\s*(\d{2,4})(?:\s*(?:-|–|to|or)\s*(\d{2,4}))?\s*(?:words?|शब्दों?|shabd(?:on)?)(?:\s*(?:में|mein|me))?\s*[)\]]?/i, (_, a, b) => {
             count = Math.min(800, Math.max(30, b ? Math.round((Number(a) + Number(b)) / 2) : Number(a)));
@@ -68,6 +74,11 @@ const Ask = (() => {
         const much = /\b(?:in detail|detailed|essay|long answer|elaborate|at length|discuss|विस्तार से)\b|विस्तार/i.test(q);
         const little = /\b(?:in short|in brief|briefly|short note|short answer|one line)\b|संक्षेप/i.test(q);
         q = q.replace(/\b(?:in (?:full |great )?detail|in short|in brief|briefly|at length)\b|विस्तार (?:से|में)|संक्षेप (?:में|से)/gi, ' ').replace(/^(?:write |give )?(?:an? )?(?:detailed |short |long )?(?:essay|note|answer|paragraph) (?:on|about) /i, 'explain ').replace(/\s+/g, ' ').trim().replace(/[?.!।,\s]+$/, '');
+        // Words of the examiner, not of the subject.
+        q = q.replace(/^(?:critically\s+)?(?:examine|analy[sz]e|evaluate|outline|state|enumerate|illustrate|elaborate(?: on| upon)?|discuss|assess|comment on|highlight|identify|mention|briefly)\s+/i, 'explain ')
+            .replace(/,?\s*(?:with|giving|using)\s+(?:the help of\s+)?(?:suitable |relevant |appropriate |real[- ]life |practical |two |three )?(?:examples?|illustrations?|diagrams?)\b/gi, ' ')
+            .replace(/\s+(?:(?:with)?in|of|for)\s+(?:an?\s+|the\s+)?(?:(?:large|big|modern|typical|any|business|corporate|large[- ]scale)\s+)+(?:organi[sz]ations?|compan(?:y|ies)|firms?|business(?:es)?|enterprises?)\b/gi, ' ')
+            .replace(/\s+in your own words\b/gi, ' ').replace(/\s+/g, ' ').trim().replace(/[?.!।,\s]+$/, '');
         return { q, words: count, much, little };
     }
 
@@ -281,7 +292,7 @@ const Ask = (() => {
 
     /** Scores every line against the question: BM25, with bonuses for the section, the place and the kind of answer. */
     function rank(asked, pages) {
-        const all = pages.flatMap(read);
+        const all = pages.flatMap((p) => read(p));
         // "In which year" names the kind of answer, not the topic.
         const wanted = [...new Set(terms(asked.q))].filter((w) => !(asked.kind === 'when' && /^(?:year|date|day|month|time|centur|becom|becam|happen|occurr?|took|tak|plac|get|got)$/.test(w)));
         const kin = new Set(words(asked.q).flatMap((w) => (KIN[w.toLowerCase()] || '').split(' ')).filter(Boolean).map(stem));
@@ -518,6 +529,25 @@ const Ask = (() => {
         return pages.filter(Boolean).slice(0, most).map((p, order) => ({ ...p, order }));
     }
 
+    // Subjects that textbooks treat item by item: [question, items, other words for each, the articles on them].
+    const ITEMS = [
+        [/\b(?:levels? of management|management levels?|managerial levels?|levels? of managers)\b/i, 'management', [
+            ['Top management', 'top senior executive managers CEO board strategic', 'Senior management', 'executive'], ['Middle management', 'middle managers division department tactical', 'Middle management'], ['First-line management', 'first-line supervisory lower operational front-line supervisors', 'Line management', 'supervisor supervisors supervisory']]],
+        [/\b(?:functions? of management|management functions?|managerial functions?|process of management|management process)\b/i, 'management', [
+            ['Planning', 'planning plans goals objectives', ''], ['Organizing', 'organizing structure departments resources', ''], ['Leading', 'leading motivating guiding leadership', '', 'leadership'], ['Controlling', 'controlling control standards performance', '']]],
+        [/\b(?:marketing mix|four ps|4 ?ps)\b/i, 'the marketing mix', [['Product', 'product strategy', ''], ['Price', 'pricing strategy', '', 'pricing'], ['Place', 'distribution place strategy', '', 'distribution'], ['Promotion', 'promotion strategy', '']]],
+        [/\bfactors of production\b/i, 'the factors of production', [['Natural resources', 'land natural resources', ''], ['Labor', 'labor human', ''], ['Capital', 'capital tools machinery', ''], ['Entrepreneurship', 'entrepreneurship entrepreneurs', 'Entrepreneurship', 'entrepreneur entrepreneurs entrepreneurial'], ['Knowledge', 'knowledge', '']]],
+        [/\b(?:forms?|types?|kinds?) of (?:business (?:ownership|organi[sz]ations?|structures?|entit(?:y|ies))|compan(?:y|ies))\b/i, 'business ownership', [['Sole proprietorship', 'sole proprietorship owner', 'Sole proprietorship'], ['Partnership', 'partnership partners', 'Partnership'], ['Corporation', 'corporation stockholders', 'Corporation'], ['Limited liability company', 'limited liability company LLC', 'Limited liability company', 'LLC LLCs']]],
+        [/\bproduct life[- ]?cycle\b/i, 'the product life cycle', [['Introduction stage', 'introduction stage product', '', 'introductory'], ['Growth stage', 'growth stage product', ''], ['Maturity stage', 'maturity stage product', ''], ['Decline stage', 'decline stage product', '']]],
+        [/\b(?:leadership styles?|styles? of leadership|types? of leaders(?:hip)?)\b/i, 'leadership', [['Autocratic leadership', 'autocratic leaders', ''], ['Participative leadership', 'participative democratic consensual leaders', ''], ['Free-rein leadership', 'free-rein laissez-faire leaders', '', 'laissez']]],
+        [/\b(?:economic systems?|types? of econom(?:y|ies))\b/i, 'economic systems', [['Capitalism', 'capitalism free market', ''], ['Communism', 'communism government', ''], ['Socialism', 'socialism', ''], ['Mixed economy', 'mixed economies', '']]],
+        [/\b(?:managerial skills?|skills? of (?:a )?managers?|management skills?)\b/i, 'managerial skills', [['Technical skills', 'technical skills', ''], ['Human relations skills', 'human relations skills', ''], ['Conceptual skills', 'conceptual skills', '']]],
+        [/\b(?:managerial roles?|roles of (?:a )?managers?|mintzberg)\b/i, 'managerial roles', [['Interpersonal roles', 'interpersonal roles figurehead leader liaison', ''], ['Informational roles', 'informational roles monitor spokesperson', ''], ['Decisional roles', 'decisional roles entrepreneur negotiator', '']]],
+        [/\b(?:market structures?|types? of (?:markets?|competition))\b/i, 'competition', [['Perfect competition', 'perfect pure competition', ''], ['Monopolistic competition', 'monopolistic competition', ''], ['Oligopoly', 'oligopoly', ''], ['Monopoly', 'pure monopoly', '']]],
+        [/\b(?:maslow|hierarchy of needs)\b/i, "Maslow's hierarchy of needs", [['Physiological needs', 'physiological needs food shelter', ''], ['Safety needs', 'safety needs', ''], ['Social needs', 'social needs belonging', ''], ['Esteem needs', 'esteem needs', ''], ['Self-actualization needs', 'self-actualization needs', '']]],
+    ];
+    const GENERAL = new Set(['level', 'function', 'stage', 'need', 'skill', 'role', 'style', 'type', 'form'].flatMap((w) => [w, ...terms(w)]));
+    const LEANS = /^(?:this|these|those|such|he|she|they|it|its|their|however|also|for example|for instance|in addition|therefore|thus|hence|but|and|another|other|instead|as a result|first|second|third|finally|furthermore|moreover|as with|like|the (?:first|second|third|fourth)|others|once|if the|in this|at this|both|[\w ]{0,20}who (?:use|adopt) this|because of this)\b/i;
     const SHARP = ['why', 'when', 'number', 'who', 'fact'];
     const english = (asked) => !/\p{Script=Devanagari}/u.test(asked.q);
     const readerReady = () => typeof Judge === 'object' && Judge.ready();
@@ -561,7 +591,7 @@ const Ask = (() => {
         // The opening of each article often answers without using the question's words.
         for (const x of pool) if (x.lead && x.place < 8 && some.size < 44) some.add(x);
         const list = [...some];
-        const p = await Judge.score(asked.q, list.map((x) => `${x.page.title}. ${x.text}`));
+        const p = await Judge.score(asked.q, list.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`));
         if (!p) return;
         ranked.judged = true;
         list.forEach((x, i) => {
@@ -574,11 +604,115 @@ const Ask = (() => {
         if (SHARP.includes(asked.kind)) for (const x of list) x.replies = shape(asked, x.text) && ((x.replies && x.judged > 0.02) || x.judged > 0.6);
     }
 
+    /**
+     * One heading for each item of a list that textbooks treat item by item. For each, the reader looks for the sentences
+     * on that item alone, in the book and in the article on it.
+     */
+    async function byItem(asked, lang, size) {
+        const found = ITEMS.find(([pattern]) => pattern.test(asked.q));
+        if (!found || lang === 'hi' || !readerReady()) return null;
+        const [, topic, items] = found;
+        const wiki = new Map();
+        const titles = items.map((x) => x[2]).filter(Boolean);
+        if (titles.length) {
+            const d = await get(lang, { action: 'query', prop: 'extracts', explaintext: '1', exintro: '1', exlimit: 'max', redirects: '1', titles: titles.join('|') });
+            const moved = new Map((d && d.query && Array.isArray(d.query.redirects) ? d.query.redirects : []).map((r) => [r.from, r.to]));
+            for (const t of titles) {
+                const p = (d && d.query && Array.isArray(d.query.pages) ? d.query.pages : []).find((x) => x && x.title === (moved.get(t) || t) && typeof x.extract === 'string');
+                if (p) wiki.set(t, { title: p.title, text: p.extract.slice(0, 6000), url: `${HOSTS[lang]}/wiki/${encodeURIComponent(p.title.replace(/ /g, '_'))}`, order: 1 });
+            }
+        }
+        const main = typeof Book === 'object' ? await Book.find(asked.q, 2, 0.3) : [];
+        const share = Math.max(28, Math.round(size * 0.8 / items.length));
+        const used = new Set();
+        const parts = [];
+        for (const [name, other, title, alias] of items) {
+            const more = typeof Book === 'object' ? await Book.find(`${name} in ${topic}`, 2, 0.2) : [];
+            const pages = [...more, ...main, ...(wiki.has(title) ? [wiki.get(title)] : [])].filter((p, i, a) => a.findIndex((x) => x.url === p.url) === i);
+            const words_ = new Set(terms(`${name} ${other} ${alias || ''}`));
+            const pool = pages.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p }))).filter((x) => !used.has(x.text) && !/\?/.test(x.text));
+            for (const x of pool) {
+                x.terms = terms(x.text);
+                x.hits = new Set([...x.terms, ...terms(x.section)].filter((w) => words_.has(w))).size;
+            }
+            const some = pool.filter((x) => x.hits > 0 && length(x) >= 7).sort((x, y) => y.hits - x.hits).slice(0, 36);
+            const p = some.length ? await Judge.score(`What is ${name.toLowerCase()} in ${topic}?`, some.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
+            if (!p) continue;
+            some.forEach((x, i) => { x.judged = p[i]; });
+            const ownWords = (n) => terms(n).filter((w) => !terms(topic).includes(w) && !GENERAL.has(w));
+            const called = new Set(terms(alias || ''));
+            const main_ = ownWords(name);
+            const named = new Set([...main_, ...called]);
+            // By the word itself: "organizational" does not speak of organizing.
+            const plain = (t) => words(t).map((w) => w.toLowerCase().replace(/^\W+|\W+$/g, '').replace(/s$/, '')).filter((w) => w.length > 3 && !GENERAL.has(w) && !GENERAL.has(stem(w)));
+            const others = new Set(items.filter(([n]) => n !== name).flatMap(([n, , , also]) => plain(`${n} ${also || ''}`)).filter((w) => !plain(`${name} ${alias || ''} ${topic}`).includes(w)));
+            // A name of several words must be there with most of them.
+            const says = (x) => !named.size || x.terms.some((w) => called.has(w)) || main_.filter((w) => x.terms.includes(w)).length >= Math.min(2, main_.length);
+            const near = (x) => says(x) || [...terms(x.section), ...terms(x.page.title)].some((w) => named.has(w));
+            const apart = (x) => !plain(x.text).some((w) => others.has(w));
+            const label = (x) => { const m = /^([^:.]{2,40}):\s/.exec(x.text); return Boolean(m) && terms(m[1]).some((w) => named.has(w)); };
+            for (const x of some) {
+                const t = x.text.split(/\s+/).map((w) => [w, terms(w).some((v) => named.has(v))]);
+                // "Planning is ...", "... are known as capital", and "Growth: ..." open an item; a sentence on two items, one that
+                // leans on the sentence before, or one that names the item only in passing does not.
+                const verb = /^(?:is|are|refers?|means?|involves?|includes?|called|as)$/i;
+                const defines = t.some(([w], i) => verb.test(w) && ((i < 10 && t.slice(Math.max(0, i - 3), i).some((v) => v[1])) || t.slice(i + 1, i + 4).some((v) => v[1])));
+                const passing = !t.some((v, i) => v[1] && !/\([^)]*$/.test(x.text.split(/\s+/).slice(0, i + 1).join(' ')));
+                x.passing = passing;
+                x.judged += (label(x) ? 0.8 : 0) + (defines ? 0.4 : 0) - (apart(x) ? 0 : 0.4) - (LEANS.test(x.text) ? 0.4 : 0) - (says(x) ? 0 : 0.15) - (passing ? 0.3 : 0);
+            }
+            const sayers = some.filter((x) => says(x) && !x.passing);
+            const best = (sayers.length ? sayers : some.filter(near)).sort((x, y) => y.judged - x.judged)[0];
+            if (!best || best.judged < 0.15) continue;
+            // From the best sentence on, while the paragraph stays with the item.
+            const chosen = [];
+            let total = 0;
+            const follow = (from) => {
+                for (const x of pool.filter((y) => y.page === from.page && y.block === from.block && y.place >= from.place)) {
+                    if (chosen.includes(x) || (total && total + length(x) > share * 1.2) || (x !== from && !apart(x))) break;
+                    chosen.push(x);
+                    total += length(x);
+                }
+            };
+            follow(best);
+            // Then the next best ones, with what follows them, until the item has its share.
+            for (const x of some.filter((y) => y.judged > 0.5 && !y.passing && says(y) && apart(y) && !LEANS.test(y.text)).sort((m, n) => n.judged - m.judged)) {
+                if (total > share * 0.75) break;
+                if (chosen.includes(x) || chosen.some((c) => alike(c, x) > 0.6)) continue;
+                follow(x);
+            }
+            chosen.forEach((x) => used.add(x.text));
+            // The heading is the item's own.
+            parts.push({ head: name, chosen: chosen.map((x) => ({ ...x, section: '' })), cover: 1, wanted: 1, words: total });
+        }
+        if (parts.length < Math.max(2, items.length - 1)) return null;
+        // A short opening that says what the whole is.
+        const pool = main.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p, terms: terms(x.text) }))).filter((x) => !used.has(x.text) && !x.item && !LEANS.test(x.text) && !/^(?:this|these|in this) (?:chapter|module|section|book)|^(?:let|now|so)\b|\balso\b|\?/i.test(x.text)).slice(0, 40);
+        const p = pool.length ? await Judge.score(`What are the ${asked.topics[0]}?`, pool.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
+        if (p) {
+            // It speaks of all the items or of none, not of one.
+            const about = (x) => items.filter(([n, , , also]) => terms(`${n} ${also || ''}`).filter((w) => !terms(topic).includes(w) && !GENERAL.has(w)).some((w) => x.terms.includes(w) || terms(x.text).includes(w))).length;
+            pool.forEach((x, i) => { const n = about(x); p[i] += n === 1 ? -1 : n > items.length / 2 ? 0.3 : /\b(?:is|are|refers? to|consists? of|has|have) /i.test(x.text) && terms(topic).some((w) => terms(x.text).slice(0, 8).includes(w)) ? 0 : -0.5; });
+            const k = p.indexOf(Math.max(...p));
+            if (p[k] > 0.4) {
+                const lead = [pool[k]];
+                const next = pool[k + 1];
+                if (next && next.page === lead[0].page && next.block === lead[0].block && about(next) !== 1 && length(lead[0]) + length(next) < Math.max(45, size * 0.2)) lead.push(next);
+                parts.unshift({ head: '', chosen: lead.map((x) => ({ ...x, section: '' })), cover: 1, wanted: 1, words: lead.reduce((n, x) => n + length(x), 0) });
+            }
+        }
+        return parts;
+    }
+
     async function answer(question, lang, size) {
         const asked = understand(question);
         // Only a length that was asked for is worth a remark when it cannot be met.
         const told = size > 0 || asked.told;
         if (!size) size = asked.words;
+        if (['list', 'explain', 'define'].includes(asked.kind)) {
+            const parts = await byItem(asked, lang, size);
+            if (parts) return { asked: { ...asked, kind: 'list' }, parts, size, told, sure: true };
+        }
         if (asked.kind === 'compare') {
             const parts = [];
             for (const topic of asked.topics) {
@@ -604,6 +738,11 @@ const Ask = (() => {
         let titles = pickTitles(searches, asked);
         titles = await sortTitles(lang, titles, asked);
         let merged = await articles(lang, titles, 3);
+        // A business question is answered from the textbook first; Wikipedia adds to it.
+        if (lang !== 'hi' && typeof Book === 'object' && ['define', 'explain', 'list', 'why'].includes(asked.kind)) {
+            const book = await Book.find(asked.q, 2, 0.75);
+            if (book.length) merged = (asked.kind === 'define' ? [...merged.slice(0, 2), ...book.slice(0, 1)] : [...book, ...merged.slice(0, 2)]).map((p, order) => ({ ...p, order }));
+        }
         let ranked = rank(asked, merged);
         await judge(asked, ranked);
         if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind) && titles.length > 3 && !ranked.all.some((x) => x.replies)) {
@@ -621,7 +760,7 @@ const Ask = (() => {
         return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: sure(asked, got) };
     }
 
-    return { NATURAL, SIZES, answer, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { ITEMS, NATURAL, SIZES, answer, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
@@ -649,11 +788,19 @@ const Ask = (() => {
         const sources = [];
         const lines = [`# ${question}`, ''];
         const note = result.sure ? '' : result.asked.kind === 'compare' ? 'Only one of the two was found.'
-            : 'Not sure: these sentences are about the topic but may not answer the question. Check the sources, or ask it another way.';
+            : 'Not sure: no right answer was found. The closest sentences may not answer the question. Check the sources, or ask it another way.';
         // The warning goes wherever the answer goes: to the copy, the file and the PDF.
         if (note) lines.push(note, '');
-        const body = by('answer-body');
+        let body = by('answer-body');
         body.replaceChildren();
+        // What may not be the answer is not shown as if it were: it is folded away.
+        if (note && result.asked.kind !== 'compare') {
+            const fold = el('details');
+            fold.append(el('summary', 'Show the closest sentences'));
+            body.append(fold);
+            body = fold;
+            lines.push('Closest sentences:', '');
+        }
         by('answer-title').textContent = question;
         const kinds = { compare: 'a comparison', list: 'a list of points', define: 'a definition', why: 'a reason', when: 'a date or time', number: 'a number', who: 'a person', fact: 'one fact', explain: 'an explanation' };
         by('understood').textContent = `Understood as ${kinds[result.asked.kind]}. Topic: ${result.asked.topics[0]}`;
@@ -684,19 +831,26 @@ const Ask = (() => {
                 }
                 block = s.block;
                 const spot = s.item ? el('li') : home;
-                spot.append(`${s.text} `, cite(n), ' ');
+                spot.append(s.text);
                 if (s.item) {
                     home.append(spot);
-                    lines.push(`- ${s.text} [${n}]`);
-                } else if (home.childNodes.length > 3) lines[lines.length - 1] += ` ${s.text} [${n}]`;
-                else lines.push(`${s.text} [${n}]`);
+                    lines.push(`- ${s.text}`);
+                } else if (lines[lines.length - 1] !== '') lines[lines.length - 1] += ` ${s.text}`;
+                else lines.push(s.text);
+                // The source stands once, where the paragraph or list ends.
+                const after = part.chosen[part.chosen.indexOf(s) + 1];
+                const ends = !after || after.page.url !== s.page.url || after.section !== s.section || Boolean(after.item) !== Boolean(s.item) || (!s.item && after.block !== s.block);
+                if (ends) {
+                    spot.append(' ', cite(n));
+                    lines[lines.length - 1] += ` [${n}]`;
+                } else if (!s.item) spot.append(' ');
             }
             lines.push('');
         }
         by('sources').replaceChildren(...sources.map((s, i) => {
             const item = el('li');
             item.id = `source-${i + 1}`;
-            const link = el('a', `${s.title}, Wikipedia`);
+            const link = el('a', `${s.title}. ${s.from || 'Wikipedia'}${s.licence ? ` (${s.licence})` : ''}`);
             link.href = s.url;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
@@ -704,9 +858,9 @@ const Ask = (() => {
             return item;
         }));
         const day = new Date().toLocaleDateString('en-GB', { dateStyle: 'long' });
-        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. Wikipedia. ${s.url} (read ${day})`).join('\n')}\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n`;
+        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from Introduction to Business by OpenStax, licensed CC BY 4.0, free at openstax.org.' : ''].filter(Boolean).join(' ')}\n`;
         const total = result.parts.reduce((n, x) => n + x.words, 0);
-        by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but Wikipedia has no more that fits this question` : ''}`;
+        by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but the sources have no more that fits this question` : ''}`;
         by('ask-note').textContent = note;
         by('answer').hidden = false;
         by('answer').scrollIntoView();
@@ -760,10 +914,11 @@ const Ask = (() => {
             return;
         }
         button.disabled = true;
-        button.textContent = 'Reading Wikipedia...';
+        button.textContent = 'Reading...';
         by('busy').hidden = false;
         try {
             await getReader();
+            if (typeof Book === 'object' && Judge.ready()) await Book.load();
             const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0);
             if (result.parts.length) show(question, result);
             else by('ask-note').textContent = 'Nothing was found for this question. Use the main words of the topic, and check the spelling.';

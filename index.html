@@ -23,7 +23,7 @@
     </nav>
     <header class="hero">
         <h1>Ask anything. See where it comes from.</h1>
-        <p>A neural network reads your question, finds the answer in Wikipedia, and gives every sentence its source.</p>
+        <p>A neural network reads your question, finds the answer in Wikipedia and a business textbook, and names every source.</p>
     </header>
     <form id="ask" autocomplete="off">
         <div class="askbox">
@@ -58,7 +58,7 @@
         <div class="chips">
             <button type="button" class="chip" data-ask="What is photosynthesis?" data-lang="en">What is photosynthesis?</button>
             <button type="button" class="chip" data-ask="Difference between mitosis and meiosis" data-lang="en">Mitosis and meiosis</button>
-            <button type="button" class="chip" data-ask="What are the causes of inflation in 200 words?" data-lang="en">Causes of inflation</button>
+            <button type="button" class="chip" data-ask="Examine the levels of management in a large business organization (10 marks)" data-lang="en">Levels of management, 10 marks</button>
             <button type="button" class="chip" data-ask="महात्मा गांधी कौन थे?" data-lang="hi">महात्मा गांधी कौन थे?</button>
             <button type="button" class="chip" data-ask="15% of 2400" data-lang="en">15% of 2400</button>
         </div>
@@ -76,12 +76,12 @@
             <div id="answer-body"></div>
             <h3>Sources</h3>
             <ol id="sources"></ol>
-            <p class="muted">These are sentences from Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
+            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and <a href="https://openstax.org/details/books/introduction-business" rel="noopener noreferrer" target="_blank">Introduction to Business</a> by OpenStax, licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>, shortened. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
         </article>
         <textarea id="answer-text" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
     </section>
     <footer>
-        <p>Your question goes from your browser to Wikipedia, which can see it and your address. This site does not receive or save it. The reader, a 37 MB download from this site the first time you ask, works on your device. Wikipedia can be wrong, so check what matters.</p>
+        <p>Your question goes from your browser to Wikipedia, which can see it and your address. This site does not receive or save it. The reader, a 38 MB download from this site the first time you ask, works on your device. Sources can be wrong, so check what matters. OpenStax does not endorse this site.</p>
     </footer>
 </main>
 <noscript><p class="error">This page needs JavaScript.</p></noscript>
@@ -93,6 +93,7 @@
 <script src="app.js"></script>
 <script src="static/site.js"></script>
 <script src="static/judge.js"></script>
+<script src="static/book.js"></script>
 <script src="static/ask.js"></script>
 </body>
 </html>

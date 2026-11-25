@@ -8,7 +8,7 @@ ort.env.wasm.wasmPaths = here('./vendor/');
 ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.min(4, Math.max(1, (navigator.hardwareConcurrency || 2) - 1)) : 1;
 ort.env.logLevel = 'error';
 
-const MOST = 128;     // pieces of question and sentence together
+const MOST = 176;     // pieces of question and sentence together
 const BATCH = 8;
 let tokenizer = null;
 let session = null;

@@ -136,7 +136,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/book.json', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -209,6 +209,16 @@ class Server(unittest.TestCase):
                 self.assertEqual(r.status_code, 401)
         with mock.patch.object(server, 'PASSWORD', 'x'), mock.patch.object(server, 'login_limiter', server.Limiter(3)):
             self.assertEqual([self.web.post('/api/login', json={'password': 'no'}).status_code for _ in range(4)], [401, 401, 401, 429])
+
+    def test_book_is_free_to_use(self):
+        import json
+        book = json.loads((server.ROOT / 'static' / 'book.json').read_text(encoding='utf-8'))
+        self.assertEqual((book['licence'], book['by']), ('CC BY 4.0', 'OpenStax'))
+        self.assertTrue(book['base'].startswith('https://openstax.org/books/introduction-business/'))
+        self.assertGreater(len(book['modules']), 100)
+        page = (server.ROOT / 'index.html').read_text(encoding='utf-8')
+        for credit in ('Introduction to Business', 'OpenStax', 'CC BY 4.0', 'CC BY-SA 4.0'):
+            self.assertIn(credit, page)
 
     def test_vendor_files_are_unchanged(self):
         folder = server.ROOT / 'static' / 'vendor'
