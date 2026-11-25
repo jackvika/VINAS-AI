@@ -791,8 +791,11 @@ const Ask = (() => {
         if (points.length < 2) return result;
         // It opens with what the topic is. What opened before becomes the first point, unless it says the same.
         const core = coreOf(asked);
-        if (!intro.length || !definition(core, intro.slice(0, 1))) {
-            const says = definition(core, [...intro, ...points.flatMap((p) => p.chosen), ...pool]);
+        // Where the points are the items of a list, no item lends its sentence to the introduction.
+        const items = parts.length > 1;
+        if (!intro.length || (!items && !definition(core, intro.slice(0, 1)))) {
+            const shared = new Set(items ? points.flatMap((p) => p.chosen.map((x) => x.text)) : []);
+            const says = definition(core, [...intro, ...(items ? [] : points.flatMap((p) => p.chosen)), ...pool].filter((x) => !shared.has(x.text)));
             if (says) {
                 points.forEach((p) => { p.chosen = p.chosen.filter((x) => x.text !== says.text); });
                 const left = intro.filter((x) => x.text !== says.text);

@@ -134,8 +134,8 @@ def headers(response):
         response.headers[name] = value
     if request.path.startswith('/api/'):
         response.headers['Cache-Control'] = 'no-store'
-    elif request.path.startswith('/static/vendor/') and response.status_code in (200, 206, 304):
-        # 37 MB that never change under the same name.
+    elif request.path.startswith(('/static/vendor/', '/static/books/')) and response.status_code in (200, 206, 304):
+        # The reader and the books, which hardly ever change under the same name.
         response.headers['Cache-Control'] = 'public, max-age=2592000'
     else:
         response.headers['Cache-Control'] = 'no-cache'
