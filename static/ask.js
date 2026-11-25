@@ -547,7 +547,7 @@ const Ask = (() => {
         [/\b(?:maslow|hierarchy of needs)\b/i, "Maslow's hierarchy of needs", [['Physiological needs', 'physiological needs food shelter', ''], ['Safety needs', 'safety needs', ''], ['Social needs', 'social needs belonging', ''], ['Esteem needs', 'esteem needs', ''], ['Self-actualization needs', 'self-actualization needs', '']]],
     ];
     const GENERAL = new Set(['level', 'function', 'stage', 'need', 'skill', 'role', 'style', 'type', 'form'].flatMap((w) => [w, ...terms(w)]));
-    const LEANS = /^(?:this|these|those|such|he|she|they|it|its|their|however|also|for example|for instance|in addition|therefore|thus|hence|but|and|another|other|instead|as a result|first|second|third|finally|furthermore|moreover|as with|like|the (?:first|second|third|fourth)|others|once|if the|in this|at this|both|[\w ]{0,20}who (?:use|adopt) this|because of this)\b/i;
+    const LEANS = /^(?:this|that|that[’']s|these|those|such|he|she|they|it|its|their|however|also|for example|for instance|in addition|therefore|thus|hence|but|and|another|other|instead|as a result|first|second|third|finally|furthermore|moreover|as with|like|the (?:first|second|third|fourth)|others|once|if the|in this|at this|both|[\w ]{0,20}who (?:use|adopt) this|because of this)\b/i;
     const SHARP = ['why', 'when', 'number', 'who', 'fact'];
     const english = (asked) => !/\p{Script=Devanagari}/u.test(asked.q);
     const readerReady = () => typeof Judge === 'object' && Judge.ready();
@@ -608,7 +608,7 @@ const Ask = (() => {
      * One heading for each item of a list that textbooks treat item by item. For each, the reader looks for the sentences
      * on that item alone, in the book and in the article on it.
      */
-    async function byItem(asked, lang, size) {
+    async function byItem(asked, lang, size, books, rest = []) {
         const found = ITEMS.find(([pattern]) => pattern.test(asked.q));
         if (!found || lang === 'hi' || !readerReady()) return null;
         const [, topic, items] = found;
@@ -622,12 +622,12 @@ const Ask = (() => {
                 if (p) wiki.set(t, { title: p.title, text: p.extract.slice(0, 6000), url: `${HOSTS[lang]}/wiki/${encodeURIComponent(p.title.replace(/ /g, '_'))}`, order: 1 });
             }
         }
-        const main = typeof Book === 'object' ? await Book.find(asked.q, 2, 0.3) : [];
+        const main = typeof Book === 'object' ? await Book.find(asked.q, 2, 0.3, books) : [];
         const share = Math.max(28, Math.round(size * 0.8 / items.length));
         const used = new Set();
         const parts = [];
         for (const [name, other, title, alias] of items) {
-            const more = typeof Book === 'object' ? await Book.find(`${name} in ${topic}`, 2, 0.2) : [];
+            const more = typeof Book === 'object' ? await Book.find(`${name} in ${topic}`, 2, 0.2, books) : [];
             const pages = [...more, ...main, ...(wiki.has(title) ? [wiki.get(title)] : [])].filter((p, i, a) => a.findIndex((x) => x.url === p.url) === i);
             const words_ = new Set(terms(`${name} ${other} ${alias || ''}`));
             const pool = pages.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p }))).filter((x) => !used.has(x.text) && !/\?/.test(x.text));
@@ -690,11 +690,13 @@ const Ask = (() => {
         const pool = main.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p, terms: terms(x.text) }))).filter((x) => !used.has(x.text) && !x.item && !LEANS.test(x.text) && !/^(?:this|these|in this) (?:chapter|module|section|book)|^(?:let|now|so)\b|\balso\b|\?/i.test(x.text)).slice(0, 40);
         const p = pool.length ? await Judge.score(`What are the ${asked.topics[0]}?`, pool.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
         if (p) {
+            pool.forEach((x, i) => { x.judged = p[i]; });
+            rest.push(...pool);
             // It speaks of all the items or of none, not of one.
             const about = (x) => items.filter(([n, , , also]) => terms(`${n} ${also || ''}`).filter((w) => !terms(topic).includes(w) && !GENERAL.has(w)).some((w) => x.terms.includes(w) || terms(x.text).includes(w))).length;
             pool.forEach((x, i) => { const n = about(x); p[i] += n === 1 ? -1 : n > items.length / 2 ? 0.3 : /\b(?:is|are|refers? to|consists? of|has|have) /i.test(x.text) && terms(topic).some((w) => terms(x.text).slice(0, 8).includes(w)) ? 0 : -0.5; });
             const k = p.indexOf(Math.max(...p));
-            if (p[k] > 0.4) {
+            if (p[k] > 0.12) {
                 const lead = [pool[k]];
                 const next = pool[k + 1];
                 if (next && next.page === lead[0].page && next.block === lead[0].block && about(next) !== 1 && length(lead[0]) + length(next) < Math.max(45, size * 0.2)) lead.push(next);
@@ -704,13 +706,143 @@ const Ask = (() => {
         return parts;
     }
 
-    async function answer(question, lang, size) {
+    const PLAIN = new Set(terms('meaning concept definition nature scope importance significance need needs role features characteristics types type kinds forms objectives objective purpose functions function process steps stages principles principle basics basic overview introduction fundamentals determinants factors advantages disadvantages benefits limitations merits demerits elements components methods techniques approaches models theories theory evolution history issues challenges trends applications application examples various different key core main general modern indian india levels level explain detail structure methods tools classification essentials difference'));
+
+    /** The words of a topic that say what it is about: "determinants of working capital" is about working capital. */
+    function coreOf(asked) {
+        const all = [...new Set(terms(asked.topics[0] || asked.q))];
+        const own = all.filter((w) => !PLAIN.has(w));
+        return own.length ? own : all;
+    }
+
+    /** Whether a text speaks of the core of a topic: most of its words together in a title or in one sentence. */
+    function speaks(core, text) {
+        const have = new Set(terms(text));
+        return core.filter((w) => have.has(w)).length >= Math.max(1, Math.ceil(core.length * 0.66));
+    }
+
+    function onTopic(core, page) {
+        if (speaks(core, page.title)) return true;
+        let n = 0;
+        for (const line of page.text.split('\n')) {
+            for (const text of line.startsWith('==') ? [line] : sentencesOf(line)) if (speaks(core, text) && ++n >= (core.length > 1 ? 2 : 4)) return true;
+        }
+        return false;
+    }
+
+    /** The sentence that says what the topic is, if there is one. */
+    function definition(core, pool) {
+        const verb = /\b(?:is|are|refers? to|means|involves|consists? of|describes|denotes)\b/i;
+        return pool.filter((x) => {
+            if (x.item || length(x) < 8 || length(x) > 60 || /\?/.test(x.text)) return false;
+            const label = /^([^:.]{2,60}):\s/.exec(x.text);
+            if (label) return speaks(core, label[1]) && terms(label[1]).length <= core.length + 2;
+            if (LEANS.test(x.text)) return false;
+            const at = x.text.search(verb);
+            if (at < 2 || at > 110) return false;
+            const before = terms(x.text.slice(0, at));
+            return core.every((w) => before.includes(w)) && before.length <= core.length + 4;
+        }).map((x) => ({ x, v: (x.judged || 0) + (x.place === 0 ? 0.3 : 0) + (/\b(?:is|are) (?:an?|the) |refers? to|means\b|:\s/.test(x.text) ? 0.2 : 0) })).sort((m, n) => n.v - m.v).map((m) => m.x)[0];
+    }
+
+    const CLOSES = /^(?:in (?:conclusion|summary|short|sum)|overall|to (?:sum|conclude)|thus|therefore|ultimately)\b|\b(?:essential|crucial|vital|important|importance|critical|success(?:ful)?|benefits?|helps?|enables?|allows?)\b/i;
+
+    /**
+     * The form of an exam answer: an introduction, the points one by one, and a conclusion when the sources have a sentence
+     * that can close. Every sentence stays as its source has it; only the order and the headings are made here.
+     */
+    function exam(result, pool = []) {
+        const { asked, parts } = result;
+        if (!['list', 'explain', 'why', 'define'].includes(asked.kind) || !parts.length) return result;
+        const bare = (x) => ({ ...x, section: '' });
+        const part = (head, chosen, sub = '') => ({ head, sub, chosen: chosen.map(bare), cover: 1, wanted: 1, words: chosen.reduce((n, x) => n + length(x), 0) });
+        let intro = [];
+        let points = [];
+        if (parts.length > 1) {
+            if (!parts[0].head) intro = parts[0].chosen;
+            points = parts.filter((p) => p.head).map((p) => ({ name: p.head, chosen: p.chosen }));
+        } else {
+            const all = parts[0].chosen;
+            if (all.reduce((n, x) => n + length(x), 0) < 70 || all.length < 4) return result;
+            // The paragraph it opens with, up to about fifty words; the rest are points.
+            let n = 0;
+            while (n < all.length && !all[n].item && (n === 0 || (all[n].block === all[0].block && all[n].page === all[0].page && intro.reduce((v, x) => v + length(x), 0) + length(all[n]) <= 55))) intro.push(all[n++]);
+            const groups = [];
+            for (const x of all.slice(n)) {
+                const last = groups[groups.length - 1];
+                if (last && last[0].page === x.page && (last[0].block === x.block || (last[0].item && x.item) || (x.item && last[0].section === x.section))) last.push(x);
+                else groups.push([x]);
+            }
+            const used = new Set();
+            for (const g of groups) {
+                const title = [g[0].section, g[0].page.title].find((t) => t && !/^(?:key terms?|overview|introduction|summary|see also|general)$/i.test(t)) || '';
+                const label = /^([A-Z][^:.]{2,40}):\s/.exec(g[0].text);
+                const name = label ? label[1] : title;
+                // More on the same heading stays under it.
+                if (!name || used.has(name)) {
+                    if (points.length && (!name || points[points.length - 1].name === name)) points[points.length - 1].chosen.push(...g);
+                    else points.push({ name: '', chosen: g });
+                } else {
+                    used.add(name);
+                    points.push({ name, chosen: g });
+                }
+            }
+        }
+        if (points.length < 2) return result;
+        // It opens with what the topic is. What opened before becomes the first point, unless it says the same.
+        const core = coreOf(asked);
+        if (!intro.length || !definition(core, intro.slice(0, 1))) {
+            const says = definition(core, [...intro, ...points.flatMap((p) => p.chosen), ...pool]);
+            if (says) {
+                points.forEach((p) => { p.chosen = p.chosen.filter((x) => x.text !== says.text); });
+                const left = intro.filter((x) => x.text !== says.text);
+                if (left.length && parts.length === 1) {
+                    const name = /^(?:key terms?|overview|introduction|summary)?$/i.test(left[0].section) ? left[0].page.title : left[0].section;
+                    const same = points.find((p) => p.name === name);
+                    if (same) same.chosen.unshift(...left);
+                    else points.unshift({ name, chosen: left });
+                }
+                intro = parts.length === 1 ? [says] : [says, ...left];
+                points = points.filter((p) => p.chosen.length);
+            } else if (intro.length && LEANS.test(intro[0].text)) {
+                const better = points.flatMap((p) => p.chosen).find((x) => !x.item && !LEANS.test(x.text) && speaks(core, x.text));
+                if (intro.length > 1) intro = intro.slice(1);
+                else if (better) {
+                    points.forEach((p) => { p.chosen = p.chosen.filter((x) => x !== better); });
+                    points = points.filter((p) => p.chosen.length);
+                    intro = [better];
+                }
+            }
+        }
+        const shown = new Set([...intro, ...points.flatMap((p) => p.chosen)].map((x) => x.text));
+        const topic = new Set(terms(asked.topics[0] || asked.q));
+        const pages = new Set([...intro, ...points.flatMap((p) => p.chosen)].map((x) => x.page.url));
+        const close = pool.filter((x) => !x.item && pages.has(x.page.url) && !shown.has(x.text) && length(x) >= 9 && length(x) <= 42 && !/\?|:/.test(x.text) && CLOSES.test(x.text)
+            && (!LEANS.test(x.text) || /^(?:thus|therefore|overall)\b/i.test(x.text)) && terms(x.text).some((w) => topic.has(w)) && (x.judged || 0) > 0.05)
+            .sort((x, y) => (y.judged || 0) + (/^(?:in (?:conclusion|summary)|overall|thus|therefore|ultimately)/i.test(y.text) ? 0.5 : 0) - (x.judged || 0) - (/^(?:in (?:conclusion|summary)|overall|thus|therefore|ultimately)/i.test(x.text) ? 0.5 : 0))[0];
+        const out = [];
+        if (intro.length) out.push(part('Introduction', intro));
+        points.forEach((p, i) => out.push(part(i ? '' : 'Explanation', p.chosen, `${i + 1}.${p.name ? ` ${p.name}` : ''}`)));
+        if (close && result.sure !== false) out.push(part('Conclusion', [close]));
+        return { ...result, parts: out };
+    }
+
+    async function answer(question, lang, size, { format = 'plain', books = null, subject = '' } = {}) {
+        const pool = [];
+        const result = await find(question, lang, size, books, pool, subject);
+        return format === 'exam' && result.parts.length ? exam(result, pool) : result;
+    }
+
+    // Works of art and people that share a name with a topic of a course.
+    const NAMESAKE = /\b(?:is|are|was|were) (?:an? |the )?[^.]{0,70}\b(?:rock|pop|band|film|album|song|single|video game|television|tv series|short subject|novel|rapper|singer|footballer|comic|anime|manga|racehorse|village|surname|musician|magazine|board game)\b/i;
+
+    async function find(question, lang, size, books, pool, subject) {
         const asked = understand(question);
         // Only a length that was asked for is worth a remark when it cannot be met.
         const told = size > 0 || asked.told;
         if (!size) size = asked.words;
         if (['list', 'explain', 'define'].includes(asked.kind)) {
-            const parts = await byItem(asked, lang, size);
+            const parts = await byItem(asked, lang, size, books, pool);
             if (parts) return { asked: { ...asked, kind: 'list' }, parts, size, told, sure: true };
         }
         if (asked.kind === 'compare') {
@@ -726,6 +858,16 @@ const Ask = (() => {
             return { asked, parts, size, told, sure: parts.length > 1 };
         }
         const queries = [...new Set([...asked.topics, asked.q].map((t) => t.toLowerCase()))].slice(0, 3);
+        // A question that names a topic, not one that asks for a fact about it in a whole sentence.
+        const topical = subject || asked.kind !== 'explain' || /^(?:explain|describe|discuss|define|write|give|tell)\b/i.test(asked.q) || asked.q.split(' ').length < 4;
+        // "Determinants of working capital" is looked up as working capital too.
+        if (topical && lang !== 'hi' && ['explain', 'list', 'define'].includes(asked.kind)) {
+            const core = new Set(coreOf(asked));
+            const bare = words(asked.topics[0].toLowerCase()).map((w) => w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '')).filter((w) => terms(w).some((t) => core.has(t))).join(' ');
+            if (bare && !queries.includes(bare)) queries.unshift(bare);
+            // Within a subject, the subject helps to tell one meaning of a word from another.
+            if (bare && subject) queries.push(`${bare} ${subject.replace(/\([^)]*\)|\bI+$/g, '').toLowerCase()}`.replace(/\s+/g, ' ').trim());
+        }
         if (['when', 'number'].includes(asked.kind)) {
             const bare = asked.topics[0].split(' ').filter((w) => !VERB[w.toLowerCase()] && !SIZE[w.toLowerCase()] && !/^(?:is|are|was|were|the|did|does|do)$/i.test(w)).join(' ').toLowerCase();
             if (bare && !queries.includes(bare)) queries.push(bare);
@@ -739,9 +881,22 @@ const Ask = (() => {
         titles = await sortTitles(lang, titles, asked);
         let merged = await articles(lang, titles, 3);
         // A business question is answered from the textbook first; Wikipedia adds to it.
-        if (lang !== 'hi' && typeof Book === 'object' && ['define', 'explain', 'list', 'why'].includes(asked.kind)) {
-            const book = await Book.find(asked.q, 2, 0.75);
+        if (lang !== 'hi' && typeof Book === 'object' && (['define', 'explain', 'list'].includes(asked.kind) || (asked.kind === 'why' && books) || (asked.kind === 'why' && /\b(?:firms?|compan(?:y|ies)|business(?:es)?|managers?|employees?|consumers?|customers?|markets?|organi[sz]ations?)\b/i.test(asked.q)))) {
+            const book = await Book.find(asked.q, 2, books ? 0.5 : 0.9, books);
             if (book.length) merged = (asked.kind === 'define' ? [...merged.slice(0, 2), ...book.slice(0, 1)] : [...book, ...merged.slice(0, 2)]).map((p, order) => ({ ...p, order }));
+        }
+        if (subject) merged = merged.filter((p) => p.from || !NAMESAKE.test(p.text.slice(0, 260)));
+        // An article that only shares a word with the topic is not on it.
+        let off = false;
+        if (topical && lang !== 'hi' && ['explain', 'list', 'define'].includes(asked.kind)) {
+            const core = coreOf(asked);
+            // A short topic means many things; an article on it has to speak of the subject as well.
+            const field = subject && core.length < 3 ? [...new Set(terms(subject))] : [];
+            const ours = (p) => p.from || !field.length || (() => { const have = new Set(terms(p.text)); return field.some((w) => have.has(w)); })();
+            let on = merged.filter((p) => onTopic(core, p) && ours(p));
+            if (!on.length && titles.length > 3) on = (await articles(lang, titles.slice(3), 3)).filter((p) => onTopic(core, p) && ours(p) && !(subject && NAMESAKE.test(p.text.slice(0, 260))));
+            if (on.length) merged = on.map((p, order) => ({ ...p, order }));
+            else off = true;
         }
         let ranked = rank(asked, merged);
         await judge(asked, ranked);
@@ -756,11 +911,12 @@ const Ask = (() => {
             }
         }
         if (!ranked.all.length) return { asked, parts: [] };
+        pool.push(...ranked.all);
         const got = choose(ranked, size);
-        return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: sure(asked, got) };
+        return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: !off && sure(asked, got) };
     }
 
-    return { ITEMS, NATURAL, SIZES, answer, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { ITEMS, NATURAL, SIZES, answer, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
@@ -808,6 +964,10 @@ const Ask = (() => {
             if (part.head) {
                 body.append(el('h3', part.head));
                 lines.push(`## ${part.head}`, '');
+            }
+            if (part.sub) {
+                body.append(el('h4', part.sub));
+                lines.push(`### ${part.sub}`, '');
             }
             let section = null;
             let home = null;
@@ -858,7 +1018,7 @@ const Ask = (() => {
             return item;
         }));
         const day = new Date().toLocaleDateString('en-GB', { dateStyle: 'long' });
-        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from Introduction to Business by OpenStax, licensed CC BY 4.0, free at openstax.org.' : ''].filter(Boolean).join(' ')}\n`;
+        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from OpenStax textbooks, in versions licensed CC BY 4.0, free at openstax.org.' : ''].filter(Boolean).join(' ')}\n`;
         const total = result.parts.reduce((n, x) => n + x.words, 0);
         by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but the sources have no more that fits this question` : ''}`;
         by('ask-note').textContent = note;
@@ -896,6 +1056,43 @@ const Ask = (() => {
         await Promise.race([ok, new Promise((done) => { setTimeout(done, patience > 1 ? 8000 : 45000); })]);
     };
 
+    // The subjects of the BBA. A subject says which textbooks to look in.
+    const subjects = new Map();
+    const getSubjects = async () => {
+        if (!/^https?:$/.test(location.protocol)) return;
+        try {
+            const r = await fetch('static/bba.json', { credentials: 'same-origin' });
+            if (!r.ok) return;
+            let group = null;
+            for (const c of (await r.json()).courses) {
+                if (!group || group.label !== c.group) {
+                    group = el('optgroup');
+                    group.label = c.group;
+                    by('subject').append(group);
+                }
+                const option = el('option', c.title);
+                option.value = c.code;
+                group.append(option);
+                subjects.set(c.code, c);
+            }
+        } catch { /* the page works without them */ }
+    };
+    /** A link from the course page: #CODE/question. */
+    const fromLink = () => {
+        const m = /^#([A-Za-z0-9]{0,12})\/(.+)$/.exec(location.hash);
+        if (!m) return;
+        let question = '';
+        try { question = decodeURIComponent(m[2]).slice(0, 300); } catch { return; }
+        by('question').value = question;
+        by('subject').value = subjects.has(m[1]) ? m[1] : '';
+        by('lang').value = 'en';
+        // Asked once: going back or loading again does not ask again.
+        history.replaceState(null, '', location.pathname);
+        box.requestSubmit();
+    };
+    getSubjects().then(fromLink);
+    window.addEventListener('hashchange', fromLink);
+
     box.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (button.disabled) return;
@@ -918,8 +1115,8 @@ const Ask = (() => {
         by('busy').hidden = false;
         try {
             await getReader();
-            if (typeof Book === 'object' && Judge.ready()) await Book.load();
-            const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0);
+            const subject = subjects.get(by('subject').value);
+            const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0, { format: by('format').value, books: subject ? subject.books : null, subject: subject ? subject.title : '' });
             if (result.parts.length) show(question, result);
             else by('ask-note').textContent = 'Nothing was found for this question. Use the main words of the topic, and check the spelling.';
         } catch (error) {

@@ -136,7 +136,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/book.json', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/bba.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -210,15 +210,39 @@ class Server(unittest.TestCase):
         with mock.patch.object(server, 'PASSWORD', 'x'), mock.patch.object(server, 'login_limiter', server.Limiter(3)):
             self.assertEqual([self.web.post('/api/login', json={'password': 'no'}).status_code for _ in range(4)], [401, 401, 401, 429])
 
-    def test_book_is_free_to_use(self):
+    def test_books_are_free_to_use(self):
         import json
-        book = json.loads((server.ROOT / 'static' / 'book.json').read_text(encoding='utf-8'))
-        self.assertEqual((book['licence'], book['by']), ('CC BY 4.0', 'OpenStax'))
-        self.assertTrue(book['base'].startswith('https://openstax.org/books/introduction-business/'))
-        self.assertGreater(len(book['modules']), 100)
+        import re
+        from brain import build_book
+        folder = server.ROOT / 'static' / 'books'
+        script = (server.ROOT / 'static' / 'book.js').read_text(encoding='utf-8')
+        named = re.findall(r"'([a-z0-9-]+)'", re.search(r'ALL = \[(.*?)\]', script)[1])
+        self.assertEqual(sorted(named), sorted(p.stem for p in folder.glob('*.json')))
+        pinned = {b[2]: b[1] for b in build_book.BOOKS}
+        for path in folder.glob('*.json'):
+            book = json.loads(path.read_text(encoding='utf-8'))
+            # Later commits of these books are under another licence, so the commit is part of the licence.
+            self.assertEqual((book['licence'], book['by'], book['commit']), ('CC BY 4.0', 'OpenStax', pinned[path.stem]))
+            self.assertTrue(book['base'].startswith(f'https://openstax.org/books/{path.stem}/'))
+            self.assertGreater(len(book['modules']), 40)
         page = (server.ROOT / 'index.html').read_text(encoding='utf-8')
-        for credit in ('Introduction to Business', 'OpenStax', 'CC BY 4.0', 'CC BY-SA 4.0'):
+        for credit in ('OpenStax', 'CC BY 4.0', 'CC BY-SA 4.0'):
             self.assertIn(credit, page)
+
+    def test_bba_course(self):
+        import json
+        course = json.loads((server.ROOT / 'static' / 'bba.json').read_text(encoding='utf-8'))
+        groups = [c['group'] for c in course['courses']]
+        for n in range(1, 7):
+            self.assertIn(f'Semester {n}', groups)
+        codes = [c['code'] for c in course['courses']]
+        self.assertEqual(len(codes), len(set(codes)))
+        books = {p.stem for p in (server.ROOT / 'static' / 'books').glob('*.json')}
+        for c in course['courses']:
+            self.assertTrue(c['title'] and c['units'] and set(c['books']) <= books, c['code'])
+            for u in c['units']:
+                self.assertTrue(u['title'] and u['topics'], (c['code'], u['title']))
+                self.assertFalse([t for t in u['topics'] if any(ord(x) < 32 for x in t)], c['code'])
 
     def test_vendor_files_are_unchanged(self):
         folder = server.ROOT / 'static' / 'vendor'

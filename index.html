@@ -16,6 +16,7 @@
     <nav>
         <a class="brand" href="index.html">VINAS</a>
         <a href="index.html" aria-current="page">Ask</a>
+        <a href="bba.html">BBA course</a>
         <a href="humanize.html">Plain words</a>
         <a href="check.html">Compare</a>
         <a href="guide.html">The 26 patterns</a>
@@ -23,7 +24,7 @@
     </nav>
     <header class="hero">
         <h1>Ask anything. See where it comes from.</h1>
-        <p>A neural network reads your question, finds the answer in Wikipedia and a business textbook, and names every source.</p>
+        <p>A neural network reads your question, finds the answer in Wikipedia and eight textbooks, and names every source. <a href="bba.html">The whole BBA course is here too.</a></p>
     </header>
     <form id="ask" autocomplete="off">
         <div class="askbox">
@@ -39,6 +40,15 @@
                             <option value="long">300 words</option>
                             <option value="essay">500 words</option>
                         </select>
+                    </label>
+                    <label>Format
+                        <select id="format">
+                            <option value="exam" selected>Introduction and points</option>
+                            <option value="plain">Paragraphs</option>
+                        </select>
+                    </label>
+                    <label>Subject
+                        <select id="subject"><option value="">Any subject</option></select>
                     </label>
                     <label>Look in
                         <select id="lang">
@@ -76,12 +86,12 @@
             <div id="answer-body"></div>
             <h3>Sources</h3>
             <ol id="sources"></ol>
-            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and <a href="https://openstax.org/details/books/introduction-business" rel="noopener noreferrer" target="_blank">Introduction to Business</a> by OpenStax, licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>, shortened. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
+            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and textbooks by <a href="https://openstax.org/subjects/business" rel="noopener noreferrer" target="_blank">OpenStax</a>, in versions licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>, shortened. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
         </article>
         <textarea id="answer-text" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
     </section>
     <footer>
-        <p>Your question goes from your browser to Wikipedia, which can see it and your address. This site does not receive or save it. The reader, a 38 MB download from this site the first time you ask, works on your device. Sources can be wrong, so check what matters. OpenStax does not endorse this site.</p>
+        <p>Your question goes from your browser to Wikipedia, which can see it and your address. This site does not receive or save it. The reader, a 40 MB download from this site the first time you ask, works on your device. Sources can be wrong, so check what matters. OpenStax does not endorse this site.</p>
     </footer>
 </main>
 <noscript><p class="error">This page needs JavaScript.</p></noscript>

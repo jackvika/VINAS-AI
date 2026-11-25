@@ -134,10 +134,24 @@ function run() {
         check('items', q, n, hit ? hit[2].length : 0);
     }
     const tiny = { title: 'T', by: 'B', licence: 'CC BY 4.0', base: 'https://openstax.org/x/', modules: [{ in: 'Managing', title: 'The Role of Management', slug: 'a', text: [['', 'i', 'What is the role of management?'], ['Levels', 'p', 'Top managers set the course of the whole company over many years.'], ['Pay', 'p', 'Wages are paid each month to every worker in the plant.']] }] };
-    Book.use(tiny);
-    check('book', '', ['Managing > The Role of Management > Levels'], Book.likely('top managers of a company', 1).map((p) => p.title));
-    check('book questions', '', false, Book.index(tiny).pages[0].text.includes('?'));
-    check('book sections', '', ['Levels', 'Pay'], Ask.read({ ...Book.index(tiny).pages[0], order: 0 }).map((x) => x.section));
+    tiny.id = 'tiny';
+    Book.use([tiny, { ...tiny, id: 'other', modules: [{ ...tiny.modules[0], in: 'Elsewhere' }] }]);
+    check('book', '', ['Managing > The Role of Management > Levels'], Book.likely('top managers of a company', 1, ['tiny']).map((p) => p.title));
+    check('book chosen', '', ['Elsewhere > The Role of Management > Levels'], Book.likely('top managers of a company', 9, ['other']).map((p) => p.title));
+    check('book questions', '', false, Book.take(tiny).pages[0].text.includes('?'));
+    check('book sections', '', ['Levels', 'Pay'], Ask.read({ ...Book.take(tiny).pages[0], order: 0 }).map((x) => x.section));
+    Book.use([]);
+    const pg = { url: 'u', title: 'Planning' };
+    const line = (text, section, block, more) => ({ text, section, block, place: block, page: pg, item: false, judged: 0.5, ...more });
+    const long = (w) => `${w} is a thing that managers in every firm have to do with much care and thought each year.`;
+    const one = { asked: { kind: 'explain', topics: ['planning'], q: 'explain planning' }, sure: true, parts: [{ head: '', words: 80, chosen: [line(long('Planning'), '', 0), line(long('Strategy'), 'Types', 1), line(long('Budgeting'), 'Types', 2), line(long('Checking'), 'Steps', 3)] }] };
+    const shaped = Ask.exam(one, [line('Planning is essential to the success of a firm in a changing market.', '', 9)]);
+    check('exam form', '', ['Introduction|', 'Explanation|1. Types', '|2. Steps', 'Conclusion|'], shaped.parts.map((p) => `${p.head}|${p.sub}`));
+    check('exam keeps every sentence', '', one.parts[0].chosen.map((x) => x.text), shaped.parts.slice(0, -1).flatMap((p) => p.chosen.map((x) => x.text)));
+    check('exam leaves a fact alone', '', one.parts, Ask.exam({ ...one, asked: { ...one.asked, kind: 'fact' } }).parts);
+    for (const [q, core] of [['Explain determinants of working capital', 'working capital'], ['Explain types of plans', 'plan'], ['Explain the levels of management', 'management']]) check('core', q, core, (() => { const got = Ask.coreOf(Ask.understand(q)).join(' '); return core.split(' ').every((w) => got.includes(w.slice(0, 4))) && got.split(' ').length === core.split(' ').length ? core : got; })());
+    check('off topic', '', false, Ask.onTopic(Ask.coreOf(Ask.understand('Explain determinants of working capital')), { title: 'Labor Productivity', text: 'The determinants of growth are human capital and technology in every modern land.\nCapital makes people more productive than they would be without any of it.' }));
+    check('on topic', '', true, Ask.onTopic(Ask.coreOf(Ask.understand('Explain determinants of working capital')), { title: 'Working capital', text: 'x' }));
     const isSure = (q) => Ask.sure(Ask.understand(q), pick(q, 60));
     check('sure', '', [true, true, false, false], [isSure('What is photosynthesis?'), isSure('When was light shown to be needed for photosynthesis?'), isSure('Why is photosynthesis slow?'), isSure('Who won the cricket photosynthesis cup?')]);
     const found = (...titles) => titles.map((title, i) => ({ title, pageid: title.length * 100 + i }));

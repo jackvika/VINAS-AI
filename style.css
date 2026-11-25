@@ -209,3 +209,14 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
 }
 
 #answer-body summary { cursor: pointer; padding: .6rem 0; font-weight: 600; }
+
+.finder { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin: 1rem 0; }
+.finder input { flex: 1 1 16rem; min-width: 0; padding: .6rem .8rem; font: inherit; }
+.term { margin: 0 0 1.5rem; }
+.subject { border-top: 1px solid rgba(128, 128, 128, .3); padding: .35rem 0; }
+.subject summary { cursor: pointer; padding: .4rem 0; font-weight: 600; }
+.subject summary .muted { font-weight: 400; }
+.subject h4 { margin: .8rem 0 .3rem; }
+.topics { columns: 2 18rem; margin: 0; padding-left: 1.2rem; }
+.topics li { break-inside: avoid; padding: .15rem 0; overflow-wrap: anywhere; }
+#subject { max-width: 14rem; }

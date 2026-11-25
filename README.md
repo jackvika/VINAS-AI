@@ -1,12 +1,14 @@
 # VINAS
 
-Ask a question, and get an answer put together from Wikipedia and an open business textbook, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
+Ask a question, and get an answer put together from Wikipedia and eight open textbooks, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
 
 ## What it does
 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
-- Business questions are looked up first in OpenStax *Introduction to Business*; definitions, comparisons and everything else in Wikipedia
+- Business questions are looked up first in eight OpenStax textbooks; definitions, comparisons and everything else in Wikipedia
+- Answers have the form of an exam answer: an introduction that says what the topic is, numbered points, and a conclusion when a source has a sentence that closes. The sentences stay as the sources have them
+- `bba.html` has the whole three-year BBA, 88 subjects, by unit and topic; a topic is answered with one click
 - Reads exam wording: "examine", "discuss", "in a large business organization" are set aside, and "(10 marks)" sets the length (3 marks 80 words, 6 marks 220, 10 marks 400)
 - Textbook lists (levels and functions of management, marketing mix, product life cycle, Maslow and others, in `ITEMS` in `static/ask.js`) are answered item by item, each under its own heading
 - Ranks every sentence with a neural network and BM25, with bonuses for section, place and kind of answer
@@ -41,11 +43,19 @@ An earlier network trained for this site is gone. Its figures here had been meas
 Hindi questions use patterns and BM25, as does a browser that cannot run the reader.
 
 
-## The textbook
+## The textbooks
 
-`static/book.json` holds the running text of [*Introduction to Business*](https://openstax.org/details/books/introduction-business) by OpenStax (CC BY 4.0), without figures, tables, chapter stories and exercises. `brain/build_book.py` builds it from OpenStax's own repository. OpenStax does not endorse this site. OpenStax asks that the book not be used to train, or be fed to, generative AI without permission; this site has none, so keep it that way or leave the book out. *Principles of Management* and *Organizational Behavior* are under a non-commercial licence and are not used.
+`static/books/` holds the running text of eight books by [OpenStax](https://openstax.org): *Introduction to Business*, *Principles of Management*, *Organizational Behavior*, *Principles of Marketing*, *Principles of Economics 3e*, *Business Ethics*, *Entrepreneurship* and *Introductory Business Statistics 2e*, without figures, tables, formulas, chapter stories and exercises. `brain/build_book.py` builds them.
 
-The search was measured on 261 questions the book itself asks, 1,608 passages, with the right section counted among the first 1, 3 and 5. The book has since lost its chapter stories, so treat these as a comparison of methods:
+**Licence.** OpenStax put most of its books under CC BY-NC-SA on 23 April 2026. The text here comes from earlier commits, named in the builder, at which the collection file, the LICENSE file and the preface of each book all said CC BY 4.0; a licence once given under CC BY 4.0 is not taken back. The builder refuses a book for which one of the three says otherwise. An earlier version of this site used the second edition of *Introduction to Business* under the wrong licence; it was replaced by the first. *Principles of Accounting*, *Principles of Finance* and *Business Law* are not used, because they have been non-commercial throughout. OpenStax does not endorse this site, and asks that its books not be used to train, or be fed to, generative AI without permission; this site has none.
+
+## The BBA course
+
+`static/bba.json` is built by `brain/build_bba.py` from the [AICTE model curriculum for the BBA (2024)](https://aud.delhi.gov.in/sites/default/files/2026-06/aicte_bba_syllabus.pdf): the names of subjects, units and topics of semesters 1 to 6 and six specialisations. Universities change the order, and AICTE does not endorse this site. In a test of 30 topics picked at random, the site gave a sure answer to 19 or fewer; a few of those were about another meaning of the words, and for the rest it said "Not sure". Accounting, taxation, Indian law and very narrow topics are the weakest.
+
+## How the search was chosen
+
+The search was measured on 261 questions that *Introduction to Business* asks itself (second edition), 1,608 passages, with the right section counted among the first 1, 3 and 5. Treat these as a comparison of methods:
 
 | Method | 1 | 3 | 5 |
 |---|---|---|---|

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BBA course | VINAS</title>
+    <meta name="description" content="All six semesters of the BBA by subject, unit and topic. Choose a topic to get its answer.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#10323a">
+    <link rel="icon" href="static/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+    <nav>
+        <a class="brand" href="index.html">VINAS</a>
+        <a href="index.html">Ask</a>
+        <a href="bba.html" aria-current="page">BBA course</a>
+        <a href="humanize.html">Plain words</a>
+        <a href="check.html">Compare</a>
+        <a href="guide.html">The 26 patterns</a>
+        <a href="about.html">How it works</a>
+    </nav>
+    <header class="hero">
+        <h1>BBA, all three years</h1>
+        <p>Six semesters and six specialisations, by subject, unit and topic. Choose a topic and it is answered with an introduction and points.</p>
+    </header>
+    <div class="finder">
+        <label for="find">Find a subject or topic</label>
+        <input id="find" type="search" placeholder="Motivation, GST, break-even" autocomplete="off">
+        <label>Marks <select id="marks"><option value="2">2</option><option value="5" selected>5</option><option value="10">10</option><option value="15">15</option></select></label>
+    </div>
+    <p class="muted" id="bba-note" role="status">Loading the course...</p>
+    <div id="course"></div>
+    <footer>
+        <p>Subjects, units and topics follow the <a id="bba-source" href="https://aud.delhi.gov.in/sites/default/files/2026-06/aicte_bba_syllabus.pdf" rel="noopener noreferrer" target="_blank">AICTE model curriculum for the BBA (2024)</a>. Your university may teach them in another order, so check its own syllabus. AICTE does not endorse this site.</p>
+    </footer>
+</main>
+<noscript><p class="error">This page needs JavaScript.</p></noscript>
+<script src="static/bba.js"></script>
+</body>
+</html>

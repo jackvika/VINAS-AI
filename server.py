@@ -22,7 +22,7 @@ from brain.rewrite import LEVELS, LIMIT, TYPES, Rewriter
 
 ROOT = Path(__file__).resolve().parent
 # Only these are public, so the code, the model, the tests and the Git folder are not.
-PAGES = {'index.html', 'humanize.html', 'check.html', 'guide.html', 'about.html', 'style.css', 'app.js', 'LICENSE', 'skill/LICENSE.txt'}
+PAGES = {'index.html', 'bba.html', 'humanize.html', 'check.html', 'guide.html', 'about.html', 'style.css', 'app.js', 'LICENSE', 'skill/LICENSE.txt'}
 MAX_BODY = 8 * LIMIT + 10_000
 ON_RENDER = os.environ.get('RENDER') == 'true'
 PER_MINUTE = int(os.environ.get('RATE_LIMIT', 30))
