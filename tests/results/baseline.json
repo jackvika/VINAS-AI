@@ -1,0 +1,7153 @@
+{
+ "when": "2026-11-25T16:08:26.759Z",
+ "reader": true,
+ "set": "working",
+ "parse": {
+  "questions": 190,
+  "topic": 44.2,
+  "facets": 57.4,
+  "command": 51.1,
+  "marks": 93.2,
+  "words": 85.8,
+  "subject": 25.8,
+  "language": 92.6,
+  "weights": 0,
+  "whole": 9.5,
+  "tags": {
+   "regression": "whole 0/2, topic 1/2",
+   "statement": "whole 0/11, topic 0/11",
+   "clutter": "whole 0/10, topic 2/10",
+   "typo": "whole 0/9, topic 3/9",
+   "hinglish": "whole 0/14, topic 7/14",
+   "short": "whole 1/12, topic 2/12",
+   "hindi": "whole 0/13, topic 0/13",
+   "clean": "whole 1/4, topic 3/4",
+   "vmou": "whole 9/72, topic 34/72",
+   "marks": "whole 0/5, topic 2/5",
+   "multi": "whole 3/8, topic 6/8",
+   "diff-topic": "whole 0/8, topic 3/8",
+   "weight": "whole 0/4, topic 2/4",
+   "or": "whole 0/3, topic 0/3",
+   "lookalike": "whole 3/13, topic 12/13",
+   "command": "whole 1/7, topic 6/7",
+   "ambiguous": "whole 1/6, topic 3/6"
+  },
+  "wrong": [
+   {
+    "q": "Explain the levels of management (10 marks)",
+    "tags": [
+     "regression"
+    ],
+    "wrong": [
+     "facets",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "levels of management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "levels of management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "levels of management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 10,
+     "words": 400,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "'Management is both a science and an art.' Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)",
+    "tags": [
+     "regression",
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "words",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Management is both a science and an art.' Explain this statement",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Management is both a science and an art.' Explain this statement",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Management is both a science and an art.' Explain this statement",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "Also, briefly discuss Henry Fayol's administrative principles of management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Also, briefly discuss Henry Fayol's administrative principles of management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Also, briefly discuss Henry Fayol's administrative principles of management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 15,
+     "words": 550,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Q.3 (a) Define planing. Explain its types and importance. (10 marks)",
+    "tags": [
+     "clutter",
+     "typo"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Q.3 (a) Define planing",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Q.3 (a) Define planing",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Q.3 (a) Define planing",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "Q.3 (a) Define planing",
+       "facet": "types",
+       "weight": 1
+      },
+      {
+       "topic": "Q.3 (a) Define planing",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 10,
+     "words": 400,
+     "subject": "Financial Planning",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Q.2 Define planing. Explain its types and importance. (10M)",
+    "tags": [
+     "clutter",
+     "typo"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Q.2 Define planing",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Q.2 Define planing",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Q.2 Define planing",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "Q.2 Define planing",
+       "facet": "types",
+       "weight": 1
+      },
+      {
+       "topic": "Q.2 Define planing",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "(10M)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(10M)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(10M)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Financial Planning",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "planning aur controlling mein antar batao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "subject",
+     "language"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "planning and controlling",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Write a short note on MBO",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "MBO",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "MBO",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "MBO",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "नियोजन की परिभाषा और महत्व बताइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "नियोजन महत्व",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define forecasting.",
+    "tags": [
+     "clean"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "forecasting",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "Logistics and Supply Chain Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the concept of span of management.",
+    "tags": [
+     "clean",
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "concept of span of management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "concept of span of management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "concept of span of management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Differentiate between authority and power.",
+    "tags": [
+     "clean",
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "authority and power",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss informational role of managers.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "informational role of managers",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "informational role of managers",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "informational role of managers",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain in brief features of formal organization.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "subject",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "formal organization",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Differentiate between delegation and decentralisation of authority and explain how decentralisation be made more effective. (14 marks)",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "delegation and decentralisation of authority",
+       "facet": "comparison",
+       "weight": 1
+      },
+      {
+       "topic": "how decentralisation be made more effective",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "how decentralisation be made more effective",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "how decentralisation be made more effective",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 14,
+     "words": 550,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(iv) Describe line organisation.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(iv) Describe line organisation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(iv) Describe line organisation",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(iv) Describe line organisation",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you meant by monetary and non monetary motivation?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "you meant by monetary and non monetary motivation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by monetary and non monetary motivation",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by monetary and non monetary motivation",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(viii) Point out any four features of leadership.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(viii) Point out any four features of leadership",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(viii) Point out any four features of leadership",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(viii) Point out any four features of leadership",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define the tern strategy. What is its significance? (8 marks)",
+    "tags": [
+     "vmou",
+     "typo"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "tern strategy",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its significance",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 8,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Enumerate the major advantages and limitations of line and staff organisation. 8 marks",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "words",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "line and staff organisation",
+       "facet": "advantages",
+       "weight": 1
+      },
+      {
+       "topic": "line and staff organisation",
+       "facet": "limitations",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 8,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you meant by corporate social responsibility? Why it is important for survival and success of business?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss Herzberg's two factor theory of motivation.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Herzberg's two factor theory of motivation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Herzberg's two factor theory of motivation",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Herzberg's two factor theory of motivation",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the role of a supervisor in an organisation.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "supervisor in an organisation",
+       "facet": "functions",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Decision making is the essence of managerial process.\" Explain and describe the process of decision making.",
+    "tags": [
+     "vmou",
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "marks",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Decision making",
+       "facet": "statement",
+       "weight": 1
+      },
+      {
+       "topic": "decision making",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(i) What is market economy?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(i) What is market economy",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(i) What is market economy",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(i) What is market economy",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "International Business",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you meant by consumer's surplus?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "you meant by consumer's surplus",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by consumer's surplus",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by consumer's surplus",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(iv) Define law of diminishing returns. [2]",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(iv) Define law of diminishing returns",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(iv) Define law of diminishing returns",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(iv) Define law of diminishing returns",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "[2]",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "[2]",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "[2]",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define cost. What is the concept of opportunity cost.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "cost",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "cost",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Describe characteristics of national income.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "national income",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Economics",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define business economics. Describe the characteristics and nature of business economics. (14)",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "business economics",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "business economics",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(14)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(14)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(14)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Describe factors affecting demand function.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "demand function",
+       "facet": "factors",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Economics",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Give the characteristic of monopoly market.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "monopoly market",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you understand by National Income? Discuss the methods of measuring it.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "National Income",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "measuring it",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(vi) What do you meant by disinvestment?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(vi) What do you meant by disinvestment",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(vi) What do you meant by disinvestment",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(vi) What do you meant by disinvestment",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you meant by SEZs?",
+    "tags": [
+     "vmou",
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "you meant by SEZs",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by SEZs",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by SEZs",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you meant by monetary policy?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "you meant by monetary policy",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by monetary policy",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by monetary policy",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain merits of fiscal policy in India.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "fiscal policy in India",
+       "facet": "advantages",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Environment and Public Policy",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is meant by Micro Business Environment?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Micro Business Environment",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is meant by mixed economy?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "mixed economy",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is Foreign Direct Investment?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Foreign Direct Investment",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "International Business",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Business Social responsibility is confined only up to balancing profit and social goals\". Discuss",
+    "tags": [
+     "vmou",
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Business Social responsibility",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the salient features of India's Fiscal Policy.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "India's Fiscal Policy",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss in brief instruments of monetary policy.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "instruments of monetary policy",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "instruments of monetary policy",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "instruments of monetary policy",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain objectives of Competition Law in india.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Competition Law in india",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain in detail significance and need to study business environment. (16 marks)",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "words",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "study business environment",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 16,
+     "words": 550,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you mean by `Primary Data' ?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "`Primary Data",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(iii) What is skewness ?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(iii) What is skewness",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(iii) What is skewness",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(iii) What is skewness",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Statistics and Logic",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What are the components of Time series ?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "components of Time series",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "components of Time series",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "components of Time series",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Financial Analytics",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Distinguish between moments and kurtosis.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "moments and kurtosis",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you understand by `Secondary Data'? Mention the various sources of secondary data.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "`Secondary Data",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "various sources of secondary data",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "various sources of secondary data",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "various sources of secondary data",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you meant by effective communication?",
+    "tags": [
+     "vmou",
+     "typo"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "you meant by effective communication",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by effective communication",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "you meant by effective communication",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain in brief nature of communication.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "communication",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Communication-I",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss in brief objectives of business communication.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "business communication",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Communication-I",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Differentiate between formal and informal communication.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "formal communication and informal communication",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Describe in brief scope of business communication.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "business communication",
+       "facet": "scope",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Communication-I",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is effective listening? Differentiate between effective and ineffective listening.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "effective listening",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "effective listening and ineffective listening",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the objectives of Written Communication.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Written Communication",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Communication-I",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the Barriers in effective Communication System.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Barriers in effective Communication System",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Barriers in effective Communication System",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Barriers in effective Communication System",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(i) Explain the concept of Marketing.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(i) Explain the concept of Marketing",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(i) Explain the concept of Marketing",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(i) Explain the concept of Marketing",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Marketing Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(ii) Write the elements of Marketing Mix.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(ii) Write the elements of Marketing Mix",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(ii) Write the elements of Marketing Mix",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(ii) Write the elements of Marketing Mix",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "RURAL Marketing",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is Brand? Differentiate it from Trade Mark?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Brand",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Brand and Trade Mark",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the method of cost plus pricing with example. What are its benefits and limitations?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts",
+     "with"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "method of cost plus pricing with example",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "method of cost plus pricing with example",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "method of cost plus pricing with example",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "its benefits and limitations",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the meaning of `Sales Promotion'. Why is Sales Promotion necessary?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "`Sales Promotion",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "`Sales Promotion",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "`Sales Promotion",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "`Sales Promotion",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What are the various components of marketing research? State the importance of marketing research for an organization.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "marketing research",
+       "facet": "types",
+       "weight": 1
+      },
+      {
+       "topic": "marketing research for an organization",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(i) What is Human Resource Management? (2 marks)",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "words",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(i) What is Human Resource Management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(i) What is Human Resource Management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(i) What is Human Resource Management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 2,
+     "words": 80,
+     "subject": "Human Resource Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you understand by selection process? Discuss various steps involved in it.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "selection process",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "it",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Describe the benefits of Performance Appraisal.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Performance Appraisal",
+       "facet": "advantages",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Employee Life Cycle Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you understand by fringe benefits? What are its essential features?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "fringe benefits",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its essential features",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the advantages of Collective Bargaining.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Collective Bargaining",
+       "facet": "advantages",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you mean by \"Discipline\"? State its major characteristics and objectives.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Discipline",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Discipline",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Discipline",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What do you mean by fixed cost?",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "fixed cost",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain in brief about \"Activity Based Costing\".",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "about \"Activity Based Costing\"",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "about \"Activity Based Costing\"",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "about \"Activity Based Costing\"",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain various types of entrepreneurs.",
+    "tags": [
+     "vmou"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "entrepreneurs",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Entrepreneurship and Startup Ecosystem",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Unit 2, Section B, Q.5 (b) Explain the process of planning with reference to Indian context. [CO2] [BL3] (10 Marks)",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "[CO2] [BL3]",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "[CO2] [BL3]",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "[CO2] [BL3]",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 10,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Q4. Explain the importance of marketing. [5 Marks]",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "words",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "marketing",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 5,
+     "words": 220,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Section-C Q.9 Describe the sources of recruitment in a large business organization. (10M) [CO3, BL2]",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "marks",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Section-C Q.9 Describe the sources of recruitment in a large business organization",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Section-C Q.9 Describe the sources of recruitment in a large business organization",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Section-C Q.9 Describe the sources of recruitment in a large business organization",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "(10M) [CO3, BL2]",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(10M) [CO3, BL2]",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(10M) [CO3, BL2]",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "14. (a) (ii) Explain the process of controlling. (16) [K2] [CO4]",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "marks",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(a) (ii) Explain the process of controlling",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(a) (ii) Explain the process of controlling",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(a) (ii) Explain the process of controlling",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "(16) [K2] [CO4]",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(16) [K2] [CO4]",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(16) [K2] [CO4]",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Q. No. 6 Describe the process of communication. 7.5 Marks",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "marks",
+     "words",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Q",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Q",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Q",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "No",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "No",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "No",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "6 Describe the process of communication",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "6 Describe the process of communication",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "6 Describe the process of communication",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "7",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "7",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "7",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 5,
+     "words": 220,
+     "subject": "Business Communication-I",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Part C: Discuss the bases of market segmentation. (1x20=20)",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Part C: Discuss the bases of market segmentation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Part C: Discuss the bases of market segmentation",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Part C: Discuss the bases of market segmentation",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "(1x20=20)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(1x20=20)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(1x20=20)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the importance of staffing. (5 marks each)",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "staffing",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "each)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "each)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "each)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 5,
+     "words": 220,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the types of demand. 12 marks",
+    "tags": [
+     "clutter"
+    ],
+    "wrong": [
+     "command",
+     "words"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "demand",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 12,
+     "words": 550,
+     "subject": "Business Economics",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "State the importance of organising. (3 marks)",
+    "tags": [
+     "marks"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "organising",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 3,
+     "words": 80,
+     "subject": "Financial Accounting",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define leadership. 2M",
+    "tags": [
+     "marks"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "leadership",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "2M",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "2M",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "2M",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the nature and importance of directing for 15 marks",
+    "tags": [
+     "marks"
+    ],
+    "wrong": [
+     "words"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "directing",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "directing",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 15,
+     "words": 550,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is controlling? Discuss its process and types. (Marks: 20)",
+    "tags": [
+     "marks"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "controlling",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "controlling",
+       "facet": "process",
+       "weight": 1
+      },
+      {
+       "topic": "controlling",
+       "facet": "types",
+       "weight": 1
+      },
+      {
+       "topic": "(Marks: 20)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(Marks: 20)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(Marks: 20)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain TQM [Marks 10]",
+    "tags": [
+     "marks"
+    ],
+    "wrong": [
+     "topic",
+     "marks",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "TQM [Marks 10]",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "TQM [Marks 10]",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "TQM [Marks 10]",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is recruitment? Explain its sources. Also distinguish between recruitment and selection. (15 marks)",
+    "tags": [
+     "multi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "recruitment",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its sources",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its sources",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "its sources",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "recruitment and selection",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": 15,
+     "words": 550,
+     "subject": "Employee Life Cycle Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the merits and demerits of decentralization. (10 marks)",
+    "tags": [
+     "multi"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "decentralization",
+       "facet": "advantages",
+       "weight": 1
+      },
+      {
+       "topic": "decentralization",
+       "facet": "limitations",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 10,
+     "words": 400,
+     "subject": "Emerging Technologies and Applications",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define delegation of authority. Explain its process and principles.",
+    "tags": [
+     "multi"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "delegation of authority",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "delegation of authority",
+       "facet": "process",
+       "weight": 1
+      },
+      {
+       "topic": "delegation of authority",
+       "facet": "principles",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define motivation and its importance; explain Maslow's hierarchy of needs. (16 marks)",
+    "tags": [
+     "multi"
+    ],
+    "wrong": [
+     "words",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "motivation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "motivation",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "Maslow's hierarchy of needs",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Maslow's hierarchy of needs",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Maslow's hierarchy of needs",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 16,
+     "words": 550,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is personality? What are its determinants?",
+    "tags": [
+     "multi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "personality",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its determinants",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Human Behaviour and Organization",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain span of control. Further, explain unity of command.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "span of control",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "span of control",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "span of control",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "Further, explain unity of command",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Further, explain unity of command",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Further, explain unity of command",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the stages of product life cycle. Besides, describe the elements of marketing mix.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "product life cycle",
+       "facet": "process",
+       "weight": 1
+      },
+      {
+       "topic": "Besides, describe the elements of marketing mix",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Besides, describe the elements of marketing mix",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Besides, describe the elements of marketing mix",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define job analysis; describe the process of job evaluation.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "job analysis",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "job evaluation",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the features of monopoly and also the features of perfect competition.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "monopoly and also the features of perfect competition",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the importance of planning. Discuss the process of controlling.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Explain the importance of planning",
+       "facet": "statement",
+       "weight": 1
+      },
+      {
+       "topic": "controlling",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define fiscal policy. What is monetary policy? Explain its objectives.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "fiscal policy",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "monetary policy",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "fiscal policy",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain capital budgeting. Also state the types of working capital.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "capital budgeting",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "capital budgeting",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "capital budgeting",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "working capital",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Describe the process of communication. Further, discuss the importance of listening.",
+    "tags": [
+     "diff-topic"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "communication",
+       "facet": "process",
+       "weight": 1
+      },
+      {
+       "topic": "Further, discuss the importance of listening",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Further, discuss the importance of listening",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Further, discuss the importance of listening",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain in detail the process of planning. Also briefly explain the types of control. (10 marks)",
+    "tags": [
+     "weight"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "planning",
+       "facet": "process",
+       "weight": 1
+      },
+      {
+       "topic": "briefly explain the types of control",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "briefly explain the types of control",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "briefly explain the types of control",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 10,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the features of marketing. Briefly discuss the 4Ps of marketing mix. (15 marks)",
+    "tags": [
+     "weight"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "words",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "marketing",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "4Ps of marketing mix",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "4Ps of marketing mix",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "4Ps of marketing mix",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 15,
+     "words": 550,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Briefly define training. Explain its methods in detail.",
+    "tags": [
+     "weight"
+    ],
+    "wrong": [
+     "command",
+     "subject",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "training",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "training",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Training and Development",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define leadership and explain leadership styles in detail.",
+    "tags": [
+     "weight"
+    ],
+    "wrong": [
+     "facets",
+     "subject",
+     "parts",
+     "weights"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "leadership",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "leadership styles",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "leadership styles",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "leadership styles",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Team Building in the Organizations",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define recruitment and explain its sources OR Discuss the methods of training.",
+    "tags": [
+     "or"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts",
+     "alternative"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "recruitment",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its sources OR Discuss the methods of training",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "its sources OR Discuss the methods of training",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "its sources OR Discuss the methods of training",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "(a) Explain the law of demand. (16) (Or) (b) Explain the types of price elasticity of demand. (16)",
+    "tags": [
+     "or"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "subject",
+     "parts",
+     "alternative"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "(a) Explain the law of demand",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(a) Explain the law of demand",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(a) Explain the law of demand",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "(16) (Or) (b) Explain the types of price elasticity of demand",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(16) (Or) (b) Explain the types of price elasticity of demand",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(16) (Or) (b) Explain the types of price elasticity of demand",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "(16)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "(16)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "(16)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss delegation.\nOR\nDiscuss decentralization.",
+    "tags": [
+     "or"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "parts",
+     "alternative"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "delegation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "delegation",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "delegation",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "OR Discuss decentralization",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "OR Discuss decentralization",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "OR Discuss decentralization",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Management is an art as well as a science.\" Discuss. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Management",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 10,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Is management a science or an art? Give reasons.",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "reasons",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "reasons",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "reasons",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Management is a profession.\" Do you agree? Justify your answer. (16 marks)",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Management is a profession.\" Do you agree",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Management is a profession.\" Do you agree",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Management is a profession.\" Do you agree",
+       "facet": "importance",
+       "weight": 1
+      },
+      {
+       "topic": "Justify your answer",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Justify your answer",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Justify your answer",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 16,
+     "words": 550,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Planning is looking ahead and controlling is looking back.\" Comment. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Planning",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 10,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Planning and controlling are Siamese twins of management. Discuss this statement.",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Planning and controlling",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Management is getting things done through others\". Examine the statement.",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Management",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Unity of command and unity of direction are not the same.\" Explain the statement.",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Unity of command and unity of direction",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "\"Coordination is the essence of management.\" Explain.",
+    "tags": [
+     "statement"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Coordination",
+       "facet": "statement",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain management science.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "management science",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "management science",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "management science",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Management Decision Models",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain management as a science.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "management as a science",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "management as a science",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "management as a science",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Management Decision Models",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain scientific management.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "scientific management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "scientific management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "scientific management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the nature and functions of marketing management.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "marketing management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "marketing management",
+       "facet": "functions",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Marketing Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the objectives of financial management.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "financial management",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Financial Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the functions of first-line management.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "first-line management",
+       "facet": "functions",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is line management?",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "line management",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Unity of command vs unity of direction",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Explain Unity of command and unity of direction",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain management by exception.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "management by exception",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "management by exception",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "management by exception",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain Fayol's functions of management.",
+    "tags": [
+     "lookalike"
+    ],
+    "wrong": [
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Fayol's functions of management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Fayol's functions of management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Fayol's functions of management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Define controling.",
+    "tags": [
+     "typo"
+    ],
+    "wrong": [
+     "topic",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "controling",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain market segmantation",
+    "tags": [
+     "typo"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "market segmentation",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "market segmentation",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "market segmentation",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the recruitement process.",
+    "tags": [
+     "typo"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "recruitment process",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "recruitment process",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "recruitment process",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Employee Life Cycle Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the types of comunication.",
+    "tags": [
+     "typo"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "communication",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain types of elastisity of demand.",
+    "tags": [
+     "typo"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "elasticity of demand",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain SWOT. (10 marks)",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "SWOT",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "SWOT",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "SWOT",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 10,
+     "words": 400,
+     "subject": "Strategic Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the stages of PLC.",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "PLC",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Marketing Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is GST?",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "GST",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "Business Taxation",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain BEP",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "BEP",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "BEP",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "BEP",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the advantages of MIS",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "MIS",
+       "facet": "advantages",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Management Information System (MIS)",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain objectives and functions of WTO.",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "WTO",
+       "facet": "objectives",
+       "weight": 1
+      },
+      {
+       "topic": "WTO",
+       "facet": "functions",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Global Business Environment",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the role of SEBI.",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "command"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "SEBI",
+       "facet": "functions",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Investment Analysis and Portfolio Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Write a note on ERP (5)",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "marks",
+     "words",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "ERP (5)",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "ERP (5)",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "ERP (5)",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "Enterprise System and Platforms",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What is SCM?",
+    "tags": [
+     "short"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "SCM",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Write short note on packaging. (5 marks)",
+    "tags": [
+     "command"
+    ],
+    "wrong": [
+     "facets",
+     "command",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "packaging",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "packaging",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "packaging",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": 5,
+     "words": 220,
+     "subject": "Compensation Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Critically evaluate management by objectives. (15 marks)",
+    "tags": [
+     "command"
+    ],
+    "wrong": [
+     "facets",
+     "command",
+     "words",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "management by objectives",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "management by objectives",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "management by objectives",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 15,
+     "words": 550,
+     "subject": "Performance and Compensation Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Critically examine Taylor's scientific management.",
+    "tags": [
+     "command"
+    ],
+    "wrong": [
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "Taylor's scientific management",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "Taylor's scientific management",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "Taylor's scientific management",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the levels of management with the help of a neat diagram.",
+    "tags": [
+     "command"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts",
+     "with"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "levels of management with the help of a neat diagram",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "levels of management with the help of a neat diagram",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "levels of management with the help of a neat diagram",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Enumerate the steps in planning. 5 marks",
+    "tags": [
+     "command"
+    ],
+    "wrong": [
+     "words"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "planning",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": 5,
+     "words": 220,
+     "subject": "Principles and Practices of Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Distinguish between recruitment and selection. (10 marks)",
+    "tags": [
+     "command"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "recruitment and selection",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": 10,
+     "words": 400,
+     "subject": "Employee Life Cycle Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "planning ke types batao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "command",
+     "subject",
+     "language"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "planning",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "management kya hai",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "subject",
+     "language"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "management",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "marketing ke karya samjhao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "command",
+     "subject",
+     "language"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "marketing",
+       "facet": "functions",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "leadership kitne prakar ki hoti hai",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "leadership kitne prakar ki hoti hai",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "leadership kitne prakar ki hoti hai",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "leadership kitne prakar ki hoti hai",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "delegation aur decentralization mein kya antar hai",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "subject",
+     "language"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "delegation and decentralization",
+       "facet": "comparison",
+       "weight": 1
+      }
+     ],
+     "command": "compare",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "training ke fayde batao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "command",
+     "subject",
+     "language"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "training",
+       "facet": "advantages",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "decentralization ke fayde aur nuksan samjhao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "facets",
+     "command",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "decentralization",
+       "facet": "advantages",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "niyojan ki visheshtaye aur mahatva batao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "niyojan",
+       "facet": "features",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "niyantran ki prakriya samjhaiye",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "niyantran",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "fayol ke siddhant samjhao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "fayol",
+       "facet": "principles",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "vipanan kya hai",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "vipanan",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "vyavsayik paryavaran kya hai? iski visheshtaye batao (10 marks)",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "vyavsayik paryavaran",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": 10,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "manav sansadhan prabandhan ke uddeshya batao",
+    "tags": [
+     "hinglish"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "language",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "manav sansadhan prabandhan",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "प्रबंध की विशेषताएँ बताइए।",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "प्रबंध विशेषताएँ",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "नियंत्रण की प्रक्रिया समझाइए। (10 अंक)",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "नियंत्रण प्रक्रिया",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": 10,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "विपणन का महत्व समझाइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "विपणन महत्व",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "नेतृत्व के प्रकार बताइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "नेतृत्व प्रकार",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "संप्रेषण की प्रक्रिया का वर्णन कीजिए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "संप्रेषण प्रक्रिया वर्णन कीजिए",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "नियोजन और नियंत्रण में अंतर बताइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "नियोजन नियंत्रण अंतर",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "हेनरी फेयोल के प्रबंध के सिद्धांत समझाइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "हेनरी फेयोल प्रबंध सिद्धांत",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "मांग की परिभाषा और प्रकार बताइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "मांग प्रकार",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "व्यावसायिक पर्यावरण की परिभाषा और विशेषताएँ लिखिए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "व्यावसायिक पर्यावरण विशेषताएँ लिखिए",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "मानव संसाधन प्रबंधन के कार्य बताइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "मानव संसाधन प्रबंधन कार्य",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "संगठन का अर्थ एवं महत्व समझाइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "संगठन एवं महत्व",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "समन्वय का महत्व बताइए",
+    "tags": [
+     "hindi"
+    ],
+    "wrong": [
+     "topic",
+     "facets",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "समन्वय महत्व",
+       "facet": "definition",
+       "weight": 1
+      }
+     ],
+     "command": "define",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "hi",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the process of organisation as a function of management.",
+    "tags": [
+     "ambiguous"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "organisation as a function of management",
+       "facet": "process",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Discuss the methods of demand forecasting in supply chain.",
+    "tags": [
+     "ambiguous"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "demand forecasting in supply chain",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain the types of control in management.",
+    "tags": [
+     "ambiguous"
+    ],
+    "wrong": [
+     "topic",
+     "command",
+     "subject",
+     "parts"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "control in management",
+       "facet": "types",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Strategic Management",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "What are the objectives of quality control?",
+    "tags": [
+     "ambiguous"
+    ],
+    "wrong": [
+     "command",
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "quality control",
+       "facet": "objectives",
+       "weight": 1
+      }
+     ],
+     "command": "list",
+     "marks": null,
+     "words": 400,
+     "subject": "Quality Management and Business Process Improvement",
+     "language": "en",
+     "alternatives": []
+    }
+   },
+   {
+    "q": "Explain grapevine.",
+    "tags": [
+     "ambiguous"
+    ],
+    "wrong": [
+     "subject"
+    ],
+    "got": {
+     "parts": [
+      {
+       "topic": "grapevine",
+       "facet": "definition",
+       "weight": 1
+      },
+      {
+       "topic": "grapevine",
+       "facet": "features",
+       "weight": 1
+      },
+      {
+       "topic": "grapevine",
+       "facet": "importance",
+       "weight": 1
+      }
+     ],
+     "command": "explain",
+     "marks": null,
+     "words": 400,
+     "subject": "",
+     "language": "en",
+     "alternatives": []
+    }
+   }
+  ]
+ },
+ "quality": {
+  "questions": 42,
+  "unsure": 2,
+  "sentences": 655,
+  "words": 13389,
+  "coverage": 58.8,
+  "offTopic": 17.9,
+  "facetMismatch": 0.2,
+  "repetition": 0,
+  "repeatedPairs": 0,
+  "dangling": 4,
+  "signposts": 1.2,
+  "gapHonesty": 23.9,
+  "marks": "49 of 120",
+  "marksPercent": 40.8,
+  "rows": [
+   {
+    "q": "Explain the levels of management (10 marks)",
+    "tags": [
+     "regression",
+     "list"
+    ],
+    "words": 290,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 87.5,
+    "missing": [
+     "skills at each level"
+    ],
+    "offTopic": [
+     "Middle management is indirectly (through line management) responsible for junior staff performance and productivity.",
+     "Unlike line management, middle management is considered to be a senior (or semi-executive) position as middle managers are authorized to speak and act on behalf of the organisation to line managers, junior staff and customers.",
+     "Line management refers to the management of employees who are directly involved in the production or delivery of products, goods and/or services and may be referred to as the supervisor."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "mark": 8,
+    "of": 10,
+    "lost": "-1.5 3 off-topic, wrong-facet or signpost and 0 dangling or repeated sentences; -0.5 skills at each level",
+    "understood": "Understood as a list of points. Topic: levels of management. Subject: Principles and Practices of Management",
+    "note": ""
+   },
+   {
+    "q": "“Management is both a science and an art.” Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)",
+    "tags": [
+     "regression",
+     "statement",
+     "list"
+    ],
+    "words": 559,
+    "unsure": false,
+    "sentences": 25,
+    "coverage": 25,
+    "missing": [
+     "art: personal skill and practice",
+     "conclusion: both science and art",
+     "Fayol's principles named",
+     "division of work",
+     "authority and responsibility",
+     "unity of command",
+     "unity of direction",
+     "subordination of individual interest",
+     "remuneration",
+     "centralization",
+     "scalar chain",
+     "equity",
+     "stability of tenure",
+     "initiative",
+     "esprit de corps"
+    ],
+    "offTopic": [
+     "Line management roles include supervisors and the frontline managers or team leaders who oversee the work of regular employees, or volunteers in some voluntary organizations, and provide direction on their work.",
+     "Management science (or managerial science) is an interdisciplinary study of solving complex problems and making strategic decisions as it pertains to institutions, corporations, governments and other types of organizational entities.",
+     "It uses various scientific research-based principles, strategies, and analytical methods including mathematical modeling, statistics and numerical algorithms and aims to improve an organization's ability to enact rational and accurate management decisions by arriving at optimal or near optimal solutions to complex decision problems.",
+     "Management science looks to help businesses achieve goals using a number of scientific methods.",
+     "The field was initially an outgrowth of applied mathematics, where early challenges were problems relating to the optimization of systems which could be modeled linearly, i.e., determining the optima (maximum value of profit, assembly line performance, crop yield, bandwidth, etc. or minimum of loss, risk, costs, etc.) of some objective function.",
+     "Today, the discipline of management science may encompass a diverse range of managerial and organizational activity as it regards to a problem which is structured in mathematical or other quantitative form in order to derive managerially relevant insights and solutions.",
+     "The norm for scholars in management science is to focus their work in a certain area or subfield of management like public administration, finance, calculus, information and so forth.",
+     "Hence, the way opened for popularised systems of management ideas to peddle their wares."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [
+     "Because of this, we turn now to a look at the nature of management."
+    ],
+    "repeats": [],
+    "pairs": 300,
+    "honest": 0,
+    "mark": 1,
+    "of": 15,
+    "lost": "-4.5 9 off-topic, wrong-facet or signpost and 0 dangling or repeated sentences; -3.4 12 of 14 named points (division of work, authority and responsibility, unity of command, unity of direction...); -3 art: personal skill and practice; -2 conclusion: both science and art",
+    "understood": "Understood as several questions. Topic: Management. Asked: (1) Meaning of Management, (2) The statement explained",
+    "note": ""
+   },
+   {
+    "q": "'Management is both a science and an art.' Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)",
+    "tags": [
+     "regression",
+     "statement",
+     "list"
+    ],
+    "words": 0,
+    "unsure": true,
+    "sentences": 0,
+    "coverage": 0,
+    "missing": [
+     "management defined",
+     "science: systematic body of knowledge",
+     "science: principles and cause and effect",
+     "art: personal skill and practice",
+     "conclusion: both science and art",
+     "Fayol's principles named",
+     "division of work",
+     "authority and responsibility",
+     "discipline",
+     "unity of command",
+     "unity of direction",
+     "subordination of individual interest",
+     "remuneration",
+     "centralization",
+     "scalar chain",
+     "order",
+     "equity",
+     "stability of tenure",
+     "initiative",
+     "esprit de corps"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 0,
+    "honest": 20,
+    "mark": 0,
+    "of": 15,
+    "lost": "-4 14 of 14 named points (division of work, authority and responsibility, discipline, unity of command...); -3 art: personal skill and practice; -2.5 science: systematic body of knowledge; -2 conclusion: both science and art",
+    "understood": "Understood as a list of points. Topic: 'Management is both a science and an art.' Explain this statement. Also, discuss Henry Fayol's administrative principles of management. Asked: (1) Management is both a science and an art.' Explain this statement, (2) Also, briefly discuss Henry Fayol's administrative principles of management",
+    "note": "Not sure: no right answer was found. The closest sentences may not answer the question. Check the sources, or ask it another way."
+   },
+   {
+    "q": "Explain Fayol's 14 principles of management. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 280,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 13.3,
+    "missing": [
+     "division of work",
+     "authority and responsibility",
+     "discipline",
+     "unity of command",
+     "unity of direction",
+     "subordination of individual interest",
+     "remuneration",
+     "centralization",
+     "scalar chain",
+     "order",
+     "equity",
+     "stability of tenure",
+     "esprit de corps"
+    ],
+    "offTopic": [
+     "Writing at the same time as Taylor, Henri Fayol (1841–1925) and Max Weber (1864–1920) wrote complementary contributions to Taylor’s four principles of scientific management framework.",
+     "Whereas Taylor focused on frontline managers, those who handle workers, Fayol focused on top managers, who set strategy, and Weber focused on middle managers, who implement strategy.",
+     "Although Taylor, Fayol, and Weber viewed management from different perspectives, each stressed the need for logical, rational systems to coordinate and control various types of enterprises.",
+     "Even worse, it could make them willing participants in criminal activities.",
+     "American sociologist Robert K. Merton noted that in a bureaucracy, rules could become more important than actual goals."
+    ],
+    "facet": [
+     "Five functions of management: Created by Henri Fayol: planning, organizing, staffing, controlling, and directing."
+    ],
+    "dangling": [
+     "Each of these functions describes what managers should do on a day-to-day basis."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "mark": 0,
+    "of": 10,
+    "lost": "-8.4 13 of 14 named points (division of work, authority and responsibility, discipline, unity of command...); -3 6 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Understood as a list of points. Topic: Fayol's 14 principles of management",
+    "note": ""
+   },
+   {
+    "q": "Explain Maslow's hierarchy of needs. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 289,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "Praise and recognition from managers and others in the firm contribute to the sense of self-worth."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "mark": 9.5,
+    "of": 10,
+    "lost": "-0.5 1 off-topic, wrong-facet or signpost and 0 dangling or repeated sentences",
+    "understood": "Understood as a list of points. Topic: Maslow's hierarchy of needs",
+    "note": ""
+   },
+   {
+    "q": "Explain the 4Ps of the marketing mix. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 346,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 120,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: 4Ps of the marketing mix",
+    "note": ""
+   },
+   {
+    "q": "Explain the stages of the product life cycle. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 345,
+    "unsure": false,
+    "sentences": 21,
+    "coverage": 83.3,
+    "missing": [
+     "maturity stage"
+    ],
+    "offTopic": [
+     "The failure rate is high.",
+     "The demand for VCRs has now been surpassed by the demand for DVDs and online streaming of content."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 210,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: steps in product life cycle. Subject: Marketing Management",
+    "note": ""
+   },
+   {
+    "q": "Explain the functions of management. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 350,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 71.4,
+    "missing": [
+     "functions named",
+     "staffing"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: functions of management. Subject: Principles and Practices of Management",
+    "note": ""
+   },
+   {
+    "q": "\"Management is a profession.\" Do you agree? (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 0,
+    "unsure": true,
+    "sentences": 0,
+    "coverage": 0,
+    "missing": [
+     "management or profession defined",
+     "specialised knowledge",
+     "formal training",
+     "code of conduct",
+     "professional body",
+     "service motive",
+     "conclusion"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 0,
+    "honest": 7,
+    "mark": 0,
+    "of": 10,
+    "lost": "-2 formal training; -1.5 specialised knowledge; -1.5 code of conduct; -1.5 professional body",
+    "understood": "Understood as a list of points. Topic: functions of management. Subject: Principles and Practices of Management",
+    "note": "Nothing was found for this question. Use the main words of the topic, and check the spelling."
+   },
+   {
+    "q": "\"Marketing begins and ends with the customer.\" Explain this statement. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 170,
+    "unsure": false,
+    "sentences": 9,
+    "coverage": 83.3,
+    "missing": [
+     "marketing research first"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "For instance, prolific marketing author and educator, Philip Kotler has evolved his definition of marketing.",
+     "Instead of being product-centric, it’s about being customer-centric and developing a mutually beneficial relationship with customers."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 36,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: Marketing. Asked: (1) Meaning of Marketing, (2) The statement explained",
+    "note": "No sure answer was found for: The statement explained."
+   },
+   {
+    "q": "\"Management is getting things done through others.\" Explain. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 328,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [
+     "Because of this, we turn now to a look at the nature of management."
+    ],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: Management. Asked: (1) Meaning of Management, (2) The statement explained",
+    "note": ""
+   },
+   {
+    "q": "\"Planning and controlling are inseparable.\" Discuss. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 236,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "Ideally it is future oriented, comprehensive, systematic, integrated, and negotiated.",
+     "It involves an extensive search for alternatives and analyzes relevant information, is systematic in nature, and is commonly participative."
+    ],
+    "facet": [],
+    "dangling": [
+     "It has been noted on numerous occasions that many organizations that do plan fail to recognize the importance of continuous learning."
+    ],
+    "signposts": [
+     "The planning model described in this section breaks the managerial function of planning into several steps.",
+     "Through the controlling function (to be discussed in greater detail later in this chapter), managers observe ongoing human behavior and organizational activity, compare it to the outcome and action statements formulated during the planning process, and take corrective action if they observe unexpected and unwanted deviations."
+    ],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "mark": 8,
+    "of": 10,
+    "lost": "-2.3 4 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Understood as several questions. Topic: Planning and controlling. Asked: (1) Meaning of Planning and controlling, (2) The statement explained",
+    "note": "No sure answer was found for: Meaning of Planning and controlling."
+   },
+   {
+    "q": "\"People are the most important asset of an organization.\" Justify. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 196,
+    "unsure": false,
+    "sentences": 7,
+    "coverage": 0,
+    "missing": [
+     "human resource management defined",
+     "people as assets",
+     "competitive advantage",
+     "training and development",
+     "retention and motivation"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 21,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: People. Asked: (1) Meaning of People, (2) The statement explained",
+    "note": "No sure answer was found for: The statement explained."
+   },
+   {
+    "q": "Define planning. Explain its types and importance. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 339,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 87.5,
+    "missing": [
+     "tactical plans"
+    ],
+    "offTopic": [
+     "Some researchers regard the evolution of forethought - the capacity to think ahead - as a prime mover in human evolution."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "mark": 8,
+    "of": 10,
+    "lost": "-1.5 tactical plans; -0.5 1 off-topic, wrong-facet or signpost and 0 dangling or repeated sentences",
+    "understood": "Understood as several questions. Topic: planning. Asked: (1) Meaning of planning, (2) Types of planning, (3) Importance of planning. Subject: Principles and Practices of Management",
+    "note": ""
+   },
+   {
+    "q": "What is organizing? Explain its importance. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 167,
+    "unsure": false,
+    "sentences": 7,
+    "coverage": 20,
+    "missing": [
+     "divides work",
+     "authority and responsibility",
+     "coordination",
+     "resources"
+    ],
+    "offTopic": [
+     "Community organizing is a process where people who live in proximity to each other or share some common problem come together into an organization that acts in their shared self-interest.",
+     "Unlike those who promote consensus-based community building, community organizers generally assume that social change necessarily involves conflict and social struggle in order to generate collective power for the powerless.",
+     "There has been an attempt to build a general community organizing practice model that ties the different types of community organizing together despite their differences."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 21,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: organizing. Asked: (1) Meaning of organizing, (2) Importance of organizing. Subject: Change Management and Organizational Development",
+    "note": "No sure answer was found for: Importance of organizing."
+   },
+   {
+    "q": "Explain the process of delegation of authority. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 272,
+    "unsure": false,
+    "sentences": 14,
+    "coverage": 80,
+    "missing": [
+     "benefits"
+    ],
+    "offTopic": [
+     "When someone is given the rights to complete a task, they are assigned with the corresponding obligation to perform."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 91,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: steps in delegation of authority. Subject: Principles and Practices of Management",
+    "note": ""
+   },
+   {
+    "q": "Differentiate between centralization and decentralization. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 280,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 60,
+    "missing": [
+     "speed of decisions",
+     "control and uniformity"
+    ],
+    "offTopic": [
+     "The term has a variety of meanings in several fields.",
+     "In political science, centralisation refers to the concentration of a government's power—both geographically and politically—into a centralised government, which has sovereignty over all its administrative divisions.",
+     "Conversely, a decentralised system of government often has significant separation of powers and local self-governance."
+    ],
+    "facet": [],
+    "dangling": [
+     "However, in terms of technology, a clear distinction between fully centralized or decentralized technical solutions is often not possible and therefore finding an optimal degree of centralization difficult from an infrastructure planning perspective.",
+     "In this chapter, you will learn the difference between centralized and decentralized management and how that relates to decision-making."
+    ],
+    "signposts": [
+     "In this chapter, you will learn the difference between centralized and decentralized management and how that relates to decision-making."
+    ],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "understood": "Understood as a comparison. Topic: centralization",
+    "note": ""
+   },
+   {
+    "q": "Explain the process of controlling. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 449,
+    "unsure": false,
+    "sentences": 23,
+    "coverage": 60,
+    "missing": [
+     "measure performance",
+     "compare"
+    ],
+    "offTopic": [
+     "Ideally it is future oriented, comprehensive, systematic, integrated, and negotiated.",
+     "It involves an extensive search for alternatives and analyzes relevant information, is systematic in nature, and is commonly participative.",
+     "The planning model described in this section breaks the managerial function of planning into several steps.",
+     "Following this step-by-step procedure helps ensure that organizational planning meets these requirements.",
+     "According to management scholars Harold Koontz and Cyril O’Donnell, the first step in the planning process is awareness.",
+     "It is at this step that managers build the foundation on which they will develop their plans.",
+     "This foundation specifies an organization’s current status, pinpoints its commitments, recognizes its strengths and weaknesses, and sets forth a vision of the future.",
+     "Because the past is instrumental in determining where an organization expects to go in the future, managers at this point must understand their organization and its history.",
+     "It has been said—“The further you look back, the further you can see ahead.”",
+     "The second step in the planning process consists of deciding “where the organization is headed, or is going to end up.”",
+     "Ideally, this involves establishing goals.",
+     "Just as your goal in this course might be to get a certain grade, managers at various levels in an organization’s hierarchy set goals.",
+     "For example, plans established by a university’s marketing department curriculum committee must fit with and support the plans of the department, which contribute to the goals of the business school, whose plans must, in turn, support the goals of the university.",
+     "In this step of the planning process, managers establish the premises, or assumptions, on which they will build their action statements.",
+     "The quality and success of any plan depends on the quality of its underlying assumptions.",
+     "Throughout the planning process, assumptions about future events must be brought to the surface, monitored, and updated.",
+     "In this stage of the planning process, managers decide how to move from their current position toward their goal (or toward their domain).",
+     "They develop an action statement that details what needs to be done, when, how, and by whom.",
+     "The course of action determines how an organization will get from its current position to its desired future position."
+    ],
+    "facet": [],
+    "dangling": [
+     "In this step of the planning process, managers establish the premises, or assumptions, on which they will build their action statements.",
+     "In this stage of the planning process, managers decide how to move from their current position toward their goal (or toward their domain).",
+     "Thus, planning and controlling activities are closely interrelated (planning ➨ controlling ➨ planning . . .)."
+    ],
+    "signposts": [
+     "The planning model described in this section breaks the managerial function of planning into several steps."
+    ],
+    "repeats": [],
+    "pairs": 253,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: steps in controlling. Subject: Principles and Practices of Management",
+    "note": ""
+   },
+   {
+    "q": "Explain the principles of scientific management given by Taylor. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 363,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 71.4,
+    "missing": [
+     "cooperation",
+     "criticism"
+    ],
+    "offTopic": [
+     "Motivation is the set of forces that prompt a person to release energy in a certain direction.",
+     "As such, motivation is essentially a need- and want-satisfying process.",
+     "Develop a scientific approach for each element of a person’s job.",
+     "Frank B. Gilbreth (1868–1924).",
+     "Gilbreth and his wife Lillian Moller Gilbreth (1878–1972) performed micro-motion studies using stop-motion cameras as well as developing the profession of industrial/organizational psychology."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: principles of scientific management given by Taylor",
+    "note": ""
+   },
+   {
+    "q": "Distinguish between recruitment and selection. (10 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 347,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 66.7,
+    "missing": [
+     "recruitment is positive and comes first",
+     "selection rejects"
+    ],
+    "offTopic": [
+     "The last two take place twenty years after the events in the first three.",
+     "In addition, four spin-off novellas were released.",
+     "Three of them, The Prince, The Guard and The Favourite are narrated from the point of view of three supporting characters.",
+     "The Queen, instead, is a prequel, focusing on a supporting character from the main series.",
+     "She also commented that she had written the book \"from start to finish\", while her writing process for the other books differed."
+    ],
+    "facet": [],
+    "dangling": [
+     "She also commented that she had written the book \"from start to finish\", while her writing process for the other books differed."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "mark": 5,
+    "of": 10,
+    "lost": "-2.8 5 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences; -1.5 recruitment is positive and comes first; -1 selection rejects",
+    "understood": "Understood as a comparison. Topic: recruitment. Subject: Employee Life Cycle Management",
+    "note": ""
+   },
+   {
+    "q": "What is training? Explain the methods of training. (10 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 430,
+    "unsure": false,
+    "sentences": 20,
+    "coverage": 60,
+    "missing": [
+     "off-the-job",
+     "role play or case"
+    ],
+    "offTopic": [
+     "At some point in your career, you are very likely to be asked to be involved in cross-cultural operations.",
+     "Furthermore, cross-cultural differences can be very subtle and nuanced, and this method cannot expose participants to such nuances.",
+     "In such cases, high-rigor methods that allow participants to be much more actively engaged with a culture will work well."
+    ],
+    "facet": [],
+    "dangling": [
+     "Furthermore, cross-cultural differences can be very subtle and nuanced, and this method cannot expose participants to such nuances.",
+     "In such cases, high-rigor methods that allow participants to be much more actively engaged with a culture will work well.",
+     "The advantage of this method is that it enables the participant to be much more actively engaged in learning, thereby facilitating transfer of knowledge."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 190,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: training. Asked: (1) Meaning of training, (2) Methods of training. Subject: Training and Development",
+    "note": ""
+   },
+   {
+    "q": "Explain the methods of performance appraisal. (10 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 364,
+    "unsure": false,
+    "sentences": 20,
+    "coverage": 71.4,
+    "missing": [
+     "360 degree",
+     "MBO"
+    ],
+    "offTopic": [
+     "On several different factors, subordinates are judged on 'how much' of that factor or trait they possess.",
+     "Typically, the raters use a 5- or 7-point scale; however, there are as many as 20-point scales.",
+     "The forced-distribution method is good for large groups of ratees.",
+     "The method of top-grading can be applied to the forced distribution method.",
+     "In that respect, it is similar to BARS."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 190,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: methods of performance appraisal. Subject: Employee Life Cycle Management",
+    "note": ""
+   },
+   {
+    "q": "Explain job analysis. (5 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 261,
+    "unsure": false,
+    "sentences": 13,
+    "coverage": 40,
+    "missing": [
+     "job description",
+     "methods",
+     "uses"
+    ],
+    "offTopic": [
+     "Human resource (HR) management is the process of hiring, developing, motivating, and evaluating employees to achieve organizational goals.",
+     "The goals and strategies of the firm’s business model form the basis for making human resource management decisions.",
+     "HR practices and systems comprise the firm’s human resource decision support system that is intended to make employees a key element for gaining competitive advantage.",
+     "When Hubert Joly started as the CEO at Best Buy, the retailer was facing serious financial pressures.",
+     "The threat of online competition from Amazon was real.",
+     "Joly was also facing a staffing issue with a lot of turnover."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 78,
+    "honest": 0,
+    "understood": "Understood as an explanation. Topic: job analysis. Subject: Employee Life Cycle Management",
+    "note": ""
+   },
+   {
+    "q": "What is motivation? Explain its importance. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 342,
+    "unsure": false,
+    "sentences": 25,
+    "coverage": 80,
+    "missing": [
+     "types: intrinsic and extrinsic"
+    ],
+    "offTopic": [
+     "Ability refers to the knowledge, skills, and receptiveness to learning that a person brings to a task or job.",
+     "Knowledge is what a person knows."
+    ],
+    "facet": [],
+    "dangling": [
+     "The theories presented in this section focus on the importance of human needs."
+    ],
+    "signposts": [
+     "The theories presented in this section focus on the importance of human needs."
+    ],
+    "repeats": [],
+    "pairs": 300,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: motivation. Asked: (1) Meaning of motivation, (2) Importance of motivation. Subject: Employee Life Cycle Management",
+    "note": ""
+   },
+   {
+    "q": "Explain Herzberg's two-factor theory. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 409,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 80,
+    "missing": [
+     "motivators"
+    ],
+    "offTopic": [
+     "Rather, individuals look for the gratification of higher-level psychological needs having to do with achievement, recognition, responsibility, advancement, and the nature of the work itself.",
+     "This appears to parallel Maslow's theory of a need hierarchy.",
+     "Each respondent gave as many \"sequences of events\" as he could that met certain criteria— including a marked change in feeling, a beginning, and an end, and contained some substantive description other than feelings and interpretations..."
+    ],
+    "facet": [],
+    "dangling": [
+     "Furthermore, it has been noted the theory does not allow for individual differences, such as particular personality traits, which would affect individuals' unique responses to motivating or hygiene factors."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: Herzberg's two-factor theory",
+    "note": ""
+   },
+   {
+    "q": "Explain different leadership styles. (10 marks)",
+    "tags": [
+     "ob",
+     "list"
+    ],
+    "words": 332,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 80,
+    "missing": [
+     "transformational or transactional"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: different leadership styles. Subject: Team Building in the Organizations",
+    "note": ""
+   },
+   {
+    "q": "What is personality? Explain its determinants. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 384,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 80,
+    "missing": [
+     "situation"
+    ],
+    "offTopic": [
+     "All of these tests are beneficial because they have both reliability and validity, two factors that make a test accurate.",
+     "openness (O) measures creativity, curiosity, and willingness to entertain new ideas.",
+     "conscientiousness (C) measures self-control, diligence, and attention to detail."
+    ],
+    "facet": [],
+    "dangling": [
+     "All of these tests are beneficial because they have both reliability and validity, two factors that make a test accurate."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: personality. Asked: (1) Meaning of personality, (2) Factors of personality. Subject: Human Behaviour and Organization",
+    "note": ""
+   },
+   {
+    "q": "Distinguish between formal and informal organization. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 357,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 75,
+    "missing": [
+     "communication"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "Consequently, when attempting to legislate for an organization and to create a formal structure, it is necessary to recognize informal organization in order to create workable structures."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 120,
+    "honest": 0,
+    "understood": "Understood as a comparison. Topic: formal organization. Subject: Business Communication-II",
+    "note": ""
+   },
+   {
+    "q": "What is market segmentation? Explain its bases. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 372,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 50,
+    "missing": [
+     "geographic",
+     "demographic",
+     "psychographic"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "In addition to geographics, demographics, psychographics, and behavioural bases, marketers occasionally turn to other means of segmenting the market or developing segment profiles.",
+     "Under this approach the target market is segmented based on features such as company size, industry sector or location usage rate, purchase frequency, number of years in business, ownership factors, and buying situation."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 120,
+    "honest": 0,
+    "mark": 3.5,
+    "of": 10,
+    "lost": "-2 geographic; -2 demographic; -2 psychographic; -0.5 0 off-topic, wrong-facet or signpost and 2 dangling or repeated sentences",
+    "understood": "Understood as several questions. Topic: market segmentation. Asked: (1) Meaning of market segmentation, (2) Types of market segmentation",
+    "note": ""
+   },
+   {
+    "q": "Explain the nature and scope of marketing. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 236,
+    "unsure": false,
+    "sentences": 14,
+    "coverage": 60,
+    "missing": [
+     "customer needs",
+     "exchange and value"
+    ],
+    "offTopic": [
+     "Because of their diversity and unique characteristics, it is difficult to narrow it down to a uniform Asian identity.",
+     "The Hispanic, Black, and Asian populations each have a general set of cultural characteristics based on their multicultural identities.",
+     "Let’s explore characteristics and factors in more detail.",
+     "Asian people share this cultural duality characteristic with Hispanic people.",
+     "Within the scope of residential sales, that realtor may drill down further and specialize in new construction, luxury properties, land and development, over-55 communities, or farms/ranches/equestrian properties.",
+     "It is one of the primary components of business management and commerce."
+    ],
+    "facet": [],
+    "dangling": [
+     "Asian people share this cultural duality characteristic with Hispanic people.",
+     "It is one of the primary components of business management and commerce."
+    ],
+    "signposts": [
+     "Let’s explore characteristics and factors in more detail."
+    ],
+    "repeats": [],
+    "pairs": 91,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: marketing. Asked: (1) Characteristics of marketing, (2) Scope of marketing. Subject: Marketing Management",
+    "note": ""
+   },
+   {
+    "q": "What is consumer behaviour? Explain the factors affecting it. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 403,
+    "unsure": false,
+    "sentences": 20,
+    "coverage": 60,
+    "missing": [
+     "cultural factors",
+     "personal factors"
+    ],
+    "offTopic": [
+     "There are two types of factors: primary and secondary.",
+     "Take a moment to think about the many different types of businesses you come into contact with on a typical day.",
+     "As you drive to class, you may stop at a gas station that is part of a major national oil company and grab lunch from a fast food chain such as Taco Bell or McDonald’s or the neighborhood pizza place.",
+     "Four traditional factors of production are common to all productive activity: natural resources, labor (human resources), capital, and entrepreneurship.",
+     "Many experts now include knowledge as a fifth factor, acknowledging its key role in business success.",
+     "By using the factors of production efficiently, a company can produce more goods and services with the same resources.",
+     "Instead, it is a means of acquiring the inputs.",
+     "A number of outstanding managers and noted academics are beginning to emphasize a fifth factor of production—knowledge.",
+     "Knowledge refers to the combined talents and skills of the workforce and has become a primary driver of economic growth.",
+     "Today’s competitive environment places a premium on knowledge and learning over physical resources.",
+     "Recent statistics suggest that the number of U.S. knowledge workers has doubled over the last 30 years, with an estimated 2 million knowledge job openings annually.",
+     "Differences are most stark when it comes to deciding which factor is the most important."
+    ],
+    "facet": [],
+    "dangling": [
+     "Instead, it is a means of acquiring the inputs."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 190,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: consumer behaviour. Asked: (1) Meaning of consumer behaviour, (2) Factors of it",
+    "note": ""
+   },
+   {
+    "q": "What is promotion mix? Explain its elements. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 326,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 83.3,
+    "missing": [
+     "advertising"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: promotion mix. Asked: (1) Meaning of promotion mix, (2) Elements of promotion mix. Subject: Marketing Management",
+    "note": ""
+   },
+   {
+    "q": "Explain the pricing strategies. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 429,
+    "unsure": false,
+    "sentences": 20,
+    "coverage": 33.3,
+    "missing": [
+     "skimming",
+     "penetration",
+     "cost-plus",
+     "psychological or bundle"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 190,
+    "honest": 0,
+    "understood": "Understood as an explanation. Topic: pricing strategies. Subject: Logistics and Supply Chain Management",
+    "note": ""
+   },
+   {
+    "q": "Explain the law of demand. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 397,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 60,
+    "missing": [
+     "other things equal",
+     "reasons: income and substitution effect"
+    ],
+    "offTopic": [
+     "In some cases this may not be true."
+    ],
+    "facet": [],
+    "dangling": [
+     "In this context, understanding the alternative factors that influence the Law of Demand becomes crucial for managers and decision-makers."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "mark": 6,
+    "of": 10,
+    "lost": "-2 reasons: income and substitution effect; -1.5 other things equal; -0.8 1 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Understood as an explanation. Topic: law of demand. Subject: Business Economics",
+    "note": ""
+   },
+   {
+    "q": "What is perfect competition? Explain its features. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 429,
+    "unsure": false,
+    "sentences": 21,
+    "coverage": 83.3,
+    "missing": [
+     "identical product"
+    ],
+    "offTopic": [
+     "In the short run, equilibrium will be affected by demand."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 210,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: perfect competition. Asked: (1) Meaning of perfect competition, (2) Characteristics of perfect competition. Subject: Business Economics",
+    "note": ""
+   },
+   {
+    "q": "Explain the features of monopoly. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 241,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 80,
+    "missing": [
+     "reasons: legal or natural"
+    ],
+    "offTopic": [
+     "In a general equilibrium context, a good is a specific concept including geographical and time-related characteristics."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: characteristics of monopoly. Subject: Business Economics",
+    "note": ""
+   },
+   {
+    "q": "What is national income? Explain the methods of measuring it. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 356,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 60,
+    "missing": [
+     "expenditure method",
+     "difficulties"
+    ],
+    "offTopic": [
+     "Measurement is the quantification of attributes of an object or event, which can be used to compare with other objects or events.",
+     "Macroeconomics is an empirical subject, so the first step toward understanding it is to measure the economy.",
+     "How large is the U.S. economy?"
+    ],
+    "facet": [],
+    "dangling": [
+     "Unlike the other methods, GNI essentially measures the wealth of a nation because it focuses on income, not output."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: national income. Asked: (1) Meaning of national income, (2) Methods of measuring it",
+    "note": ""
+   },
+   {
+    "q": "Explain the law of diminishing marginal utility. (5 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 252,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "You would not say, “My favorite food is ice cream, so I will eat nothing but ice cream from now on.”",
+     "Diminishing marginal utility is another example of the more general law of diminishing returns we learned earlier in the chapter on Choice in a World of Scarcity."
+    ],
+    "facet": [],
+    "dangling": [
+     "Economists refer to this pattern as the law of diminishing marginal utility, which means that as a person receives more of a good, the additional (or marginal) utility from each additional unit of the good declines."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "understood": "Understood as an explanation. Topic: law of diminishing marginal utility. Subject: Business Economics",
+    "note": ""
+   },
+   {
+    "q": "Explain the instruments of monetary policy. (10 marks)",
+    "tags": [
+     "environment"
+    ],
+    "words": 437,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 80,
+    "missing": [
+     "quantitative easing or selective control"
+    ],
+    "offTopic": [
+     "Macroeconomic policy instruments are macroeconomic quantities that can be directly controlled by an economic policy maker.",
+     "Instruments can be divided into two subsets: a) monetary policy instruments and b) fiscal policy instruments.",
+     "Fiscal policy is conducted by the executive and legislative branches of the government and deals with managing a nation’s budget."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "understood": "Understood as an explanation. Topic: instruments of monetary policy",
+    "note": ""
+   },
+   {
+    "q": "Explain the concept and importance of corporate social responsibility. (10 marks)",
+    "tags": [
+     "environment"
+    ],
+    "words": 383,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: corporate social responsibility. Asked: (1) Meaning of corporate social responsibility, (2) Importance of corporate social responsibility. Subject: Principles and Practices of Management",
+    "note": ""
+   },
+   {
+    "q": "Explain the process of communication. (10 marks)",
+    "tags": [
+     "communication"
+    ],
+    "words": 266,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 83.3,
+    "missing": [
+     "noise"
+    ],
+    "offTopic": [
+     "It influences the opinions, attitude, motivation, and behaviors of others.",
+     "It expresses our feelings, emotions, and intentions to others.",
+     "It is the vehicle for providing, receiving, and exchanging information regarding events or issues that concern us.",
+     "The issue of the right definition affects the research process on many levels.",
+     "This includes issues like which empirical phenomena are observed, how they are categorized, which hypotheses and laws are formulated as well as how systematic theories based on these steps are articulated."
+    ],
+    "facet": [],
+    "dangling": [
+     "It influences the opinions, attitude, motivation, and behaviors of others."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "understood": "Understood as a list of points. Topic: steps in communication. Subject: Business Communication-I",
+    "note": ""
+   },
+   {
+    "q": "Who is an entrepreneur? Explain the functions of an entrepreneur. (10 marks)",
+    "tags": [
+     "entrepreneurship"
+    ],
+    "words": 377,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 66.7,
+    "missing": [
+     "risk bearing",
+     "job creation"
+    ],
+    "offTopic": [
+     "The magazine publishes 10 issues annually, available through subscription and on newsstands.",
+     "It has been published under license internationally in Mexico, Russia, India, Hungary, the Philippines, South Africa, and others.",
+     "A social enterprise is typically designed to be financially self-sufficient."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "understood": "Understood as several questions. Topic: entrepreneur. Asked: (1) Who is an entrepreneur, (2) Functions of entrepreneur",
+    "note": ""
+   }
+  ]
+ },
+ "general": {
+  "questions": 65,
+  "right": 54,
+  "wrongWithoutWarning": 8,
+  "rows": [
+   "WRONG | Why is the sea salty? | A sea is a very large body of salty water. The term has two distinct meanings. The first is the interconnected body of seawater that spans most of Earth, known ",
+   "WRONG | When was the Taj Mahal built? | The Taj Mahal ( TAHJ mə-HAHL, TAHZH -⁠; Hindustani: [t̪ɑːd͡ʒ ˈmɛɦ(ɛ)l]; lit. 'Crown of the Palace') is an ivory-white marble mausoleum on the right bank of the ",
+   "WRONG | Who discovered gravity? | The Gravity Discovery Centre and Observatory is a \"hands-on\" science education, astronomy, Aboriginal culture and tourist centre, situated on the site of the Gr",
+   "WRONG | What is the largest planet in the Solar System? | Of those objects that orbit the Sun directly, the largest eight are the planets (including Earth), with the remainder being significantly smaller objects, such ",
+   "WRONG | How far is the Moon from Earth? | The Moon is the only natural satellite of Earth. It orbits Earth in an elliptical path, at a distance that varies over the year, averaging around 378,000 kilome",
+   "WRONG | How long is the Great Wall of China? | The Great Wall of China is a series of fortifications in China. In March and April 2015, nine sections with a total length of more than 10 km (6 mi), believed t",
+   "WRONG | What is the national animal of India? | National animals are important symbols that represent a country's cultural identity, heritage, and natural environment. India is home to several well-known larg",
+   "unsure | सौर मंडल में कितने ग्रह हैं? | ",
+   "WRONG | How many players are in a football team? | At Euro 84, their 20-man squad contained 14 overseas-based players; the other seven teams had only five between them. It has been estimated that there are 250 m",
+   "unsure | Why do onions make you cry? | ",
+   "unsure | How long is the Amazon River? | "
+  ]
+ },
+ "squad": {
+  "questions": 480,
+  "bm25": [
+   69.6,
+   84.6,
+   87.1
+  ],
+  "reader": [
+   82.9,
+   90.4,
+   91.9
+  ],
+  "site": [
+   76.5,
+   88.3,
+   90.6
+  ]
+ },
+ "askedWikipedia": 583,
+ "commit": "086472c"
+}

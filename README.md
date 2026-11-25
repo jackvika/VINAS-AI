@@ -92,6 +92,8 @@ Set `SITE_PASSWORD` to put the whole site behind a password.
 
 `python -m unittest tests.test_brain` for the server. Open `tests/index.html` in a browser for the rest.
 
+`python -m tests.evaluate` measures how questions are read and how well answers cover what an examiner expects (it needs Chrome): 190 questions with their expected reading in `tests/parse_cases.json`, 72 of them from past papers of Vardhman Mahaveer Open University, and 42 exam questions with key points in `tests/answer_quality.json`. A fifth of each is kept apart in `tests/held_back.json` for a final check. `tests/results/` has the figures. The SQuAD part needs `dev-v1.1.json`, and its sample, ten questions spread evenly over each article, is not the one behind the table above; the 65 questions mentioned above were not kept, and `tests/general_cases.json` stands in for them.
+
 ## The word brain
 
 A 4-gram language model with Kneser-Ney smoothing, trained by `brain/train.py` on 2,073,129 sentences people wrote or said. For each sentence it compares the wordings it knows and takes the likeliest. See `brain/SOURCES.md`.
