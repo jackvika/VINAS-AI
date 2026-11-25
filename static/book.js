@@ -1,10 +1,10 @@
-// Ten open textbooks (all CC BY), searched in the browser: word scores find the likely passages, and
+// Fourteen open textbooks (CC BY, and four under CC BY-NC-SA), searched in the browser: word scores find the likely passages, and
 // the reader (static/judge.js) chooses among them. Every passage is read together with its chapter and section titles.
 const Book = (() => {
-    const ALL = ['introduction-business', 'principles-management', 'organizational-behavior', 'principles-marketing', 'principles-economics-3e', 'business-ethics', 'entrepreneurship', 'introductory-business-statistics-2e', 'accounting-principles', 'project-management'];
+    const ALL = ['introduction-business', 'principles-management', 'organizational-behavior', 'principles-marketing', 'principles-economics-3e', 'business-ethics', 'entrepreneurship', 'introductory-business-statistics-2e', 'accounting-principles', 'project-management', 'principles-financial-accounting', 'principles-managerial-accounting', 'principles-finance-2e', 'business-law-i-essentials-2e'];
     const STOP = new Set('a an the of in on at to for from by with and or but is are was were be do does did has have can will what which who whom that this these when where why how many much it its as about into their they you i we our explain describe define examine discuss some main business'.split(' '));
     // What a section sets out to teach, told to the student.
-    const GOAL = /^(?:understand|discuss|explain|describe|identify|define|compare|analy[sz]e|summari[sz]e|learn|know|list|outline|distinguish|recogni[sz]e|evaluate|differentiate|apply|assess|examine)\b(?=.{10,170}$)[^.]*\.?$/i;
+    const GOAL = /^(?:understand|discuss|explain|describe|identify|define|compare|analy[sz]e|summari[sz]e|learn|know|list|outline|distinguish|recogni[sz]e|evaluate|differentiate|apply|assess|examine|calculate|compute|perform|determine|prepare|demonstrate|interpret|illustrate|record|relate|contrast|state)\b(?=.{10,170}$)[^.]*\.?$/i;
     const books = new Map();
     const waiting = new Map();
     let pages = [];
@@ -26,7 +26,8 @@ const Book = (() => {
     /** Takes a book apart into passages of about a hundred words, each with its titles. */
     function take(book) {
         const out = { pages: [], passages: [] };
-        book.modules.forEach((m, at) => {
+        book.modules.forEach((was, at) => {
+            const m = { ...was, title: topicOf(was.title) };
             const lines = [];
             let section = '';
             let cur = [];
@@ -54,6 +55,12 @@ const Book = (() => {
         });
         return out;
     }
+
+    /** "Describe the Role of Cash" is a heading for a student's task; the topic is the role of cash. */
+    const topicOf = (t) => {
+        const cut = t.replace(/^(?:(?:understand|discuss|explain|describe|identify|define|compare|analy[sz]e|summari[sz]e|distinguish|recogni[sz]e|evaluate|differentiate|apply|assess|examine|calculate|compute|perform|determine|prepare|demonstrate|interpret|illustrate|record)(?:,? and |, )?)+\s+(?:between\s+)?(?:the\s+|an?\s+)?/i, '');
+        return cut.length > 3 && cut !== t ? cut[0].toUpperCase() + cut.slice(1) : t;
+    };
 
     function add(book) {
         const got = take(book);

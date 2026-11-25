@@ -218,12 +218,13 @@ class Server(unittest.TestCase):
         script = (server.ROOT / 'static' / 'book.js').read_text(encoding='utf-8')
         named = re.findall(r"'([a-z0-9-]+)'", re.search(r'ALL = \[(.*?)\]', script)[1])
         self.assertEqual(sorted(named), sorted(p.stem for p in folder.glob('*.json')))
-        pinned = {b[2]: b[1] for b in build_book.BOOKS}
+        pinned = {b[2]: b[1] for b in build_book.BOOKS + build_book.FREE_SITE}
+        free = {b[2] for b in build_book.FREE_SITE}
         for path in folder.glob('*.json'):
             book = json.loads(path.read_text(encoding='utf-8'))
             # Later commits of these books are under another licence, so the commit is part of the licence.
             if path.stem in pinned:
-                self.assertEqual((book['licence'], book['by'], book['commit']), ('CC BY 4.0', 'OpenStax', pinned[path.stem]))
+                self.assertEqual((book['licence'], book['by'], book['commit']), ('CC BY-NC-SA 4.0' if path.stem in free else 'CC BY 4.0', 'OpenStax', pinned[path.stem]))
                 self.assertTrue(book['base'].startswith(f'https://openstax.org/books/{path.stem}/'))
             else:
                 self.assertEqual((book['licence'], book['by']), {'project-management': ('CC BY 4.0', 'Adrienne Watt, BCcampus'), 'accounting-principles': ('CC BY', 'Hermanson, Edwards and Maher')}[path.stem])

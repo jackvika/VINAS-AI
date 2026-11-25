@@ -766,6 +766,11 @@ const Ask = (() => {
 
     const alikeText = (x, y) => x.terms && y.terms && alike(x, y) > 0.7;
 
+    /** A glossary line as a sentence: "Planning: the process of ..." becomes "Planning refers to the process of ...". */
+    function written(text) {
+        return text.replace(/^([A-Z][\w’'()/ -]{2,55}):\s+(the|an?|any)\s/i, (_, t, w) => `${t} refers to ${w.toLowerCase()} `);
+    }
+
     const CLOSES = /^(?:in (?:conclusion|summary|short|sum)|overall|to (?:sum|conclude)|thus|therefore|ultimately)\b|\b(?:essential|crucial|vital|important|importance|critical|success(?:ful)?|benefits?|helps?|enables?|allows?)\b/i;
 
     /**
@@ -858,17 +863,36 @@ const Ask = (() => {
         const close = pool.filter((x) => !x.item && pages.has(x.page.url) && !shown.has(x.text) && length(x) >= 9 && length(x) <= 42 && !/\?|:/.test(x.text) && CLOSES.test(x.text)
             && (!LEANS.test(x.text) || /^(?:thus|therefore|overall)\b/i.test(x.text)) && terms(x.text).some((w) => topic.has(w)) && (x.judged || 0) > 0.05)
             .sort((x, y) => (y.judged || 0) + (/^(?:in (?:conclusion|summary)|overall|thus|therefore|ultimately)/i.test(y.text) ? 0.5 : 0) - (x.judged || 0) - (/^(?:in (?:conclusion|summary)|overall|thus|therefore|ultimately)/i.test(x.text) ? 0.5 : 0))[0];
+        const name = (asked.topics[0] || '').replace(/^(?:the|an?)\s+/i, '');
+        // As many points as the length can hold, so that each is written out.
+        const most = !result.size || result.size > 420 ? 8 : result.size > 250 ? 6 : result.size > 120 ? 4 : 3;
+        if (parts.length === 1) points = points.slice(0, most);
+        for (const p of points) if (p.name && terms(p.name).join(' ') === terms(name).join(' ')) p.name = `More about ${p.name[0].toLowerCase()}${p.name.slice(1)}`;
+        // What has the same heading stands together.
+        points = points.filter((p, i) => {
+            const first = p.name ? points.find((x, k) => k < i && terms(x.name).join(' ') === terms(p.name).join(' ')) : null;
+            if (first) first.chosen = [...first.chosen, ...p.chosen];
+            return !first;
+        });
+        const heads = points.map((p) => p.name).filter(Boolean);
+        const list = (x) => (x.length < 2 ? x.join('') : `${x.slice(0, -1).join(', ')} and ${x[x.length - 1]}`);
+        const low = (t) => (/^[A-Z][a-z]/.test(t) && !/^(?:[A-Z][a-z]+ ){1,}[A-Z]/.test(t) ? t[0].toLowerCase() + t.slice(1) : t);
+        const short = heads.filter((h) => words(h).length <= 6 && !/[?:]/.test(h));
         const out = [];
         if (intro.length) out.push(part('Introduction', intro));
-        points.forEach((p, i) => out.push(part(i ? '' : 'Explanation', p.chosen, `${i + 1}.${p.name ? ` ${p.name}` : ''}`)));
-        if (close && result.sure !== false) out.push(part('Conclusion', [close]));
+        points.forEach((p, i) => out.push({ ...part(i ? '' : 'Explanation', p.chosen, `${i + 1}.${p.name ? ` ${p.name}` : ''}`), note: !i && points.length > 2 && heads.length === points.length ? `The answer is explained below under ${['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'][points.length] || points.length} points.` : '' }));
+        if (result.sure !== false) {
+            const said = parts.length > 1 && short.length > 1 ? `Thus, ${name ? `${low(name)} can be understood through` : 'the topic covers'} ${list(short.map(low))}.` : '';
+            if (close) out.push(part('Conclusion', [close]));
+            else if (said) out.push({ ...part('Conclusion', []), note: said });
+        }
         return { ...result, parts: out };
     }
 
-    async function answer(question, lang, size, { format = 'plain', books = null, subject = '', known = null } = {}) {
-        const read_ = typeof Parse === 'object' && lang !== 'hi' ? Parse.plan(question, known) : { q: question, parts: [], notes: [], fixed: [] };
+    async function answer(question, lang, size, { format = 'plain', books = null, subject = '', known = null, before = '' } = {}) {
+        const read_ = typeof Parse === 'object' && lang !== 'hi' ? Parse.plan(question, known, before) : { q: question, parts: [], notes: [], fixed: [] };
         const long = (q) => (typeof Parse === 'object' && lang !== 'hi' ? Parse.long(q, Boolean(subject)) : q);
-        const plan = { read: read_.q, fixed: read_.fixed || [], notes: read_.notes || [] };
+        const plan = { read: read_.q, fixed: read_.fixed || [], notes: read_.notes || [], parts: read_.parts.map((p) => p.head) };
         if (read_.parts.length < 2) {
             const pool = [];
             const result = await find(long(read_.q), lang, size, books, pool, subject);
@@ -900,8 +924,10 @@ const Ask = (() => {
                 if (p.head === 'Conclusion' && i < read_.parts.length - 1) continue;
                 const chosen = p.chosen.filter((x) => !taken.has(x.text));
                 if (!chosen.length) continue;
-                const sub = p.head === 'Conclusion' || p.head === 'Introduction' ? '' : (p.sub || '').replace(/^\d+\.\s*/, '') || (got.asked.kind === 'compare' ? p.head : '');
-                out.push({ ...p, head: p.head === 'Conclusion' ? 'Conclusion' : opened ? '' : name, sub: p.head === 'Conclusion' ? '' : sub, chosen, words: chosen.reduce((n, x) => n + length(x), 0) });
+                const same = (t) => terms(t).join(' ') === terms(part.topic || '').join(' ') || terms(t).join(' ') === terms(part.head).join(' ');
+                const sub_ = p.head === 'Conclusion' || p.head === 'Introduction' ? '' : (p.sub || '').replace(/^\d+\.\s*/, '') || (got.asked.kind === 'compare' ? p.head : '');
+                const sub = same(sub_.replace(/^More about /, '')) ? '' : sub_;
+                out.push({ ...p, note: '', head: p.head === 'Conclusion' ? 'Conclusion' : opened ? '' : name, sub: p.head === 'Conclusion' ? '' : sub, chosen, words: chosen.reduce((n, x) => n + length(x), 0) });
                 opened = true;
             }
         }
@@ -1050,7 +1076,7 @@ const Ask = (() => {
         return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: !off && sure(asked, got) };
     }
 
-    return { ITEMS, NATURAL, SIZES, answer, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { ITEMS, NATURAL, SIZES, answer, coreOf, exam, onTopic, written, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
@@ -1096,11 +1122,15 @@ const Ask = (() => {
         by('answer-title').textContent = question;
         const kinds = { compare: 'a comparison', list: 'a list of points', define: 'a definition', why: 'a reason', when: 'a date or time', number: 'a number', who: 'a person', fact: 'one fact', explain: 'an explanation', several: 'several questions' };
         const plan = result.plan || { read: question, fixed: [], notes: [] };
-        by('understood').textContent = `Understood as ${kinds[result.asked.kind]}. Topic: ${result.asked.topics[0]}${result.guess ? `. Subject: ${result.guess}` : ''}${plan.notes.length ? `. Read as: ${plan.read}` : ''}${plan.fixed.length ? `. Spelling read as: ${plan.fixed.map((x) => x[1]).join(', ')}` : ''}`;
+        by('understood').textContent = `Understood as ${kinds[result.asked.kind]}. Topic: ${result.asked.topics[0]}${plan.parts && plan.parts.length > 1 ? `. Asked: ${plan.parts.map((x, i) => `(${i + 1}) ${x}`).join(', ')}` : ''}${result.guess ? `. Subject: ${result.guess}` : ''}${plan.notes.length ? `. Read as: ${plan.read}` : ''}${plan.fixed.length ? `. Spelling read as: ${plan.fixed.map((x) => x[1]).join(', ')}` : ''}`;
         for (const part of result.parts) {
             if (part.head) {
                 body.append(el('h3', part.head));
                 lines.push(`## ${part.head}`, '');
+            }
+            if (part.note) {
+                body.append(el('p', part.note));
+                lines.push(part.note, '');
             }
             if (part.sub) {
                 body.append(el('h4', part.sub));
@@ -1128,12 +1158,13 @@ const Ask = (() => {
                 }
                 block = s.block;
                 const spot = s.item ? el('li') : home;
-                spot.append(s.text);
+                const text = Ask.written(s.text);
+                spot.append(text);
                 if (s.item) {
                     home.append(spot);
-                    lines.push(`- ${s.text}`);
-                } else if (lines[lines.length - 1] !== '') lines[lines.length - 1] += ` ${s.text}`;
-                else lines.push(s.text);
+                    lines.push(`- ${text}`);
+                } else if (lines[lines.length - 1] !== '') lines[lines.length - 1] += ` ${text}`;
+                else lines.push(text);
                 // The source stands once, where the paragraph or list ends.
                 const after = part.chosen[part.chosen.indexOf(s) + 1];
                 const ends = !after || after.page.url !== s.page.url || after.section !== s.section || Boolean(after.item) !== Boolean(s.item) || (!s.item && after.block !== s.block);
@@ -1155,7 +1186,7 @@ const Ask = (() => {
             return item;
         }));
         const day = new Date().toLocaleDateString('en-GB', { dateStyle: 'long' });
-        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from open textbooks, under the CC BY licence named with each.' : ''].filter(Boolean).join(' ')}\n`;
+        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from open textbooks, under the licence named with each.' : ''].filter(Boolean).join(' ')}\n`;
         const total = result.parts.reduce((n, x) => n + x.words, 0);
         by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but the sources have no more that fits this question` : ''}`;
         by('ask-note').textContent = note || gap;
@@ -1213,6 +1244,13 @@ const Ask = (() => {
                 subjects.set(c.code, c);
             }
         } catch { /* the page works without them */ }
+    };
+    // What was asked about last, for "its advantages?".
+    let last = '';
+    const coreName = (result) => {
+        const t = String(result.asked.topics[0] || '').replace(/^(?:the|an?)\s+/i, '');
+        const of = /^(?:meaning|types?|kinds?|steps|process|characteristics|features|importance|advantages|disadvantages|functions|objectives|principles|factors|elements|methods|techniques|scope|role|levels?|nature|concept|causes|stages)\s+(?:of|in)\s+(?:the\s+)?(.{2,60})$/i.exec(t);
+        return (of ? of[1] : t).slice(0, 60);
     };
     let mend = null;
     /** Mends spelling from the words of the textbooks; a word the reader knows is never changed. */
@@ -1305,9 +1343,10 @@ const Ask = (() => {
             const english = by('lang').value !== 'hi';
             if (english && typeof Judge === 'object' && Judge.ready() && typeof Book === 'object') await Book.load(subject && subject.books.length ? subject.books : undefined);
             const known = english ? await speller() : null;
-            const guess = !subject && english ? guessed(question) : null;
-            const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0, { known, format: by('format').value, books: subject ? subject.books : guess ? guess.books : null, subject: subject ? subject.title : '' });
+            const guess = !subject && english ? guessed(typeof Parse === 'object' ? Parse.follow(question, last) : question) : null;
+            const result = await Ask.answer(question, by('lang').value, Ask.SIZES[by('size').value] || 0, { known, before: last, format: by('format').value, books: subject ? subject.books : guess ? guess.books : null, subject: subject ? subject.title : '' });
             if (guess) result.guess = guess.title;
+            if (result.parts.length && result.sure) last = coreName(result);
             if (result.parts.length) show(question, result);
             else by('ask-note').textContent = 'Nothing was found for this question. Use the main words of the topic, and check the spelling.';
         } catch (error) {

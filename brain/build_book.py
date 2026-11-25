@@ -29,6 +29,13 @@ BOOKS = [
     ('entrepreneurship', '9c7af23de65620b26586fd12249b3838282f555a', 'entrepreneurship', 'Entrepreneurship'),
     ('introductory-statistics-bundle', '77ae6260c6dc0903baf7a6dc748feb69f8a85122', 'introductory-business-statistics-2e', 'Introductory Business Statistics 2e'),
 ]
+# These have been non-commercial all along, so they may be here only as long as the site is free and earns nothing.
+FREE_SITE = [
+    ('principles-accounting-bundle', '2165bf6454c0279c1284e19ac7febc101f7956ad', 'principles-financial-accounting', 'Principles of Accounting 1: Financial Accounting'),
+    ('principles-accounting-bundle', '2165bf6454c0279c1284e19ac7febc101f7956ad', 'principles-managerial-accounting', 'Principles of Accounting 2: Managerial Accounting'),
+    ('principles-finance', 'e3e5135ae36e21282d7afb4cccd5ce09f421d830', 'principles-finance-2e', 'Principles of Finance 2e'),
+    ('business-law', '0502c9f293fdb7745b76c4d7855d49acdaf8098b', 'business-law-i-essentials-2e', 'Business Law I Essentials 2e'),
+]
 C = '{http://cnx.rice.edu/cnxml}'
 COL = '{http://cnx.rice.edu/collxml}'
 MD = '{http://cnx.rice.edu/mdml}'
@@ -122,13 +129,14 @@ def build(repo, commit, name, title, folder):
         return get(f'https://raw.githubusercontent.com/openstax/osbooks-{repo}/{commit}/{path}')
     source = raw(f'collections/{name}.collection.xml')
     root = ET.fromstring(source)
-    licences = {'collection': 'creativecommons.org/licenses/by/4.0' in source.decode(), 'LICENSE': raw('LICENSE').decode().startswith('Attribution 4.0 International')}
+    free = name in [b[2] for b in FREE_SITE]
+    licences = {'collection': f"creativecommons.org/licenses/{'by-nc-sa' if free else 'by'}/4.0" in source.decode(), 'LICENSE': raw('LICENSE').decode().startswith('Attribution-NonCommercial-ShareAlike 4.0' if free else 'Attribution 4.0 International')}
     first = next(root.iter(COL + 'module')).get('document')
     preface = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', raw(f'modules/{first}/index.cnxml').decode()))
     said = re.search(r'licensed under an? Creative Commons ([\w -]*?) ?4\.0', preface)
-    licences['preface'] = bool(said) and said[1].strip() == 'Attribution'
+    licences['preface'] = bool(said) and said[1].strip().replace(' ', '-') == ('Attribution-NonCommercial-ShareAlike' if free else 'Attribution')
     if not all(licences.values()):
-        raise SystemExit(f'{name}: not plainly CC BY 4.0: {licences}')
+        raise SystemExit(f'{name}: licence not as expected: {licences}')
     jobs, chapter = [], 0
     for sub in root.iter(COL + 'subcollection'):
         content = sub.find(COL + 'content')
@@ -157,13 +165,13 @@ def build(repo, commit, name, title, folder):
     modules = [m for m in modules if sum(len(t.split()) for _, _, t in m['text']) > 80 and not SKIP_NAME.match(m['title'])]
     path = os.path.join(folder, f'{name}.json')
     with open(path, 'w', encoding='utf-8', newline='\n') as f:
-        json.dump({'id': name, 'title': title, 'by': 'OpenStax', 'licence': 'CC BY 4.0', 'commit': commit, 'source': f'https://github.com/openstax/osbooks-{repo}/tree/{commit}',
+        json.dump({'id': name, 'title': title, 'by': 'OpenStax', 'licence': 'CC BY-NC-SA 4.0' if free else 'CC BY 4.0', 'commit': commit, 'source': f'https://github.com/openstax/osbooks-{repo}/tree/{commit}',
                    'base': f'https://openstax.org/books/{name}/pages/', 'modules': modules}, f, ensure_ascii=False, separators=(',', ':'))
     print(f"{name:38s} {len(modules):4d} sections {sum(len(t.split()) for m in modules for _, _, t in m['text']):7d} words {os.path.getsize(path) / 1e6:.2f} MB", flush=True)
 
 
 if __name__ == '__main__':
     os.makedirs(sys.argv[1], exist_ok=True)
-    for book in BOOKS:
+    for book in BOOKS + FREE_SITE:
         if len(sys.argv) < 3 or book[2] in sys.argv[2:]:
             build(*book, sys.argv[1])

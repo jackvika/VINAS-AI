@@ -1,12 +1,12 @@
 # VINAS
 
-Ask a question, and get an answer put together from Wikipedia and ten open textbooks, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
+Ask a question, and get an answer put together from Wikipedia and fourteen open textbooks, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
 
 ## What it does
 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
-- Business questions are looked up first in ten open textbooks; definitions, comparisons and everything else in Wikipedia
+- Business questions are looked up first in fourteen open textbooks; definitions, comparisons and everything else in Wikipedia
 - Understands exam questions with several parts ("Define planning. Explain its steps and importance"), statements to explain, comparisons, Hinglish ("planning ke types batao"), short forms (MBO, GST) and small spelling mistakes; each part is looked up by itself and has its own heading, and a part without a sure answer is named (`static/parse.js`)
 - Finds out which BBA subject a question belongs to when one of the course's topics says nearly the same
 - Says plainly that it does not solve numerical problems
@@ -50,7 +50,7 @@ Hindi questions use patterns and BM25, as does a browser that cannot run the rea
 
 `static/books/` holds the running text of eight books by [OpenStax](https://openstax.org): *Introduction to Business*, *Principles of Management*, *Organizational Behavior*, *Principles of Marketing*, *Principles of Economics 3e*, *Business Ethics*, *Entrepreneurship* and *Introductory Business Statistics 2e*, without figures, tables, formulas, chapter stories and exercises. `brain/build_book.py` builds them.
 
-**Licence.** OpenStax put most of its books under CC BY-NC-SA on 23 April 2026. The text here comes from earlier commits, named in the builder, at which the collection file, the LICENSE file and the preface of each book all said CC BY 4.0; a licence once given under CC BY 4.0 is not taken back. The builder refuses a book for which one of the three says otherwise. An earlier version of this site used the second edition of *Introduction to Business* under the wrong licence; it was replaced by the first. *Principles of Accounting*, *Principles of Finance* and *Business Law* are not used, because they have been non-commercial throughout. OpenStax does not endorse this site, and asks that its books not be used to train, or be fed to, generative AI without permission; this site has none.
+**Licence.** OpenStax put most of its books under CC BY-NC-SA on 23 April 2026. The text here comes from earlier commits, named in the builder, at which the collection file, the LICENSE file and the preface of each book all said CC BY 4.0; a licence once given under CC BY 4.0 is not taken back. The builder refuses a book for which one of the three says otherwise. An earlier version of this site used the second edition of *Introduction to Business* under the wrong licence; it was replaced by the first. **Non-commercial books.** *Principles of Accounting* 1 and 2, *Principles of Finance 2e* and *Business Law I Essentials 2e* are under **CC BY-NC-SA 4.0** (`FREE_SITE` in the builder). They are here because the owner keeps this site free and without income. If that ever changes (advertising, fees, selling), delete these four files from `static/books/` and their names from `static/book.js` and `brain/build_bba.py`. The four JSON files are adaptations and stay under CC BY-NC-SA 4.0. OpenStax does not endorse this site, and asks that its books not be used to train, or be fed to, generative AI without permission; this site has none.
 
 Two more books come from `brain/build_open.py`: *Project Management*, 2nd edition, by Adrienne Watt (BCcampus, CC BY 4.0) and *Accounting Principles: A Business Perspective* by Hermanson, Edwards and Maher (CC BY, as LibreTexts and the Open Textbook Library state). The accounting text on LibreTexts is complete only for the first chapters, so only those are here.
 

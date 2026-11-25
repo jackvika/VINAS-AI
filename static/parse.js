@@ -26,21 +26,21 @@ const Parse = (() => {
     ];
     // What can be asked of a topic: [how it is said, how the sources say it].
     const ASPECTS = [
-        ['features', /^(?:(?:main|key|essential|basic|important|chief|salient|various|different|the)\s+)*(?:features?|characteristics?|qualit(?:y|ies)|attributes?|essentials?|traits?|nature|requisites?)$/i, 'characteristics'],
-        ['types', /^(?:(?:main|key|basic|important|various|different|the)\s+)*(?:types?|kinds?|forms?|classifications?|categor(?:y|ies)|bases|styles?)$/i, 'types'],
-        ['process', /^(?:(?:main|basic|various|different|the)\s+)*(?:process|steps?|stages?|procedure|phases|steps involved)$/i, 'steps'],
-        ['importance', /^(?:(?:the|main)\s+)*(?:importance|significance|need|needs|necessity|utility|uses?|value|relevance)$/i, 'importance'],
-        ['advantages', /^(?:(?:main|various|the)\s+)*(?:advantages?|merits?|benefits?|pros)$/i, 'advantages'],
-        ['limitations', /^(?:(?:main|various|the)\s+)*(?:disadvantages?|demerits?|limitations?|drawbacks?|cons|weaknesses)$/i, 'disadvantages'],
-        ['functions', /^(?:(?:main|major|key|various|different|the)\s+)*functions?$/i, 'functions'],
-        ['objectives', /^(?:(?:main|major|key|various|different|the)\s+)*(?:objectives?|aims?|goals?|purposes?)$/i, 'objectives'],
-        ['principles', /^(?:(?:main|major|key|basic|various|different|the)\s+)*principles?$/i, 'principles'],
-        ['factors', /^(?:(?:main|major|key|various|different|the)\s+)*(?:factors?|determinants?|causes?|reasons?)$/i, 'factors'],
-        ['elements', /^(?:(?:main|major|key|various|different|the)\s+)*(?:elements?|components?|parts?|constituents?|ingredients?)$/i, 'elements'],
-        ['techniques', /^(?:(?:main|major|key|various|different|the)\s+)*(?:techniques?|methods?|tools?|approaches|measures|tools and techniques|methods and techniques)$/i, 'methods'],
-        ['scope', /^(?:the\s+)*scope$/i, 'scope'],
-        ['roles', /^(?:(?:main|major|key|various|different|the)\s+)*(?:roles?|responsibilit(?:y|ies)|duties)$/i, 'role'],
-        ['meaning', /^(?:the\s+)*(?:meaning|concept|definition|term|terms?)$/i, 'meaning'],
+        ['features', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:features?|characteristics?|qualit(?:y|ies)|attributes?|essentials?|traits?|nature|requisites?)$/i, 'characteristics'],
+        ['types', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:types?|kinds?|forms?|classifications?|categor(?:y|ies)|bases|styles?)$/i, 'types'],
+        ['process', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:process|steps?|stages?|procedure|phases|steps involved)$/i, 'steps'],
+        ['importance', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:importance|significance|need|needs|necessity|utility|uses?|value|relevance)$/i, 'importance'],
+        ['advantages', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:advantages?|merits?|benefits?|pros)$/i, 'advantages'],
+        ['limitations', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:disadvantages?|demerits?|limitations?|drawbacks?|cons|weaknesses)$/i, 'disadvantages'],
+        ['functions', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*functions?$/i, 'functions'],
+        ['objectives', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:objectives?|aims?|goals?|purposes?)$/i, 'objectives'],
+        ['principles', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*principles?$/i, 'principles'],
+        ['factors', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:factors?|determinants?|causes?|reasons?)$/i, 'factors'],
+        ['elements', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:elements?|components?|parts?|constituents?|ingredients?)$/i, 'elements'],
+        ['techniques', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:techniques?|methods?|tools?|approaches|measures|tools and techniques|methods and techniques)$/i, 'methods'],
+        ['scope', /^(?:(?:main|the)\s+)*scope$/i, 'scope'],
+        ['roles', /^(?:(?:main|major|key|chief|basic|essential|important|salient|distinct|distinctive|various|different|several|many|some|four|five|six|seven|the|good)\s+)*(?:roles?|responsibilit(?:y|ies)|duties)$/i, 'role'],
+        ['meaning', /^(?:(?:main|the)\s+)*(?:meaning|concept|definition|term|terms?)$/i, 'meaning'],
     ];
     const ASPECT_WORD = '(?:features?|characteristics?|qualit(?:y|ies)|essentials?|nature|types?|kinds?|forms|classifications?|process|steps(?: involved)?|stages|procedure|importance|significance|need|necessity|uses|advantages|merits|benefits|disadvantages|demerits|limitations|drawbacks|functions|objectives|principles|factors|determinants|causes|elements|components|tools|techniques|methods|scope|roles?|responsibilities|duties|meaning|concept|definition)';
     const ROMAN = [
@@ -166,11 +166,27 @@ const Parse = (() => {
         return out;
     }
 
-    function plan(question, known) {
-        const first = english(question);
+    /** "its advantages?", "iske types batao": about what was asked before. */
+    function follow(q, before) {
+        if (!before) return q;
+        const s = tidy(q).replace(/^(?:and|ok(?:ay)?|now|then|also|aur|ab|achha|accha)[, ]+/i, '');
+        const roman = /^(?:iske|uske|iski|uski|iska|uska|inke|unke|isko|usko)\s+(.{2,80})$/i.exec(s);
+        if (roman) return `${before} ${/^(?:isko|usko)/i.test(s) ? 'ko' : 'ke'} ${roman[1]}`;
+        const its = new RegExp(`^((?:(?:what (?:is|are)|explain|describe|discuss|give|state|list|mention|write|tell me)\\s+)?)(?:its|their)\\s+(${ASPECT_WORD}(?:\\s+and\\s+(?:its\\s+)?${ASPECT_WORD})*)\\s*\\??$`, 'i').exec(s);
+        if (its) return `${its[1].trim() || 'Explain'} ${/^what/i.test(its[1]) ? 'the ' : 'the '}${its[2].replace(/\bits\s+/gi, '')} of ${before}`;
+        const only = new RegExp(`^(?:the\\s+)?(${ASPECT_WORD})\\s*\\??$`, 'i').exec(s);
+        if (only) return `Explain the ${only[1]} of ${before}`;
+        if (/^(?:why|how|when|where|what|who|is|does|can)\b.{0,40}\b(?:it|they|this|that)\b/i.test(s) && words(s) < 9) return s.replace(/\b(?:it|they|this|that)\b/i, before);
+        if (/^(?:explain|describe|define|tell me(?: more)?(?: about)?|more (?:about|on))\s+(?:it|this|that|them)\b/i.test(s)) return `Explain ${before}`;
+        return q;
+    }
+
+    function plan(question, known, before = '') {
+        const meant = follow(question, before);
+        const first = english(meant);
         let q = tidy(first);
         const notes = [];
-        if (first !== question && tidy(question).replace(/[?.!।]+$/, '') !== tidy(first)) notes.push('Hinglish');
+        if (first !== question && tidy(question).replace(/[?.!।]+$/, '') !== tidy(first)) notes.push('Read as');
         const mended = spell(q, known);
         q = mended.q;
         const whole = { q, notes, fixed: mended.fixed, parts: [], statement: '' };
@@ -286,5 +302,5 @@ const Parse = (() => {
         return /^(?:from the following|calculate|compute|find(?: out)?|prepare|solve|draw|determine|journali[sz]e|pass|ascertain|you are required|the following (?:data|information|particulars|figures))\b/i.test(q.trim()) && (q.match(/\d[\d,.]*/g) || []).length >= 5;
     }
 
-    return { INDIA, SHORT, sum, clauses, english, long, plan, speller, spell };
+    return { follow, INDIA, SHORT, sum, clauses, english, long, plan, speller, spell };
 })();
