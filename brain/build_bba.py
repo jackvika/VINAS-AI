@@ -33,15 +33,19 @@ IKS = {'code': 'MDE101', 'title': 'Indian Knowledge System', 'group': 'Semester 
     'Indian knowledge system', 'Indian culture and civilization', 'Ancient Indian chemistry', 'Ancient Indian metallurgy', 'Ancient Indian mathematics', 'Ancient Indian astronomy', 'Indian astronomical instruments', 'Ayurveda', 'Gandharva Veda',
     'Vedangas', 'Vastu shastra', 'Indian temple architecture', 'Indian town planning', 'Indian philosophy']}]}
 BOOKS = [
-    (r'environment(?:al)? science|constitution|knowledge system|health|yoga|english|language|media literacy|geo politics', []),
+    (r'environment(?:al)? science|constitution|knowledge system|health|yoga|sports|english|language|media literacy|geo politics', []),
     (r'marketing|consumer|retail|sales|brand|advertis|media', ['principles-marketing', 'introduction-business']),
     (r'econom', ['principles-economics-3e', 'introduction-business']),
     (r'ethic|legal|governance|sustainab', ['business-ethics', 'introduction-business', 'principles-management']),
     (r'entrepreneur|startup|design thinking|family business', ['entrepreneurship', 'introduction-business']),
     (r'statistic|research|analytics|decision models|visuali', ['introductory-business-statistics-2e', 'introduction-business']),
     (r'human|behavio|hrd|hrm|\bhr\b|training|negotiat|team|compensation|coaching|talent|employee|organizational development|performance', ['organizational-behavior', 'principles-management', 'introduction-business']),
+    (r'business environment', ['principles-economics-3e', 'introduction-business', 'principles-management', 'business-ethics']),
+    (r'international accounting', ['accounting-principles', 'introduction-business']),
     (r'international|global|transnational|exim|cross', ['introduction-business', 'principles-management', 'principles-economics-3e', 'principles-marketing']),
-    (r'financ|account|tax|bank|invest|valuation|derivative', ['introduction-business', 'principles-economics-3e']),
+    (r'account', ['accounting-principles', 'introduction-business']),
+    (r'financ|tax|bank|invest|valuation|derivative', ['introduction-business', 'accounting-principles', 'principles-economics-3e']),
+    (r'project', ['project-management', 'principles-management', 'introduction-business']),
     (r'communication', ['organizational-behavior', 'principles-management', 'introduction-business']),
     (r'', ['principles-management', 'introduction-business', 'organizational-behavior']),
 ]

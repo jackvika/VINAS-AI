@@ -1,8 +1,10 @@
-// Eight OpenStax textbooks (versions under CC BY 4.0), searched in the browser: word scores find the likely passages, and
+// Ten open textbooks (all CC BY), searched in the browser: word scores find the likely passages, and
 // the reader (static/judge.js) chooses among them. Every passage is read together with its chapter and section titles.
 const Book = (() => {
-    const ALL = ['introduction-business', 'principles-management', 'organizational-behavior', 'principles-marketing', 'principles-economics-3e', 'business-ethics', 'entrepreneurship', 'introductory-business-statistics-2e'];
+    const ALL = ['introduction-business', 'principles-management', 'organizational-behavior', 'principles-marketing', 'principles-economics-3e', 'business-ethics', 'entrepreneurship', 'introductory-business-statistics-2e', 'accounting-principles', 'project-management'];
     const STOP = new Set('a an the of in on at to for from by with and or but is are was were be do does did has have can will what which who whom that this these when where why how many much it its as about into their they you i we our explain describe define examine discuss some main business'.split(' '));
+    // What a section sets out to teach, told to the student.
+    const GOAL = /^(?:understand|discuss|explain|describe|identify|define|compare|analy[sz]e|summari[sz]e|learn|know|list|outline|distinguish|recogni[sz]e|evaluate|differentiate|apply|assess|examine)\b(?=.{10,170}$)[^.]*\.?$/i;
     const books = new Map();
     const waiting = new Map();
     let pages = [];
@@ -10,6 +12,8 @@ const Book = (() => {
     // For each word: the number of a passage, how often the word is in it, and so on in turn.
     let posts = new Map();
     let total = 0;
+    // How often each word is used, for mending spelling.
+    const used = new Map();
 
     function stem(word) {
         let w = word.toLowerCase().replace(/['’]s$/, '');
@@ -34,7 +38,7 @@ const Book = (() => {
             };
             for (const [name, , text] of m.text) {
                 // The learning goals are questions; they answer nothing.
-                if (text.endsWith('?') || /^learning (?:outcomes|objectives)/i.test(name)) continue;
+                if (text.endsWith('?') || /^learning (?:outcomes|objectives)/i.test(name) || GOAL.test(text)) continue;
                 const n = text.split(' ').length;
                 if (name !== section || size + n > 110) flush();
                 if (name !== section) {
@@ -57,6 +61,7 @@ const Book = (() => {
         pages = pages.concat(got.pages);
         for (const p of got.passages) {
             const t = terms(`${p.title} ${p.text}`);
+            for (const w of p.text.toLowerCase().match(/[a-z]{4,}/g) || []) used.set(w, (used.get(w) || 0) + 1);
             const have = new Map();
             for (const w of t) have.set(w, (have.get(w) || 0) + 1);
             const n = passages.push({ ...p, at: p.at + first, size: t.length }) - 1;
@@ -130,5 +135,5 @@ const Book = (() => {
         return [...best].sort((x, y) => y[1] - x[1]).slice(0, most).map(([at, chance]) => ({ ...pages[at], chance }));
     }
 
-    return { ALL, load, find, take, use, likely };
+    return { ALL, load, find, take, use, used, likely };
 })();

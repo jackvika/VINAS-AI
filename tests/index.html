@@ -14,6 +14,7 @@
 <script src="../static/pdf.js"></script>
 <script src="../static/judge.js"></script>
 <script src="../static/book.js"></script>
+<script src="../static/parse.js"></script>
 <script src="../static/ask.js"></script>
 <script src="cases.js"></script>
 <script>
@@ -133,6 +134,19 @@ function run() {
         const hit = Ask.ITEMS.find((x) => x[0].test(q));
         check('items', q, n, hit ? hit[2].length : 0);
     }
+    for (const [q, parts] of [
+        ['Define the terms planning. Explain briefly the steps involved in planning process. (14 marks)', ['What is planning', 'What are the steps in the planning process']], ['Discuss the process and importance of MBO.', ['What are the steps in MBO', 'Explain the importance of MBO']],
+        ['What is Plan? How does it differ from planning?', ['What is Plan', 'Difference between Plan and planning']], ['Define index number and mention its uses.', ['What is index number', 'Explain the importance of index number']],
+        ['“Management is the art of getting things done through other people”. Explain this statement.', ['What is Management', 'Explain Management is the art of getting things done through other people']], ['What is photosynthesis?', []], ['Why is the sky blue?', []],
+    ]) check('parts', q, parts, Parse.plan(q).parts.map((p) => p.q));
+    for (const [q, to] of [
+        ['planning kya hai', 'What is planning'], ['leadership aur management mein antar', 'Difference between leadership and management'], ['planning ke types batao', 'What are the types of planning'], ['How planning differ from forecasting?', 'Difference between planning and forecasting'],
+        ['Distinguish between formal and informal communication.', 'Difference between formal communication and informal communication'], ['Unity of Command.', 'Explain Unity of Command'], ['What are the causes of inflation?', 'What are the causes of inflation'], ['Who wrote Hamlet?', 'Who wrote Hamlet?'], ['महात्मा गांधी कौन थे?', 'महात्मा गांधी कौन थे?'],
+    ]) check('read as', q, to, Parse.plan(q).q);
+    check('short forms', '', ['What is management by objectives', 'What is MIS-spelt it', 'What is Foreign Exchange Management Act', 'What is FEMA'], [Parse.long('What is MBO'), Parse.long('What is MIS-spelt it').replace('management information system', 'MIS'), Parse.long('What is FEMA', true), Parse.long('What is FEMA')]);
+    const mends = Parse.speller(new Map([['management', 90], ['motivation', 80], ['planning', 70], ['organization', 60], ['photosynthesis', 1]]));
+    check('spelling', '', ['management', 'motivation', '', '', ''], ['managment', 'motivaton', 'photosynthesis', 'organisation', 'hamster'].map(mends));
+    check('sums', '', [true, false, false], ['Calculate mean from the following data: 10 20 30 40 50', 'Calculate what GDP is', 'Explain the 14 principles of Fayol'].map(Parse.sum));
     const tiny = { title: 'T', by: 'B', licence: 'CC BY 4.0', base: 'https://openstax.org/x/', modules: [{ in: 'Managing', title: 'The Role of Management', slug: 'a', text: [['', 'i', 'What is the role of management?'], ['Levels', 'p', 'Top managers set the course of the whole company over many years.'], ['Pay', 'p', 'Wages are paid each month to every worker in the plant.']] }] };
     tiny.id = 'tiny';
     Book.use([tiny, { ...tiny, id: 'other', modules: [{ ...tiny.modules[0], in: 'Elsewhere' }] }]);

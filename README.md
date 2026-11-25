@@ -1,12 +1,15 @@
 # VINAS
 
-Ask a question, and get an answer put together from Wikipedia and eight open textbooks, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
+Ask a question, and get an answer put together from Wikipedia and ten open textbooks, with a source for every paragraph. There is no AI service and no key, and nothing is saved.
 
 ## What it does
 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
-- Business questions are looked up first in eight OpenStax textbooks; definitions, comparisons and everything else in Wikipedia
+- Business questions are looked up first in ten open textbooks; definitions, comparisons and everything else in Wikipedia
+- Understands exam questions with several parts ("Define planning. Explain its steps and importance"), statements to explain, comparisons, Hinglish ("planning ke types batao"), short forms (MBO, GST) and small spelling mistakes; each part is looked up by itself and has its own heading, and a part without a sure answer is named (`static/parse.js`)
+- Finds out which BBA subject a question belongs to when one of the course's topics says nearly the same
+- Says plainly that it does not solve numerical problems
 - Answers have the form of an exam answer: an introduction that says what the topic is, numbered points, and a conclusion when a source has a sentence that closes. The sentences stay as the sources have them
 - `bba.html` has the whole three-year BBA, 88 subjects, by unit and topic; a topic is answered with one click
 - Reads exam wording: "examine", "discuss", "in a large business organization" are set aside, and "(10 marks)" sets the length (3 marks 80 words, 6 marks 220, 10 marks 400)
@@ -49,9 +52,15 @@ Hindi questions use patterns and BM25, as does a browser that cannot run the rea
 
 **Licence.** OpenStax put most of its books under CC BY-NC-SA on 23 April 2026. The text here comes from earlier commits, named in the builder, at which the collection file, the LICENSE file and the preface of each book all said CC BY 4.0; a licence once given under CC BY 4.0 is not taken back. The builder refuses a book for which one of the three says otherwise. An earlier version of this site used the second edition of *Introduction to Business* under the wrong licence; it was replaced by the first. *Principles of Accounting*, *Principles of Finance* and *Business Law* are not used, because they have been non-commercial throughout. OpenStax does not endorse this site, and asks that its books not be used to train, or be fed to, generative AI without permission; this site has none.
 
+Two more books come from `brain/build_open.py`: *Project Management*, 2nd edition, by Adrienne Watt (BCcampus, CC BY 4.0) and *Accounting Principles: A Business Perspective* by Hermanson, Edwards and Maher (CC BY, as LibreTexts and the Open Textbook Library state). The accounting text on LibreTexts is complete only for the first chapters, so only those are here.
+
+**Books of Indian universities.** Looked into and not used: Netaji Subhas Open University offers its books under CC BY-NC-SA, but its site asks automatic programs to stay away; the books of Uttarakhand Open University carry no licence of their own (the Creative Commons note in them is for the cover picture); IGNOU's repository could not be reached and its policy leaves the licence to each item; Odisha State Open University's portal is suspended. Commercial textbooks are under copyright.
+
 ## The BBA course
 
 `static/bba.json` is built by `brain/build_bba.py` from the [AICTE model curriculum for the BBA (2024)](https://aud.delhi.gov.in/sites/default/files/2026-06/aicte_bba_syllabus.pdf): the names of subjects, units and topics of semesters 1 to 6 and six specialisations. Universities change the order, and AICTE does not endorse this site. In a test of 30 topics picked at random, the site gave a sure answer to 19 or fewer; a few of those were about another meaning of the words, and for the rest it said "Not sure". Accounting, taxation, Indian law and very narrow topics are the weakest.
+
+**Exam questions.** The question banks that Vardhman Mahaveer Open University publishes were used to check the reading of questions: Management and Economics while it was written, and 42 questions from Business Environment, Statistics and Communication afterwards. The site gave a sure answer to 31 of the 42 (4 of them with one part missing), against 25 before; a few small repairs were made after these were seen, and a sure answer is not always a right one. Of 16 questions on accounting it was sure of 5.
 
 ## How the search was chosen
 

@@ -43,6 +43,7 @@ header { margin-bottom: 26px; }
 header p { margin: 10px 0 0; max-width: 62ch; color: var(--muted); }
 .hero { padding: clamp(26px, 6vw, 56px) 0 96px; margin: 0; clip-path: inset(-2px -100vmax 0); }
 .hero p { color: #b6cbc9; font-size: 1.06rem; }
+.hero p a { color: #f3b64c; }
 
 /* The question. */
 .askbox { position: relative; margin-top: -64px; padding: 16px 18px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }

@@ -136,7 +136,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/bba.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/bba.js', '/static/parse.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -222,9 +222,12 @@ class Server(unittest.TestCase):
         for path in folder.glob('*.json'):
             book = json.loads(path.read_text(encoding='utf-8'))
             # Later commits of these books are under another licence, so the commit is part of the licence.
-            self.assertEqual((book['licence'], book['by'], book['commit']), ('CC BY 4.0', 'OpenStax', pinned[path.stem]))
-            self.assertTrue(book['base'].startswith(f'https://openstax.org/books/{path.stem}/'))
-            self.assertGreater(len(book['modules']), 40)
+            if path.stem in pinned:
+                self.assertEqual((book['licence'], book['by'], book['commit']), ('CC BY 4.0', 'OpenStax', pinned[path.stem]))
+                self.assertTrue(book['base'].startswith(f'https://openstax.org/books/{path.stem}/'))
+            else:
+                self.assertEqual((book['licence'], book['by']), {'project-management': ('CC BY 4.0', 'Adrienne Watt, BCcampus'), 'accounting-principles': ('CC BY', 'Hermanson, Edwards and Maher')}[path.stem])
+            self.assertGreater(len(book['modules']), 15)
         page = (server.ROOT / 'index.html').read_text(encoding='utf-8')
         for credit in ('OpenStax', 'CC BY 4.0', 'CC BY-SA 4.0'):
             self.assertIn(credit, page)

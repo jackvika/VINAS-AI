@@ -24,12 +24,12 @@
     </nav>
     <header class="hero">
         <h1>Ask anything. See where it comes from.</h1>
-        <p>A neural network reads your question, finds the answer in Wikipedia and eight textbooks, and names every source. <a href="bba.html">The whole BBA course is here too.</a></p>
+        <p>A neural network reads your question, finds the answer in Wikipedia and ten open textbooks, and names every source. <a href="bba.html">The whole BBA course is here too.</a></p>
     </header>
     <form id="ask" autocomplete="off">
         <div class="askbox">
             <label for="question" class="sr">Your question</label>
-            <textarea id="question" rows="2" maxlength="300" placeholder="Explain the levels of management in 300 words"></textarea>
+            <textarea id="question" rows="2" maxlength="300" placeholder="Define planning. Explain its steps and importance (10 marks), or: planning kya hai"></textarea>
             <div class="askbar">
                 <div class="picks">
                     <label>Length
@@ -67,7 +67,7 @@
         <p class="sum" id="sum" role="status" hidden></p>
         <div class="chips">
             <button type="button" class="chip" data-ask="What is photosynthesis?" data-lang="en">What is photosynthesis?</button>
-            <button type="button" class="chip" data-ask="Difference between mitosis and meiosis" data-lang="en">Mitosis and meiosis</button>
+            <button type="button" class="chip" data-ask="Define planning. Explain its steps and importance. (14 marks)" data-lang="en">Three parts in one question</button>
             <button type="button" class="chip" data-ask="Examine the levels of management in a large business organization (10 marks)" data-lang="en">Levels of management, 10 marks</button>
             <button type="button" class="chip" data-ask="महात्मा गांधी कौन थे?" data-lang="hi">महात्मा गांधी कौन थे?</button>
             <button type="button" class="chip" data-ask="15% of 2400" data-lang="en">15% of 2400</button>
@@ -86,7 +86,7 @@
             <div id="answer-body"></div>
             <h3>Sources</h3>
             <ol id="sources"></ol>
-            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and textbooks by <a href="https://openstax.org/subjects/business" rel="noopener noreferrer" target="_blank">OpenStax</a>, in versions licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>, shortened. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
+            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and open textbooks by <a href="https://openstax.org/subjects/business" rel="noopener noreferrer" target="_blank">OpenStax</a> (in versions licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>), <a href="https://opentextbc.ca/projectmanagement/" rel="noopener noreferrer" target="_blank">Adrienne Watt</a> and Hermanson, Edwards and Maher (CC BY), shortened. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
         </article>
         <textarea id="answer-text" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
     </section>
@@ -104,6 +104,7 @@
 <script src="static/site.js"></script>
 <script src="static/judge.js"></script>
 <script src="static/book.js"></script>
+<script src="static/parse.js"></script>
 <script src="static/ask.js"></script>
 </body>
 </html>
