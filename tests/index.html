@@ -134,6 +134,11 @@ function run() {
         const hit = Ask.ITEMS.find((x) => x[0].test(q));
         check('items', q, n, hit ? hit[2].length : 0);
     }
+    for (const [pattern, topic, items, whole = {}] of Ask.ITEMS) {
+        check('items are whole', topic, true, items.length > 1 && items.every(([name, words_, title, also, own]) => name && words_ && typeof title === 'string' && (own === undefined || [own.aliases, own.keywords, own.blocked].every((x) => x === undefined || Array.isArray(x)))));
+        check('items have patterns', topic, true, [...items.flatMap((x) => (x[4] || {}).blocked || []), ...(whole.blocked || []), ...Object.values(whole.facet_blocked || {}).flat()].every((x) => { try { return Boolean(new RegExp(x, 'iu')); } catch { return false; } }));
+    }
+    check('long lists', '', [14, 4, 7, true], [Ask.ITEMS.find((x) => x[0].test("Explain Fayol's 14 principles of management"))[2].length, Ask.ITEMS.find((x) => x[0].test('Explain the 4Ps'))[2].length, Ask.ITEMS.find((x) => x[0].test('Explain the 7Ps'))[2].length, Ask.ITEMS.find((x) => x[0].test('Explain management as a science'))[3].claims]);
     for (const [q, parts] of [
         ['Define the terms planning. Explain briefly the steps involved in planning process. (14 marks)', ['What is planning', 'What are the steps in the planning process']], ['Discuss the process and importance of MBO.', ['What are the steps in MBO', 'Explain the importance of MBO']],
         ['What is Plan? How does it differ from planning?', ['What is Plan', 'Difference between Plan and planning']], ['Define index number and mention its uses.', ['What is index number', 'Explain the importance of index number']],
