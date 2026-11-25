@@ -406,6 +406,19 @@ const Parse = (() => {
         return '';
     }
 
+    /** The known topics of several words that a text names, the longest first; none is counted inside another. */
+    function topicsIn(text) {
+        const t = norm(text).split(' ');
+        const out = [];
+        for (let i = 0; i < t.length;) {
+            let n = Math.min(bank.longest, t.length - i);
+            for (; n > 1 && !bank.names.get(t.slice(i, i + n).join(' ')); n--);
+            if (n > 1) out.push(bank.names.get(t.slice(i, i + n).join(' ')));
+            i += Math.max(1, n);
+        }
+        return out;
+    }
+
     const distance = (a, b, most) => {
         let two = null;
         let row = [...Array(b.length + 1).keys()];
@@ -980,5 +993,5 @@ const Parse = (() => {
         };
     }
 
-    return { follow, INDIA, SHORT, sum, clauses, english, long, plan, query, teach, wordsFor, speller, spell };
+    return { follow, INDIA, SHORT, sum, clauses, english, long, plan, query, teach, topicsIn, norm, wordsFor, speller, spell };
 })();

@@ -987,6 +987,11 @@ const Ask = (() => {
                 }
             }
         }
+        // Where nothing defines the topic, what was to open the answer is a point like the others.
+        if (asked.course && !items && intro.length && !definition(core, intro.slice(0, 1)) && (!speaks(core, intro[0].text) || /\b(?:century|founded|born|in \d{4}|job title|degree|field of study|academic)\b/i.test(intro[0].text))) {
+            points.unshift({ name: intro[0].section || intro[0].page.title, chosen: intro });
+            intro = [];
+        }
         const shown = new Set([...intro, ...points.flatMap((p) => p.chosen)].map((x) => x.text));
         const topic = new Set(terms(asked.topics[0] || asked.q));
         const pages = new Set([...intro, ...points.flatMap((p) => p.chosen)].map((x) => x.page.url));
@@ -1031,7 +1036,7 @@ const Ask = (() => {
                 before.weight += p.weight;
                 continue;
             }
-            const one = { topic: t, weight: p.weight, known: p.known };
+            const one = { topic: t, facet: p.facet, weight: p.weight, known: p.known };
             if (p.whole || p.list || p.facet === 'short-note') Object.assign(one, { q: `Explain ${t.replace(/^(\p{Lu}[\p{L}]+)'s ((?:14 )?principles of .+)$/u, 'the $2 by $1')}`, head: name(t), whole: Boolean(p.whole) });
             else if (p.facet === 'comparison') Object.assign(one, { q: `Difference between ${p.sides[0]} and ${p.sides[1]}`, head: `Difference between ${p.sides[0]} and ${p.sides[1]}`, compare: true });
             else if (p.facet === 'relationship') Object.assign(one, { q: `Explain the relationship between ${t}`, head: `Relationship between ${t}` });
@@ -1076,7 +1081,7 @@ const Ask = (() => {
         if (read_.parts.length < 2) {
             const pool = [];
             const one = asks ? asks[0] : {};
-            const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null });
+            const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null, about: one.topic || '' });
             if (asks) result.told = told_;
             if (asks && result.parts.length && !result.sure && !(result.missing || []).length) result.missing = [one.gap || one.head];
             return { ...(format === 'exam' && result.parts.length ? exam(result, pool) : result), plan };
@@ -1094,7 +1099,7 @@ const Ask = (() => {
             const weightOf = (x) => (asks ? x.weight : x.aspect || x.compare || x.statement ? 1.15 : 0.8);
             const left = read_.parts.slice(i).reduce((n, x) => n + weightOf(x), 0);
             const share = Math.max(60, Math.round(asks ? (whole - out.reduce((n, x) => n + x.words, 0)) * weightOf(part) / left : whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
-            const got = await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null });
+            const got = await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '' });
             if (!first) first = got;
             if (!got.parts.length || !got.sure) {
                 missing.push(part.gap || part.head);
@@ -1141,6 +1146,50 @@ const Ask = (() => {
     // Works of art and people that share a name with a topic of a course.
     const NAMESAKE = /\b(?:is|are|was|were) (?:an? |the )?[^.]{0,70}\b(?:rock|pop|band|film|album|song|single|video game|television|tv series|short subject|novel|rapper|singer|footballer|comic|anime|manga|racehorse|village|surname|musician|magazine|board game)\b/i;
 
+    /** True for a chapter whose title has a word that also stands before most mentions of the topic. */
+    function narrow(page, about, q) {
+        const last = stem(about.toLowerCase().split(' ').pop());
+        const t = words(page.text).map((w) => w.toLowerCase());
+        const before = new Map();
+        let all = 0;
+        for (let i = 1; i < t.length; i++) {
+            if (stem(t[i]) !== last) continue;
+            all++;
+            const w = t[i - 1];
+            if (w.length > 3 && !STOP.has(w) && !PLAIN.has(stem(w))) before.set(w, (before.get(w) || 0) + 1);
+        }
+        const asks = new Set(terms(q));
+        const own = new Set(terms(page.title));
+        return all > 4 && [...before].some(([w, n]) => n / all > 0.3 && !terms(w).some((x) => asks.has(x)) && (terms(w).some((x) => own.has(x)) || w.includes('-')));
+    }
+
+    /** Scores up what is about the topic itself, and down what is about another known topic, or about one that only looks alike. */
+    function keepTo(ranked, about, aspect) {
+        const me = Parse.norm(about);
+        const core = ` ${me} `;
+        const key = new Set(terms(about));
+        const pages = new Map();
+        for (const s of ranked.all) {
+            // The article on the thing itself, and a chapter that does not name it.
+            if (!pages.has(s.page)) {
+                const title = [...new Set(terms(s.page.title.replace(/\(.*?\)/g, '')))];
+                pages.set(s.page, title.length === key.size && title.every((w) => key.has(w)) ? 1.5 : s.page.from && !title.some((w) => key.has(w)) ? -1.5 : 0);
+            }
+            s.score += pages.get(s.page);
+            const text = ` ${Parse.norm(s.text)} `;
+            const named = Parse.topicsIn(s.text).map(Parse.norm);
+            const alikes = named.filter((n) => n !== me && ` ${n} `.includes(core)).length;
+            const mine = Math.max(0, text.split(core).length - 1 - alikes);
+            const other = new Map();
+            for (const n of named) if (n !== me && !` ${n} `.includes(core) && !core.includes(` ${n} `)) other.set(n, (other.get(n) || 0) + 1);
+            const most = Math.max(0, ...other.values());
+            if (most > mine) s.score -= mine ? 1.5 : 3;
+            if (alikes && !mine && aspect !== 'types') s.score -= 1.5;
+            // The topic is what the sentence is about.
+            if (text.startsWith(core) || /^ (?:effective |good |most )/.test(text) && text.indexOf(core) < 14 && text.indexOf(core) > 0) s.score += 2;
+        }
+    }
+
     /** The sentences that speak for one claim of a statement: what they must say is known, and what only looks alike is kept out. */
     async function argue(claim, asked, ranked, size, pool, told) {
         pool.push(...ranked.all);
@@ -1161,8 +1210,9 @@ const Ask = (() => {
         return { asked, parts: chosen.length ? [{ head: '', chosen, cover: 1, wanted: 1, words: total }] : [], size, told, sure: chosen.length > 0 };
     }
 
-    async function find(question, lang, size, books, pool, subject, { aspect = '', topic = '', claim = null } = {}) {
+    async function find(question, lang, size, books, pool, subject, { aspect = '', topic = '', claim = null, about = '' } = {}) {
         const asked = understand(question);
+        if (about) asked.course = true;
         if (aspect) asked.aspect = aspect;
         // A statement is about its subject; the whole of it says what to look for.
         if (topic) asked.topics = [topic];
@@ -1240,7 +1290,12 @@ const Ask = (() => {
         let merged = await articles(lang, titles, 3);
         // A business question is answered from the textbook first; Wikipedia adds to it.
         if (lang !== 'hi' && typeof Book === 'object' && (['define', 'explain', 'list'].includes(asked.kind) || (asked.kind === 'why' && books) || (asked.kind === 'why' && /\b(?:firms?|compan(?:y|ies)|business(?:es)?|managers?|employees?|consumers?|customers?|markets?|organi[sz]ations?)\b/i.test(asked.q)))) {
-            const book = await Book.find(asked.q, 2, books ? 0.5 : 0.9, books);
+            let book = await Book.find(asked.q, 2, books ? 0.5 : 0.9, books);
+            // A chapter on one kind of the thing ("cross-cultural training") is not on the thing.
+            if (about && aspect !== 'types') {
+                const wide = book.filter((x) => !narrow(x, about, asked.q));
+                book = wide.length || merged.length ? wide : book;
+            }
             if (book.length) merged = (asked.kind === 'define' ? [...merged.slice(0, 2), ...book.slice(0, 1)] : [...book, ...merged.slice(0, 2)]).map((p, order) => ({ ...p, order }));
         }
         // Nor is the life of a person who had to do with it.
@@ -1283,6 +1338,7 @@ const Ask = (() => {
             else off = true;
         }
         let ranked = rank(asked, merged);
+        if (about && typeof Parse === 'object') keepTo(ranked, about, aspect);
         if (claim) return argue(claim, asked, ranked, size, pool, told);
         await judge(asked, ranked);
         if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind) && titles.length > 3 && !ranked.all.some((x) => x.replies)) {
