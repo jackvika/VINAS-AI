@@ -858,7 +858,7 @@ const Parse = (() => {
         if (claim) {
             out.statement = claim.said;
             out.entry = claim.entry || null;
-            if (claim.entry) for (const [topic, facet, weight] of claim.entry.parts) take({ topic, facet, weight, known: true, claim: true });
+            if (claim.entry) for (const [topic, facet, weight, more = {}] of claim.entry.parts) take({ topic, facet, weight, known: true, claim: true, ask: more.ask, must: more.must });
             else {
                 const subject = /^(?:the\s+|an?\s+)?(.{2,60}?)\s+(?:is|are|was|were|has|have|does|do|can|may|must|should|begins?|means|implies|involves?|requires?|helps?|plays?|represents?|leads?)\b/i.exec(claim.said);
                 const first = subject ? topicOf(subject[1].replace(/^(?:all|every|no)\s+/i, ''), state) : null;
@@ -966,7 +966,7 @@ const Parse = (() => {
         if (first.parts.some((p) => p.whole)) confidence -= 0.05;
         if (r.senses.length) confidence -= 0.15;
         if (r.free) confidence -= 0.1;
-        const tidyParts = (list) => list.map((p) => ({ topic: p.topic, facet: p.facet, weight: p.weight || 1, ...(p.word ? { word: p.word } : {}), ...(p.sides ? { sides: p.sides } : {}), ...(p.whole ? { whole: true } : {}), ...(bank.natural[p.topic] === p.facet ? { list: true } : {}), known: Boolean(p.known) }));
+        const tidyParts = (list) => list.map((p) => ({ topic: p.topic, facet: p.facet, weight: p.weight || 1, ...(p.word ? { word: p.word } : {}), ...(p.must ? { ask: p.ask, must: p.must } : {}), ...(p.sides ? { sides: p.sides } : {}), ...(p.whole ? { whole: true } : {}), ...(bank.natural[p.topic] === p.facet ? { list: true } : {}), known: Boolean(p.known) }));
         const marks = r.frame.marks;
         const alternatives = [];
         if (reads[1]) {

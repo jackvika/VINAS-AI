@@ -540,8 +540,8 @@ const Ask = (() => {
         [/\b(?:levels? of management|management levels?|managerial levels?|levels? of managers)\b/i, 'management', [
             ['Top management', 'top senior executive managers CEO board strategic', 'Senior management', 'executive', { aliases: ['top-level management', 'top managers', 'senior management', 'executive management', 'executive managers', 'upper management', 'executives'], keywords: ['board', 'CEO', 'chief executive', 'strategy', 'strategic', 'policy', 'policies', 'long-term', 'long-range', 'objectives', 'goals'], blocked: ['line and staff'] }],
             ['Middle management', 'middle managers division department tactical', 'Middle management', '', { aliases: ['middle-level management', 'middle managers', 'middle-level managers', 'intermediary management'], keywords: ['department', 'division', 'branch', 'tactical', 'implement', 'coordinate', 'link', 'plans'], blocked: ['line and staff', 'unlike line management'] }],
-            ['First-line management', 'first-line supervisory lower operational front-line supervisors', 'Supervisor', 'supervisor supervisors supervisory', { aliases: ['first-line managers', 'first-level management', 'supervisory management', 'supervisory managers', 'lower-level management', 'lower management', 'operational management', 'front-line managers', 'supervisors', 'foremen'], keywords: ['supervise', 'supervisor', 'day-to-day', 'daily', 'workers', 'operations', 'nonmanagerial', 'foreman', 'operational'], blocked: ['line and staff', 'line authority', 'line management', 'line managers?', 'line of command', 'line position'] }],
-        ], { related: ['managerial skills', 'functions of management'], blocked: ['management by objectives', 'MBO'], facet_blocked: {} }],
+            ['First-line management', 'first-line supervisory lower operational front-line supervisors', 'Supervisor', 'supervisor supervisors supervisory', { aliases: ['first-line managers', 'first-level management', 'supervisory management', 'supervisory managers', 'lower-level management', 'lower management', 'operational management', 'front-line managers', 'supervisors', 'foremen'], keywords: ['supervise', 'supervisor', 'day-to-day', 'daily', 'workers', 'operations', 'nonmanagerial', 'foreman', 'operational'], blocked: ['line and staff', 'line authority', 'line management', 'line[ -]managers?', 'line of command', 'line position'] }],
+        ], { ask: 'What are the functions of {item}?', related: ['managerial skills', 'functions of management'], blocked: ['management by objectives', 'MBO'], facet_blocked: {} }],
         [/\b(?:functions? of management|management functions?|managerial functions?|process of management|management process)\b/i, 'management', [
             ['Planning', 'planning plans goals objectives', '', '', { aliases: ['plan', 'plans'], keywords: ['goals', 'objectives', 'future', 'decide in advance', 'course of action', 'forecast'], blocked: ['financial planning', 'planning commission', 'urban planning'] }],
             ['Organizing', 'organizing structure departments resources', '', '', { aliases: ['organising', 'organization of work'], keywords: ['structure', 'resources', 'authority', 'departments', 'tasks', 'division of work'], blocked: ['community organi[sz]', 'labor organi[sz]', 'union organi[sz]'] }],
@@ -551,24 +551,24 @@ const Ask = (() => {
         [/\b(?:extended marketing mix|7 ?ps|seven ps|services? marketing mix)\b/i, 'the services marketing mix', [
             ['Product', 'product service offering', '', '', { keywords: ['service', 'offering', 'quality', 'brand'] }], ['Price', 'pricing price', '', 'pricing', { aliases: ['pricing'], keywords: ['cost', 'charge', 'value'] }], ['Place', 'distribution place delivery', '', 'distribution', { aliases: ['distribution'], keywords: ['channel', 'location', 'access'] }], ['Promotion', 'promotion communication', '', '', { keywords: ['advertising', 'communication', 'sales promotion'] }],
             ['People', 'people employees staff', '', 'employees', { aliases: ['employees', 'personnel', 'participants'], keywords: ['employees', 'customers', 'training', 'interaction'] }], ['Process', 'process procedures delivery', '', '', { keywords: ['procedures', 'flow', 'steps', 'delivery'] }], ['Physical evidence', 'physical evidence environment tangible', '', '', { keywords: ['tangible', 'environment', 'facilities', 'appearance'] }],
-        ], { related: ['marketing mix', 'services marketing'], facet_blocked: {} }],
+        ], { articles: ['Services marketing', 'Marketing mix'], related: ['marketing mix', 'services marketing'], facet_blocked: {} }],
         [/\b(?:marketing mix|four ps|4 ?ps)\b/i, 'the marketing mix', [
             ['Product', 'product strategy', '', '', { keywords: ['goods', 'services', 'quality', 'brand', 'packaging', 'design', 'need'], blocked: ['gross domestic product'] }], ['Price', 'pricing strategy', '', 'pricing', { aliases: ['pricing'], keywords: ['cost', 'demand', 'value', 'money', 'discount'] }], ['Place', 'distribution place strategy', '', 'distribution', { aliases: ['distribution'], keywords: ['channel', 'retail', 'wholesale', 'location', 'transport'], blocked: ['income distribution', 'frequency distribution'] }], ['Promotion', 'promotion strategy', '', '', { keywords: ['advertising', 'personal selling', 'sales promotion', 'public relations', 'communicat'] }],
         ], { article: 'Marketing mix', related: ['7Ps of marketing', 'product life cycle', 'promotion mix'], facet_blocked: {} }],
         [/\bfactors of production\b/i, 'the factors of production', [['Natural resources', 'land natural resources', '', '', { aliases: ['land'], keywords: ['land', 'water', 'minerals', 'forests', 'rent'] }], ['Labor', 'labor human', '', '', { aliases: ['labour', 'human resources'], keywords: ['workers', 'effort', 'wages', 'physical', 'mental'], blocked: ['labor union', 'labor market'] }], ['Capital', 'capital tools machinery', '', '', { keywords: ['machinery', 'tools', 'equipment', 'buildings', 'interest'], blocked: ['venture capital', 'capital city', 'human capital'] }], ['Entrepreneurship', 'entrepreneurship entrepreneurs', 'Entrepreneurship', 'entrepreneur entrepreneurs entrepreneurial', { aliases: ['enterprise', 'organisation'], keywords: ['risk', 'profit', 'combine', 'innovation'] }], ['Knowledge', 'knowledge', '', '', { keywords: ['skills', 'information', 'talents'] }]], { article: 'Factors of production', related: ['national income', 'theory of rent'], facet_blocked: {} }],
         [/\b(?:forms?|types?|kinds?) of (?:business (?:ownership|organi[sz]ations?|structures?|entit(?:y|ies))|compan(?:y|ies))\b/i, 'business ownership', [['Sole proprietorship', 'sole proprietorship owner', 'Sole proprietorship', '', { aliases: ['sole trader', 'sole trading concern'], keywords: ['one person', 'unlimited liability', 'owner', 'profit'] }], ['Partnership', 'partnership partners', 'Partnership', '', { keywords: ['two or more', 'partners', 'agreement', 'profit', 'liability'] }], ['Corporation', 'corporation stockholders', 'Corporation', '', { aliases: ['joint stock company', 'company'], keywords: ['legal entity', 'shares', 'limited liability', 'stockholders', 'board'] }], ['Limited liability company', 'limited liability company LLC', 'Limited liability company', 'LLC LLCs', { aliases: ['LLC'], keywords: ['limited liability', 'members', 'taxed'] }]], { related: ['partnership deed', 'company'], facet_blocked: {} }],
-        [/\bproduct life[- ]?cycle\b/i, 'the product life cycle', [['Introduction stage', 'introduction stage product', '', 'introductory', { aliases: ['introductory stage', 'introduction phase'], keywords: ['launch', 'low sales', 'awareness', 'promotion', 'losses'] }], ['Growth stage', 'growth stage product', '', '', { aliases: ['growth phase'], keywords: ['rapid', 'sales', 'profits', 'competitors'], blocked: ['economic growth', 'population growth'] }], ['Maturity stage', 'maturity stage product', '', '', { aliases: ['maturity phase', 'saturation'], keywords: ['peak', 'level off', 'competition', 'longest', 'saturat'] }], ['Decline stage', 'decline stage product', '', '', { aliases: ['decline phase'], keywords: ['fall', 'drop', 'withdraw', 'discontinue', 'obsolete'] }]], { article: 'Product life-cycle management (marketing)', related: ['new product development', 'marketing mix', 'BCG matrix'], blocked: ['life-cycle assessment', 'environmental impact', 'industry life ?cycle', 'organi[sz]ational life ?cycle'], facet_blocked: {} }],
+        [/\bproduct life[- ]?cycle\b/i, 'the product life cycle', [['Introduction stage', 'introduction stage product', '', 'introductory', { aliases: ['introductory stage', 'introduction phase'], keywords: ['launch', 'low sales', 'awareness', 'promotion', 'losses'] }], ['Growth stage', 'growth stage product', '', '', { aliases: ['growth phase'], keywords: ['rapid', 'sales', 'profits', 'competitors'], blocked: ['economic growth', 'population growth'] }], ['Maturity stage', 'maturity stage product', '', '', { aliases: ['maturity phase', 'saturation'], keywords: ['peak', 'level off', 'competition', 'longest', 'saturat'] }], ['Decline stage', 'decline stage product', '', '', { aliases: ['decline phase'], keywords: ['fall', 'drop', 'withdraw', 'discontinue', 'obsolete'] }]], { ask: 'What happens to sales in the {item} of the product life cycle?', article: 'Product life-cycle management (marketing)', related: ['new product development', 'marketing mix', 'BCG matrix'], blocked: ['life-cycle assessment', 'environmental impact', 'industry life ?cycle', 'organi[sz]ational life ?cycle'], facet_blocked: {} }],
         [/\b(?:leadership styles?|styles? of leadership|types? of leaders(?:hip)?)\b/i, 'leadership', [['Autocratic leadership', 'autocratic leaders', '', '', { aliases: ['authoritarian leadership', 'autocratic leader', 'directive'], keywords: ['alone', 'orders', 'obedience', 'decisions', 'centralized'] }], ['Participative leadership', 'participative democratic consensual leaders', '', '', { aliases: ['democratic leadership', 'consultative leadership', 'consensual leadership'], keywords: ['share', 'involve', 'discuss', 'vote', 'decision'] }], ['Free-rein leadership', 'free-rein laissez-faire leaders', '', 'laissez', { aliases: ['laissez-faire leadership', 'delegative leadership'], keywords: ['freedom', 'authority', 'own decisions', 'hands-off'] }]], { related: ['theories of leadership', 'motivation', 'managerial grid'], facet_blocked: {} }],
         [/\b(?:economic systems?|types? of econom(?:y|ies))\b/i, 'economic systems', [['Capitalism', 'capitalism free market', '', '', { aliases: ['free market', 'private enterprise'], keywords: ['private', 'profit', 'competition', 'ownership'] }], ['Communism', 'communism government', '', '', { keywords: ['government', 'owns', 'classless'] }], ['Socialism', 'socialism', '', '', { keywords: ['government', 'state', 'basic industries', 'welfare'] }], ['Mixed economy', 'mixed economies', '', '', { aliases: ['mixed economies'], keywords: ['both', 'private', 'government', 'combine'] }]], { related: ['business environment', 'privatisation'], facet_blocked: {} }],
         [/\b(?:managerial skills?|skills? of (?:a )?managers?|management skills?)\b/i, 'managerial skills', [['Technical skills', 'technical skills', '', '', { keywords: ['specialized', 'knowledge', 'techniques', 'tools', 'first-line'] }], ['Human relations skills', 'human relations skills', '', '', { aliases: ['human skills', 'interpersonal skills', 'people skills'], keywords: ['people', 'communicat', 'motivat', 'teams'] }], ['Conceptual skills', 'conceptual skills', '', '', { keywords: ['whole', 'abstract', 'relationships', 'top managers', 'view the organization'] }]], { related: ['levels of management', 'managerial roles'], facet_blocked: {} }],
         [/\b(?:managerial roles?|roles of (?:a )?managers?|mintzberg)\b/i, 'managerial roles', [['Interpersonal roles', 'interpersonal roles figurehead leader liaison', '', '', { aliases: ['figurehead', 'leader', 'liaison'], keywords: ['figurehead', 'leader', 'liaison', 'relationships'] }], ['Informational roles', 'informational roles monitor spokesperson', '', '', { aliases: ['monitor', 'disseminator', 'spokesperson'], keywords: ['monitor', 'disseminator', 'spokesperson', 'information'] }], ['Decisional roles', 'decisional roles entrepreneur negotiator', '', '', { aliases: ['entrepreneur', 'disturbance handler', 'resource allocator', 'negotiator'], keywords: ['entrepreneur', 'disturbance', 'resource', 'negotiator', 'decisions'] }]], { related: ['managerial skills', 'functions of management'], facet_blocked: {} }],
         [/\b(?:market structures?|types? of (?:markets?|competition))\b/i, 'competition', [['Perfect competition', 'perfect pure competition', '', '', { aliases: ['pure competition'], keywords: ['many', 'identical', 'homogeneous', 'price taker', 'free entry'] }], ['Monopolistic competition', 'monopolistic competition', '', '', { keywords: ['differentiated', 'many', 'substitutes', 'brand'] }], ['Oligopoly', 'oligopoly', '', '', { keywords: ['few', 'interdependen', 'barriers', 'collusion'] }], ['Monopoly', 'pure monopoly', '', '', { aliases: ['pure monopoly'], keywords: ['single', 'one firm', 'no close substitutes', 'barriers', 'price maker'], blocked: ['monopolistic competition', 'board game'] }]], { related: ['price determination', 'price discrimination'], facet_blocked: {} }],
-        [/\b(?:maslow|hierarchy of needs)\b/i, "Maslow's hierarchy of needs", [['Physiological needs', 'physiological needs food shelter', '', '', { aliases: ['basic needs', 'survival needs'], keywords: ['food', 'water', 'shelter', 'sleep', 'air', 'clothing'] }], ['Safety needs', 'safety needs', '', '', { aliases: ['security needs'], keywords: ['security', 'protection', 'stability', 'job security', 'health'] }], ['Social needs', 'social needs belonging', '', '', { aliases: ['love and belonging', 'belongingness needs', 'belonging needs', 'affiliation needs'], keywords: ['love', 'belong', 'friend', 'affection', 'group', 'acceptance'] }], ['Esteem needs', 'esteem needs', '', '', { aliases: ['ego needs'], keywords: ['respect', 'recognition', 'status', 'self-respect', 'achievement'] }], ['Self-actualization needs', 'self-actualization needs', '', '', { aliases: ['self-actualisation', 'self-fulfilment'], keywords: ['potential', 'fulfil', 'growth', 'creativ', 'become'] }]], { article: "Maslow's hierarchy of needs", related: ["Herzberg's two factor theory", 'Theory X and Theory Y', 'motivation'], blocked: ['two-factor', 'hygiene factors?', 'ERG theory'], facet_blocked: {} }],
+        [/\b(?:maslow|hierarchy of needs)\b/i, "Maslow's hierarchy of needs", [['Physiological needs', 'physiological needs food shelter', '', '', { aliases: ['basic needs', 'survival needs'], keywords: ['food', 'water', 'shelter', 'sleep', 'air', 'clothing'] }], ['Safety needs', 'safety needs', '', '', { aliases: ['security needs'], keywords: ['security', 'protection', 'stability', 'job security', 'health'] }], ['Social needs', 'social needs belonging', '', '', { aliases: ['love and belonging', 'belongingness needs', 'belonging needs', 'affiliation needs'], keywords: ['love', 'belong', 'friend', 'affection', 'group', 'acceptance'] }], ['Esteem needs', 'esteem needs', '', '', { aliases: ['ego needs'], keywords: ['respect', 'recognition', 'status', 'self-respect', 'achievement'] }], ['Self-actualization needs', 'self-actualization needs', '', '', { aliases: ['self-actualisation', 'self-fulfilment'], keywords: ['potential', 'fulfil', 'growth', 'creativ', 'become'] }]], { ask: 'What do {item} include?', article: "Maslow's hierarchy of needs", related: ["Herzberg's two factor theory", 'Theory X and Theory Y', 'motivation'], blocked: ['two-factor', 'hygiene factors?', 'ERG theory'], facet_blocked: {} }],
         [/\bfayol\b.*\bprinciples?\b|\bprinciples?\b.*\bfayol\b|\b(?:14|fourteen) principles of management\b/i, "Fayol's principles of management", [
             ['Division of work', 'division work specialization', '', '', { aliases: ['division of labor', 'division of labour', 'specialization', 'specialisation'], keywords: ['specializ', 'efficiency', 'output'] }], ['Authority and responsibility', 'authority responsibility orders', '', '', { aliases: ['authority', 'parity of authority and responsibility'], keywords: ['right to give orders', 'responsibility', 'obedience'] }], ['Discipline', 'discipline obedience rules', '', '', { keywords: ['obey', 'respect', 'rules', 'agreements'] }], ['Unity of command', 'unity command one superior', 'Unity of command', '', { keywords: ['one superior', 'one boss', 'one manager', 'orders'] }], ['Unity of direction', 'unity direction one plan', '', '', { keywords: ['one plan', 'one head', 'same objective'] }],
             ['Subordination of individual interest to general interest', 'subordination individual interest general', '', '', { aliases: ['subordination of individual interests', 'general interest'], keywords: ['organization as a whole', 'interests'] }], ['Remuneration', 'remuneration pay wages fair', '', '', { aliases: ['remuneration of personnel', 'fair pay'], keywords: ['fair', 'wage', 'pay', 'satisf'] }], ['Centralization and decentralization', 'centralization decentralization', '', '', { aliases: ['centralization', 'centralisation', 'decentralization'], keywords: ['degree', 'subordinates', 'decision'] }], ['Scalar chain', 'scalar chain line authority', '', '', { aliases: ['line of authority', 'chain of command', 'gang plank', 'gangplank'], keywords: ['top', 'lowest', 'hierarchy', 'line of authority'] }], ['Order', 'order place people materials', '', '', { aliases: ['material order', 'social order'], keywords: ['right place', 'right time', 'place for everything', 'materials'] }],
             ['Equity', 'equity kindness justice fair', '', '', { keywords: ['kind', 'fair', 'justice', 'equal'], blocked: ['equity theory', 'equity shares?', "owners?['’]? equity", 'brand equity', 'private equity', 'equity financ'] }], ['Stability of tenure of personnel', 'stability tenure personnel turnover', '', '', { aliases: ['stability of tenure', 'stability of personnel', 'stability of staff'], keywords: ['turnover', 'tenure', 'job security'] }], ['Initiative', 'initiative', '', '', { keywords: ['encourage', 'freedom', 'plan', 'carry out', 'act on their own'] }], ['Esprit de corps', 'esprit corps team spirit harmony', '', '', { aliases: ['team spirit', 'union is strength'], keywords: ['harmony', 'unity', 'team', 'morale'] }],
-        ], { related: ["Fayol's functions of management", "Taylor's scientific management", 'unity of command'], facet_blocked: { principles: ['five functions', 'five elements', 'six functions', 'to forecast and plan', 'planning, organi[sz]ing, (?:commanding|leading|staffing)', 'command(?:ing)?, coordinat', 'functions of management', 'primary functions', 'plan, organi[sz]e', 'technical, commercial'] }, blocked: ['scientific management', 'time study', 'time and motion', 'piece[- ]rate'] }],
+        ], { articles: ['Henri Fayol', 'Fayolism'], related: ["Fayol's functions of management", "Taylor's scientific management", 'unity of command'], facet_blocked: { principles: ['five functions', 'five elements', 'six functions', 'to forecast and plan', 'planning, organi[sz]ing, (?:commanding|leading|staffing)', 'command(?:ing)?, coordinat', 'functions of management', 'primary functions', 'plan, organi[sz]e', 'technical, commercial'] }, blocked: ['scientific management', 'time study', 'time and motion', 'piece[- ]rate'] }],
         [/\b(?:taylor\b.*\bprinciples?|principles? of scientific management|scientific management principles)\b|\bprinciples?\b.*\btaylor\b/i, 'scientific management', [
             ['Science, not rule of thumb', 'science rule of thumb method study', 'Scientific management', 'science thumb', { aliases: ['scientific method', 'one best way'], keywords: ['rule of thumb', 'one best way', 'study', 'standard', 'time'] }], ['Scientific selection and training of workers', 'selection training workers scientific', 'Scientific management', 'select selection train training', { aliases: ['select and train'], keywords: ['select', 'train', 'teach', 'develop', 'first-class'] }], ['Cooperation between management and workers', 'cooperation cooperate workers management harmony', 'Scientific management', 'cooperate cooperation', { aliases: ['harmony, not discord', 'mental revolution'], keywords: ['cooperat', 'harmony', 'friendly', 'conflict'] }], ['Division of work and responsibility', 'division work responsibility managers workers', 'Scientific management', 'divide division responsibility', { aliases: ['equal division of work'], keywords: ['equal', 'responsibility', 'planning', 'managers', 'workers'] }],
         ], { article: 'Scientific management', related: ["Fayol's 14 principles of management", 'management science'], facet_blocked: { principles: ['fourteen principles', '14 principles', 'fayol'] }, blocked: ['fayol', 'operations research'] }],
@@ -576,7 +576,7 @@ const Ask = (() => {
             ['Management as a science', 'science systematic knowledge principles', '', 'science scientific', { aliases: ['a science', 'science of management'], keywords: ['systematic body of knowledge', 'body of knowledge', 'cause and effect', 'principles', 'experiment', 'universal application', 'observation', 'theory', 'theories'], blocked: ['management science', 'operations research', 'mathematic', 'optimi[sz]ation', 'linear programming', 'numerical', 'algorithm', 'calculus', 'quantitative'] }],
             ['Management as an art', 'art practice skill creativity', '', 'art', { aliases: ['an art', 'art of management', 'art of getting things done'], keywords: ['personal skill', 'skill', 'practice', 'creativ', 'application of knowledge', 'result', 'judgment', 'intuition', 'experience'], blocked: ['art museum', 'works? of art', 'liberal arts', 'state of the art', 'artist'] }],
             ['Management as a profession', 'profession professional training code', '', 'profession professional', { aliases: ['a profession', 'professional management'], keywords: ['specialized knowledge', 'specialised knowledge', 'formal training', 'formal education', 'code of conduct', 'code of ethics', 'professional body', 'association', 'service motive', 'service'], blocked: ['professional sports?', 'professional services firm'] }],
-        ], { claims: true, related: ['functions of management', 'scientific management', 'management science'], blocked: ['management science', 'operations research', 'mathematical model', 'linear programming'], facet_blocked: {} }],
+        ], { claims: true, articles: ['Management'], related: ['functions of management', 'scientific management', 'management science'], blocked: ['management science', 'operations research', 'mathematical model', 'linear programming'], facet_blocked: {} }],
     ];
     const plainly = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     /** One pattern for some phrases, or none. */
@@ -587,7 +587,7 @@ const Ask = (() => {
         factors: /factor|determinant|cause|influence|affect/i, elements: /element|component|parts?\b/i, techniques: /technique|method|tool|approach/i, scope: /scope|fields?\b|areas?\b/i, roles: /roles?\b|responsibilit|duties/i,
     };
     const GENERAL = new Set(['level', 'function', 'stage', 'need', 'skill', 'role', 'style', 'type', 'form'].flatMap((w) => [w, ...terms(w)]));
-    const LEANS = /^(?:this|that|that[’']s|these|those|such|he|she|they|it|its|their|however|also|for example|for instance|in addition|therefore|thus|hence|but|and|another|other|instead|as a result|first|second|third|finally|furthermore|moreover|as with|like|the (?:first|second|third|fourth)|others|once|if the|in this|at this|both|[\w ]{0,20}who (?:use|adopt) this|because of this)\b/i;
+    const LEANS = /^(?:this|that|that[’']s|these|those|such|he|she|they|it|its|their|however|also|for example|for instance|in addition|therefore|thus|hence|but|and|another|other|instead|as a result|first(?!-)|second(?!-)|third(?!-)|finally|furthermore|moreover|as with|like|the (?:first|second|third|fourth)|others|once|if the|in this|at this|both|[\w ]{0,20}who (?:use|adopt) this|because of this)\b/i;
     const SHARP = ['why', 'when', 'number', 'who', 'fact'];
     const english = (asked) => !/\p{Script=Devanagari}/u.test(asked.q);
     const readerReady = () => typeof Judge === 'object' && Judge.ready();
@@ -650,8 +650,9 @@ const Ask = (() => {
      */
     async function byItem(asked, lang, size, books, rest = []) {
         const found = ITEMS.find(([pattern]) => pattern.test(asked.q));
-        // Claims and long lists are not gone through item by item.
-        if (!found || lang === 'hi' || !readerReady() || (found[3] && found[3].claims) || found[2].length > 6) return null;
+        // Claims are not a list; a long list has a line for each item.
+        if (!found || lang === 'hi' || !readerReady() || (found[3] && found[3].claims)) return null;
+        if (found[2].length > 6) return longList(found, asked, lang, size, books);
         const [, topic, items, whole = {}] = found;
         const wiki = new Map();
         const titles = [...new Set([...items.map((x) => x[2]), whole.article])].filter(Boolean);
@@ -667,11 +668,12 @@ const Ask = (() => {
         const share = Math.max(28, Math.round(size * 0.8 / items.length));
         const used = new Set();
         const parts = [];
+        const found_ = [];
+        for (const [name] of items) if (typeof Book === 'object') found_.push(...await Book.find(`${name} in ${topic}`, 2, 0.2, books));
         for (const [name, other, title, alias, own = {}] of items) {
             const alike_ = phrases([...(own.blocked || []), ...(whole.blocked || [])]);
             const also = phrases((own.aliases || []).filter((x) => x.includes(' ') || x.includes('-')).map(plainly));
-            const more = typeof Book === 'object' ? await Book.find(`${name} in ${topic}`, 2, 0.2, books) : [];
-            const pages = [...more, ...main, ...(wiki.has(title) ? [wiki.get(title)] : [])].filter((p, i, a) => a.findIndex((x) => x.url === p.url) === i);
+            const pages = [...found_, ...main, ...(wiki.has(title) ? [wiki.get(title)] : [])].filter((p, i, a) => a.findIndex((x) => x.url === p.url) === i);
             const words_ = new Set(terms(`${name} ${other} ${alias || ''} ${(own.aliases || []).join(' ')}`));
             const pool = pages.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p }))).filter((x) => !used.has(x.text) && !/\?/.test(x.text) && !(alike_ && alike_.test(x.text)));
             for (const x of pool) {
@@ -681,7 +683,7 @@ const Ask = (() => {
             const some = pool.filter((x) => x.hits > 0 && length(x) >= 7).sort((x, y) => y.hits - x.hits).slice(0, 36);
             const p = some.length ? await Judge.score(`What is ${name.toLowerCase()} in ${topic}?`, some.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
             if (!p) continue;
-            some.forEach((x, i) => { x.judged = p[i]; });
+            some.forEach((x, i) => { x.judged = p[i]; x.raw = p[i]; });
             const ownWords = (n) => terms(n).filter((w) => !terms(topic).includes(w) && !GENERAL.has(w));
             const called = new Set(terms(alias || ''));
             const main_ = ownWords(name);
@@ -710,25 +712,46 @@ const Ask = (() => {
             // From the best sentence on, while the paragraph stays with the item.
             const chosen = [];
             let total = 0;
-            const follow = (from) => {
+            const keyed = (x) => (own.keywords || []).some((w) => x.text.toLowerCase().includes(w.toLowerCase()));
+            const follow = (from, most = share * 1.2, close = false) => {
                 for (const x of pool.filter((y) => y.page === from.page && y.block === from.block && y.place >= from.place)) {
-                    if (chosen.includes(x) || (total && total + length(x) > share * 1.2) || (x !== from && !apart(x))) break;
+                    if (chosen.includes(x) || (total && total + length(x) > most) || (x !== from && (!apart(x) || (close && !keyed(x) && !LEANS.test(x.text)) || /on the other hand|in contrast|by contrast/i.test(x.text)))) break;
                     chosen.push(x);
                     total += length(x);
                 }
             };
-            follow(best);
-            // Then the next best ones, with what follows them, until the item has its share.
-            for (const x of some.filter((y) => y.judged > 0.5 && !y.passing && says(y) && apart(y) && !LEANS.test(y.text)).sort((m, n) => n.judged - m.judged)) {
-                if (total > share * 0.75) break;
-                if (chosen.includes(x) || chosen.some((c) => alike(c, x) > 0.6)) continue;
-                follow(x);
+            // The definition slot.
+            follow(best, share * 0.6);
+            // The slot for what it does: its own question to the reader.
+            const open = some.filter((y) => !chosen.includes(y) && !y.passing && (says(y) || near(y)) && apart(y) && !LEANS.test(y.text)).sort((m, n) => n.judged - m.judged).slice(0, 20);
+            const does = open.length ? await Judge.score((whole.ask || 'What does {item} do in {topic}?').replace('{item}', name.toLowerCase()).replace('{topic}', topic), open.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
+            if (does) {
+                open.forEach((x, i) => { x.does = Math.max(does[i], 0.8 * x.raw) + (says(x) ? 0.2 : 0) + (label(x) && keyed(x) ? 0.3 : 0) + Math.min(0.3, 0.1 * (own.keywords || []).filter((w) => x.text.toLowerCase().includes(w.toLowerCase())).length); });
+                for (const x of open.filter((y) => y.does > 0.4).sort((m, n) => n.does - m.does)) {
+                    if (total > share * 0.8) break;
+                    if (chosen.includes(x) || chosen.some((c) => alike(c, x) > 0.6)) continue;
+                    follow(x, share * 1.1, true);
+                }
+            }
+            // The slot for an example, when a sentence gives one.
+            if (total < share * 0.9) {
+                const eg = some.filter((y) => !chosen.includes(y) && says(y) && apart(y) && !y.passing && /\b(?:for example|for instance|such as|e\.g\.|examples? (?:of|include))/i.test(y.text) && !/^(?:this|these|those|such|he|she|they|it|its|their)\b/i.test(y.text) && !chosen.some((c) => alike(c, y) > 0.6)).sort((m, n) => n.judged - m.judged)[0];
+                if (eg && eg.judged > 0.3 && total + length(eg) < share * 1.3) {
+                    chosen.push(eg);
+                    total += length(eg);
+                }
             }
             chosen.forEach((x) => used.add(x.text));
             // The heading is the item's own.
             parts.push({ head: name, chosen: chosen.map((x) => ({ ...x, section: '' })), cover: 1, wanted: 1, words: total });
         }
-        if (parts.length < Math.max(2, items.length - 1)) return null;
+        if (parts.length < Math.max(2, Math.ceil(items.length / 2))) return null;
+        parts.missing = items.map((x) => x[0]).filter((n) => !parts.some((x) => x.head === n));
+        // No item has more than twice the words of another.
+        const least = Math.max(25, Math.min(...parts.map((x) => x.words)));
+        for (const x of parts) {
+            while (x.words > 2 * least && x.chosen.length > 1) x.words -= length(x.chosen.pop());
+        }
         // A short opening that says what the whole is: a sentence that defines it, or the best there is.
         const own_ = whole.article && wiki.get(whole.article);
         const otherFacet = phrases([...Object.values(whole.facet_blocked || {}).flat(), ...(whole.blocked || [])]);
@@ -754,6 +777,72 @@ const Ask = (() => {
                 parts.unshift({ head: '', chosen: lead.map((x) => ({ ...x, section: '' })), cover: 1, wanted: 1, words: lead.reduce((n, x) => n + length(x), 0) });
             }
         }
+        return parts;
+    }
+
+    /** A list of many items: for each its name with one sentence that says what it is, and the names of those without one. */
+    async function longList(found, asked, lang, size, books) {
+        const [, topic, items, whole = {}] = found;
+        const wiki = [];
+        for (const title of whole.articles || []) {
+            const d = await get(lang, { action: 'query', prop: 'extracts', explaintext: '1', exsectionformat: 'wiki', redirects: '1', titles: title });
+            const x = d && d.query && Array.isArray(d.query.pages) ? d.query.pages[0] : null;
+            if (x && typeof x.extract === 'string' && x.extract.trim()) wiki.push({ title: String(x.title), text: x.extract.slice(0, 60000), url: `${HOSTS[lang]}/wiki/${encodeURIComponent(String(x.title).replace(/ /g, '_'))}` });
+        }
+        const book = typeof Book === 'object' ? await Book.find(asked.q, 2, 0.2, books) : [];
+        const other = phrases([...Object.values(whole.facet_blocked || {}).flat(), ...(whole.blocked || [])]);
+        const pages = [...book, ...wiki];
+        const pool = pages.flatMap((p) => read({ ...p, order: 0 }).map((x) => ({ ...x, page: p, terms: terms(x.text) }))).filter((x) => !/\?/.test(x.text) && !(other && other.test(x.text)));
+        const share = Math.max(24, Math.round(size * 0.85 / items.length));
+        const parts = [];
+        const missing = [];
+        const named = (t) => terms(t).filter((w) => !['principl', 'manag'].includes(w));
+        for (const [name, , , , own = {}] of items) {
+            const blocked = phrases(own.blocked || []);
+            const names = [name, ...(own.aliases || [])];
+            const free = pool.filter((x) => !(blocked && blocked.test(x.text)));
+            // "Order - this principle is concerned with ...": a line that has the name of the item and says what it is.
+            const label = (x) => {
+                const m = /^([^.:–—]{3,70}?)\s*(?:\s[-–—]\s|:\s)/.exec(x.text);
+                if (!m || length(x) < 5) return false;
+                const mine = new Set(named(m[1]));
+                return names.some((n) => named(n).length && named(n).every((w) => mine.has(w))) && mine.size <= named(name).length + 2;
+            };
+            let best = free.filter((x) => !x.item && label(x)).sort((x, y) => (y.page === pages[0]) - (x.page === pages[0]))[0];
+            if (!best) {
+                const says = phrases(names.map((n) => plainly(n)));
+                const some = free.filter((x) => !x.item && length(x) >= 8 && length(x) < 60 && says.test(x.text.slice(0, 90)) && !LEANS.test(x.text)).slice(0, 12);
+                const p = some.length ? await Judge.score(`What does ${name.toLowerCase()} mean in ${topic}?`, some.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
+                if (p) {
+                    const k = p.indexOf(Math.max(...p));
+                    if (p[k] > 0.4) best = some[k];
+                }
+            }
+            if (!best) {
+                missing.push(name);
+                continue;
+            }
+            const chosen = [best];
+            let total = length(best);
+            for (const x of free.filter((y) => y.page === best.page && y.block === best.block && y.place > best.place)) {
+                if (total + length(x) > share || LEANS.test(x.text)) break;
+                chosen.push(x);
+                total += length(x);
+            }
+            parts.push({ head: name, chosen: chosen.map((x) => ({ ...x, section: '' })), cover: 1, wanted: 1, words: total });
+        }
+        if (parts.length < items.length / 3) return null;
+        const used = new Set(parts.flatMap((x) => x.chosen.map((y) => y.text)));
+        const key = named(topic);
+        const lead = pool.filter((x) => !x.item && !used.has(x.text) && !LEANS.test(x.text) && length(x) >= 8 && length(x) <= 45 && key.every((w) => x.terms.includes(w)) && /\b(?:is|are|developed|proposed|identified|created|consists?|refers?|set)\b/i.test(x.text) && !/^[^:.]{2,40}:\s/.test(x.text)).slice(0, 24);
+        const p = lead.length ? await Judge.score(`What are ${topic}?`, lead.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null;
+        if (p) {
+            const v = p.map((n, i) => n + (/\b(?:principles?|needs|stages|ps)\b/i.test(lead[i].text) ? 0.3 : 0));
+            const k = v.indexOf(Math.max(...v));
+            if (v[k] > 0.3) parts.unshift({ head: '', chosen: [{ ...lead[k], section: '' }], cover: 1, wanted: 1, words: length(lead[k]) });
+        }
+        parts.missing = missing;
+        parts.checklist = items.map((x) => x[0]);
         return parts;
     }
 
@@ -792,12 +881,14 @@ const Ask = (() => {
     }
 
     /** The sentence that says what the topic is, if there is one. */
-    function definition(core, pool) {
+    const definition = (core, pool) => definitions(core, pool)[0];
+    /** All sentences that say what the topic is, best first. */
+    function definitions(core, pool) {
         const verb = /\b(?:is|are|refers? to|means|involves|consists? of|describes|denotes)\b/i;
         return pool.filter((x) => {
             if (x.item || length(x) < 8 || length(x) > 60 || /\?/.test(x.text)) return false;
             const label = /^([^:.]{2,60}):\s/.exec(x.text);
-            if (label) return speaks(core, label[1]) && terms(label[1]).length <= core.length + 2;
+            if (label) return speaks(core, label[1]) && terms(label[1]).filter((w) => !core.includes(w) && !PLAIN.has(w)).length <= (core.length > 1 ? 1 : 0);
             if (LEANS.test(x.text)) return false;
             const open = x.text.replace(/^In [^,.]{3,40}, /, '').replace(/\s*\([^)]*\)/g, '');
             const at = open.search(verb);
@@ -805,15 +896,10 @@ const Ask = (() => {
             const before = terms(open.slice(0, at));
             // The topic is what the sentence is about: "the assessment of the function of the heart is" is about an assessment.
             return core.every((w) => before.includes(w)) && before.length <= core.length + 2 && (core.includes(before[0]) || PLAIN.has(before[0]));
-        }).map((x) => ({ x, v: (x.judged || 0) + (x.place === 0 ? 0.3 : 0) - (/^In (?!econom|management|business|marketing|finance|accounting|statistic|microecon|macroecon)\w+(?: \w+)?,/i.test(x.text) ? 0.3 : 0) + (/\b(?:is|are) (?:an?|the) |refers? to|means\b|:\s/.test(x.text) ? 0.2 : 0) })).sort((m, n) => n.v - m.v).map((m) => m.x)[0];
+        }).map((x) => ({ x, v: (x.judged || 0) + (x.place === 0 ? 0.3 : 0) - (/^In (?!econom|management|business|marketing|finance|accounting|statistic|microecon|macroecon)\w+(?: \w+)?,/i.test(x.text) ? 0.3 : 0) + (/\b(?:is|are) (?:an?|the) |refers? to|means\b|:\s/.test(x.text) ? 0.2 : 0) })).sort((m, n) => n.v - m.v).map((m) => m.x);
     }
 
     const alikeText = (x, y) => x.terms && y.terms && alike(x, y) > 0.7;
-
-    /** A glossary line as a sentence: "Planning: the process of ..." becomes "Planning refers to the process of ...". */
-    function written(text) {
-        return text.replace(/^([A-Z][\w’'()/ -]{2,55}):\s+(the|an?|any)\s/i, (_, t, w) => `${t} refers to ${w.toLowerCase()} `);
-    }
 
     const CLOSES = /^(?:in (?:conclusion|summary|short|sum)|overall|to (?:sum|conclude)|thus|therefore|ultimately)\b|\b(?:essential|crucial|vital|important|importance|critical|success(?:ful)?|benefits?|helps?|enables?|allows?)\b/i;
 
@@ -949,10 +1035,20 @@ const Ask = (() => {
             if (p.whole || p.list || p.facet === 'short-note') Object.assign(one, { q: `Explain ${t.replace(/^(\p{Lu}[\p{L}]+)'s ((?:14 )?principles of .+)$/u, 'the $2 by $1')}`, head: name(t), whole: Boolean(p.whole) });
             else if (p.facet === 'comparison') Object.assign(one, { q: `Difference between ${p.sides[0]} and ${p.sides[1]}`, head: `Difference between ${p.sides[0]} and ${p.sides[1]}`, compare: true });
             else if (p.facet === 'relationship') Object.assign(one, { q: `Explain the relationship between ${t}`, head: `Relationship between ${t}` });
-            else if (p.facet === 'definition') Object.assign(one, { q: `What is ${t}`, head: `Meaning of ${t}` });
+            else if (p.facet === 'definition') Object.assign(one, { q: `What is ${t}`, head: `Meaning of ${t}`, defines: true });
             else if (p.facet === 'process') Object.assign(one, { q: /^(?:process|procedure)$/.test(p.word || '') ? `Explain the ${p.word} of ${t}` : /^stages?$/.test(p.word || '') ? `What are the stages of ${t}` : `What are the steps in ${/process$/i.test(t) ? `the ${t}` : t}`, head: `Process of ${t.replace(/\s+process$/i, '')}`, aspect: 'process' });
-            else if (p.facet === 'statement') Object.assign(one, { q: `Explain ${t.replace(/ as (?=\w+ing\b)/, ' is ')}`, head: name(t), statement: / as \w+ing\b/.test(t) ? t.replace(/ as .*$/, '') : '' });
-            else if (p.facet === 'statement-conclusion') Object.assign(one, { q: `Explain ${t.replace(/ as (?=\w+ing\b)/, ' is ')}`, head: 'Conclusion', statement: / as \w+ing\b/.test(t) ? t.replace(/ as .*$/, '') : '' });
+            else if (p.facet === 'statement' || p.facet === 'statement-conclusion') {
+                const is = t.replace(/ as (?=\w+ing\b)/, ' is ');
+                const ends = p.facet === 'statement-conclusion';
+                Object.assign(one, { q: `Explain ${is}`, head: ends ? 'Conclusion' : name(t), gap: ends ? `conclusion: ${t}` : name(t), statement: / as \w+ing\b/.test(t) ? t.replace(/ as .*$/, '') : '' });
+                if (p.must && p.must.length) {
+                    const entry = ITEMS.find(([pattern, , , more]) => more && more.claims && pattern.test(t));
+                    const item = entry && !ends ? entry[2].find(([n]) => n.toLowerCase() === t.toLowerCase()) : null;
+                    const own = (item && item[4]) || {};
+                    const more = (entry && entry[3]) || {};
+                    one.claim = { ask: p.ask || `Why ${is}?`, must: p.must.map((x) => new RegExp(x, 'iu')), keywords: own.keywords || [], blocked: phrases([...(own.blocked || []), ...(more.blocked || [])]), articles: more.articles || [], least: ends ? 0.02 : 0.12, most: ends ? 2 : 6 };
+                }
+            }
             else {
                 const [usual, head_] = HEADS[p.facet] || [p.facet, name(p.facet)];
                 // Words of the examiner that the sources use too.
@@ -962,6 +1058,8 @@ const Ask = (() => {
             }
             out.push(one);
         }
+        const ends = out.find((x) => x.claim && x.head === 'Conclusion');
+        if (ends) for (const x of out) if (x.claim && x !== ends && ends.claim.must.length > x.claim.must.length) x.claim.kept = ends.claim.must;
         return out;
     }
     /** How long the answer should be: what was asked for, or what the command needs. */
@@ -978,8 +1076,9 @@ const Ask = (() => {
         if (read_.parts.length < 2) {
             const pool = [];
             const one = asks ? asks[0] : {};
-            const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '' });
+            const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null });
             if (asks) result.told = told_;
+            if (asks && result.parts.length && !result.sure && !(result.missing || []).length) result.missing = [one.gap || one.head];
             return { ...(format === 'exam' && result.parts.length ? exam(result, pool) : result), plan };
         }
         // Several things are asked: each is looked up by itself and has its own heading.
@@ -987,25 +1086,32 @@ const Ask = (() => {
         const whole = size || told.words || Math.min(600, 130 * read_.parts.length + 40);
         const out = [];
         const missing = [];
+        const checklist = [];
         let first = null;
         let any = false;
         for (const [i, part] of read_.parts.entries()) {
             const pool = [];
             const weightOf = (x) => (asks ? x.weight : x.aspect || x.compare || x.statement ? 1.15 : 0.8);
-            const share = Math.max(60, Math.round(whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
-            const got = await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '' });
+            const left = read_.parts.slice(i).reduce((n, x) => n + weightOf(x), 0);
+            const share = Math.max(60, Math.round(asks ? (whole - out.reduce((n, x) => n + x.words, 0)) * weightOf(part) / left : whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
+            const got = await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null });
             if (!first) first = got;
             if (!got.parts.length || !got.sure) {
-                missing.push(part.head);
+                missing.push(part.gap || part.head);
                 continue;
             }
             any = true;
+            for (const n of got.missing || []) missing.push(`${n} (${part.head})`);
+            if (got.checklist && got.missing.length) checklist.push(...got.checklist);
             const taken = new Set(out.flatMap((p) => p.chosen.map((x) => x.text)));
-            const formed = got.asked.kind === 'compare' ? got : exam({ ...got, asked: { ...got.asked, kind: 'explain' } }, pool);
-            const name = `${format === 'exam' ? `${out.filter((p) => p.head).length + 1}. ` : ''}${part.head}`;
+            const says = part.defines ? definitions(coreOf({ topics: [part.topic], q: part.topic }), [...got.parts.flatMap((p) => p.chosen), ...pool]).filter((x, k, all) => all.findIndex((y) => y.text === x.text) === k) : [];
+            const few = [];
+            for (const x of says) if (few.length < 3 && (!few.length || /\b(?:is|are) (?:an?|the) |refers? to|\bmeans\b|\bdefine[sd]?\b|^[^:.]{2,40}:\s/i.test(x.text)) && !few.some((y) => alikeText(x, y)) && (!few.length || few.reduce((n, y) => n + length(y), length(x)) <= share)) few.push({ ...x, section: '' });
+            const formed = few.length ? { ...got, parts: [{ head: '', chosen: few, cover: 1, wanted: 1, words: few.reduce((n, x) => n + length(x), 0) }] } : got.asked.kind === 'compare' || part.claim ? got : exam({ ...got, asked: { ...got.asked, kind: 'explain' } }, pool);
+            const name = part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`;
             let opened = false;
             for (const p of formed.parts) {
-                if (p.head === 'Conclusion' && i < read_.parts.length - 1) continue;
+                if (p.head === 'Conclusion' && (i < read_.parts.length - 1 || read_.parts.some((x) => x.head === 'Conclusion'))) continue;
                 const chosen = p.chosen.filter((x) => !taken.has(x.text));
                 if (!chosen.length) continue;
                 const same = (t) => terms(t).join(' ') === terms(part.topic || '').join(' ') || terms(t).join(' ') === terms(part.head).join(' ');
@@ -1014,14 +1120,18 @@ const Ask = (() => {
                 out.push({ ...p, note: '', head: p.head === 'Conclusion' ? 'Conclusion' : opened ? '' : name, sub: p.head === 'Conclusion' ? '' : sub, chosen, words: chosen.reduce((n, x) => n + length(x), 0) });
                 opened = true;
             }
+            if (!opened) missing.push(part.gap || part.head);
         }
+        // The conclusion of a statement is the end of its answer.
+        const ends = out.filter((p) => p.head === 'Conclusion');
+        out.splice(0, out.length, ...out.filter((p) => p.head !== 'Conclusion'), ...ends);
         const asked = { ...(first ? first.asked : understand(question)), kind: 'several', topics: [read_.topic || (first ? first.asked.topics[0] : question)] };
         if (!any) {
             const pool = [];
             const result = await find(long(read_.q), lang, size, books, pool, subject);
-            return { ...(format === 'exam' && result.parts.length ? exam(result, pool) : result), plan };
+            return { ...(format === 'exam' && result.parts.length ? exam(result, pool) : result), ...(asks ? { sure: false, missing } : {}), plan };
         }
-        return { asked, parts: out, size: whole, told: asks ? told_ : size > 0 || told.words > 0, sure: true, missing, plan };
+        return { asked, parts: out, size: whole, told: asks ? told_ : size > 0 || told.words > 0, sure: true, missing, checklist, plan };
     }
 
     const Judge_ = async (q, list) => (readerReady() ? Judge.score(q, list.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null);
@@ -1031,7 +1141,27 @@ const Ask = (() => {
     // Works of art and people that share a name with a topic of a course.
     const NAMESAKE = /\b(?:is|are|was|were) (?:an? |the )?[^.]{0,70}\b(?:rock|pop|band|film|album|song|single|video game|television|tv series|short subject|novel|rapper|singer|footballer|comic|anime|manga|racehorse|village|surname|musician|magazine|board game)\b/i;
 
-    async function find(question, lang, size, books, pool, subject, { aspect = '', topic = '' } = {}) {
+    /** The sentences that speak for one claim of a statement: what they must say is known, and what only looks alike is kept out. */
+    async function argue(claim, asked, ranked, size, pool, told) {
+        pool.push(...ranked.all);
+        const some = ranked.all.filter((x) => !x.item && !x.aside && length(x) >= 8 && length(x) <= 60 && !/\?/.test(x.text) && !LEANS.test(x.text) && !(claim.blocked && claim.blocked.test(x.text)) && claim.must.every((p) => p.test(x.text)) && !(claim.kept && claim.kept.every((p) => p.test(x.text)))).sort((x, y) => y.score - x.score).slice(0, 30);
+        const p = some.length ? await Judge_(claim.ask, some) : null;
+        if (!p) return { asked, parts: [], size, told, sure: false };
+        const keys = (x) => claim.keywords.filter((w) => x.text.toLowerCase().includes(w.toLowerCase())).length;
+        some.forEach((x, i) => { x.judged = p[i]; x.argues = p[i] + Math.min(0.45, 0.15 * keys(x)); });
+        const chosen = [];
+        let total = 0;
+        for (const x of some.filter((y) => y.argues > claim.least).sort((m, n) => n.argues - m.argues)) {
+            if (chosen.some((c) => alike(c, x) > 0.6) || (total && total + length(x) > size * 1.1)) continue;
+            chosen.push({ ...x, section: '' });
+            total += length(x);
+            if (total > size * 0.8 || chosen.length >= claim.most) break;
+        }
+        chosen.sort((x, y) => x.page.order - y.page.order || x.place - y.place);
+        return { asked, parts: chosen.length ? [{ head: '', chosen, cover: 1, wanted: 1, words: total }] : [], size, told, sure: chosen.length > 0 };
+    }
+
+    async function find(question, lang, size, books, pool, subject, { aspect = '', topic = '', claim = null } = {}) {
         const asked = understand(question);
         if (aspect) asked.aspect = aspect;
         // A statement is about its subject; the whole of it says what to look for.
@@ -1041,7 +1171,7 @@ const Ask = (() => {
         if (!size) size = asked.words;
         if (['list', 'explain', 'define'].includes(asked.kind)) {
             const parts = await byItem(asked, lang, size, books, pool);
-            if (parts) return { asked: { ...asked, kind: 'list' }, parts, size, told, sure: true };
+            if (parts && !claim) return { asked: { ...asked, kind: 'list' }, parts, size, told, sure: true, missing: parts.missing || [], checklist: parts.checklist };
         }
         if (asked.kind === 'compare') {
             const parts = [];
@@ -1124,6 +1254,16 @@ const Ask = (() => {
         };
         const apart = (p) => strange(p) || !p.from && (NAMESAKE.test(p.text.slice(0, 260)) || (/\(born\b|\(\d{4}\s?[–-]\s?\d{4}\)|\b(?:politician|actor|actress|businessman|businesswoman|lawyer|academic|civil servant)\b/i.test(p.text.slice(0, 220)) && !speaks(coreOf(asked), p.title)));
         if (subject) merged = merged.filter((p) => !apart(p));
+        // A claim has its own articles, and none on a look-alike.
+        if (claim) {
+            for (const title of claim.articles) {
+                if (merged.some((x) => x.title === title)) continue;
+                const d = await get(lang, { action: 'query', prop: 'extracts', explaintext: '1', exsectionformat: 'wiki', redirects: '1', titles: title });
+                const x = d && d.query && Array.isArray(d.query.pages) ? d.query.pages[0] : null;
+                if (x && typeof x.extract === 'string' && x.extract.trim()) merged.push({ title: String(x.title), text: x.extract.slice(0, 120000), url: `${HOSTS[lang]}/wiki/${encodeURIComponent(String(x.title).replace(/ /g, '_'))}`, order: merged.length });
+            }
+            merged = merged.filter((x) => !(claim.blocked && claim.blocked.test(x.title)));
+        }
         // An article that only shares a word with the topic is not on it.
         let off = false;
         if (topical && lang !== 'hi' && ['explain', 'list', 'define'].includes(asked.kind)) {
@@ -1143,6 +1283,7 @@ const Ask = (() => {
             else off = true;
         }
         let ranked = rank(asked, merged);
+        if (claim) return argue(claim, asked, ranked, size, pool, told);
         await judge(asked, ranked);
         if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind) && titles.length > 3 && !ranked.all.some((x) => x.replies)) {
             // None of these answers, so look at the next ones too.
@@ -1160,7 +1301,7 @@ const Ask = (() => {
         return { asked, parts: got.chosen.length ? [{ head: '', ...got }] : [], size, told, sure: !off && sure(asked, got) };
     }
 
-    return { ITEMS, NATURAL, SIZES, answer, asksOf, coreOf, exam, onTopic, written, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
+    return { ITEMS, NATURAL, SIZES, answer, asksOf, coreOf, exam, onTopic, judge, shape, calculate, choose, pickTitles, rank, read, sentencesOf, sure, understand, wish };
 })();
 
 (() => {
@@ -1299,7 +1440,6 @@ const Ask = (() => {
         const gap = result.missing && result.missing.length ? `Not found in sources: ${result.missing.join('; ')}.` : '';
         lines.push(`${MADE}. ${showQuery(question, result)}`, '', STUDY, '');
         if (note) lines.push(`${MADE}. ${note}`, '');
-        if (gap) lines.push(`${MADE}. ${gap}`, '');
         let body = by('answer-body');
         body.replaceChildren();
         // What may not be the answer is not shown as if it were: it is folded away.
@@ -1348,7 +1488,7 @@ const Ask = (() => {
                 }
                 block = s.block;
                 const spot = s.item ? el('li') : home;
-                const text = Ask.written(s.text);
+                const text = s.text;
                 spot.append(text);
                 if (s.item) {
                     home.append(spot);
@@ -1365,6 +1505,12 @@ const Ask = (() => {
             }
             lines.push('');
         }
+        for (const line of [gap, result.checklist && result.checklist.length ? `To cover: ${result.checklist.join(', ')}.` : ''].filter(Boolean)) {
+            const made = el('p', `${MADE}. ${line}`);
+            made.className = 'prepared gap';
+            by('answer-body').append(made);
+            lines.push(`${MADE}. ${line}`, '');
+        }
         by('sources').replaceChildren(...sources.map((s, i) => {
             const item = el('li');
             item.id = `source-${i + 1}`;
@@ -1379,7 +1525,7 @@ const Ask = (() => {
         by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from open textbooks, under the licence named with each.' : ''].filter(Boolean).join(' ')}\n`;
         const total = result.parts.reduce((n, x) => n + x.words, 0);
         by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but the sources have no more that fits this question` : ''}`;
-        by('ask-note').textContent = note || gap ? `${MADE}. ${note || gap}` : '';
+        by('ask-note').textContent = note ? `${MADE}. ${note}` : '';
         by('answer').hidden = false;
         by('answer').scrollIntoView();
     }

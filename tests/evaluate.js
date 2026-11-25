@@ -349,9 +349,10 @@
         const off = c.off ? new RegExp(c.off, 'i') : null;
         // A sentence that leans on the one before it, and is shown with it, has its topic from there.
         const leans = (s, i) => (LINKED.test(s.text) || POINTS_BACK.test(s.text.split(/,/)[0])) && i > 0 && on.test(shown[i - 1].plain) && follows(shown[i - 1], s);
-        const offTopic = shown.filter((s, i) => (off && off.test(s.plain)) || !(on.test(s.plain) || (s.item && on.test(s.heads)) || leans(s, i)));
+        const named = (s) => { const m = /^([^.:–—]{3,70}?)\s*(?:\s[-–—]\s|:\s)/.exec(s.text); return Boolean(m) && s.sub && [...grams(m[1])].some((w) => grams(s.sub).has(w)); };
+        const offTopic = shown.filter((s, i) => (off && off.test(s.plain)) || !(named(s) || on.test(s.plain) || (s.item && on.test(s.heads)) || leans(s, i)));
         const facet = shown.filter((s) => c.facet_off.some((f) => new RegExp(f.under, 'i').test(`${s.head} ${s.sub}`) && new RegExp(f.phrases, 'i').test(s.plain)));
-        const dangling = shown.filter((s, i) => !s.item && (LINKED.test(s.text) || POINTS_BACK.test(s.text.split(/,/)[0].split(/\s+/).slice(0, 9).join(' '))) && !follows(shown[i - 1], s));
+        const dangling = shown.filter((s, i) => !s.item && !named(s) && (LINKED.test(s.text) || POINTS_BACK.test(s.text.split(/,/)[0].split(/\s+/).slice(0, 9).join(' '))) && !follows(shown[i - 1], s));
         const signposts = shown.filter((s) => SIGNPOST.test(s.text));
         let pairs = 0;
         const repeats = [];
