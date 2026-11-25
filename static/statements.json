@@ -1,0 +1,23 @@
+{
+ "about": "Statements that examiners quote, taken apart into what an answer has to argue. say: patterns of the statement; parts: topic, facet and weight of each section. Written by hand for VINAS.",
+ "statements": [
+  { "name": "management is a science, an art and a profession", "subject": "CC101", "say": ["\\bmanagement\\b.*\\bscience\\b.*\\bart\\b.*\\bprofession", "\\bmanagement\\b.*\\bart\\b.*\\bscience\\b.*\\bprofession", "\\bmanagement\\b.*\\bprofession\\b.*\\b(?:art|science)\\b.*\\b(?:art|science)\\b"],
+    "parts": [["management", "definition", 0.5], ["management as a science", "statement", 1], ["management as an art", "statement", 1], ["management as a profession", "statement", 1], ["management as science, art and profession", "statement-conclusion", 0.5]] },
+  { "name": "management is both a science and an art", "subject": "CC101", "say": ["\\bmanagement\\b.*\\b(?:science\\b.*\\bart|art\\b.*\\bscience)\\b"],
+    "parts": [["management", "definition", 0.5], ["management as a science", "statement", 1], ["management as an art", "statement", 1], ["management as both science and art", "statement-conclusion", 0.5]] },
+  { "name": "management is a profession", "subject": "CC101", "say": ["\\bmanagement\\b.*\\bprofession\\b"],
+    "parts": [["management as a profession", "features", 1], ["management as a profession", "statement", 1], ["management as a profession", "statement-conclusion", 0.5]] },
+  { "name": "management is getting things done through others", "subject": "CC101", "say": ["\\bmanagement\\b.*\\bget(?:ting|s)?\\b.*\\b(?:things?|work)\\b.*\\bdone\\b"],
+    "parts": [["management", "definition", 0.5], ["management as getting things done through others", "statement", 1], ["management as getting things done through others", "statement-conclusion", 0.5]] },
+  { "name": "marketing begins and ends with the customer", "subject": "CC202", "say": ["\\bmarketing\\b.*\\b(?:begins?|starts?)\\b.*\\bends?\\b.*\\b(?:customers?|consumers?)", "\\b(?:customers?|consumers?)\\b.*\\b(?:king|cent(?:re|er) of (?:all )?marketing)\\b"],
+    "parts": [["marketing", "definition", 0.5], ["marketing begins with the customer", "statement", 1], ["marketing ends with the customer", "statement", 1], ["marketing begins and ends with the customer", "statement-conclusion", 0.5]] },
+  { "name": "planning is looking ahead and controlling is looking back", "subject": "CC101", "say": ["\\bplanning\\b.*\\blook(?:s|ing)? (?:ahead|forward)\\b.*\\bcontrol(?:ling)?\\b.*\\blook(?:s|ing)? (?:back|backward)", "\\bcontrol(?:ling)?\\b.*\\blook(?:s|ing)? (?:back|backward)\\b.*\\bplanning\\b.*\\blook(?:s|ing)? (?:ahead|forward)"],
+    "parts": [["planning as looking ahead", "statement", 1], ["controlling as looking back", "statement", 1], ["planning and controlling", "statement-conclusion", 0.5]] },
+  { "name": "planning and controlling are inseparable", "subject": "CC101", "say": ["\\bplanning\\b.*\\bcontrol(?:ling)?\\b.*\\b(?:siamese|twins?|inseparable|two sides|incomplete|meaningless|interdependent|interrelated|inter-related)", "\\bplanning without control|\\bcontrol(?:ling)? without planning"],
+    "parts": [["planning", "definition", 0.5], ["controlling", "definition", 0.5], ["planning and controlling are inseparable", "statement", 1], ["planning and controlling are inseparable", "statement-conclusion", 0.5]] },
+  { "name": "people are the most important asset", "subject": "CC303", "say": ["\\b(?:hrm|human resource management|personnel management)\\b.*\\bpeople[- ]oriented", "\\b(?:people|employees|human resources?|manpower)\\b.*\\b(?:most|greatest|biggest)\\b.*\\b(?:assets?|resources?)\\b"],
+    "parts": [["human resource management", "definition", 0.5], ["human resource management is people-oriented", "statement", 1], ["people are the most important asset", "statement", 1], ["people are the most important asset", "statement-conclusion", 0.5]] },
+  { "name": "unity of command and unity of direction", "subject": "CC101", "say": ["\\bunity of command\\b.*\\bunity of direction\\b", "\\bunity of direction\\b.*\\bunity of command\\b"],
+    "parts": [["unity of command", "definition", 1], ["unity of direction", "definition", 1], ["unity of command and unity of direction", "statement-conclusion", 0.5]] }
+ ]
+}

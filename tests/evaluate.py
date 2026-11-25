@@ -3,6 +3,7 @@
     python -m tests.evaluate                       parse and quality, on the working set
     python -m tests.evaluate --what parse
     python -m tests.evaluate --what parse,quality,general,squad --squad dev-v1.1.json --out tests/results/step1.json --against tests/results/baseline.json
+    python -m tests.evaluate --what page          what a visitor can do with the line above an answer
     python -m tests.evaluate --set held            only for the final report
 
 The real page runs in Chrome (tests/evaluate.js). What Wikipedia says is kept in tests/.cache, so that two runs see the same sources.
@@ -99,6 +100,7 @@ def main():
     a.add_argument('--set', default='working', choices=['working', 'held'])
     a.add_argument('--only', default='', help='only the answers to questions that match this pattern')
     a.add_argument('--ask', default='', help='one question: prints what the page shows')
+    a.add_argument('--read', default='', help='a question, or @file with one on each line: prints how it is read')
     a.add_argument('--squad', default='')
     a.add_argument('--out', default='')
     a.add_argument('--against', default='')
@@ -107,6 +109,9 @@ def main():
     o = a.parse_args()
     if o.ask:
         o.what = 'ask'
+    if o.read:
+        o.what = 'read'
+        o.ask = Path(o.read[1:]).read_text(encoding='utf-8') if o.read.startswith('@') else o.read
     chrome = next((c for c in [os.environ.get('CHROME', ''), *CHROMES] if c and (Path(c).exists() or shutil.which(c))), None)
     if not chrome:
         sys.exit('Chrome was not found. Set CHROME to its path.')
@@ -142,6 +147,10 @@ def main():
         Path(o.out).write_text(json.dumps(result, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
     if o.ask:
         return print(*result['answers'].values())
+    if 'page' in result:
+        print(result['answers']['page'])
+        if not all(result['page'].values()):
+            sys.exit(1)
     old = flat(json.loads(Path(o.against).read_text(encoding='utf-8'))) if o.against else {}
     print(f"Reader: {'on' if result['reader'] else 'OFF'}; set: {result['set']}")
     for k, v in flat(result).items():

@@ -136,7 +136,7 @@ class Server(unittest.TestCase):
         server.limiter = server.Limiter(1000)
 
     def test_pages(self):
-        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/bba.js', '/static/parse.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
+        for path in ('/', '/index.html', '/humanize.html', '/static/ask.js', '/static/book.js', '/static/books/introduction-business.json', '/static/bba.json', '/static/glossary.json', '/static/statements.json', '/static/bba.js', '/static/parse.js', '/bba.html', '/static/judge.js', '/static/judge-worker.js', '/static/wordpiece.js', '/check.html', '/static/site.js', '/style.css', '/static/icon.svg', '/skill/LICENSE.txt'):
             with self.web.get(path) as r:
                 self.assertEqual(r.status_code, 200, path)
 
@@ -247,6 +247,31 @@ class Server(unittest.TestCase):
             for u in c['units']:
                 self.assertTrue(u['title'] and u['topics'], (c['code'], u['title']))
                 self.assertFalse([t for t in u['topics'] if any(ord(x) < 32 for x in t)], c['code'])
+
+    def test_glossary_and_statements(self):
+        import json
+        read = lambda name: json.loads((server.ROOT / 'static' / name).read_text(encoding='utf-8'))
+        glossary, said = read('glossary.json'), read('statements.json')
+        codes = {c['code'] for c in read('bba.json')['courses']}
+        self.assertLessEqual(set(glossary['subjects']), codes)
+        lines = [line.split(' | ') for group in glossary['subjects'].values() for line in group]
+        names = [line[0] for line in lines]
+        self.assertEqual(len(names), len(set(names)))
+        facets = {'definition', 'features', 'types', 'process', 'principles', 'functions', 'factors'}
+        for name, facet in glossary['natural'].items():
+            self.assertIn(name, names)
+            self.assertIn(facet, facets)
+        for name in list(glossary['also']) + list(glossary['hindi']):
+            self.assertIn(name, names)
+        for senses in glossary['senses'].values():
+            for sense in senses:
+                self.assertIn(sense['topic'], names)
+                self.assertIn(sense['subject'], codes)
+        for s in said['statements']:
+            self.assertIn(s['subject'], codes)
+            for pattern in s['say']:
+                re.compile(pattern)
+            self.assertEqual(s['parts'][-1][1], 'statement-conclusion')
 
     def test_vendor_files_are_unchanged(self):
         folder = server.ROOT / 'static' / 'vendor'

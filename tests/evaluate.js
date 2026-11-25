@@ -201,6 +201,7 @@
     if (what.includes('parse')) {
         say('Reading questions');
         mend = await speller();
+        if (Parse.teach) Parse.teach({ bba, glossary: await json('../static/glossary.json'), statements: await json('../static/statements.json') });
         const cases = held ? (await json('held_back.json')).parse : (await json('parse_cases.json')).cases;
         const fields = { topic: 0, facets: 0, command: 0, marks: 0, words: 0, subject: 0, language: 0, weights: 0, whole: 0 };
         let weighted = 0;
@@ -249,6 +250,67 @@
         }
         result.parse = { questions: cases.length, ...Object.fromEntries(Object.entries(fields).map(([k, v]) => [k, rate(v, k === 'weights' ? weighted : cases.length)])), tags: Object.fromEntries(Object.entries(tags).map(([k, [a, b, t]]) => [k, `whole ${a}/${b}, topic ${t}/${b}`])), wrong: held ? undefined : bad };
         say(`Questions read: topic ${result.parse.topic}%, whole ${result.parse.whole}%`);
+    }
+
+    if (what.includes('read')) {
+        // How some questions are read, one on each line.
+        mend = await speller();
+        Parse.teach({ bba, glossary: await json('../static/glossary.json'), statements: await json('../static/statements.json') });
+        result.answers = {};
+        for (const q of (wants.get('q') || '').split(/\r?\n/).filter(Boolean)) {
+            const r = query(q);
+            result.answers[q] = `${q}
+   ${r.parts.map((p) => `${p.topic}: ${p.facet}${p.weight === 1 ? '' : ` x${p.weight}`}${p.known ? '' : ' ?'}`).join('; ')}
+   ${r.subject || '(no subject)'}, ${r.command}, ${r.marks} marks, ${r.words} words, ${r.language}, confidence ${r.confidence}${r.course ? '' : ', not of the course'}${r.with.length ? `, with ${r.with}` : ''}${r.fixed.length ? `, spelling ${r.fixed.map((x) => x.join(' to '))}` : ''}${r.alternatives.map((a) => `
+   or (${a.why}) ${a.parts.map((p) => `${p.topic}: ${p.facet}`).join('; ')}`).join('')}`;
+        }
+    }
+
+    if (what.includes('page')) {
+        // What a visitor can do with the line above an answer, and with the picker.
+        const checks = {};
+        const done = async () => { await sleep(30); await until(() => !by('ask').querySelector('button.main').disabled, 180000); };
+        const line = () => by('understood').querySelector('.query').textContent;
+        const chips = () => [...by('understood').querySelectorAll('.part')];
+        const pressed = async (text) => { [...by('understood').querySelectorAll('button')].find((x) => x.textContent === text).click(); await done(); };
+        say('The line above an answer');
+        await ask('Q.2 Define planing. Explain its types and importance. (10M)');
+        checks['the line'] = line() === 'Understood as: Planning: definition, types, importance · Principles and Practices of Management · 10 marks (~400 words)';
+        checks['spelling is told'] = /Spelling read as: planning/.test(by('understood').textContent);
+        checks['labelled'] = /^Prepared by VINAS/.test(by('understood').textContent);
+        const copy = by('answer-text').value;
+        checks['in the copy'] = copy.includes(`Prepared by VINAS. ${line()}`) && copy.includes('Study notes with sources. Write the answer in your own words for exams and assignments.');
+        checks['study notes on the page'] = /Study notes with sources/.test(by('answer').textContent);
+        chips()[2].click();
+        await pressed('Remove');
+        checks['a part is removed'] = chips().length === 2 && /Planning: definition, types ·/.test(line());
+        chips()[1].click();
+        by('understood').querySelector('.edit select').value = 'advantages';
+        await pressed('Change');
+        checks['a part is changed'] = /Planning: definition, advantages ·/.test(line()) && by('answer-text').value.includes('Advantages of planning');
+        await ask('Define recruitment and explain its sources OR Discuss the methods of training.');
+        const other = by('understood').querySelector('.mean .chip');
+        checks['the other question is offered'] = Boolean(other) && /training/i.test(other.textContent);
+        other.click();
+        await done();
+        checks['the other question is answered'] = /Training: types/.test(line()) && Boolean(by('understood').querySelector('.mean .chip'));
+        await ask('"Motivation makes everything simpler for those who hold it." Discuss.');
+        checks['not sure is told'] = Boolean(by('understood').querySelector('.low'));
+        by('semester').value = 'Semester 2';
+        by('semester').dispatchEvent(new site.Event('change'));
+        const open = [...by('subject').querySelectorAll('optgroup')].filter((x) => !x.hidden);
+        checks['the semester narrows the subjects'] = open.length === 1 && open[0].label === 'Semester 2';
+        by('subject').value = 'CC202';
+        by('subject').dispatchEvent(new site.Event('change'));
+        checks['the subject is remembered'] = site.localStorage.getItem('vinas-subject') === 'CC202' && site.localStorage.getItem('vinas-semester') === 'Semester 2';
+        site.localStorage.clear();
+        by('semester').value = '';
+        by('semester').dispatchEvent(new site.Event('change'));
+        await ask('What is photosynthesis?');
+        checks['other questions as before'] = /Understood as a definition\. Topic: photosynthesis/.test(by('understood').textContent) && !by('answer').hidden;
+        checks['nothing from outside is HTML'] = !by('understood').querySelector('img, script') && (await (async () => { await ask('Explain <img src=x onerror=alert(1)> planning'); return !by('answer').querySelector('img'); })());
+        result.page = checks;
+        result.answers = { page: Object.entries(checks).map(([k, v]) => `${v ? 'ok  ' : 'FAIL'}  ${k}`).join('\n') };
     }
 
     // ---- What answers cover ----

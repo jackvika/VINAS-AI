@@ -7,12 +7,16 @@ Ask a question, and get an answer put together from Wikipedia and fourteen open 
 - Reads the question: definition, list, reason, date, number or comparison
 - Searches Wikipedia (English, simple English or Hindi) from the visitor's browser and reads up to three articles
 - Business questions are looked up first in fourteen open textbooks; definitions, comparisons and everything else in Wikipedia
-- Understands exam questions with several parts ("Define planning. Explain its steps and importance"), statements to explain, comparisons, Hinglish ("planning ke types batao"), short forms (MBO, GST) and small spelling mistakes; each part is looked up by itself and has its own heading, and a part without a sure answer is named (`static/parse.js`)
-- Finds out which BBA subject a question belongs to when one of the course's topics says nearly the same
+- Turns a question on the course into one structured query (`Parse.query` in `static/parse.js`): its parts, each a topic with a facet (definition, types, importance, ...) and a weight, the command, marks, words, subject, language and how sure it is. Question numbers, marks, `[CO2]` and filler are taken off, "briefly" and "in detail" set a part's weight, "its" is the topic named before, and the second of two questions with OR between them is offered as a button
+- Knows about 970 topics of the course by name, with their other names, short forms, and 160 with Hindi and Hinglish names (`static/glossary.json`): the longest name counts first, so "management science", "scientific management" and "management as a science" are three topics. Spelling is mended only towards a word of a known topic
+- Takes quoted statements ("Management is both a science and an art") apart into their claims (`static/statements.json`); a statement that is not listed gets a definition, features and a conclusion, and is marked as not sure
+- Says above each answer how the question was read ("Understood as: Planning: definition, types, importance"); each part can be changed or removed there, and other readings are offered
+- Marks what it says itself with "Prepared by VINAS", on the page and in the copy, the text file and the PDF, and names a part without a sure answer under "Not found in sources"
+- Has a picker for the semester and the subject, remembered in the browser only
 - Says plainly that it does not solve numerical problems
 - Answers have the form of an exam answer: an introduction that says what the topic is, numbered points, and a conclusion when a source has a sentence that closes. The sentences stay as the sources have them
 - `bba.html` has the whole three-year BBA, 88 subjects, by unit and topic; a topic is answered with one click
-- Reads exam wording: "examine", "discuss", "in a large business organization" are set aside, and "(10 marks)" sets the length (3 marks 80 words, 6 marks 220, 10 marks 400)
+- Marks set the length: 2 marks 50 words, 3 marks 80, 5 marks 180, 6 marks 220, 7.5 marks 280, 10 marks 400, 12 marks 480, 15 marks 600, 16 marks 640, 20 marks 800, and between them in proportion. Without marks a question on the course gets 400 words, a definition 130, a comparison 260 and a short note 150. Other questions, on any topic, are read as before by their kind
 - Textbook lists (levels and functions of management, marketing mix, product life cycle, Maslow and others, in `ITEMS` in `static/ask.js`) are answered item by item, each under its own heading
 - Ranks every sentence with a neural network and BM25, with bonuses for section, place and kind of answer
 - Puts the best sentences in reading order, with headings, sources, and a warning when little was found
@@ -92,7 +96,7 @@ Set `SITE_PASSWORD` to put the whole site behind a password.
 
 `python -m unittest tests.test_brain` for the server. Open `tests/index.html` in a browser for the rest.
 
-`python -m tests.evaluate` measures how questions are read and how well answers cover what an examiner expects (it needs Chrome): 190 questions with their expected reading in `tests/parse_cases.json`, 72 of them from past papers of Vardhman Mahaveer Open University, and 42 exam questions with key points in `tests/answer_quality.json`. A fifth of each is kept apart in `tests/held_back.json` for a final check. `tests/results/` has the figures. The SQuAD part needs `dev-v1.1.json`, and its sample, ten questions spread evenly over each article, is not the one behind the table above; the 65 questions mentioned above were not kept, and `tests/general_cases.json` stands in for them.
+`python -m tests.evaluate` measures how questions are read and how well answers cover what an examiner expects (it needs Chrome): 190 questions with their expected reading in `tests/parse_cases.json`, 72 of them from past papers of Vardhman Mahaveer Open University, and 42 exam questions with key points in `tests/answer_quality.json`. A fifth of each is kept apart in `tests/held_back.json` for a final check, with 40 questions that a script took, unread, from past papers of Vardhman Mahaveer Open University (2019) and UPES (2024). `--read` prints how a question is read, `--ask` the answer to it, and `--what page` tries what a visitor can do with the line above an answer. `tests/results/` has the figures. The SQuAD part needs `dev-v1.1.json`, and its sample, ten questions spread evenly over each article, is not the one behind the table above; the 65 questions mentioned above were not kept, and `tests/general_cases.json` stands in for them.
 
 ## The word brain
 

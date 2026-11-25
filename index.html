@@ -47,6 +47,9 @@
                             <option value="plain">Paragraphs</option>
                         </select>
                     </label>
+                    <label>Semester
+                        <select id="semester"><option value="">Any semester</option></select>
+                    </label>
                     <label>Subject
                         <select id="subject"><option value="">Any subject</option></select>
                     </label>
@@ -72,6 +75,11 @@
             <button type="button" class="chip" data-ask="महात्मा गांधी कौन थे?" data-lang="hi">महात्मा गांधी कौन थे?</button>
             <button type="button" class="chip" data-ask="15% of 2400" data-lang="en">15% of 2400</button>
         </div>
+        <ul class="expect">
+            <li><strong>Good at:</strong> definitions, lists and theory of the BBA course.</li>
+            <li><strong>Weak at:</strong> accounting, numerical problems, narrow topics, and “explain this statement” questions that need an argument.</li>
+            <li><strong>“Not sure” and “Not found in sources”</strong> mean that no source answers that part well enough. VINAS leaves a gap rather than fill it with something off the topic.</li>
+        </ul>
     </form>
     <section id="answer" class="sheet" hidden>
         <div class="toolbar">
@@ -81,12 +89,13 @@
             <span class="muted" id="answer-size"></span>
         </div>
         <article class="paper">
-            <p class="kicker" id="understood"></p>
+            <div class="understood" id="understood"></div>
+            <p class="study">Study notes with sources. Write the answer in your own words for exams and assignments.</p>
             <h2 id="answer-title"></h2>
             <div id="answer-body"></div>
             <h3>Sources</h3>
             <ol id="sources"></ol>
-            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and open textbooks by <a href="https://openstax.org/subjects/business" rel="noopener noreferrer" target="_blank">OpenStax</a> (in versions licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>), <a href="https://opentextbc.ca/projectmanagement/" rel="noopener noreferrer" target="_blank">Adrienne Watt</a> and Hermanson, Edwards and Maher (CC BY); Accounting, Finance and Business Law by OpenStax are under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-NC-SA 4.0</a>, shortened. Linking sentences without a number are the site's own. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
+            <p class="muted">These are sentences from the sources above: Wikipedia, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and open textbooks by <a href="https://openstax.org/subjects/business" rel="noopener noreferrer" target="_blank">OpenStax</a> (in versions licensed <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>), <a href="https://opentextbc.ca/projectmanagement/" rel="noopener noreferrer" target="_blank">Adrienne Watt</a> and Hermanson, Edwards and Maher (CC BY); Accounting, Finance and Business Law by OpenStax are under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-NC-SA 4.0</a>, shortened. Headings, and lines marked “Prepared by VINAS”, are the site's own. Keep the sources when you use them, and write in your own words when the work has to be yours.</p>
         </article>
         <textarea id="answer-text" class="source" readonly tabindex="-1" aria-hidden="true"></textarea>
     </section>

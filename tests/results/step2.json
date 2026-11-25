@@ -1,0 +1,1348 @@
+{
+ "when": "2026-11-25T17:40:37.181Z",
+ "reader": true,
+ "set": "working",
+ "parse": {
+  "questions": 190,
+  "topic": 100,
+  "facets": 100,
+  "command": 100,
+  "marks": 100,
+  "words": 100,
+  "subject": 100,
+  "language": 100,
+  "weights": 100,
+  "whole": 100,
+  "tags": {
+   "regression": "whole 2/2, topic 2/2",
+   "statement": "whole 11/11, topic 11/11",
+   "clutter": "whole 10/10, topic 10/10",
+   "typo": "whole 9/9, topic 9/9",
+   "hinglish": "whole 14/14, topic 14/14",
+   "short": "whole 12/12, topic 12/12",
+   "hindi": "whole 13/13, topic 13/13",
+   "clean": "whole 4/4, topic 4/4",
+   "vmou": "whole 72/72, topic 72/72",
+   "marks": "whole 5/5, topic 5/5",
+   "multi": "whole 8/8, topic 8/8",
+   "diff-topic": "whole 8/8, topic 8/8",
+   "weight": "whole 4/4, topic 4/4",
+   "or": "whole 3/3, topic 3/3",
+   "lookalike": "whole 13/13, topic 13/13",
+   "command": "whole 7/7, topic 7/7",
+   "ambiguous": "whole 6/6, topic 6/6"
+  },
+  "wrong": []
+ },
+ "answers": {
+  "Explain the levels of management (10 marks)": "# Explain the levels of management (10 marks)\n\nPrepared by VINAS. Understood as: Levels of management: types · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nWe can distinguish three general levels of management: executives, middle management, and first-line management. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under three points.\n\n### 1. Top management\n\nTop management refers to the highest level of managers; includes CEOs, presidents, and vice presidents, who develop strategic plans. [2]\n\nExecutive managers: Generally, a team of individuals at the highest level of management of an organization. [1]\n\nCalled top management, they are the small group of people at the head of the organization (such as the CEO, president, and vice president). Top-level managers develop strategic plans and address long-range issues such as which industries to compete in, how to capture market share, and what to do with profits. These managers design and approve the firm’s basic policies and represent the firm to other organizations. They also define the company’s values and ethics and thus set the tone for employee standards of behavior. [2]\n\n### 2. Middle management\n\nMiddle management: Managers who design and carry out tactical plans in specific areas of the company. [2]\n\nUnlike line management, middle management is considered to be a senior (or semi-executive) position as middle managers are authorized to speak and act on behalf of the organisation to line managers, junior staff and customers. Included in this level of management are division, plant and department managers. [3]\n\nMiddle managers, who are at the middle of the hierarchy, are responsible for major departments and may supervise other lower-level managers. [1]\n\n### 3. First-line management\n\nFirst-line management refers to the level of management directly managing nonmanagerial employees. [1]\n\nLine management refers to the management of employees who are directly involved in the production or delivery of products, goods and/or services and may be referred to as the supervisor. [4]\n\n## Conclusion\n\nNote, however, that human or people skills remain important for success at all three levels in the hierarchy. [1]\n\n## Sources\n\n1. The Nature of Management. Organizational Behavior, OpenStax, CC BY 4.0. https://openstax.org/books/organizational-behavior/pages/1-3-the-nature-of-management (read 25 November 2026)\n2. Organizing. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-3-organizing (read 25 November 2026)\n3. Middle management. Wikipedia. https://en.wikipedia.org/wiki/Middle_management (read 25 November 2026)\n4. Line management. Wikipedia. https://en.wikipedia.org/wiki/Line_management (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "“Management is both a science and an art.” Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)": "# “Management is both a science and an art.” Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)\n\nPrepared by VINAS. Understood as: Management: definition (in brief); Management as a science: claim; Management as an art: claim; Management as both science and art: conclusion (in brief); Fayol's 14 principles of management: principles (in brief) · Principles and Practices of Management · 15 marks (~600 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nPrepared by VINAS. Not found in sources: Conclusion; Fayol's 14 principles of management.\n\n## 1. Meaning of management\n\nManagement (or managing) is the administration of organizations, whether businesses, nonprofit organizations, or government bodies through business administration, nonprofit management, or the political science sub-field of public administration respectively. [1]\n\n### Definitions\n\nHenri Fayol (1841–1925) stated: \"To manage is to forecast and to plan, to organize, to command, to co-ordinate and to control\". [1]\n\nFredmund Malik (born 1944) defines management as \"the transformation of resources into utility\". [1]\n\n### The Nature of Management\n\nIf organizations are to be successful in meeting these challenges, management must lead the way. [2]\n\n## 2. Management as a science\n\nManagement science (or managerial science) is an interdisciplinary study of solving complex problems and making strategic decisions as it pertains to institutions, corporations, governments and other types of organizational entities. It is closely related to management, economics, business, engineering, management consulting, and other fields. It uses various scientific research-based principles, strategies, and analytical methods including mathematical modeling, statistics and numerical algorithms and aims to improve an organization's ability to enact rational and accurate management decisions by arriving at optimal or near optimal solutions to complex decision problems. [3]\n\n### Overview\n\nThe modeling level is about building models, analyzing them mathematically, gathering and analyzing data, implementing models on computers, solving them, experimenting with them—all this is part of management science research on the modeling level. This level is mainly instrumental, and driven mainly by statistics and econometrics. [3]\n\nThe norm for scholars in management science is to focus their work in a certain area or subfield of management like public administration, finance, calculus, information and so forth. [3]\n\n## 3. Management as an art\n\nIt is the process of managing the resources of businesses, governments, and other organizations. [1]\n\n### Management\n\nManagement is taught — both as a theoretical subject and as a practical application — across different disciplines at colleges and universities. Prominent degree programs in management include Management, Business Administration, and Public Administration. Social scientists study management as an academic discipline, investigating areas such as social organization, organizational adaptation, and organizational leadership. [1]\n\n### Theoretical scope\n\nIn another way of thinking, Mary Parker Follett (1868–1933), allegedly defined management as \"the art of getting things done through people\". She described management as a philosophy. [1]\n\n### 20th century\n\nAs the general recognition of managers as a class solidified during the 20th century, it conferred a certain amount of prestige on perceived practitioners of the art/science of management. Hence, the way opened for popularised systems of management ideas to peddle their wares. [1]\n\n## Sources\n\n1. Management. Wikipedia. https://en.wikipedia.org/wiki/Management (read 25 November 2026)\n2. The Nature of Management. Organizational Behavior, OpenStax, CC BY 4.0. https://openstax.org/books/organizational-behavior/pages/1-3-the-nature-of-management (read 25 November 2026)\n3. Management science. Wikipedia. https://en.wikipedia.org/wiki/Management_science (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "'Management is both a science and an art.' Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)": "# 'Management is both a science and an art.' Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)\n\nPrepared by VINAS. Understood as: Management: definition (in brief); Management as a science: claim; Management as an art: claim; Management as both science and art: conclusion (in brief); Fayol's 14 principles of management: principles (in brief) · Principles and Practices of Management · 15 marks (~600 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nPrepared by VINAS. Not found in sources: Conclusion; Fayol's 14 principles of management.\n\n## 1. Meaning of management\n\nManagement (or managing) is the administration of organizations, whether businesses, nonprofit organizations, or government bodies through business administration, nonprofit management, or the political science sub-field of public administration respectively. [1]\n\n### Definitions\n\nHenri Fayol (1841–1925) stated: \"To manage is to forecast and to plan, to organize, to command, to co-ordinate and to control\". [1]\n\nFredmund Malik (born 1944) defines management as \"the transformation of resources into utility\". [1]\n\n### The Nature of Management\n\nIf organizations are to be successful in meeting these challenges, management must lead the way. [2]\n\n## 2. Management as a science\n\nManagement science (or managerial science) is an interdisciplinary study of solving complex problems and making strategic decisions as it pertains to institutions, corporations, governments and other types of organizational entities. It is closely related to management, economics, business, engineering, management consulting, and other fields. It uses various scientific research-based principles, strategies, and analytical methods including mathematical modeling, statistics and numerical algorithms and aims to improve an organization's ability to enact rational and accurate management decisions by arriving at optimal or near optimal solutions to complex decision problems. [3]\n\n### Overview\n\nThe modeling level is about building models, analyzing them mathematically, gathering and analyzing data, implementing models on computers, solving them, experimenting with them—all this is part of management science research on the modeling level. This level is mainly instrumental, and driven mainly by statistics and econometrics. [3]\n\nThe norm for scholars in management science is to focus their work in a certain area or subfield of management like public administration, finance, calculus, information and so forth. [3]\n\n## 3. Management as an art\n\nIt is the process of managing the resources of businesses, governments, and other organizations. [1]\n\n### Management\n\nManagement is taught — both as a theoretical subject and as a practical application — across different disciplines at colleges and universities. Prominent degree programs in management include Management, Business Administration, and Public Administration. Social scientists study management as an academic discipline, investigating areas such as social organization, organizational adaptation, and organizational leadership. [1]\n\n### Theoretical scope\n\nIn another way of thinking, Mary Parker Follett (1868–1933), allegedly defined management as \"the art of getting things done through people\". She described management as a philosophy. [1]\n\n### 20th century\n\nAs the general recognition of managers as a class solidified during the 20th century, it conferred a certain amount of prestige on perceived practitioners of the art/science of management. Hence, the way opened for popularised systems of management ideas to peddle their wares. [1]\n\n## Sources\n\n1. Management. Wikipedia. https://en.wikipedia.org/wiki/Management (read 25 November 2026)\n2. The Nature of Management. Organizational Behavior, OpenStax, CC BY 4.0. https://openstax.org/books/organizational-behavior/pages/1-3-the-nature-of-management (read 25 November 2026)\n3. Management science. Wikipedia. https://en.wikipedia.org/wiki/Management_science (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain Fayol's 14 principles of management. (10 marks)": "# Explain Fayol's 14 principles of management. (10 marks)\n\nPrepared by VINAS. Understood as: Fayol's 14 principles of management: principles · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\n14 principles of management: Created by Henri Fayol. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under three points.\n\n### 1. Administrative and Bureaucratic Management\n\nWriting at the same time as Taylor, Henri Fayol (1841–1925) and Max Weber (1864–1920) wrote complementary contributions to Taylor’s four principles of scientific management framework. Whereas Taylor focused on frontline managers, those who handle workers, Fayol focused on top managers, who set strategy, and Weber focused on middle managers, who implement strategy. Although Taylor, Fayol, and Weber viewed management from different perspectives, each stressed the need for logical, rational systems to coordinate and control various types of enterprises. [1]\n\nTaken as a whole, Fayol's ideas became what we call today Fayolism, or administrative theory. Fayolism consists of the 14 principles of management. The 14 principles articulate the types of tasks that managers are supposed to do. These 14 principles are still used today, but how they are used varies with a firm’s use of technology and its culture. [1]\n\nInitiative—Employees should be given the necessary level of freedom to create and carry out plans. [1]\n\nEach of these functions describes what managers should do on a day-to-day basis. The functions of management have changed over the years but have built upon Fayol’s structure. Fayol fully described what a manager does and how each activity builds off of the others. [1]\n\nThere was, however, a downside to this new managerial approach. A bureaucracy could shield bureaucrats from personal responsibility and initiative. Even worse, it could make them willing participants in criminal activities. American sociologist Robert K. Merton noted that in a bureaucracy, rules could become more important than actual goals. [1]\n\n### 2. Henri Fayol\n\nHenri Fayol: Fayol’s administrative theory was the first general statement on management theory. [1]\n\n### 3. Five functions of management\n\nFive functions of management: Created by Henri Fayol: planning, organizing, staffing, controlling, and directing. [1]\n\n## Sources\n\n1. Administrative and Bureaucratic Management. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/3-5-administrative-and-bureaucratic-management (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain Maslow's hierarchy of needs. (10 marks)": "# Explain Maslow's hierarchy of needs. (10 marks)\n\nPrepared by VINAS. Understood as: Maslow's hierarchy of needs: types · Human Behaviour and Organization · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nMaslow believed that each individual has a hierarchy of needs, consisting of physiological, safety, social, esteem, and self-actualization needs. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under five points.\n\n### 1. Physiological needs\n\nAccording to Maslow’s hierarchy of needs, the most basic human needs are physiological needs, that is, the needs for food, shelter, and clothing. In large part, it is the physiological needs that motivate a person to find a job. People need to earn money to provide food, shelter, and clothing for themselves and their families. [1]\n\n### 2. Safety needs\n\nPhysiological needs and safety are physical needs. Once these are satisfied, individuals focus on needs that involve relationships with other people. [1]\n\n### 3. Social needs\n\nAt Maslow’s third level are social needs, or needs for belonging (acceptance by others) and for giving and receiving friendship and love. Informal social groups on and off the job help people satisfy these needs. [1]\n\nYou are part of the social fabric,” (social needs). [1]\n\nWe will always satisfy our need for water before we satisfy our social needs; water needs have prepotency over social needs. [2]\n\n### 4. Esteem needs\n\nAt the fourth level in Maslow’s hierarchy are esteem needs, which are needs for the respect of others and for a sense of accomplishment and achievement. Satisfaction of these needs is reflected in feelings of self-worth. Praise and recognition from managers and others in the firm contribute to the sense of self-worth. [1]\n\n### 5. Self-actualization needs\n\nSelf-actualization involves a desire for self-fulfillment, “to become more and more what one is, to become everything that one is capable of becoming.” Because people are so different in their strengths and weaknesses, in capacities and limitations, the meaning of self-actualization varies greatly. Satisfying self-actualization needs means developing all of our special abilities to their fullest degree. [2]\n\n## Conclusion\n\nPart of what makes Wegmans successful is the company’s attention to its employees’ needs at all levels of Maslow’s hierarchy. [1]\n\n## Sources\n\n1. Maslow's Hierarchy of Needs. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/9-3-maslows-hierarchy-of-needs (read 25 November 2026)\n2. Content Theories of Motivation. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/14-2-content-theories-of-motivation (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain the 4Ps of the marketing mix. (10 marks)": "# Explain the 4Ps of the marketing mix. (10 marks)\n\nPrepared by VINAS. Understood as: Marketing mix: types · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nMarketers can’t plan a distribution system or set a price if they don’t know exactly what product will be offered to the market. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under four points.\n\n### 1. Product\n\nProduct strategy: Taking the good or service and selecting a brand name, packaging, colors, a warranty, accessories, and a service program. [1]\n\nThe product is the good or service that the company provides. [2]\n\nHaving a great product or service is just the first step in establishing a successful business or building a successful brand. The best product or service in the world won’t translate to profits unless people know about it. That’s the role of the marketing mix. [2]\n\n### 2. Price\n\nPricing strategy: Setting a price based upon the demand for and cost of a good or service. [1]\n\nSimply put, price refers to the exchange of something of value between a buyer and a seller. The price determines how much revenue the company will earn and drives the financial health of the organization. [3]\n\nYou may recall that price is one of the 4Ps of marketing, or one element in the marketing mix. [3]\n\n### 3. Place\n\nPlace refers to the geographical location in which the company sells its products and/or provides its services. [2]\n\nDistribution (place) is an important part of the marketing mix. [4]\n\nPlace includes many parts of the marketing endeavor. It includes the physical location and physical attributes of the business, as well as inventory and control systems, transportation, supply chain management, and even presence on the web. [1]\n\n### 4. Promotion\n\nThe promotion mix is the set of strategies marketers use to communicate with their customers. With combined strategies, the promotion mix creates a powerful method of connecting with the customer and conveying all the other marketing mix elements for a holistic marketing approach. The promotion mix allows marketers to reach customers in many different ways, ensuring that the message is seen, heard, and understood. [5]\n\n## Conclusion\n\nOne important factor to note about the importance of place in the marketing mix is that it doesn’t refer to the location of the company itself but rather to the location of the customers or potential customers. [2]\n\n## Sources\n\n1. Developing a Marketing Mix. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/11-3-developing-a-marketing-mix (read 25 November 2026)\n2. The Marketing Mix and the 4Ps of Marketing. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/2-2-the-marketing-mix-and-the-4ps-of-marketing (read 25 November 2026)\n3. Pricing and Its Role in the Marketing Mix. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/15-1-pricing-and-its-role-in-the-marketing-mix (read 25 November 2026)\n4. Using Supply Chain Management to Increase Efficiency and Customer Satisfaction. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/12-4-using-supply-chain-management-to-increase-efficiency-and-customer-satisfaction (read 25 November 2026)\n5. The Promotion Mix and Its Elements. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/16-1-the-promotion-mix-and-its-elements (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain the stages of the product life cycle. (10 marks)": "# Explain the stages of the product life cycle. (10 marks)\n\nPrepared by VINAS. Understood as: Product life cycle: process · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under four points.\n\n### 1. Introduction stage\n\nIntroduction: When a product enters the life cycle, it faces many obstacles. Although competition may be light, the introductory stage usually features frequent product modifications, limited distribution, and heavy promotion. The failure rate is high. Production and marketing costs are also high, and sales volume is low. Hence, profits are usually small or negative. [1]\n\nThe introduction stage is characterized by awareness-building to encourage trial. There is a significant investment in marketing activities at this stage to make the shift from early adopters to a broader audience, and pricing is a means of enticing trial. [2]\n\n### 2. Growth stage\n\nGrowth stage: part of the product life cycle characterized by increasing sales; stage when copycat brands may enter the market. [3]\n\nInvestment in product and place is essential at the growth stage to maximize market share and scale quickly. [2]\n\nAs the product enters the growth stage, companies may expand distribution to meet consumer demand. [4]\n\nWhen hoverboards were new to the market, they experienced explosive growth that quickly tapered off. [3]\n\n### 3. Maturity stage\n\nThe maturity stage is typically the longest stage of the product life cycle, with products remaining in this stage for years or even decades. [3]\n\nProducts in the maturity stage may engage in market modification, an extension of the product to new customers. For example, Cheerios adopted a market modification strategy when it positioned its cereal to the aging baby boomer demographic as a heart-healthy breakfast. This strategy opened a new market for Cheerios to increase its market share. [2]\n\n### 4. Decline stage\n\nDecline stage: part of the product life cycle characterized by a significant decrease in sales and profitability. [3]\n\nDecline (and death): When sales and profits fall, the product has reached the decline stage. The rate of decline is governed by two factors refers to the rate of change in consumer tastes and the rate at which new products enter the market. Sony VCRs are an example of a product in the decline stage. The demand for VCRs has now been surpassed by the demand for DVDs and online streaming of content. [1]\n\n## Conclusion\n\nPrepared by VINAS: Thus, product life cycle can be understood through introduction stage, growth stage, maturity stage and decline stage.\n\n## Sources\n\n1. The Product Life Cycle. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/11-8-the-product-life-cycle (read 25 November 2026)\n2. Marketing Strategies at Each Stage of the Product Life Cycle. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/12-4-marketing-strategies-at-each-stage-of-the-product-life-cycle (read 25 November 2026)\n3. The Product Life Cycle. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/12-3-the-product-life-cycle (read 25 November 2026)\n4. Factors Influencing Channel Choice. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/20-3-factors-influencing-channel-choice (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain the functions of management. (10 marks)": "# Explain the functions of management. (10 marks)\n\nPrepared by VINAS. Understood as: Functions of management: functions · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nThe functions of management have changed over the years but have built upon Fayol’s structure. Fayol fully described what a manager does and how each activity builds off of the others. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under four points.\n\n### 1. Planning\n\nPlanning is the process by which managers establish goals and specify how these goals are to be attained. Plans have two basic components: outcome or goal statements and action statements. Outcome or goal statements represent the end state—the targets and outcomes managers hope to attain. Action statements reflect the means by which organizations move forward to attain their goals. British prime minister Theresa May is determined to change the way that public companies’ boards are comprised by advocating that employees be part of every board. [2]\n\n### 2. Organizing\n\nOrganizing refers to the process of coordinating and allocating a firm’s resources in order to carry out its plans. [3]\n\nOrganizing includes developing a structure for the people, positions, departments, and activities within the firm. Managers can arrange the structural elements of the firm to maximize the flow of information and the efficiency of work processes. [3]\n\nCalled top management, they are the small group of people at the head of the organization (such as the CEO, president, and vice president). [3]\n\n### 3. Leading\n\nLeadership refers to the process of guiding and motivating others toward the achievement of organizational goals. [4]\n\nMiddle and supervisory management use leadership skills in the process of directing employees on a daily basis as the employees carry out the plans and work within the structure created by management. Top-level leadership demonstrated by Bezos was also exhibited by Jack Welch while leading General Electric and led to many studies of his approach to leadership. Organizations, however, need strong effective leadership at all levels in order to meet goals and remain competitive. [4]\n\n### 4. Controlling\n\nControlling is the process of assessing the organization’s progress toward accomplishing its goals. It includes monitoring the implementation of a plan and correcting deviations from that plan. [5]\n\nControlling is defined as the process of monitoring and evaluating organizational effectiveness and initiating the actions needed to maintain or improve effectiveness. Thus, managers who engage in the controlling activity watch, evaluate, and when needed, suggest corrective action. [6]\n\n## Conclusion\n\nPrepared by VINAS: Thus, functions of management can be understood through planning, organizing, leading and controlling.\n\n## Sources\n\n1. Administrative and Bureaucratic Management. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/3-5-administrative-and-bureaucratic-management (read 25 November 2026)\n2. Is Planning Important. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-1-is-planning-important (read 25 November 2026)\n3. Organizing. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-3-organizing (read 25 November 2026)\n4. Leading, Guiding, and Motivating Others. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-4-leading-guiding-and-motivating-others (read 25 November 2026)\n5. Controlling. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-5-controlling (read 25 November 2026)\n6. Employees' Responses to Planning. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-6-employees-responses-to-planning (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "\"Management is a profession.\" Do you agree? (10 marks)": "# \"Management is a profession.\" Do you agree? (10 marks)\n\nPrepared by VINAS. Understood as: Management as a profession: features, claim, conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nPrepared by VINAS. Not sure: no right answer was found. The closest sentences may not answer the question. Check the sources, or ask it another way.\n\nClosest sentences:\n\n## Introduction\n\nManagers have acknowledged from antiquity that they never seem to have enough time to get all those things done that need to be done. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under five points.\n\n### 1. Major Characteristics of the Manager's Job\n\nIn the latter years of the twentieth century, however, a new phenomenon arose: demand for time from those in leadership roles increased, while the number of hours in a day remained constant. Increased work hours was one reaction to such demand, but managers quickly discovered that the day had just 24 hours and that working more of them produced diminishing marginal returns. According to one researcher, “Managers are overburdened with obligations yet cannot easily delegate their tasks. As a result, they are driven to overwork and forced to do many tasks superficially. Brevity, fragmentation, and verbal communication characterize their work.” [1]\n\nValues compete and the various roles are in tension. Managers clearly cannot satisfy everyone. [1]\n\nIn recent years, many North American and global businesses were reorganized to make them more efficient, nimble, and competitive. For the most part, this reorganization meant decentralizing many processes along with the wholesale elimination of middle management layers. [1]\n\nEfficiency is a core skill. With less time than they need, with time fragmented into increasingly smaller units during the workday, with the workplace following many managers out the door and even on vacation, and with many more responsibilities loaded onto managers in downsized, flatter organizations, efficiency has become the core management skill of the twenty-first century. [1]\n\n### 2. Variations in Managerial Work\n\nWe can distinguish three general levels of management: executives, middle management, and first-line management. [1]\n\nAn accountant must have expertise in accounting principles, whereas a production manager must know operations management. [1]\n\nManagement by Department or Function. [1]\n\nAt a personal level, knowing that the mix of conceptual, human, and technical skills changes over time and that different functional areas require different levels of specific management activities can serve at least two important functions. [1]\n\n### 3. Executive managers\n\nExecutive managers: Generally, a team of individuals at the highest level of management of an organization. [1]\n\n### 4. First-line management\n\nFirst-line management refers to the level of management directly managing nonmanagerial employees. [1]\n\n### 5. Middle management\n\nMiddle management refers to the managers in an organization at a level just below that of senior executives. [1]\n\n## Sources\n\n1. Major Characteristics of the Manager's Job. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/1-3-major-characteristics-of-the-managers-job (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "\"Marketing begins and ends with the customer.\" Explain this statement. (10 marks)": "# \"Marketing begins and ends with the customer.\" Explain this statement. (10 marks)\n\nPrepared by VINAS. Understood as: Marketing: definition (in brief); Marketing begins with the customer: claim; Marketing ends with the customer: claim; Marketing begins and ends with the customer: conclusion (in brief) · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nPrepared by VINAS. Not found in sources: Conclusion.\n\n## 1. Meaning of marketing\n\nMarketing is the act of acquiring, satisfying and retaining customers. [1]\n\n### Definition\n\nFor instance, prolific marketing author and educator, Philip Kotler has evolved his definition of marketing. [1]\n\nMarketing science has developed a concrete process that can be followed to create a marketing plan. [1]\n\n### What Is Marketing Research?\n\nOftentimes people think of marketing as the process of communicating with a target market—sharing messages, products, and value with customers. [2]\n\n## 2. Marketing begins with the customer\n\nCustomer-driven marketing strategy refers to a marketing strategy that shifts the focus from the product or service to its users. [3]\n\n### Step 2: Develop a Customer-Driven Marketing Strategy\n\nYour primary goal in a customer-driven marketing strategy is to determine what users want and/or need and then satisfy those users. Instead of being product-centric, it’s about being customer-centric and developing a mutually beneficial relationship with customers. [3]\n\nIn short, it’s what makes your product or service desirable to potential customers, helps them understand why they should buy it, how your company’s product or service differs from those of its competitors, and how your offerings are superior to similar offerings from your competitors. [3]\n\n### Step 4: Grow Profitable Customer Relations\n\nThe bottom line is that profitable customer relationships are the “secret sauce” of any business. This step in the marketing process is where marketers acquire, keep, and grow customer relationships. Successful marketers know that acquiring customers is one of the hardest (not to mention one of the most expensive) elements of marketing. [3]\n\n## 3. Marketing ends with the customer\n\n### Step 2: Develop a Customer-Driven Marketing Strategy\n\nWhat happens in a customer-driven marketing strategy is that the company shifts the focus from the product or service itself to its users. Customers’ needs are the central focus and the point of beginning, not an afterthought. [3]\n\n## Sources\n\n1. Marketing. Wikipedia. https://en.wikipedia.org/wiki/Marketing (read 25 November 2026)\n2. Marketing Research and Big Data. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/8-1-marketing-research-and-big-data (read 25 November 2026)\n3. Marketing and the Marketing Process. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/2-1-marketing-and-the-marketing-process (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "\"Management is getting things done through others.\" Explain. (10 marks)": "# \"Management is getting things done through others.\" Explain. (10 marks)\n\nPrepared by VINAS. Understood as: Management: definition (in brief); Management as getting things done through others: claim, conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of management\n\nManagement (or managing) is the administration of organizations, whether businesses, nonprofit organizations, or government bodies through business administration, nonprofit management, or the political science sub-field of public administration respectively. It is the process of managing the resources of businesses, governments, and other organizations. [1]\n\nIf organizations are to be successful in meeting these challenges, management must lead the way. With effective management, contemporary companies can accomplish a great deal toward becoming more competitive in the global environment. On the other hand, ineffective management dooms the organization to mediocrity and sometimes outright failure. [2]\n\n## 2. Management as getting things done through others\n\n### The Nature of Management\n\nBecause of this, we turn now to a look at the nature of management. However, we want to point out that even though our focus is on managers, what we discuss is also relevant to the actions of nonmanagers. [2]\n\n### More about what Is Management?\n\nMany years ago, Mary Parker Follett defined management as “the art of getting things done through people.” A manager coordinates and oversees the work of others to accomplish ends they could not attain alone. Today this definition has been broadened. Management is generally defined as the process of planning, organizing, directing, and controlling the activities of employees in combination with other resources to accomplish organizational objectives. In a broad sense, then, the task of management is to facilitate the organization’s effectiveness and long-term goal attainment by coordinating and efficiently utilizing available resources. [2]\n\n### Variations in Managerial Work\n\nIn many firms, managers are rotated through departments as they move up in the hierarchy. In this way they obtain a well-rounded perspective on the responsibilities of the various departments. [2]\n\n## 3. Conclusion\n\n### More about what Is Management?\n\nManagement refers to the process of planning, organizing, directing, and controlling the activities of employees in combination with other resources to accomplish organizational objectives. [2]\n\n### The Twenty-First Century Manager\n\nThe successful executive of the future will understand how to cut through red tape to get a job done, how to build bridges with key people from highly divergent backgrounds and points of view, and how to make coalitions and joint ventures work. [2]\n\n## Sources\n\n1. Management. Wikipedia. https://en.wikipedia.org/wiki/Management (read 25 November 2026)\n2. The Nature of Management. Organizational Behavior, OpenStax, CC BY 4.0. https://openstax.org/books/organizational-behavior/pages/1-3-the-nature-of-management (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "\"Planning and controlling are inseparable.\" Discuss. (10 marks)": "# \"Planning and controlling are inseparable.\" Discuss. (10 marks)\n\nPrepared by VINAS. Understood as: Planning: definition (in brief); Controlling: definition (in brief); Planning and controlling are inseparable: claim, conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of planning\n\nPlanning is the process of thinking regarding the activities required to achieve a desired goal. Planning is based on foresight, the fundamental capacity for mental time travel. [1]\n\nPlanning is a fundamental property of intelligent behavior. [1]\n\nAn important aspect of planning is its relationship to forecasting. [1]\n\nPlanning is the process by which managers establish goals and specify how these goals are to be attained. [2]\n\n## 2. Meaning of controlling\n\nIn accounting, the controlling account (also known as an adjustment or control account) is an account in the general ledger for which a corresponding subsidiary ledger has been created. [3]\n\nA controlling interest is an ownership interest in a corporation with enough voting shares to prevail in any stockholders' motion. [4]\n\n### Controlling as an Organizational Activity\n\nIn effective organizations, the activities of planning and controlling are intricately interwoven. [5]\n\n### Controlling and the Control Process\n\nControlling is a managing activity. [5]\n\n## 3. Planning and controlling are inseparable\n\nIdeally it is future oriented, comprehensive, systematic, integrated, and negotiated. It involves an extensive search for alternatives and analyzes relevant information, is systematic in nature, and is commonly participative. The planning model described in this section breaks the managerial function of planning into several steps. [6]\n\n### The Planning Process\n\nFollowing this step-by-step procedure helps ensure that organizational planning meets these requirements. [6]\n\n### Planning, Implementation, and Controlling\n\nThrough the controlling function (to be discussed in greater detail later in this chapter), managers observe ongoing human behavior and organizational activity, compare it to the outcome and action statements formulated during the planning process, and take corrective action if they observe unexpected and unwanted deviations. Thus, planning and controlling activities are closely interrelated (planning ➨ controlling ➨ planning . . .). [6]\n\nIt has been noted on numerous occasions that many organizations that do plan fail to recognize the importance of continuous learning. Their plans are either placed on the shelf and collect dust or are created, implemented, and adhered to without a systematic review and modification process. [6]\n\n## 4. Conclusion\n\n### Planning, Implementation, and Controlling\n\nPlanning feeds controlling by establishing the standards against which behavior will be evaluated during the controlling process. [6]\n\n## Sources\n\n1. Planning. Wikipedia. https://en.wikipedia.org/wiki/Planning (read 25 November 2026)\n2. Is Planning Important. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-1-is-planning-important (read 25 November 2026)\n3. Controlling account. Wikipedia. https://en.wikipedia.org/wiki/Controlling_account (read 25 November 2026)\n4. Controlling interest. Wikipedia. https://en.wikipedia.org/wiki/Controlling_interest (read 25 November 2026)\n5. Employees' Responses to Planning. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-6-employees-responses-to-planning (read 25 November 2026)\n6. The Planning Process. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-2-the-planning-process (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "\"People are the most important asset of an organization.\" Justify. (10 marks)": "# \"People are the most important asset of an organization.\" Justify. (10 marks)\n\nPrepared by VINAS. Understood as: Human resource management: definition (in brief); Human resource management is people-oriented: claim; People are the most important asset: claim, conclusion (in brief) · Human Resource Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nPrepared by VINAS. Not found in sources: People are the most important asset; Conclusion.\n\n## 1. Meaning of human resource management\n\nHuman resource management (HRM) is the strategic and coherent approach to the effective and efficient management of people in a company or organization. Human resource management is primarily concerned with the management of people within organizations, focusing on policies and systems. [1]\n\n### Human resources information systems\n\nHuman resource analytics can improve human resource management. [1]\n\nHuman resource (HR) management is the process of hiring, developing, motivating, and evaluating employees to achieve organizational goals. [2]\n\n## 2. Human resource management is people-oriented\n\n### Human resource management\n\nHR departments are responsible for overseeing employee-benefits design, employee recruitment, training and development, performance appraisal, and reward management, such as managing pay and employee benefits systems. [1]\n\nThe overall purpose of human resources (HR) is to ensure that the organization can achieve success through people. [1]\n\n### ISO 30414 Human Resource Management Standard\n\nEffective measurement and transparent reporting of human capital empower organizations to better identify and manage the risks and opportunities tied to their most vital asset — their people. Conversely, organizations that fail to proactively manage their human capital risk undermining their ability to create sustainable, long-term value. [1]\n\n## Sources\n\n1. Human resource management. Wikipedia. https://en.wikipedia.org/wiki/Human_resource_management (read 25 November 2026)\n2. Achieving High Performance through Human Resources Management. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/8-1-achieving-high-performance-through-human-resources-management (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Define planning. Explain its types and importance. (10 marks)": "# Define planning. Explain its types and importance. (10 marks)\n\nPrepared by VINAS. Understood as: Planning: definition, types, importance · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of planning\n\nPlanning is the process of thinking regarding the activities required to achieve a desired goal. Planning is based on foresight, the fundamental capacity for mental time travel. Some researchers regard the evolution of forethought - the capacity to think ahead - as a prime mover in human evolution. [1]\n\nAn important aspect of planning is its relationship to forecasting. Forecasting aims to predict what the future will look like, while planning imagines what the future could look like. [1]\n\n### Is Planning Important\n\nPlanning is the process by which managers establish goals and specify how these goals are to be attained. Plans have two basic components: outcome or goal statements and action statements. Outcome or goal statements represent the end state—the targets and outcomes managers hope to attain. [2]\n\n## 2. Types of planning\n\nPlanning begins by anticipating potential problems or opportunities the organization may encounter. Managers then design strategies to solve current problems, prevent future problems, or take advantage of opportunities. These strategies serve as the foundation for goals, objectives, policies, and procedures. Put simply, planning is deciding what needs to be done to achieve organizational objectives, identifying when and how it will be done, and determining who should do it. [3]\n\nThere are four basic types of planning: strategic, tactical, operational, and contingency. Most of us use these different types of planning in our own lives. Some plans are very broad and long term (more strategic in nature), such as planning to attend graduate school after earning a bachelor’s degree. [3]\n\nAn evaluation of external environmental factors such as economic, technological, and social issues is critical to successful strategic planning. [3]\n\n## 3. Importance of planning\n\n### Planning, Implementation, and Controlling\n\nInfluenced by total quality management (TQM) and the importance of achieving continuous improvement in the processes used, as well as the goods and services produced, organizations such as IBM-Rochester have linked their planning and controlling activities by adopting the Deming cycle (also known as the Shewhart cycle). [4]\n\nIt has been noted on numerous occasions that many organizations that do plan fail to recognize the importance of continuous learning. Their plans are either placed on the shelf and collect dust or are created, implemented, and adhered to without a systematic review and modification process. [4]\n\n## Sources\n\n1. Planning. Wikipedia. https://en.wikipedia.org/wiki/Planning (read 25 November 2026)\n2. Is Planning Important. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-1-is-planning-important (read 25 November 2026)\n3. Planning. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-2-planning (read 25 November 2026)\n4. The Planning Process. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-2-the-planning-process (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "What is organizing? Explain its importance. (10 marks)": "# What is organizing? Explain its importance. (10 marks)\n\nPrepared by VINAS. Understood as: Organizing: definition, importance · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nPrepared by VINAS. Not found in sources: Importance of organizing.\n\n## 1. Meaning of organizing\n\nCommunity organizing is a process where people who live in proximity to each other or share some common problem come together into an organization that acts in their shared self-interest. [1]\n\n### Community organizing\n\nUnlike those who promote consensus-based community building, community organizers generally assume that social change necessarily involves conflict and social struggle in order to generate collective power for the powerless. Community organizing has as a core goal the generation of durable power for an organization representing the community, allowing it to influence key decision-makers on a range of issues over time. [1]\n\n### Types of community organizing\n\nBlock-club organizing, where blocks (two sides of a street on a block) are organized into a club or sometimes tenants in a building are organized. Tom Gaudette and Shel Trapp were very involved in developing this approach. Generally the block-club model also includes higher level forms of organization (street clubs, larger areas) because block clubs alone were felt not to form a strong foundation for organizing. [1]\n\nThere has been an attempt to build a general community organizing practice model that ties the different types of community organizing together despite their differences. For example, FBCOs and many grassroots organizing models use the \"social action approach\", which is built on the work of Saul Alinsky from the 1930s into the 1970s. [1]\n\n## Sources\n\n1. Community organizing. Wikipedia. https://en.wikipedia.org/wiki/Community_organizing (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Explain the process of delegation of authority. (10 marks)": "# Explain the process of delegation of authority. (10 marks)\n\nPrepared by VINAS. Understood as: Delegation: process · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nDelegation is the process of distributing and entrusting work to another person. In management or leadership within an organisation, it involves a manager aiming to efficiently distribute work, decision-making and responsibility to subordinate workers in an organization. Delegation may create an accountable chain of authority where authority and responsibility move in an organisational structure. [1]\n\n## Explanation\n\n### 1. Delegation\n\nInefficient delegation may lead to micromanagement. [1]\n\nThere are several reasons someone may decide to delegate. [1]\n\nDelegation is widely accepted as an essential of effective management. The ability to delegate is a critical skill for effective management. As organisations are complex and dynamic, achieving objectives depends heavily on how effectively tasks and responsibilities are delegated. [1]\n\n### 2. Process\n\nThe process of delegation requires \"preparation, initiation, implementation, and closure\". While a manager can delegate authority for a task, the ultimate responsibility is not transferred. This means that delegation involves a process of sharing, which may include \"authority, power, influence, information, knowledge, or risk\". This builds trust and morale between managers and subordinates. The internal and external environment of an organisation is often characterised by many interfering factors. Some of these include \"too much urgency, inexperience, and lack of trust\". In order to minimise the effect of these factors, a clear delegation protocol should be developed and followed within an organisation. [1]\n\n### 3. Allocation of duties\n\nAllocation of duties refers to the delegator communicates to their subordinate the task which is to be performed. Resources are provided and a time limit is informed. [1]\n\n### 4. Delegation of authority\n\nDelegation of authority: In order for the subordinate to perform the task, authority is required. The required authority is granted to the employee when the task is delegated. [1]\n\n### 5.\n\nWhen someone is given the rights to complete a task, they are assigned with the corresponding obligation to perform. Responsibility itself cannot be entirely delegated; a manager must still operate under equal responsibility to the delegated authority. [1]\n\n### 6. Creation of accountability\n\nCreation of accountability: At the completion of the delegation process, it is essential that the manager creates accountability, meaning that subordinates must be answerable for the tasks which they have been authorised to carry out. [1]\n\n## Sources\n\n1. Delegation. Wikipedia. https://en.wikipedia.org/wiki/Delegation (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Differentiate between centralization and decentralization. (10 marks)": "# Differentiate between centralization and decentralization. (10 marks)\n\nPrepared by VINAS. Understood as: Centralization and decentralization: comparison · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Centralization\n\nCentralization is the degree to which formal authority is concentrated in one area or level of the organization. [1]\n\nCentralisation or centralization (American English) is the process by which the activities of an organisation, particularly those regarding planning, decision-making, and framing strategies and policies, become concentrated within a particular group within that organisation. This creates a power structure where the said group occupies the highest level of hierarchy and has significantly more authority and influence over the other groups, who are considered its subordinates. [2]\n\nAn antonym of centralisation is decentralisation, where authority is shared among numerous different groups, allowing varying degree of autonomy for each. [2]\n\nThe term has a variety of meanings in several fields. In political science, centralisation refers to the concentration of a government's power—both geographically and politically—into a centralised government, which has sovereignty over all its administrative divisions. Conversely, a decentralised system of government often has significant separation of powers and local self-governance. [2]\n\n## Decentralization\n\nDecentralization or decentralisation is the process by which the activities of an organization, particularly those related to planning and decision-making, are distributed or delegated away from a central, authoritative location or group and given to smaller factions within it. [3]\n\nConcepts of decentralization have been applied to group dynamics and management science in private businesses and organizations, political science, law and public administration, technology, economics and money. [3]\n\n## How they differ\n\nHowever, in terms of technology, a clear distinction between fully centralized or decentralized technical solutions is often not possible and therefore finding an optimal degree of centralization difficult from an infrastructure planning perspective. [3]\n\nIn the mid-1800s Tocqueville would write that the French Revolution began with \"a push towards decentralization\" but became, \"in the end, an extension of centralization.\" [3]\n\nThey must find the right balance of centralizing which lowers costs and allows more control by upper management, and decentralizing which allows sub-units and users more control. [3]\n\n## Sources\n\n1. Degree of Centralization. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/7-5-degree-of-centralization (read 25 November 2026)\n2. Centralisation. Wikipedia. https://en.wikipedia.org/wiki/Centralisation (read 25 November 2026)\n3. Decentralization. Wikipedia. https://en.wikipedia.org/wiki/Decentralization (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain the process of controlling. (10 marks)": "# Explain the process of controlling. (10 marks)\n\nPrepared by VINAS. Understood as: Controlling: process · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nControlling is the process of assessing the organization’s progress toward accomplishing its goals. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under four points.\n\n### 1. Employees' Responses to Planning\n\nWe turn to goal theory for our answer. Research provides us with a clear and unequivocal picture of the effects of setting goals for organizational members. Goal theory specifies that certain types of goals motivate employee behavior and thereby contribute to the level of employee performance. Goal theory, while somewhat narrow in scope, is the most completely supported theory of motivation. You have learned or will learn about the implications of goal setting as a fundamental part of the planning process and as a standard for the exercise of control when studying motivation. For goals to be effective, they must be difficult, specific, and accepted by the employee, and they must be met with feedback from management. Manufacturers often use production goals to motivate employees. [2]\n\n### 2. Controlling as an Organizational Activity\n\nIn the process, it came up with the idea of moving from a seven-day week to an eight-day week. Under the old schedule, a police officer worked a traditional five days a week, eight hours a day, 40 hours, with two days off each week. Under the new schedule, officers would work 12 hours a day and 48 hours a week. In addition, officers would work four days and then have four days off. This would in effect give officers half the upcoming summer off without taking a single day of vacation. The plan was endorsed by both the police union and the city council. [2]\n\nIn effective organizations, the activities of planning and controlling are intricately interwoven. For each plan deemed important to the functioning of the organization, a system to monitor the plan’s effectiveness must be designed and implemented. In the remainder of this chapter, we explore the nature of control, the control process, and its effects on the organization and its members. [2]\n\n### 3. Controlling and the Control Process\n\nControlling is defined as the process of monitoring and evaluating organizational effectiveness and initiating the actions needed to maintain or improve effectiveness. Thus, managers who engage in the controlling activity watch, evaluate, and when needed, suggest corrective action. [2]\n\nLike the managerial functions of planning, organizing, and directing, controlling is a complex activity that is performed at many organizational levels. Upper-level managers, for example, monitor their organization’s overall strategic plans, which can be implemented only if middle-level managers control the organization’s divisional and departmental plans, which, in turn, rely on lower-level managers’ control of groups and individual employees (see our earlier discussion of the goal hierarchy). [2]\n\n### 4. A Control Model\n\nTraditional control models suggest that controlling is a four-step process. [2]\n\n## Sources\n\n1. Controlling. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-5-controlling (read 25 November 2026)\n2. Employees' Responses to Planning. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/17-6-employees-responses-to-planning (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain the principles of scientific management given by Taylor. (10 marks)": "# Explain the principles of scientific management given by Taylor. (10 marks)\n\nPrepared by VINAS. Understood as: Taylor's principles of scientific management: principles · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nScientific management refers to a system of management developed by Frederick W. Taylor and based on four principles: developing a scientific approach for each element of a job, scientifically selecting and training workers, encouraging cooperation between workers and managers, and dividing work and responsibility between management and workers according to who can better perform a particular task. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under six points.\n\n### 1. Early Theories of Motivation\n\nMotivation is the set of forces that prompt a person to release energy in a certain direction. As such, motivation is essentially a need- and want-satisfying process. [1]\n\n### 2. Frederick Taylor’s Scientific Management\n\nOne of the most influential figures of the classical era of management, which lasted from about 1900 to the mid-1930s, was Frederick W. Taylor, a mechanical engineer sometimes called the “father of scientific management.” Taylor’s approach to improved performance was based on economic incentives and the premise that there is “one best way” to perform any job. As a manager at the Midvale and Bethlehem Steel companies in Philadelphia in the early 1900s, Taylor was frustrated at the inefficiency of the laborers working in the mills. [1]\n\nTaylor timed each job with a stopwatch and broke down every task into separate movements. He then prepared an instruction sheet telling exactly how each job should be done, how much time it should take, and what motions and tools should be used. [1]\n\nTaylor published his ideas in The Principles of Scientific Management. [1]\n\n### 3. Chapter 1: Fundamentals of scientific management\n\nThe fallacy, which has from time immemorial been almost universal among workmen, that a material increase in the output of each man or each machine in the trade would result in the end in throwing a large number of men out of work. [2]\n\n### 4. Chapter 2: The Principles of Scientific Management\n\nMoving pig iron at the Bethlehem Steel Company, with the famous story of the \"ox\"-like worker \"Schmidt\". [2]\n\n### 5. History\n\nFrank B. Gilbreth (1868–1924). Gilbreth's independent work on \"motion study\" is on record as early as 1885; after meeting Taylor in 1906 and being introduced to scientific management, Gilbreth devoted his efforts to introducing scientific management into factories. Gilbreth and his wife Lillian Moller Gilbreth (1878–1972) performed micro-motion studies using stop-motion cameras as well as developing the profession of industrial/organizational psychology. [3]\n\n### 6. Scientific management principles\n\nIn his book \"Principles of Scientific Management\", Taylor formally introduced his methodically investigated theory of Scientific Management. Although he explained the details of Scientific Management in his works, he did not provide its concise definition. Shortly before his death, Taylor approved the following summary and definition of Scientific Management that Hoxie prepared: \"Scientific management is a system devised by industrial engineers for the purpose of serving the common interests of employers, workmen and society at large through the elimination of avoidable wastes, the general improvement of the processes and methods of production, and the just and scientific distribution of the product.\" [3]\n\n## Sources\n\n1. Early Theories of Motivation. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/9-1-early-theories-of-motivation (read 25 November 2026)\n2. The Principles of Scientific Management. Wikipedia. https://en.wikipedia.org/wiki/The_Principles_of_Scientific_Management (read 25 November 2026)\n3. Scientific management. Wikipedia. https://en.wikipedia.org/wiki/Scientific_management (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Distinguish between recruitment and selection. (10 marks)": "# Distinguish between recruitment and selection. (10 marks)\n\nPrepared by VINAS. Understood as: Recruitment and selection: comparison · Human Resource Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Recruitment\n\nRecruitment is the overall process of identifying, sourcing, screening, shortlisting, interviewing, and hiring candidates for jobs (either permanent or temporary) within an organization. Recruitment also is the process involved in choosing people for unpaid roles. Managers, human resource generalists, and recruitment specialists may be tasked with carrying out recruitment, but in some cases, public-sector employment, commercial recruitment agencies, or specialist search consultancies such as executive search in the case of more senior roles, are used to undertake parts of the process. [1]\n\n### Internal recruitment\n\nMany companies will choose to recruit or promote employees internally. This means that instead of searching for candidates in the general labor market, the company will look at hiring one of their own employees for the position. Traditionally, internal recruitment will be done through internal job postings. [1]\n\nWhen a firm creates a new position or an existing one becomes vacant, the firm starts looking for people with qualifications that meet the requirements of the job. Two sources of job applicants are the internal and external labor markets. [2]\n\n## Selection\n\nThe Selection is a young adult novel by Kiera Cass first published on April 14, 2012, by HarperCollins. It is the first in a five-book series, followed by The Elite (2013), The One (2014), The Heir (2015) and The Crown (May 2016). The last two take place twenty years after the events in the first three. [3]\n\nIn addition, four spin-off novellas were released. Three of them, The Prince, The Guard and The Favourite are narrated from the point of view of three supporting characters. The Queen, instead, is a prequel, focusing on a supporting character from the main series. [3]\n\nShe also commented that she had written the book \"from start to finish\", while her writing process for the other books differed. [3]\n\nAfter a firm has attracted enough job applicants, employment specialists begin the selection process. [4]\n\n## How they differ\n\nAn important aspect of employee recruitment and selection involves treating job applicants as valued customers; in fact, some applicants may be customers of the firm. [4]\n\nReduces the considerable cost of third-party recruitment service providers who would have previously conducted the screening and selection process. [1]\n\n## Sources\n\n1. Recruitment. Wikipedia. https://en.wikipedia.org/wiki/Recruitment (read 25 November 2026)\n2. Employee Recruitment. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/8-2-employee-recruitment (read 25 November 2026)\n3. The Selection. Wikipedia. https://en.wikipedia.org/wiki/The_Selection (read 25 November 2026)\n4. Employee Selection. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/8-3-employee-selection (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "What is training? Explain the methods of training. (10 marks)": "# What is training? Explain the methods of training. (10 marks)\n\nPrepared by VINAS. Understood as: Training: definition, types · Human Resource Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of training\n\nTraining is teaching, or developing in oneself or others, any skills and knowledge or fitness that relate to specific useful competencies. Training has specific goals of improving one's capability, capacity, productivity and performance. [1]\n\nIt forms the core of apprenticeships and provides the backbone of content at institutes of technology (also known as technical colleges or polytechnics). In addition to the basic training required for a trade, occupation or profession, training may continue beyond initial competence to maintain, upgrade and update skills throughout working life. [1]\n\n### On-the-job training\n\nThe on-the-job training method takes place in a normal working situation, using the actual tools, equipment, documents or materials that trainees will use when fully trained. On-the-job training has a general reputation as most effective for vocational work. It involves employees training at the place of work while they are doing the actual job. [1]\n\n### Employee Training and Development\n\nTo ensure that both new and experienced employees have the knowledge and skills to perform their jobs successfully, organizations invest in training and development activities. Training and development involves learning situations in which the employee acquires additional knowledge or skills to increase job performance. Training objectives specify performance improvements, reductions in errors, job knowledge to be gained, and/or other positive organizational results. [2]\n\n## 2. Methods of training\n\n### Cross-Cultural Assignments\n\nAt some point in your career, you are very likely to be asked to be involved in cross-cultural operations. You may encounter employees from other countries in the local company you work for, or your company may send you to another country to run international operations. [3]\n\n### Cross-Cultural Training through Education and Personal Experience: Low and High Rigor\n\nFurthermore, cross-cultural differences can be very subtle and nuanced, and this method cannot expose participants to such nuances. Balancing these significant disadvantages is one key advantage: low-rigor training tends to be the most cost effective. [3]\n\nCompanies can also rely on high-rigor methods of training, in which participants are actively engaged in the process and can learn some tacit aspects of cross-cultural differences. [3]\n\nIn such cases, high-rigor methods that allow participants to be much more actively engaged with a culture will work well. [3]\n\n### When Should Cross-Cultural Training Occur?\n\nAnother important aspect of cross-cultural training is the timing of the training. Some multinationals offer predeparture cross-cultural training, which provides individuals with learning opportunities prior to their departure. Such training can take the form of 1- to 12-week programs, although two- to three-day programs are also very popular. After such training, the expatriate has a good understanding of expectations, what the local culture looks and feels like, and how to manage any local shocks when they arrive. [3]\n\n## Conclusion\n\nThe advantage of this method is that it enables the participant to be much more actively engaged in learning, thereby facilitating transfer of knowledge. [3]\n\n## Sources\n\n1. Training. Wikipedia. https://en.wikipedia.org/wiki/Training (read 25 November 2026)\n2. Employee Training and Development. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/8-4-employee-training-and-development (read 25 November 2026)\n3. Cross-Cultural Assignments. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/6-5-cross-cultural-assignments (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain the methods of performance appraisal. (10 marks)": "# Explain the methods of performance appraisal. (10 marks)\n\nPrepared by VINAS. Understood as: Performance appraisal: types · Human Resource Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nA performance appraisal (also known as a performance review, performance evaluation, career development discussion, or employee appraisal), is a periodic process where the job performance of an employee is documented and evaluated. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under five points.\n\n### 1. Implementation\n\nThere are three main methods of data collection: objective production, personnel, and judgmental evaluation. Judgmental evaluations are the most commonly used with a large variety of evaluation methods. Historically, appraisals have been conducted annually (long-cycle appraisals); however, many companies are moving towards shorter cycles, and some have been moving into short-cycle (weekly, bi-weekly) appraisals. [1]\n\n### 2. Process\n\nTheorists such as Peter Drucker have argued that performance management and appraisal systems ought to align individual and organizational performance. Activities to support the appraisal process include suitable models of assessment, appropriately credentialed staff, employee engagement training, and improvement actions. [1]\n\n### 3. Graphic rating scale\n\nGraphic rating scale: graphic rating scales are the most commonly used system in performance appraisal. On several different factors, subordinates are judged on 'how much' of that factor or trait they possess. Typically, the raters use a 5- or 7-point scale; however, there are as many as 20-point scales. [1]\n\n### 4. Employee-comparison methods\n\nEmployee-comparison methods: rather than subordinates being judged against pre-established criteria, they are compared with one another. This method eliminates central tendency and leniency errors but still allows for halo effect errors to occur. [1]\n\n### 5. Rating methods\n\nThe method of top-grading can be applied to the forced distribution method. [1]\n\nA discussion on performance may then follow. [1]\n\nThe behaviorally anchored rating scales (BARS) combine the critical incidents method with rating scale methods by rating performance on a scale but with the scale points being anchored by behavioral incidents. Note that BARS are job specific. [1]\n\nIn the behavioral observation scale (BOS) approach to performance appraisal, employees are also evaluated in the terms of critical incidents. In that respect, it is similar to BARS. However, the BOS appraisal rate subordinates on the frequency of the critical incidents as they are observed to occur over a given period. The ratings are assigned on a five-point scale. The behavioral incidents for the rating scale are developed in the same way as for BARS through identification by supervisors or other subject matter experts. Similarly, BOS techniques meet equal employment opportunity because they are related to actual behavior required for successful job performance. [1]\n\n## Conclusion\n\nThe critical incident technique concerns \"specific behaviors indicative of good or bad job performance\". [1]\n\n## Sources\n\n1. Performance appraisal. Wikipedia. https://en.wikipedia.org/wiki/Performance_appraisal (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Explain job analysis. (5 marks)": "# Explain job analysis. (5 marks)\n\nPrepared by VINAS. Understood as: Job analysis: definition, features, importance · Human Resource Management · 5 marks (~180 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nJob analysis (also known as work analysis) is a family of procedures to identify the content of a job in terms of the activities it involves in addition to the attributes or requirements necessary to perform those activities. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under three points.\n\n### 1. Achieving High Performance through Human Resources Management\n\nHuman resource (HR) management is the process of hiring, developing, motivating, and evaluating employees to achieve organizational goals. The goals and strategies of the firm’s business model form the basis for making human resource management decisions. HR practices and systems comprise the firm’s human resource decision support system that is intended to make employees a key element for gaining competitive advantage. [2]\n\n### 2. HR Planning and Job Analysis and Design\n\nInformation about a specific job typically begins with a job analysis, which is a study of the tasks required to do a job well. This information is used to specify the essential skills, knowledge, and abilities required for the job. When Hubert Joly started as the CEO at Best Buy, the retailer was facing serious financial pressures. The threat of online competition from Amazon was real. [2]\n\n### 3. More about job analysis\n\nThe process of job analysis involves the analyst gathering information about the duties of the incumbent, the nature and conditions of the work, and some basic qualifications. After this, the job analyst has completed a form called a job psychograph, which displays the mental requirements of the job. [1]\n\n## Conclusion\n\nJob analysis is crucial for first, helping individuals develop their careers, and also for helping organizations develop their employees in order to maximize talent. [1]\n\n## Sources\n\n1. Job analysis. Wikipedia. https://en.wikipedia.org/wiki/Job_analysis (read 25 November 2026)\n2. Achieving High Performance through Human Resources Management. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/8-1-achieving-high-performance-through-human-resources-management (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "What is motivation? Explain its importance. (10 marks)": "# What is motivation? Explain its importance. (10 marks)\n\nPrepared by VINAS. Understood as: Motivation: definition, importance · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of motivation\n\nMotivation is an internal state that propels individuals to engage in goal-directed behavior. It is often understood as a force that explains why people or other animals initiate, continue, or terminate a certain behavior at a particular time. It is a complex phenomenon and its precise definition is disputed. [1]\n\nIt contrasts with amotivation, which is a state of apathy or listlessness. Motivation is studied in fields such as psychology, motivation science, neuroscience, and philosophy. [1]\n\n### Definition, measurement, and semantic field\n\nThe term, motivation, comes from the Latin term movere (to move). [1]\n\nThe traditional discipline studying motivation is psychology. It investigates how motivation arises, which factors influence it, and what effects it has. Motivation science is a more recent field of inquiry focused on an integrative approach that tries to link insights from different subdisciplines. Neuroscience is interested in the underlying neurological mechanisms, such as the involved brain areas and neurotransmitters. [1]\n\n### Motivation: Direction and Intensity\n\nAbility refers to the knowledge, skills, and receptiveness to learning that a person brings to a task or job. Knowledge is what a person knows. Skill is their capacity to perform some particular activity (like welding or accounting), including knowing what is expected of them (called accurate role perceptions). Receptiveness to learning is a function of how quickly a person acquires new knowledge. [2]\n\n## 2. Importance of motivation\n\nThe theories presented in this section focus on the importance of human needs. A common thread through all of them is that people have a variety of needs. A need is a human condition that becomes “energized” when people feel deficient in some respect. When we are hungry, for example, our need for food has been energized. Two features of needs are key to understanding motivation. First, when a need has been energized, we are motivated to satisfy it. Hedonism, one of the first motivation theories, assumes that people are motivated to satisfy mainly their own needs (seek pleasure, avoid pain). A manifest need is whatever need is motivating us at a given time. Manifest needs dominate our other needs. [3]\n\nWe strive to make the need disappear. Long since displaced by more refined theories, hedonism clarifies the idea that needs provide direction for motivation. Second, once we have satisfied a need, it ceases to motivate us. When we’ve eaten to satiation, we are no longer motivated to eat. Other needs take over and we endeavor to satisfy them. [4]\n\n## Sources\n\n1. Motivation. Wikipedia. https://en.wikipedia.org/wiki/Motivation (read 25 November 2026)\n2. Motivation: Direction and Intensity. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/14-1-motivation-direction-and-intensity (read 25 November 2026)\n3. Content Theories of Motivation. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/14-2-content-theories-of-motivation (read 25 November 2026)\n4. Content Theories of Motivation. Organizational Behavior, OpenStax, CC BY 4.0. https://openstax.org/books/organizational-behavior/pages/7-2-content-theories-of-motivation (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain Herzberg's two-factor theory. (10 marks)": "# Explain Herzberg's two-factor theory. (10 marks)\n\nPrepared by VINAS. Understood as: Herzberg's two factor theory: definition, features, importance · Human Behaviour and Organization · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nThe two-factor theory (also known as motivation–hygiene theory, motivator–hygiene theory, and dual-factor theory) states that there are certain factors in the workplace that cause job satisfaction while a separate set of factors cause dissatisfaction, all of which act independently of each other. It was developed by psychologist Frederick Herzberg. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under three points.\n\n### 1. Fundamentals\n\nRather, individuals look for the gratification of higher-level psychological needs having to do with achievement, recognition, responsibility, advancement, and the nature of the work itself. This appears to parallel Maslow's theory of a need hierarchy. However, Herzberg added a new dimension to this theory by proposing a two-factor model of motivation, based on the notion that the presence of one set of job characteristics or incentives leads to worker satisfaction at work, while another and separate set of job characteristics leads to dissatisfaction at work. [1]\n\nThe two-factor theory developed from data collected by Herzberg from interviews with 203 engineers and accountants in the Pittsburgh area, chosen because of their professions' growing importance in the business world. [1]\n\nBriefly, we asked our respondents to describe periods in their lives when they were exceedingly happy and unhappy with their jobs. Each respondent gave as many \"sequences of events\" as he could that met certain criteria— including a marked change in feeling, a beginning, and an end, and contained some substantive description other than feelings and interpretations... [1]\n\nHerzberg often referred to hygiene factors as \"KITA\" factors, which is an acronym for \"kick in the ass\", the process of providing incentives or threat of punishment to make someone do something. [1]\n\nEliminating dissatisfaction is only one half of the task of the two factor theory. [1]\n\n### 2. Workarounds\n\nHerzberg's theory concentrates on the importance of internal job factors as motivating forces for employees. [1]\n\n### 3. Validity and criticisms\n\nHines tested Herzberg's two-factor motivation theory in New Zealand, using ratings of 12 job factors and overall job satisfaction obtained from 218 middle managers and 196 salaried employees. [1]\n\nFurthermore, it has been noted the theory does not allow for individual differences, such as particular personality traits, which would affect individuals' unique responses to motivating or hygiene factors. [1]\n\nA study by the Gallup Organization, as detailed in the book First, Break All the Rules: What the World's Greatest Managers Do by Marcus Buckingham and Curt Coffman, appears to provide strong support for Herzberg's division of satisfaction and dissatisfaction onto two separate scales. [1]\n\n## Conclusion\n\nThe separation of satisfaction and dissatisfaction has been shown to be an artifact of the critical incident technique (CIT) used by Herzberg to record events. [1]\n\n## Sources\n\n1. Two-factor theory. Wikipedia. https://en.wikipedia.org/wiki/Two-factor_theory (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Explain different leadership styles. (10 marks)": "# Explain different leadership styles. (10 marks)\n\nPrepared by VINAS. Understood as: Leadership styles: types · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nIndividuals in leadership positions tend to be relatively consistent in the way they attempt to influence the behavior of others, meaning that each individual has a tendency to react to people and situations in a particular way. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under three points.\n\n### 1. Autocratic leadership\n\nAutocratic leaders: Directive leaders who prefer to make decisions and solve problems on their own with little input from subordinates. [1]\n\nThe military, by necessity, is generally autocratic. When autocratic leaders treat employees with fairness and respect, they may be considered knowledgeable and decisive. But often autocrats are perceived as narrow-minded and heavy-handed in their unwillingness to share power, information, and decision-making in the organization. The trend in organizations today is away from the directive, controlling style of the autocratic leader. [1]\n\n### 2. Participative leadership\n\nParticipative leaders: Leaders who share decision-making with group members and encourage discussion of issues and alternatives; includes democratic, consensual, and consultative styles. [1]\n\nParticipative leadership has three types: democratic, consensual, and consultative. Democratic leaders solicit input from all members of the group and then allow the group members to make the final decision through a voting process. This approach works well with highly trained professionals. The president of a physicians’ clinic might use the democratic approach. Consensual leaders encourage discussion about issues and then require that all parties involved agree to the final decision. This is the general style used by labor mediators. Consultative leaders confer with subordinates before making a decision but retain the final decision-making authority. [1]\n\n### 3. Free-rein leadership\n\nFree-rein (laissez-faire) leadership refers to a leadership style in which the leader turns over all authority and control to subordinates. [1]\n\nIf free-rein leadership is accompanied by unclear expectations and lack of feedback from the manager, the experience can be frustrating for an employee. Employees may perceive the manager as being uninvolved and indifferent to what is happening or as unwilling or unable to provide the necessary structure, information, and expertise. Although one might at first assume that subordinates would prefer the free-rein style, this approach can have several drawbacks. [1]\n\n## Conclusion\n\nPrepared by VINAS: Thus, leadership styles can be understood through autocratic leadership, participative leadership and free-rein leadership.\n\n## Sources\n\n1. Leading, Guiding, and Motivating Others. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/6-4-leading-guiding-and-motivating-others (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "What is personality? Explain its determinants. (10 marks)": "# What is personality? Explain its determinants. (10 marks)\n\nPrepared by VINAS. Understood as: Personality: definition, factors · Human Behaviour and Organization · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of personality\n\nPersonality describes the behavioral, cognitive, and emotional patterns that make up a person's unique time-dependent adjustment to life. Personality is relatively stable, but can change over time due to experiences and developmental processes. Although there is no consensus on the definition of personality, most theories in personality focus on traits, motivation, skills, and identity. [1]\n\nResearch in personality psychology generally attempts to explain the characteristics of a person that underlie differences in behavior. Personality characteristics are related to many life outcomes, such as work and relationship success, mental health, well-being, and longevity. For example, an individual can develop anger during their life, or they could fall into a state of depression. [1]\n\n### Measuring\n\nDue to the fact that personality is a complex idea, the dimensions of personality and scales of such tests vary and often are poorly defined. Two main tools to measure personality are objective tests and projective measures. Examples of such tests are the: Big Five Inventory (BFI), Minnesota Multiphasic Personality Inventory (MMPI-2), Rorschach Inkblot test, Neurotic Personality Questionnaire KON-2006, or Eysenck's Personality Questionnaire (EPQ-R). [1]\n\n### Cross-cultural studies\n\nIf there is a common foundation of personality, then it can be studied on the basis of human traits rather than within certain cultures. Two approaches to researching personality are looking at emic and etic traits. [1]\n\n## 2. Determinants of personality\n\n### Big Five personality traits\n\nIn psychology and psychometrics, the Big Five personality trait model or five-factor model (FFM), sometimes called by the mnemonic acronym OCEAN or CANOE, is a scientific model for measuring and describing human personality traits. [2]\n\nToday, the five-factor model underlies most contemporary personality research, and has replaced theoretically derived models of personality. The general structure of the five factors has been independently replicated across cultures and time, and they have predictive validity against external metrics other than self-reports such as ratings by others, job performance and academic success (predicted by conscientiousness), and self-harm and suicidal behavior (predicted by neuroticism). [2]\n\nResearch into personality inventories found five broad dimensions could explain most variation in human personality and temperament, with more-detailed analyses typically dividing the traits into more specific subfactors. For example, extraversion is typically associated with qualities such as gregariousness, assertiveness, excitement-seeking, warmth, activity, and positive emotions. Other models, like HEXACO, supplement the Big 5 traits with additional variables, trading off complexity for model fit. [2]\n\n### The Common Cause Model\n\nThe Common Cause Model: According to the common cause model, personality traits are predictive of CMDs because personality and psychopathology have shared genetic and environmental determinants which result in non-causal associations between the two constructs. [2]\n\n## Sources\n\n1. Personality. Wikipedia. https://en.wikipedia.org/wiki/Personality (read 25 November 2026)\n2. Big Five personality traits. Wikipedia. https://en.wikipedia.org/wiki/Big_Five_personality_traits (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Distinguish between formal and informal organization. (10 marks)": "# Distinguish between formal and informal organization. (10 marks)\n\nPrepared by VINAS. Understood as: Formal organization and informal organization: comparison · Principles and Practices of Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Formal organization\n\nA formal organization is an organization with a fixed set of rules of intra-organization procedures and structures. As such, it is usually set out in writing, with a language of rules that ostensibly leaves little discretion for interpretation. [1]\n\nSociologist Max Weber devised a model of formal organization known as the bureaucratic model that is based on the rationalization of activities through standards and procedures. It is one of the most applied formal organization models. [1]\n\nTo facilitate the accomplishment of the goals of the organization: In a formal organization, the work is delegated to each individual of the organization. He/She works towards the attainment of definite goals, which are in compliance with the goals of the organization. [1]\n\n### Distinction from informal organization\n\nConsequently, when attempting to legislate for an organization and to create a formal structure, it is necessary to recognize informal organization in order to create workable structures. However, informal organization can fail, or, if already set in order, can work against mismanagement. [1]\n\n## Informal organization\n\nThe informal organization is the interlocking social structure that governs how people work together in practice. It is the aggregate of norms, personal and professional connections through which work gets done and relationships are built among people who share a common organizational affiliation or cluster of affiliations. It consists of a dynamic set of personal relationships, social networks, communities of common interest, and emotional sources of motivation. [2]\n\n### The informal organization and the formal organization\n\nHistorically, some have regarded the informal organization as the byproduct of insufficient formal organization—arguing, for example, that \"it can hardly be questioned that the ideal situation in the business organization would be one where no informal organization existed.\" However, the contemporary approach—one suggested as early as 1925 by Mary Parker Follett, the pioneer of community centers and author of influential works on management philosophy—is to integrate the informal organization and the formal organization, recognizing the strengths and limitations of each. [2]\n\n## How they differ\n\nIn sum, the formal organization explains how an organization should function, while the informal organization is how the organizational actually functions. [3]\n\nThe informal organization can also be mapped, but it is usually very different than the formal organization. [3]\n\nUsually, the informal organization closely mirrors the formal organization, but often it is different. [3]\n\n## Sources\n\n1. Formal organization. Wikipedia. https://en.wikipedia.org/wiki/Formal_organization (read 25 November 2026)\n2. Informal organization. Wikipedia. https://en.wikipedia.org/wiki/Informal_organization (read 25 November 2026)\n3. Organizational Structures and Design. Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/10-1-organizational-structures-and-design (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "What is market segmentation? Explain its bases. (10 marks)": "# What is market segmentation? Explain its bases. (10 marks)\n\nPrepared by VINAS. Understood as: Market segmentation: definition, types · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of market segmentation\n\nIn marketing, market segmentation or customer segmentation is the process of dividing a consumer or business market into meaningful sub-groups of current or potential customers, known as segments. The objective is to identify profitable and growing segments that a company can target with tailored marketing strategies. [1]\n\n### Definition and brief explanation\n\nMarket segmentation is the process of dividing mass markets into groups with similar needs and wants. The rationale for market segmentation is that in order to achieve competitive advantage and superior performance, firms should: \"(1) identify segments of industry demand, (2) target specific segments of demand, and (3) develop specific 'marketing mixes' for each targeted market segment. \" From an economic perspective, segmentation is built on the assumption that heterogeneity in demand allows for demand to be disaggregated into segments with distinct demand functions. [1]\n\n### Bases for segmenting consumer markets\n\nSelecting the right base requires a good deal of thought and a basic understanding of the market to be segmented. [1]\n\n### Basis for segmenting business markets\n\nSegmenting business markets is more straightforward than segmenting consumer markets. Businesses may be segmented according to industry, business size, business location, turnover, number of employees, company technology, purchasing approach, or any other relevant variables. The most widely used segmentation bases used in business to business markets are geographics and firmographics. [1]\n\n## 2. Bases of market segmentation\n\n### Segmentation, targeting, positioning\n\nSegmentation comprises identifying the market to be segmented; identification, selection, and application of bases to be used in that segmentation; and development of profiles. Targeting comprises an evaluation of each segment's attractiveness and selection of the segments to be targeted. [1]\n\n### Bases for segmenting consumer markets\n\nCombining bases is the foundation of an emerging form of segmentation known as 'Hybrid Segmentation' (see § Hybrid segmentation). This approach seeks to deliver a single segmentation that is equally useful across multiple marketing functions such as brand positioning, product and service innovation as well as eCRM. [1]\n\n### Basis for segmenting business markets\n\nUnder this approach the target market is segmented based on features such as company size, industry sector or location usage rate, purchase frequency, number of years in business, ownership factors, and buying situation. [1]\n\n## Conclusion\n\nBenefit segmentation (sometimes called needs-based segmentation) was developed by Grey Advertising in the late 1960s. [1]\n\n## Sources\n\n1. Market segmentation. Wikipedia. https://en.wikipedia.org/wiki/Market_segmentation (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Explain the nature and scope of marketing. (10 marks)": "# Explain the nature and scope of marketing. (10 marks)\n\nPrepared by VINAS. Understood as: Marketing: features, scope · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Characteristics of marketing\n\nMarketing is the act of acquiring, satisfying and retaining customers. [1]\n\n### Asian Identity\n\nBecause of their diversity and unique characteristics, it is difficult to narrow it down to a uniform Asian identity. [2]\n\n### Identity-Connecting Characteristics and Factors\n\nThe Hispanic, Black, and Asian populations each have a general set of cultural characteristics based on their multicultural identities. Being aware of each segment’s personal characteristics helps marketers create effective marketing promotions and advertisements. In addition to internal characteristics, these consumers are also influenced by external factors such as social circumstances and market behaviors. Let’s explore characteristics and factors in more detail. [2]\n\n### Black Consumers\n\nTwo noteworthy characteristics of Black consumers in general are determination and self-expression. [2]\n\n### Asian Consumers\n\nAsian people share this cultural duality characteristic with Hispanic people. [2]\n\n## 2. Scope of marketing\n\n### Undifferentiated Marketing (Mass Marketing)\n\nOne of the biggest advantages of undifferentiated marketing is the scope and cost-efficiency of advertising on a much larger scale. Every single marketing message can be deployed across a variety of media channels and can potentially reach millions of consumers. This is where economies of scale come into play: with high-volume sales, production becomes less expensive because costs can be spread out over a larger amount of goods. That’s a huge advantage compared to companies that produce products for smaller, more precisely targeted audiences. [3]\n\n### Micromarketing (Customized Marketing)\n\nWithin the scope of residential sales, that realtor may drill down further and specialize in new construction, luxury properties, land and development, over-55 communities, or farms/ranches/equestrian properties. [3]\n\nIt is one of the primary components of business management and commerce. [1]\n\n## Sources\n\n1. Marketing. Wikipedia. https://en.wikipedia.org/wiki/Marketing (read 25 November 2026)\n2. Marketing to Hispanic, Black, and Asian Consumers. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/10-4-marketing-to-hispanic-black-and-asian-consumers (read 25 November 2026)\n3. Selecting Target Markets. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/7-5-selecting-target-markets (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "What is consumer behaviour? Explain the factors affecting it. (10 marks)": "# What is consumer behaviour? Explain the factors affecting it. (10 marks)\n\nPrepared by VINAS. Understood as: Consumer behavior: definition, factors · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of consumer behavior\n\nConsumer buying behavior refers to the decisions and actions people undertake to buy products or services for personal use. [1]\n\n### Sustainable consumer behaviour\n\nSustainable consumer behavior is a sub-discipline of consumer behavior studying the impact of environmental awareness and sustainability goals on consumer choices. It studies the products that consumers select, how those products are used, and how they are disposed of in pursuit of consumers' sustainability goals. Sustainable consumer behavior seeks to understand all stages of the consumption process from a social, environmental, and marketing perspective. [2]\n\n### Consumer behaviour\n\nConsumer behaviour is the study of individuals, groups, or organisations and all activities associated with the purchase, use and disposal of goods and services. It encompasses how the consumer's emotions, attitudes, and preferences affect buying behaviour, and how external cues—such as visual prompts, auditory signals, or tactile (haptic) feedback—can shape those responses. [3]\n\n### Types of Consumer Buying Behavior\n\nThere are four types of consumer buying behavior. [1]\n\nComplex buying behavior occurs when you make a significant or expensive purchase, like buying a new car. Because you likely don’t buy a new car frequently, you’re highly involved in the buying decision, and you probably research different vehicles or talk with friends or family before reaching your decision. By that time, you’re likely convinced that there’s a significant difference among cars, and you’ve developed your own unique set of criteria that helps you decide on your purchase. [1]\n\n## 2. Factors of consumer behavior\n\nPerhaps you bought a particular brand because someone in your family bought the same brand. These are just a couple of examples of some of the factors that influence consumer buying behavior. [4]\n\n### Social Factors That Influence Consumer Buying Behavior\n\nSocial factors are those factors that are prevalent in the society where the consumer lives. [4]\n\n### Personal Factors That Impact Consumer Buying Behavior\n\nYour personality and self-concept are also important factors influencing your buying behavior. Personality is the characteristic patterns of thoughts, feelings, and behaviors that make a person unique. It’s believed that personality arises from within the individual and remains fairly consistent throughout life. Some examples of the many personality traits people might have include things like self-confidence, individualism, extroversion, introversion, aggression, or competitiveness. [4]\n\n### Psychological Factors That Influence Consumer Buying Behavior\n\nLearning is still another important factor in consumer buying behavior. The fact is that consumer behavior is learned, and much of what you buy is based on your previous experiences with particular brands. [4]\n\n### Purchase volume\n\nPurchase volume: Business customers buy in much larger quantities than consumers. Mars must purchase many truckloads of sugar to make one day’s output of M&Ms. Home Depot buys thousands of batteries each day for resale to consumers. The federal government must use (and purchase) millions of pens each day. [5]\n\n## Conclusion\n\nBeliefs, feelings, and attitudes also play an important role in consumer buying behavior. [4]\n\n## Sources\n\n1. Understanding Consumer Markets and Buying Behavior. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/5-1-understanding-consumer-markets-and-buying-behavior (read 25 November 2026)\n2. Sustainable consumer behaviour. Wikipedia. https://en.wikipedia.org/wiki/Sustainable_consumer_behaviour (read 25 November 2026)\n3. Consumer behaviour. Wikipedia. https://en.wikipedia.org/wiki/Consumer_behaviour (read 25 November 2026)\n4. Factors That Influence Consumer Buying Behavior. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/5-2-factors-that-influence-consumer-buying-behavior (read 25 November 2026)\n5. Buyer Behavior. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/11-4-buyer-behavior (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "What is promotion mix? Explain its elements. (10 marks)": "# What is promotion mix? Explain its elements. (10 marks)\n\nPrepared by VINAS. Understood as: Promotion mix: definition, types · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of promotion mix\n\nThe promotion mix is the set of strategies marketers use to communicate with their customers. [1]\n\nWe are all consumers, and we have all been the target of promotional campaigns. To connect with consumers of a target market, companies conduct extensive market research so that they may better understand the consumer. [1]\n\nHow marketers decide to say and send the message is the promotion mix. [1]\n\nWith combined strategies, the promotion mix creates a powerful method of connecting with the customer and conveying all the other marketing mix elements for a holistic marketing approach. The promotion mix allows marketers to reach customers in many different ways, ensuring that the message is seen, heard, and understood. After determining and defining the target market, creating a good product, selecting a pricing strategy and optimal price, and deciding on the distribution method, the marketer is ready to communicate with the customer. [1]\n\n### Promotion (marketing)\n\nIn marketing, promotion refers to any type of marketing communication used to inform target audiences of the relative merits of a product, service, brand or issue, persuasively. It helps marketers to create a distinctive place in customers' mind, it can be either a cognitive or emotional route. The aim of promotion is to increase brand awareness, create interest, generate sales or create brand loyalty. [2]\n\n## 2. Elements of promotion mix\n\n### Promotion Mix Defined\n\nThe full set of strategies that combine to make up the promotion mix include advertising, sales promotion, personal selling, public relations, direct marketing, and Internet/digital marketing. [1]\n\n### The Importance of the Promotion Mix\n\nOf all the marketing mix variables, the promotion mix can be further divided into different message channels that allow for connection and communication with the customer. When the promotion connects with the customer, it is the moment when all the marketing activities come together. [1]\n\nThe strategies in the promotion mix provide the marketer with an arsenal of methods to achieve their marketing objectives, such as increasing sales or introducing a new product. [1]\n\n### Sales Promotion\n\nMarketers value the benefits of sales promotions because the results are immediate and they have a wide variety of options when using this promotional mix element. [1]\n\n## Sources\n\n1. The Promotion Mix and Its Elements. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/16-1-the-promotion-mix-and-its-elements (read 25 November 2026)\n2. Promotion (marketing). Wikipedia. https://en.wikipedia.org/wiki/Promotion_(marketing) (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain the pricing strategies. (10 marks)": "# Explain the pricing strategies. (10 marks)\n\nPrepared by VINAS. Understood as: Pricing policies: definition, features, importance · Marketing Management · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nMarketers often use a five-step approach for establishing pricing policies. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under six points.\n\n### 1. Determine Pricing Objectives\n\nDuring the first step in establishing pricing policies, the marketing team will set the pricing objectives. The most common pricing objectives are based on customer value, cost, sales orientation, market share, target return, competition, and being customer-driven. It is not uncommon for more than one objective to be set within the company. Let’s take a look at each of the pricing objectives in more detail. [1]\n\n### 2. Competition Objective\n\nUsing data intelligence, the company gathers the prices of products of its competitors and sets its prices just below the price set by competitors. [1]\n\n### 3. The Demand Curve for Prestige Products\n\nPrestige pricing is a strategy that marketers use to set high prices knowing that demand will increase with higher prices because the higher price increases the perceived value of the product. Prestige pricing is closely tied to brand image and appeals to buyers who see value in elevated status. Consider these brands of shoes. So why the large price difference? The Yeezy Boost 750 pricing strategy is that of prestige pricing. The allure and exclusivity of the Yeezy Boost 750 allowed the company to price the shoes at a much higher price. [1]\n\n### 4. Estimate Costs\n\nThe next step in determining a pricing policy is to estimate the total cost of producing a product or service. Recall that maximizing profits is the goal of a pricing strategy and marketers must factor the cost of doing business into pricing considerations. When estimating total costs, it is important to divide costs into fixed and variable costs. [1]\n\n### 5. Competitors’ Costs, Prices, and Products\n\nIf a competitor is planning to introduce a nearly identical product to one that your organization already has on the market—but at a much lower price—you will need to consider how that will affect your sales as well as analyze how it is offering such a lower price. Should you lower your price? Consider changing suppliers for lowered costs? Take a cut in profits to stay competitive? All of these questions, and more, will help you as a marketer determine what pricing strategy should be used. [1]\n\n### 6. Stage in the Product Life Cycle\n\nAs a product moves through the other stages of the life cycle, prices may need to be changed in order to stay relevant to consumers. [1]\n\n## Sources\n\n1. The Five-Step Procedure for Establishing Pricing Policy. Principles of Marketing, OpenStax, CC BY 4.0. https://openstax.org/books/principles-marketing/pages/15-3-the-five-step-procedure-for-establishing-pricing-policy (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain the law of demand. (10 marks)": "# Explain the law of demand. (10 marks)\n\nPrepared by VINAS. Understood as: Law of demand: definition, features, importance · Business Economics · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nIn microeconomics, the law of demand is a fundamental principle which states that there is an inverse relationship between price and quantity demanded. In other words, \"conditional on all else being equal, as the price of a good increases (↑), quantity demanded will decrease (↓); conversely, as the price of a good decreases (↓), quantity demanded will increase (↑)\". [1]\n\n## Explanation\n\n### 1. More about law of demand\n\nAlfred Marshall worded this as: \"When we say that a person's demand for anything increases, we mean that he will buy more of it than he would before at the same price, and that he will buy as much of it as before at a higher price\". The law of demand, however, only makes a qualitative statement in the sense that it describes the direction of change in the amount of quantity demanded but not the magnitude of change. [1]\n\nThe law of demand is represented by a graph called the demand curve, with quantity demanded on the x-axis and price on the y-axis. Demand curves are downward sloping by definition of the law of demand. [1]\n\nTogether with the law of supply, the law of demand provides to us the equilibrium price and quantity. Moreover, the law of demand and supply explains why goods are priced at the level that they are. They also help us identify opportunities to buy what are perceived to be underpriced (or sell overpriced) goods or assets. [1]\n\nIn this context, understanding the alternative factors that influence the Law of Demand becomes crucial for managers and decision-makers. [1]\n\n### 2. Market size and demographics\n\nMarket size and demographics refers to the size of the market and its demographics can also influence the Law of Demand. Changes in population size, age distribution, and income levels can affect the overall demand for goods or services, thus impacting the relationship between price and quantity demanded. [1]\n\n### 3.\n\nThe exceptions to the law of demand typically suit the Giffen commodities and Veblen goods which is further explained below. [1]\n\n### 4. Exceptions to the law of demand\n\nThe elasticity of demand follows the law of demand and its definition. However, there are goods and specific situations that defy the law of demand. Generally, the amount demanded of a good increases with a decrease in price of the good and vice versa. In some cases this may not be true. There are certain goods which do not follow the law of demand. These include Giffen goods, Veblen goods, basic or necessary goods and expectations of future price changes. [1]\n\n## Sources\n\n1. Law of demand. Wikipedia. https://en.wikipedia.org/wiki/Law_of_demand (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "What is perfect competition? Explain its features. (10 marks)": "# What is perfect competition? Explain its features. (10 marks)\n\nPrepared by VINAS. Understood as: Perfect competition: definition, features · Business Economics · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of perfect competition\n\nPerfect competition is a sufficient condition for allocative and productive efficiency, but it is not a necessary condition. [1]\n\nIn economics, specifically general equilibrium theory, a perfect market, also known as an atomistic market, is defined by several idealizing conditions, collectively called perfect competition, or atomistic competition. In theoretical models where conditions of perfect competition hold, it has been demonstrated that a market will reach an equilibrium in which the quantity supplied for every product or service, including labor, equals the quantity demanded at the current price. This equilibrium would be a Pareto optimum. [1]\n\n### Equilibrium in perfect competition\n\nEquilibrium in perfect competition is the point where market demands will be equal to market supply. A firm's price will be determined at this point. In the short run, equilibrium will be affected by demand. In the long run, both demand and supply of a product will affect the equilibrium in perfect competition. [1]\n\nAs it is well known, requirements for a firm's cost-curve under perfect competition is for the slope to move upwards after a certain amount is produced. This amount is small enough to leave a sufficiently large number of firms in the field (for any given total outputs in the industry) for the conditions of perfect competition to be preserved. [1]\n\n## 2. Characteristics of perfect competition\n\nPerfect (pure) competition refers to a market structure in which a large number of small firms sell similar products, buyers and sellers have good information, and businesses can be easily opened or closed. [2]\n\n### Competing in a Free Market\n\nOne of the characteristics of a free-market system is that suppliers have the right to compete with one another. [2]\n\nA large number of small firms are in the market. [2]\n\nThe firms sell similar products; that is, each firm’s product is very much like the products sold by other firms in the market. [2]\n\nIn a perfectly competitive market, firms sell their products at prices determined solely by forces beyond their control. Because the products are very similar and each firm contributes only a small amount to the total quantity supplied by the industry, price is determined by supply and demand. A firm that raised its price even a little above the going rate would lose customers. [2]\n\nPerfect competition is an ideal. No industry shows all its characteristics, but the stock market and some agricultural markets, such as those for wheat and corn, come closest. Farmers, for example, can sell all of their crops through national commodity exchanges at the current market price. [2]\n\n### Monopolistic Competition\n\nFirms under monopolistic competition have more control over pricing than do firms under perfect competition because consumers do not view the products as perfect substitutes. [2]\n\n## Sources\n\n1. Perfect competition. Wikipedia. https://en.wikipedia.org/wiki/Perfect_competition (read 25 November 2026)\n2. Competing in a Free Market. Introduction to Business, OpenStax, CC BY 4.0. https://openstax.org/books/introduction-business/pages/1-7-competing-in-a-free-market (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain the features of monopoly. (10 marks)": "# Explain the features of monopoly. (10 marks)\n\nPrepared by VINAS. Understood as: Monopoly: features · Business Economics · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nA monopoly (from Greek μόνος, mónos, 'single, alone' and πωλεῖν, pōleîn, 'to sell') is a market in which one person or company is the only supplier of a particular good or service. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under six points.\n\n### 1. Monopoly\n\nA monopoly is characterized by a lack of economic competition to produce a particular thing, a lack of viable substitute goods, and the possibility of a high monopoly price well above the seller's marginal cost that leads to a high monopoly profit. The verb monopolise or monopolize refers to the process by which a company gains the ability to raise prices or exclude competitors. [1]\n\n### 2. Market structures\n\nIn a general equilibrium context, a good is a specific concept including geographical and time-related characteristics. [1]\n\n### 3. Profit maximizer\n\nProfit maximizer: monopolists will choose the price or output to maximise profits at where MC=MR. This output will be somewhere over the price range, where demand is price elastic. If the total revenue is higher than total costs, the monopolists will make abnormal profits. [1]\n\n### 4. Price maker\n\nPrice maker: Decides the price of the good or product to be sold, but does so by determining the quantity in order to demand the price desired by the firm. [1]\n\n### 5. High barriers to entry\n\nHigh barriers to entry: Other sellers are unable to enter the market of the monopoly. [1]\n\n### 6. Single seller\n\nSingle seller: In a monopoly, there is one seller of the good, who produces all the output. Therefore, the whole market is being served by a single company, and for practical purposes, the company is the same as the industry. [1]\n\n## Sources\n\n1. Monopoly. Wikipedia. https://en.wikipedia.org/wiki/Monopoly (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "What is national income? Explain the methods of measuring it. (10 marks)": "# What is national income? Explain the methods of measuring it. (10 marks)\n\nPrepared by VINAS. Understood as: National income: definition, types · Business Economics · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of national income\n\nNational income: includes all income earned: wages, profits, rent, and profit income. [1]\n\n### Gross national income\n\nGross national income (GNI), formerly known as gross national product (GNP), is the total amount of factor incomes earned by the residents of a country. It is equal to gross domestic product (GDP), plus factor incomes received from non-residents by residents, minus factor income paid by residents to non-residents. [2]\n\n### Type of income included in GNI\n\nGNI also includes the propriety income: rent, interest, and \"profit\". The \"profit\" included both distributed income of corporations (dividends) and reinvested earnings on foreign direct investment, those are profit retained by the corporation. Like in the IMF balance of payments manual they are treated as if they were distributed to foreign direct investors in proportion to their ownership of the equity of the enterprise and then reinvested by them using additions in equity. [2]\n\nGNI contrasts with Gross national disposable income which includes all current transfer income like international cooperation and remittance. [2]\n\n### Measures of national income and output\n\nA variety of measures of national income and output are used in economics to estimate total economic activity in a country or region, including gross domestic product (GDP), Gross national income (GNI), net national income (NNI), and adjusted national income (NNI adjusted for natural resource depletion – also called as NNI at factor cost). [3]\n\n## 2. Methods of national income\n\n### Measuring the Size of the Economy: Gross Domestic Product\n\nMacroeconomics is an empirical subject, so the first step toward understanding it is to measure the economy. [1]\n\n### Another Way to Measure GDP: The National Income Approach\n\nGDP is a measure of what is produced in a nation. Businesses use revenues to pay their bills: Wages and salaries for labor, interest and dividends for capital, rent for land, profit to the entrepreneur, etc. So adding up all the income produced in a year provides a second way of measuring GDP. This is why the terms GDP and national income are sometimes used interchangeably. The total value of a nation’s output is equal to the total value of a nation’s income. [1]\n\n### Other Ways to Measure the Economy\n\nWe can further subdivide NNP into national income, which includes all income to businesses and individuals, and personal income, which includes only income to people. [1]\n\nThe gross national income (GNI) includes the value of all goods and services produced by people from a country—whether in the country or not. Unlike the other methods, GNI essentially measures the wealth of a nation because it focuses on income, not output. [1]\n\n## Sources\n\n1. Measuring the Size of the Economy: Gross Domestic Product. Principles of Economics 3e, OpenStax, CC BY 4.0. https://openstax.org/books/principles-economics-3e/pages/19-1-measuring-the-size-of-the-economy-gross-domestic-product (read 25 November 2026)\n2. Gross national income. Wikipedia. https://en.wikipedia.org/wiki/Gross_national_income (read 25 November 2026)\n3. Measures of national income and output. Wikipedia. https://en.wikipedia.org/wiki/Measures_of_national_income_and_output (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain the law of diminishing marginal utility. (5 marks)": "# Explain the law of diminishing marginal utility. (5 marks)\n\nPrepared by VINAS. Understood as: Law of diminishing marginal utility: definition, features, importance · Business Economics · 5 marks (~180 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nLaw of diminishing marginal utility: as we consume more of a good or service, the utility we get from additional units of the good or service tends to become smaller than what we received from earlier units. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under three points.\n\n### 1. How Individuals Make Choices Based on Their Budget Constraint\n\nConsider the typical consumer’s budget problem. Consumers have a limited amount of income to spend on the things they need and want. [1]\n\n### 2. Marginal Decision-Making and Diminishing Marginal Utility\n\nEconomists refer to this pattern as the law of diminishing marginal utility, which means that as a person receives more of a good, the additional (or marginal) utility from each additional unit of the good declines. In other words, the first slice of pizza brings more satisfaction than the sixth. [1]\n\nThe law of diminishing marginal utility explains why people and societies rarely make all-or-nothing choices. You would not say, “My favorite food is ice cream, so I will eat nothing but ice cream from now on.” Instead, even if you get a very high level of utility from your favorite food, if you ate it exclusively, the additional or marginal utility from those last few servings would not be very high. [1]\n\n### 3. Total Utility and Diminishing Marginal Utility\n\nDiminishing marginal utility is another example of the more general law of diminishing returns we learned earlier in the chapter on Choice in a World of Scarcity. [2]\n\n## Sources\n\n1. How Individuals Make Choices Based on Their Budget Constraint. Principles of Economics 3e, OpenStax, CC BY 4.0. https://openstax.org/books/principles-economics-3e/pages/2-1-how-individuals-make-choices-based-on-their-budget-constraint (read 25 November 2026)\n2. Consumption Choices. Principles of Economics 3e, OpenStax, CC BY 4.0. https://openstax.org/books/principles-economics-3e/pages/6-1-consumption-choices (read 25 November 2026)\n\nText from open textbooks, under the licence named with each.\n",
+  "Explain the instruments of monetary policy. (10 marks)": "# Explain the instruments of monetary policy. (10 marks)\n\nPrepared by VINAS. Understood as: Monetary policy: types · Business Environment and Public Policy · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\nMonetary policy is the policy adopted by the monetary authority of a nation to affect monetary and other financial conditions to accomplish broader objectives like high employment and price stability (normally interpreted as a low and stable rate of inflation). Further purposes of a monetary policy may be to contribute to economic stability or to maintain predictable exchange rates with other currencies. Today most central banks in developed countries conduct their monetary policy within an inflation targeting framework, whereas the monetary policies of most developing countries' central banks target some kind of a fixed exchange rate system. A third monetary policy strategy, targeting the money supply, was widely followed during the 1980s, but has diminished in popularity since then, though it is still the official strategy in a number of emerging economies. [1]\n\n### Monetary policy instruments\n\nThe instruments available to central banks for conducting monetary policy vary from country to country, depending on the country's stage of development, institutional structure and political system. The main monetary policy instruments available to central banks are interest rate policy, i.e. setting (administered) interest rates directly, open market operations, forward guidance and other communication activities, bank reserve requirements, and re-lending and re-discount (including using the term repurchase market). While capital adequacy is important, it is defined and regulated by the Bank for International Settlements, and central banks in practice generally do not apply stricter rules. [1]\n\nExpansionary policy occurs when a monetary authority uses its instruments to stimulate the economy. An expansionary policy decreases short-term interest rates, affecting broader financial conditions to encourage spending on goods and services, in turn leading to increased employment. By affecting the exchange rate, it may also stimulate net export. Contractionary policy works in the opposite direction: Increasing interest rates will depress borrowing and spending by consumers and businesses, dampening inflationary pressure in the economy together with employment. [1]\n\nMacroeconomic policy instruments are macroeconomic quantities that can be directly controlled by an economic policy maker. Instruments can be divided into two subsets: a) monetary policy instruments and b) fiscal policy instruments. Monetary policy is conducted by the central bank of a country (such as the Federal Reserve in the U.S.) or of a supranational region (such as the Euro zone). Fiscal policy is conducted by the executive and legislative branches of the government and deals with managing a nation’s budget. [2]\n\n## Sources\n\n1. Monetary policy. Wikipedia. https://en.wikipedia.org/wiki/Monetary_policy (read 25 November 2026)\n2. Macroeconomic policy instruments. Wikipedia. https://en.wikipedia.org/wiki/Macroeconomic_policy_instruments (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0.\n",
+  "Explain the concept and importance of corporate social responsibility. (10 marks)": "# Explain the concept and importance of corporate social responsibility. (10 marks)\n\nPrepared by VINAS. Understood as: Corporate social responsibility: definition, importance · Business Environment and Public Policy · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of corporate social responsibility\n\nCorporate social responsibility (CSR) refers to companies conducting their core operations in a responsible and sustainable way to create a positive corporate social impact. It is a form of international private business self-regulation, which aims to contribute to societal and environmental goals by reducing harm. [1]\n\nFor instance, by reducing a company's carbon footprint or increasing positive outcomes for all stakeholders. It is related to the company's commitment to be ethical in its production, employment, and investment practices. [1]\n\n### Definitions\n\nA review of 14,523 articles found that the stakeholder perspective is considered the most prevalent dimension of corporate social responsibility. The term stakeholder was coined in English by Eric Rhenman, a Swedish management scholar, in his 1968 book named Industrial Democracy and Industrial Management.. Robert Edward Freeman elaborated on Rhenman's initial conceptualization of stakeholder theory in his landmark book Strategic Management: A Stakeholder Approach. [1]\n\n### CSR and corporate financial performance\n\nThe relationship between corporate social responsibility and a firm's corporate financial performance is a phenomenon that is being explored in a variety of research studies that are being conducted across the world. [1]\n\nA corporate reputation aligned with social responsibility is linked to higher profits, particularly when firms voluntarily report the positive and negative impacts of their social responsibility endeavors. [2]\n\n## 2. Importance of corporate social responsibility\n\n### Corporate Social Responsibility Defined\n\nIn recent years, many organizations have embraced corporate social responsibility (CSR), a philosophy (introduced in Why Ethics Matter,) in which the company’s expected actions include not only producing a reliable product, charging a fair price with fair profit margins, and paying a fair wage to employees, but also caring for the environment and acting on other social concerns. Many corporations work on prosocial endeavors and share that information with their customers and the communities where they do business. [3]\n\nStakeholder communities left out of or directly harmed by the economic revolution have demanded that they be able to influence corporate and governmental economic practices to benefit more directly from corporate growth as well as entrepreneurship opportunities. The trend to adopt CSR may represent an opportunity for greater engagement and involvement by groups mostly ignored until now by the wave of corporate economic growth reshaping the industrialized world. [3]\n\n### Corporate Social Responsibility (CSR)\n\nCSR contributes to another form of self-regulation that goes further and involves firms taking action to help people and the environment. CSR is described as “a belief that corporations have a social responsibility beyond pure profit.” [4]\n\n## Conclusion\n\nWithout exception, the managers articulated the importance of communicating CSR initiatives and policy to their employees, as well as recognizing the need to improve their CSR internal communication strategies. [4]\n\n## Sources\n\n1. Corporate social responsibility. Wikipedia. https://en.wikipedia.org/wiki/Corporate_social_responsibility (read 25 November 2026)\n2. Social responsibility. Wikipedia. https://en.wikipedia.org/wiki/Social_responsibility (read 25 November 2026)\n3. Corporate Social Responsibility (CSR). Business Ethics, OpenStax, CC BY 4.0. https://openstax.org/books/business-ethics/pages/3-4-corporate-social-responsibility-csr (read 25 November 2026)\n4. Corporate Social Responsibility (CSR). Principles of Management, OpenStax, CC BY 4.0. https://openstax.org/books/principles-management/pages/5-6-corporate-social-responsibility-csr (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Explain the process of communication. (10 marks)": "# Explain the process of communication. (10 marks)\n\nPrepared by VINAS. Understood as: Communication: process · Business Communication-I · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## Introduction\n\nCommunication is usually understood as the transmission of information: a message is conveyed from a sender to a receiver using some medium, such as sound, written signs, bodily movements, or electricity. [1]\n\n## Explanation\n\nPrepared by VINAS: The answer is explained below under five points.\n\n### 1. The Process of Managerial Communication\n\nIt influences the opinions, attitude, motivation, and behaviors of others. [2]\n\nIt expresses our feelings, emotions, and intentions to others. [2]\n\nIt is the vehicle for providing, receiving, and exchanging information regarding events or issues that concern us. [2]\n\nIt reinforces the formal structure of the organization by such means as making use of formal channels of communication. [2]\n\nInterpersonal communication allows employees at all levels of an organization to interact with others, to secure desired results, to request or extend assistance, and to make use of and reinforce the formal design of the organization. These purposes serve not only the individuals involved, but the larger goal of improving the quality of organizational effectiveness. [2]\n\nThe model that we present here is an oversimplification of what really happens in communication, but this model will be useful in creating a diagram to be used to discuss the topic. [2]\n\n### 2. Encoding and Decoding\n\nEncoding is the process by which individuals initiating the communication translate their ideas into a systematic set of symbols (language), either written or spoken. Encoding is influenced by the sender’s previous experiences with the topic or issue, her emotional state at the time of the message, the importance of the message, and the people involved. Decoding is the process by which the recipient of the message interprets it. The receiver attaches meaning to the message and tries to uncover its underlying intent. Decoding is also influenced by the receiver’s previous experiences and frame of reference at the time of receiving the message. [2]\n\n### 3. Feedback\n\nThere are three basic types of feedback that occur in communication. These are informational, corrective, and reinforcing. In informational feedback, the receiver provides nonevaluative information to the communicator. An example is the level of inventory at the end of the month. In corrective feedback, the receiver responds by challenging the original message. The receiver might respond that it is not their responsibility to monitor inventory. In reinforcing feedback, the receiver communicated that they have clearly received the message and its intentions. [2]\n\n### 4. Noise\n\nNoise: Anything that interferes with the communication process. [2]\n\n### 5. Models of communication\n\nModels of communication are conceptual representations of the process of communication. Their goal is to provide a simplified overview of its main components. This makes it easier for researchers to formulate hypotheses, apply communication-related concepts to real-world cases, and test predictions. Due to their simplified presentation, they may lack the conceptual complexity needed for a comprehensive understanding of all the essential aspects of communication. They are usually presented visually in the form of diagrams showing the basic components and their interaction. [1]\n\n## Sources\n\n1. Communication. Wikipedia. https://en.wikipedia.org/wiki/Communication (read 25 November 2026)\n2. The Process of Managerial Communication. Organizational Behavior, OpenStax, CC BY 4.0. https://openstax.org/books/organizational-behavior/pages/11-1-the-process-of-managerial-communication (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n",
+  "Who is an entrepreneur? Explain the functions of an entrepreneur. (10 marks)": "# Who is an entrepreneur? Explain the functions of an entrepreneur. (10 marks)\n\nPrepared by VINAS. Understood as: Entrepreneur: definition, functions · Entrepreneurship and Startup Ecosystem · 10 marks (~400 words)\n\nStudy notes with sources. Write the answer in your own words for exams and assignments.\n\n## 1. Meaning of entrepreneur\n\nEntrepreneur is an American magazine and website that carries news stories about entrepreneurship, small business management, and business. First published in 1977, it is published by Entrepreneur Media Inc., headquartered in Irvine, California. The magazine publishes 10 issues annually, available through subscription and on newsstands. [1]\n\n### Entrepreneur (magazine)\n\nIt has been published under license internationally in Mexico, Russia, India, Hungary, the Philippines, South Africa, and others. Its editor-in-chief is Jason Feifer and its owner is Peter Shea. [1]\n\n### History\n\nSince 1979, Entrepreneur has annually published a list of its top 500 franchise companies. The magazine also published many other lists and awards, one of the most prominent being the Entrepreneur 360 formed to identify businesses mastering the art and science of growing a business. [1]\n\n### Spin-offs\n\nEntrepreneur also publishes books through its Entrepreneur Press division. The company has a backlist of over 200 titles on business and entrepreneurship. [1]\n\n### Entrepreneurship Today\n\nAs we delve into the study of entrepreneurship, let’s define what we mean by the word entrepreneur. An entrepreneur is someone who identifies and acts on an idea or problem that no one else has identified or acted on. This combination of recognizing an opportunity to bring something new to the world and acting on that opportunity is what distinguishes an entrepreneur from a small business owner. [2]\n\n## 2. Functions of entrepreneur\n\nTo understand the role of a socially responsible entrepreneur, it is important to first look at the major tenets of corporate social responsibility (CSR) and the underlying reason why this concept was conceived. [3]\n\n### Responsible Entrepreneurs and Social Entrepreneurship Opportunities\n\nThe ability to establish a new venture is an exciting opportunity and privilege. To intentionally plan and establish a new venture in a responsible manner promotes the continuation of a better world. [3]\n\nAn example is that of an entrepreneur who started a company with the idea of giving back to the community. [3]\n\nThere are multiple types of business entities that function with a social purpose in mind. Nonprofit organization entrepreneurs (as well as those starting for-profit companies such as the TOMS story) have the potential to look beyond their own financial gains. [3]\n\nSocial entrepreneurs are able to meet their strategic organizational goals and objectives by delivering a value-added product/service that closes a gap, addresses a problem or pain, or corrects a social injustice. A social enterprise is typically designed to be financially self-sufficient. One example of a social entrepreneur and a social enterprise is the Grameen Bank founded by Muhammed Yunus, a Nobel Peace Prize laureate who defined the term micro-lending and micro-finance. [3]\n\n## Sources\n\n1. Entrepreneur (magazine). Wikipedia. https://en.wikipedia.org/wiki/Entrepreneur_(magazine) (read 25 November 2026)\n2. Entrepreneurship Today. Entrepreneurship, OpenStax, CC BY 4.0. https://openstax.org/books/entrepreneurship/pages/1-1-entrepreneurship-today (read 25 November 2026)\n3. Corporate Social Responsibility and Social Entrepreneurship. Entrepreneurship, OpenStax, CC BY 4.0. https://openstax.org/books/entrepreneurship/pages/3-2-corporate-social-responsibility-and-social-entrepreneurship (read 25 November 2026)\n\nText from Wikipedia, licensed CC BY-SA 4.0. Text from open textbooks, under the licence named with each.\n"
+ },
+ "quality": {
+  "questions": 42,
+  "unsure": 1,
+  "sentences": 706,
+  "words": 13972,
+  "coverage": 63.9,
+  "offTopic": 14.4,
+  "facetMismatch": 0.1,
+  "repetition": 0,
+  "repeatedPairs": 2,
+  "dangling": 3.5,
+  "signposts": 0.8,
+  "gapHonesty": 9.1,
+  "marks": "57 of 120",
+  "marksPercent": 47.5,
+  "rows": [
+   {
+    "q": "Explain the levels of management (10 marks)",
+    "tags": [
+     "regression",
+     "list"
+    ],
+    "words": 278,
+    "unsure": false,
+    "sentences": 14,
+    "coverage": 87.5,
+    "missing": [
+     "skills at each level"
+    ],
+    "offTopic": [
+     "Unlike line management, middle management is considered to be a senior (or semi-executive) position as middle managers are authorized to speak and act on behalf of the organisation to line managers, junior staff and customers.",
+     "Line management refers to the management of employees who are directly involved in the production or delivery of products, goods and/or services and may be referred to as the supervisor.",
+     "Note, however, that human or people skills remain important for success at all three levels in the hierarchy."
+    ],
+    "facet": [],
+    "dangling": [
+     "Unlike line management, middle management is considered to be a senior (or semi-executive) position as middle managers are authorized to speak and act on behalf of the organisation to line managers, junior staff and customers."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 91,
+    "honest": 0,
+    "mark": 8,
+    "of": 10,
+    "lost": "-1.8 3 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences; -0.5 skills at each level",
+    "understood": "Prepared by VINASUnderstood as: Levels of management: types · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "“Management is both a science and an art.” Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)",
+    "tags": [
+     "regression",
+     "statement",
+     "list"
+    ],
+    "words": 377,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 25,
+    "missing": [
+     "science: systematic body of knowledge",
+     "Fayol's principles named",
+     "division of work",
+     "authority and responsibility",
+     "unity of command",
+     "unity of direction",
+     "subordination of individual interest",
+     "remuneration",
+     "centralization",
+     "scalar chain",
+     "order",
+     "equity",
+     "stability of tenure",
+     "initiative",
+     "esprit de corps"
+    ],
+    "offTopic": [
+     "Management science (or managerial science) is an interdisciplinary study of solving complex problems and making strategic decisions as it pertains to institutions, corporations, governments and other types of organizational entities.",
+     "It uses various scientific research-based principles, strategies, and analytical methods including mathematical modeling, statistics and numerical algorithms and aims to improve an organization's ability to enact rational and accurate management decisions by arriving at optimal or near optimal solutions to complex decision problems.",
+     "The modeling level is about building models, analyzing them mathematically, gathering and analyzing data, implementing models on computers, solving them, experimenting with them—all this is part of management science research on the modeling level.",
+     "The norm for scholars in management science is to focus their work in a certain area or subfield of management like public administration, finance, calculus, information and so forth.",
+     "Hence, the way opened for popularised systems of management ideas to peddle their wares."
+    ],
+    "facet": [],
+    "dangling": [
+     "It is the process of managing the resources of businesses, governments, and other organizations."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 1,
+    "mark": 5,
+    "of": 15,
+    "lost": "-3.7 13 of 14 named points (division of work, authority and responsibility, unity of command, unity of direction...); -2.8 5 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences; -2.5 science: systematic body of knowledge; -1 Fayol's principles named",
+    "understood": "Prepared by VINASUnderstood as: Management: definition (in brief); Management as a science: claim; Management as an art: claim; Management as both science and art: conclusion (in brief); Fayol's 14 principles of management: principles (in brief) · Principles and Practices of Management · 15 marks (~600 words)",
+    "note": "Prepared by VINAS. Not found in sources: Conclusion; Fayol's 14 principles of management."
+   },
+   {
+    "q": "'Management is both a science and an art.' Explain this statement. Also, briefly discuss Henry Fayol's administrative principles of management. (15 Marks)",
+    "tags": [
+     "regression",
+     "statement",
+     "list"
+    ],
+    "words": 377,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 25,
+    "missing": [
+     "science: systematic body of knowledge",
+     "Fayol's principles named",
+     "division of work",
+     "authority and responsibility",
+     "unity of command",
+     "unity of direction",
+     "subordination of individual interest",
+     "remuneration",
+     "centralization",
+     "scalar chain",
+     "order",
+     "equity",
+     "stability of tenure",
+     "initiative",
+     "esprit de corps"
+    ],
+    "offTopic": [
+     "Management science (or managerial science) is an interdisciplinary study of solving complex problems and making strategic decisions as it pertains to institutions, corporations, governments and other types of organizational entities.",
+     "It uses various scientific research-based principles, strategies, and analytical methods including mathematical modeling, statistics and numerical algorithms and aims to improve an organization's ability to enact rational and accurate management decisions by arriving at optimal or near optimal solutions to complex decision problems.",
+     "The modeling level is about building models, analyzing them mathematically, gathering and analyzing data, implementing models on computers, solving them, experimenting with them—all this is part of management science research on the modeling level.",
+     "The norm for scholars in management science is to focus their work in a certain area or subfield of management like public administration, finance, calculus, information and so forth.",
+     "Hence, the way opened for popularised systems of management ideas to peddle their wares."
+    ],
+    "facet": [],
+    "dangling": [
+     "It is the process of managing the resources of businesses, governments, and other organizations."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 1,
+    "mark": 5,
+    "of": 15,
+    "lost": "-3.7 13 of 14 named points (division of work, authority and responsibility, unity of command, unity of direction...); -2.8 5 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences; -2.5 science: systematic body of knowledge; -1 Fayol's principles named",
+    "understood": "Prepared by VINASUnderstood as: Management: definition (in brief); Management as a science: claim; Management as an art: claim; Management as both science and art: conclusion (in brief); Fayol's 14 principles of management: principles (in brief) · Principles and Practices of Management · 15 marks (~600 words)",
+    "note": "Prepared by VINAS. Not found in sources: Conclusion; Fayol's 14 principles of management."
+   },
+   {
+    "q": "Explain Fayol's 14 principles of management. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 280,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 13.3,
+    "missing": [
+     "division of work",
+     "authority and responsibility",
+     "discipline",
+     "unity of command",
+     "unity of direction",
+     "subordination of individual interest",
+     "remuneration",
+     "centralization",
+     "scalar chain",
+     "order",
+     "equity",
+     "stability of tenure",
+     "esprit de corps"
+    ],
+    "offTopic": [
+     "Writing at the same time as Taylor, Henri Fayol (1841–1925) and Max Weber (1864–1920) wrote complementary contributions to Taylor’s four principles of scientific management framework.",
+     "Whereas Taylor focused on frontline managers, those who handle workers, Fayol focused on top managers, who set strategy, and Weber focused on middle managers, who implement strategy.",
+     "Although Taylor, Fayol, and Weber viewed management from different perspectives, each stressed the need for logical, rational systems to coordinate and control various types of enterprises.",
+     "Even worse, it could make them willing participants in criminal activities.",
+     "American sociologist Robert K. Merton noted that in a bureaucracy, rules could become more important than actual goals."
+    ],
+    "facet": [
+     "Five functions of management: Created by Henri Fayol: planning, organizing, staffing, controlling, and directing."
+    ],
+    "dangling": [
+     "Each of these functions describes what managers should do on a day-to-day basis."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "mark": 0,
+    "of": 10,
+    "lost": "-8.4 13 of 14 named points (division of work, authority and responsibility, discipline, unity of command...); -3 6 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Prepared by VINASUnderstood as: Fayol's 14 principles of management: principles · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain Maslow's hierarchy of needs. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 289,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "Praise and recognition from managers and others in the firm contribute to the sense of self-worth."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "mark": 9.5,
+    "of": 10,
+    "lost": "-0.5 1 off-topic, wrong-facet or signpost and 0 dangling or repeated sentences",
+    "understood": "Prepared by VINASUnderstood as: Maslow's hierarchy of needs: types · Human Behaviour and Organization · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the 4Ps of the marketing mix. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 335,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "That’s the role of the marketing mix."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Marketing mix: types · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the stages of the product life cycle. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 330,
+    "unsure": false,
+    "sentences": 20,
+    "coverage": 83.3,
+    "missing": [
+     "maturity stage"
+    ],
+    "offTopic": [
+     "The failure rate is high.",
+     "The demand for VCRs has now been surpassed by the demand for DVDs and online streaming of content."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 190,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Product life cycle: process · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the functions of management. (10 marks)",
+    "tags": [
+     "list"
+    ],
+    "words": 350,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 71.4,
+    "missing": [
+     "functions named",
+     "staffing"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Functions of management: functions · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "\"Management is a profession.\" Do you agree? (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 0,
+    "unsure": true,
+    "sentences": 0,
+    "coverage": 0,
+    "missing": [
+     "management or profession defined",
+     "specialised knowledge",
+     "formal training",
+     "code of conduct",
+     "professional body",
+     "service motive",
+     "conclusion"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 0,
+    "honest": 7,
+    "mark": 0,
+    "of": 10,
+    "lost": "-2 formal training; -1.5 specialised knowledge; -1.5 code of conduct; -1.5 professional body",
+    "understood": "Prepared by VINASUnderstood as: Management as a profession: features, claim, conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": "Prepared by VINAS. Not sure: no right answer was found. The closest sentences may not answer the question. Check the sources, or ask it another way."
+   },
+   {
+    "q": "\"Marketing begins and ends with the customer.\" Explain this statement. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 252,
+    "unsure": false,
+    "sentences": 13,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "For instance, prolific marketing author and educator, Philip Kotler has evolved his definition of marketing."
+    ],
+    "signposts": [],
+    "repeats": [
+     [
+      "Customer-driven marketing strategy refers to a marketing strategy that shifts the focus from the product or service to its users.",
+      "What happens in a customer-driven marketing strategy is that the company shifts the focus from the product or service itself to its users."
+     ]
+    ],
+    "pairs": 78,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Marketing: definition (in brief); Marketing begins with the customer: claim; Marketing ends with the customer: claim; Marketing begins and ends with the customer: conclusion (in brief) · Marketing Management · 10 marks (~400 words)",
+    "note": "Prepared by VINAS. Not found in sources: Conclusion."
+   },
+   {
+    "q": "\"Management is getting things done through others.\" Explain. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 319,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [
+     "Because of this, we turn now to a look at the nature of management."
+    ],
+    "repeats": [
+     [
+      "Management is generally defined as the process of planning, organizing, directing, and controlling the activities of employees in combination with other resources to accomplish organizational objectives.",
+      "Management refers to the process of planning, organizing, directing, and controlling the activities of employees in combination with other resources to accomplish organizational objectives."
+     ]
+    ],
+    "pairs": 120,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Management: definition (in brief); Management as getting things done through others: claim, conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "\"Planning and controlling are inseparable.\" Discuss. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 311,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "Ideally it is future oriented, comprehensive, systematic, integrated, and negotiated.",
+     "It involves an extensive search for alternatives and analyzes relevant information, is systematic in nature, and is commonly participative."
+    ],
+    "facet": [],
+    "dangling": [
+     "It has been noted on numerous occasions that many organizations that do plan fail to recognize the importance of continuous learning."
+    ],
+    "signposts": [
+     "The planning model described in this section breaks the managerial function of planning into several steps.",
+     "Through the controlling function (to be discussed in greater detail later in this chapter), managers observe ongoing human behavior and organizational activity, compare it to the outcome and action statements formulated during the planning process, and take corrective action if they observe unexpected and unwanted deviations."
+    ],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "mark": 8,
+    "of": 10,
+    "lost": "-2.3 4 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Prepared by VINASUnderstood as: Planning: definition (in brief); Controlling: definition (in brief); Planning and controlling are inseparable: claim, conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "\"People are the most important asset of an organization.\" Justify. (10 marks)",
+    "tags": [
+     "statement"
+    ],
+    "words": 158,
+    "unsure": false,
+    "sentences": 8,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "Conversely, organizations that fail to proactively manage their human capital risk undermining their ability to create sustainable, long-term value."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 28,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Human resource management: definition (in brief); Human resource management is people-oriented: claim; People are the most important asset: claim, conclusion (in brief) · Human Resource Management · 10 marks (~400 words)",
+    "note": "Prepared by VINAS. Not found in sources: People are the most important asset; Conclusion."
+   },
+   {
+    "q": "Define planning. Explain its types and importance. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 351,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 75,
+    "missing": [
+     "tactical plans",
+     "operational plans"
+    ],
+    "offTopic": [
+     "Some researchers regard the evolution of forethought - the capacity to think ahead - as a prime mover in human evolution."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "mark": 6.5,
+    "of": 10,
+    "lost": "-1.5 tactical plans; -1.5 operational plans; -0.5 1 off-topic, wrong-facet or signpost and 0 dangling or repeated sentences",
+    "understood": "Prepared by VINASUnderstood as: Planning: definition, types, importance · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is organizing? Explain its importance. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 209,
+    "unsure": false,
+    "sentences": 8,
+    "coverage": 20,
+    "missing": [
+     "divides work",
+     "authority and responsibility",
+     "coordination",
+     "resources"
+    ],
+    "offTopic": [
+     "Community organizing is a process where people who live in proximity to each other or share some common problem come together into an organization that acts in their shared self-interest.",
+     "Unlike those who promote consensus-based community building, community organizers generally assume that social change necessarily involves conflict and social struggle in order to generate collective power for the powerless.",
+     "Community organizing has as a core goal the generation of durable power for an organization representing the community, allowing it to influence key decision-makers on a range of issues over time.",
+     "There has been an attempt to build a general community organizing practice model that ties the different types of community organizing together despite their differences."
+    ],
+    "facet": [],
+    "dangling": [
+     "For example, FBCOs and many grassroots organizing models use the \"social action approach\", which is built on the work of Saul Alinsky from the 1930s into the 1970s."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 28,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Organizing: definition, importance · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": "Prepared by VINAS. Not found in sources: Importance of organizing."
+   },
+   {
+    "q": "Explain the process of delegation of authority. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 336,
+    "unsure": false,
+    "sentences": 22,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "The internal and external environment of an organisation is often characterised by many interfering factors.",
+     "Some of these include \"too much urgency, inexperience, and lack of trust\".",
+     "Resources are provided and a time limit is informed.",
+     "When someone is given the rights to complete a task, they are assigned with the corresponding obligation to perform."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 231,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Delegation: process · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Differentiate between centralization and decentralization. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 306,
+    "unsure": false,
+    "sentences": 12,
+    "coverage": 80,
+    "missing": [
+     "speed of decisions"
+    ],
+    "offTopic": [
+     "The term has a variety of meanings in several fields.",
+     "In political science, centralisation refers to the concentration of a government's power—both geographically and politically—into a centralised government, which has sovereignty over all its administrative divisions.",
+     "Conversely, a decentralised system of government often has significant separation of powers and local self-governance."
+    ],
+    "facet": [],
+    "dangling": [
+     "However, in terms of technology, a clear distinction between fully centralized or decentralized technical solutions is often not possible and therefore finding an optimal degree of centralization difficult from an infrastructure planning perspective.",
+     "They must find the right balance of centralizing which lowers costs and allows more control by upper management, and decentralizing which allows sub-units and users more control."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 66,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Centralization and decentralization: comparison · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the process of controlling. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 417,
+    "unsure": false,
+    "sentences": 22,
+    "coverage": 60,
+    "missing": [
+     "measure performance",
+     "compare"
+    ],
+    "offTopic": [
+     "We turn to goal theory for our answer.",
+     "Research provides us with a clear and unequivocal picture of the effects of setting goals for organizational members.",
+     "Goal theory, while somewhat narrow in scope, is the most completely supported theory of motivation.",
+     "For goals to be effective, they must be difficult, specific, and accepted by the employee, and they must be met with feedback from management.",
+     "Manufacturers often use production goals to motivate employees.",
+     "In the process, it came up with the idea of moving from a seven-day week to an eight-day week.",
+     "Under the old schedule, a police officer worked a traditional five days a week, eight hours a day, 40 hours, with two days off each week.",
+     "Under the new schedule, officers would work 12 hours a day and 48 hours a week.",
+     "In addition, officers would work four days and then have four days off.",
+     "This would in effect give officers half the upcoming summer off without taking a single day of vacation.",
+     "The plan was endorsed by both the police union and the city council.",
+     "For each plan deemed important to the functioning of the organization, a system to monitor the plan’s effectiveness must be designed and implemented."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [
+     "We turn to goal theory for our answer."
+    ],
+    "repeats": [],
+    "pairs": 231,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Controlling: process · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the principles of scientific management given by Taylor. (10 marks)",
+    "tags": [
+     "management"
+    ],
+    "words": 445,
+    "unsure": false,
+    "sentences": 17,
+    "coverage": 85.7,
+    "missing": [
+     "criticism"
+    ],
+    "offTopic": [
+     "Motivation is the set of forces that prompt a person to release energy in a certain direction.",
+     "As such, motivation is essentially a need- and want-satisfying process.",
+     "Frank B. Gilbreth (1868–1924).",
+     "Gilbreth and his wife Lillian Moller Gilbreth (1878–1972) performed micro-motion studies using stop-motion cameras as well as developing the profession of industrial/organizational psychology."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 136,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Taylor's principles of scientific management: principles · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Distinguish between recruitment and selection. (10 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 347,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 66.7,
+    "missing": [
+     "recruitment is positive and comes first",
+     "selection rejects"
+    ],
+    "offTopic": [
+     "The last two take place twenty years after the events in the first three.",
+     "In addition, four spin-off novellas were released.",
+     "Three of them, The Prince, The Guard and The Favourite are narrated from the point of view of three supporting characters.",
+     "The Queen, instead, is a prequel, focusing on a supporting character from the main series.",
+     "She also commented that she had written the book \"from start to finish\", while her writing process for the other books differed."
+    ],
+    "facet": [],
+    "dangling": [
+     "She also commented that she had written the book \"from start to finish\", while her writing process for the other books differed."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "mark": 5,
+    "of": 10,
+    "lost": "-2.8 5 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences; -1.5 recruitment is positive and comes first; -1 selection rejects",
+    "understood": "Prepared by VINASUnderstood as: Recruitment and selection: comparison · Human Resource Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is training? Explain the methods of training. (10 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 429,
+    "unsure": false,
+    "sentences": 21,
+    "coverage": 60,
+    "missing": [
+     "off-the-job",
+     "role play or case"
+    ],
+    "offTopic": [
+     "At some point in your career, you are very likely to be asked to be involved in cross-cultural operations.",
+     "Furthermore, cross-cultural differences can be very subtle and nuanced, and this method cannot expose participants to such nuances.",
+     "In such cases, high-rigor methods that allow participants to be much more actively engaged with a culture will work well."
+    ],
+    "facet": [],
+    "dangling": [
+     "Furthermore, cross-cultural differences can be very subtle and nuanced, and this method cannot expose participants to such nuances.",
+     "In such cases, high-rigor methods that allow participants to be much more actively engaged with a culture will work well.",
+     "The advantage of this method is that it enables the participant to be much more actively engaged in learning, thereby facilitating transfer of knowledge."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 210,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Training: definition, types · Human Resource Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the methods of performance appraisal. (10 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 381,
+    "unsure": false,
+    "sentences": 22,
+    "coverage": 71.4,
+    "missing": [
+     "360 degree",
+     "MBO"
+    ],
+    "offTopic": [
+     "On several different factors, subordinates are judged on 'how much' of that factor or trait they possess.",
+     "Typically, the raters use a 5- or 7-point scale; however, there are as many as 20-point scales.",
+     "The method of top-grading can be applied to the forced distribution method.",
+     "Note that BARS are job specific.",
+     "In that respect, it is similar to BARS."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 231,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Performance appraisal: types · Human Resource Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain job analysis. (5 marks)",
+    "tags": [
+     "hr"
+    ],
+    "words": 237,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 40,
+    "missing": [
+     "job description",
+     "methods",
+     "uses"
+    ],
+    "offTopic": [
+     "Human resource (HR) management is the process of hiring, developing, motivating, and evaluating employees to achieve organizational goals.",
+     "The goals and strategies of the firm’s business model form the basis for making human resource management decisions.",
+     "HR practices and systems comprise the firm’s human resource decision support system that is intended to make employees a key element for gaining competitive advantage.",
+     "When Hubert Joly started as the CEO at Best Buy, the retailer was facing serious financial pressures.",
+     "The threat of online competition from Amazon was real."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Job analysis: definition, features, importance · Human Resource Management · 5 marks (~180 words)",
+    "note": ""
+   },
+   {
+    "q": "What is motivation? Explain its importance. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 385,
+    "unsure": false,
+    "sentences": 28,
+    "coverage": 80,
+    "missing": [
+     "types: intrinsic and extrinsic"
+    ],
+    "offTopic": [
+     "Neuroscience is interested in the underlying neurological mechanisms, such as the involved brain areas and neurotransmitters.",
+     "Ability refers to the knowledge, skills, and receptiveness to learning that a person brings to a task or job.",
+     "Knowledge is what a person knows.",
+     "Receptiveness to learning is a function of how quickly a person acquires new knowledge."
+    ],
+    "facet": [],
+    "dangling": [
+     "The theories presented in this section focus on the importance of human needs."
+    ],
+    "signposts": [
+     "The theories presented in this section focus on the importance of human needs."
+    ],
+    "repeats": [],
+    "pairs": 378,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Motivation: definition, importance · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain Herzberg's two-factor theory. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 409,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 80,
+    "missing": [
+     "motivators"
+    ],
+    "offTopic": [
+     "Rather, individuals look for the gratification of higher-level psychological needs having to do with achievement, recognition, responsibility, advancement, and the nature of the work itself.",
+     "This appears to parallel Maslow's theory of a need hierarchy.",
+     "Each respondent gave as many \"sequences of events\" as he could that met certain criteria— including a marked change in feeling, a beginning, and an end, and contained some substantive description other than feelings and interpretations..."
+    ],
+    "facet": [],
+    "dangling": [
+     "Furthermore, it has been noted the theory does not allow for individual differences, such as particular personality traits, which would affect individuals' unique responses to motivating or hygiene factors."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Herzberg's two factor theory: definition, features, importance · Human Behaviour and Organization · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain different leadership styles. (10 marks)",
+    "tags": [
+     "ob",
+     "list"
+    ],
+    "words": 323,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 80,
+    "missing": [
+     "transformational or transactional"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Leadership styles: types · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is personality? Explain its determinants. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 407,
+    "unsure": false,
+    "sentences": 18,
+    "coverage": 80,
+    "missing": [
+     "situation"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 153,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Personality: definition, factors · Human Behaviour and Organization · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Distinguish between formal and informal organization. (10 marks)",
+    "tags": [
+     "ob"
+    ],
+    "words": 357,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 75,
+    "missing": [
+     "communication"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "Consequently, when attempting to legislate for an organization and to create a formal structure, it is necessary to recognize informal organization in order to create workable structures."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 120,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Formal organization and informal organization: comparison · Principles and Practices of Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is market segmentation? Explain its bases. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 335,
+    "unsure": false,
+    "sentences": 14,
+    "coverage": 50,
+    "missing": [
+     "geographic",
+     "demographic",
+     "psychographic"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [
+     "Under this approach the target market is segmented based on features such as company size, industry sector or location usage rate, purchase frequency, number of years in business, ownership factors, and buying situation."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 91,
+    "honest": 0,
+    "mark": 4,
+    "of": 10,
+    "lost": "-2 geographic; -2 demographic; -2 psychographic; -0.3 0 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Prepared by VINASUnderstood as: Market segmentation: definition, types · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the nature and scope of marketing. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 236,
+    "unsure": false,
+    "sentences": 14,
+    "coverage": 60,
+    "missing": [
+     "customer needs",
+     "exchange and value"
+    ],
+    "offTopic": [
+     "Because of their diversity and unique characteristics, it is difficult to narrow it down to a uniform Asian identity.",
+     "The Hispanic, Black, and Asian populations each have a general set of cultural characteristics based on their multicultural identities.",
+     "Let’s explore characteristics and factors in more detail.",
+     "Asian people share this cultural duality characteristic with Hispanic people.",
+     "Within the scope of residential sales, that realtor may drill down further and specialize in new construction, luxury properties, land and development, over-55 communities, or farms/ranches/equestrian properties.",
+     "It is one of the primary components of business management and commerce."
+    ],
+    "facet": [],
+    "dangling": [
+     "Asian people share this cultural duality characteristic with Hispanic people.",
+     "It is one of the primary components of business management and commerce."
+    ],
+    "signposts": [
+     "Let’s explore characteristics and factors in more detail."
+    ],
+    "repeats": [],
+    "pairs": 91,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Marketing: features, scope · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is consumer behaviour? Explain the factors affecting it. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 425,
+    "unsure": false,
+    "sentences": 24,
+    "coverage": 80,
+    "missing": [
+     "cultural factors"
+    ],
+    "offTopic": [
+     "Perhaps you bought a particular brand because someone in your family bought the same brand."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 276,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Consumer behavior: definition, factors · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is promotion mix? Explain its elements. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 333,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 83.3,
+    "missing": [
+     "advertising"
+    ],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Promotion mix: definition, types · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the pricing strategies. (10 marks)",
+    "tags": [
+     "marketing"
+    ],
+    "words": 360,
+    "unsure": false,
+    "sentences": 21,
+    "coverage": 33.3,
+    "missing": [
+     "skimming",
+     "penetration",
+     "cost-plus",
+     "psychological or bundle"
+    ],
+    "offTopic": [
+     "Take a cut in profits to stay competitive?"
+    ],
+    "facet": [],
+    "dangling": [
+     "So why the large price difference?"
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 210,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Pricing policies: definition, features, importance · Marketing Management · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the law of demand. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 397,
+    "unsure": false,
+    "sentences": 19,
+    "coverage": 60,
+    "missing": [
+     "other things equal",
+     "reasons: income and substitution effect"
+    ],
+    "offTopic": [
+     "In some cases this may not be true."
+    ],
+    "facet": [],
+    "dangling": [
+     "In this context, understanding the alternative factors that influence the Law of Demand becomes crucial for managers and decision-makers."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 171,
+    "honest": 0,
+    "mark": 6,
+    "of": 10,
+    "lost": "-2 reasons: income and substitution effect; -1.5 other things equal; -0.8 1 off-topic, wrong-facet or signpost and 1 dangling or repeated sentences",
+    "understood": "Prepared by VINASUnderstood as: Law of demand: definition, features, importance · Business Economics · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is perfect competition? Explain its features. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 424,
+    "unsure": false,
+    "sentences": 21,
+    "coverage": 83.3,
+    "missing": [
+     "identical product"
+    ],
+    "offTopic": [
+     "In the short run, equilibrium will be affected by demand."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 210,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Perfect competition: definition, features · Business Economics · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the features of monopoly. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 241,
+    "unsure": false,
+    "sentences": 11,
+    "coverage": 80,
+    "missing": [
+     "reasons: legal or natural"
+    ],
+    "offTopic": [
+     "In a general equilibrium context, a good is a specific concept including geographical and time-related characteristics."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 55,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Monopoly: features · Business Economics · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "What is national income? Explain the methods of measuring it. (10 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 374,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 60,
+    "missing": [
+     "expenditure method",
+     "difficulties"
+    ],
+    "offTopic": [
+     "Like in the IMF balance of payments manual they are treated as if they were distributed to foreign direct investors in proportion to their ownership of the equity of the enterprise and then reinvested by them using additions in equity.",
+     "Macroeconomics is an empirical subject, so the first step toward understanding it is to measure the economy."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 120,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: National income: definition, types · Business Economics · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the law of diminishing marginal utility. (5 marks)",
+    "tags": [
+     "economics"
+    ],
+    "words": 207,
+    "unsure": false,
+    "sentences": 9,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [
+     "You would not say, “My favorite food is ice cream, so I will eat nothing but ice cream from now on.”",
+     "Diminishing marginal utility is another example of the more general law of diminishing returns we learned earlier in the chapter on Choice in a World of Scarcity."
+    ],
+    "facet": [],
+    "dangling": [
+     "Economists refer to this pattern as the law of diminishing marginal utility, which means that as a person receives more of a good, the additional (or marginal) utility from each additional unit of the good declines."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 36,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Law of diminishing marginal utility: definition, features, importance · Business Economics · 5 marks (~180 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the instruments of monetary policy. (10 marks)",
+    "tags": [
+     "environment"
+    ],
+    "words": 385,
+    "unsure": false,
+    "sentences": 15,
+    "coverage": 80,
+    "missing": [
+     "quantitative easing or selective control"
+    ],
+    "offTopic": [
+     "Macroeconomic policy instruments are macroeconomic quantities that can be directly controlled by an economic policy maker.",
+     "Instruments can be divided into two subsets: a) monetary policy instruments and b) fiscal policy instruments.",
+     "Fiscal policy is conducted by the executive and legislative branches of the government and deals with managing a nation’s budget."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 105,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Monetary policy: types · Business Environment and Public Policy · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the concept and importance of corporate social responsibility. (10 marks)",
+    "tags": [
+     "environment"
+    ],
+    "words": 411,
+    "unsure": false,
+    "sentences": 16,
+    "coverage": 100,
+    "missing": [],
+    "offTopic": [],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 120,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Corporate social responsibility: definition, importance · Business Environment and Public Policy · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Explain the process of communication. (10 marks)",
+    "tags": [
+     "communication"
+    ],
+    "words": 445,
+    "unsure": false,
+    "sentences": 26,
+    "coverage": 83.3,
+    "missing": [
+     "noise"
+    ],
+    "offTopic": [
+     "It influences the opinions, attitude, motivation, and behaviors of others.",
+     "It expresses our feelings, emotions, and intentions to others.",
+     "It is the vehicle for providing, receiving, and exchanging information regarding events or issues that concern us.",
+     "An example is the level of inventory at the end of the month."
+    ],
+    "facet": [],
+    "dangling": [
+     "It influences the opinions, attitude, motivation, and behaviors of others."
+    ],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 325,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Communication: process · Business Communication-I · 10 marks (~400 words)",
+    "note": ""
+   },
+   {
+    "q": "Who is an entrepreneur? Explain the functions of an entrepreneur. (10 marks)",
+    "tags": [
+     "entrepreneurship"
+    ],
+    "words": 404,
+    "unsure": false,
+    "sentences": 21,
+    "coverage": 66.7,
+    "missing": [
+     "risk bearing",
+     "job creation"
+    ],
+    "offTopic": [
+     "The magazine publishes 10 issues annually, available through subscription and on newsstands.",
+     "It has been published under license internationally in Mexico, Russia, India, Hungary, the Philippines, South Africa, and others.",
+     "Its editor-in-chief is Jason Feifer and its owner is Peter Shea.",
+     "A social enterprise is typically designed to be financially self-sufficient."
+    ],
+    "facet": [],
+    "dangling": [],
+    "signposts": [],
+    "repeats": [],
+    "pairs": 210,
+    "honest": 0,
+    "understood": "Prepared by VINASUnderstood as: Entrepreneur: definition, functions · Entrepreneurship and Startup Ecosystem · 10 marks (~400 words)",
+    "note": ""
+   }
+  ]
+ },
+ "general": {
+  "questions": 65,
+  "right": 54,
+  "wrongWithoutWarning": 8,
+  "rows": [
+   "WRONG | Why is the sea salty? | A sea is a very large body of salty water. The term has two distinct meanings. The first is the interconnected body of seawater that spans most of Earth, known ",
+   "WRONG | When was the Taj Mahal built? | The Taj Mahal ( TAHJ mə-HAHL, TAHZH -⁠; Hindustani: [t̪ɑːd͡ʒ ˈmɛɦ(ɛ)l]; lit. 'Crown of the Palace') is an ivory-white marble mausoleum on the right bank of the ",
+   "WRONG | Who discovered gravity? | The Gravity Discovery Centre and Observatory is a \"hands-on\" science education, astronomy, Aboriginal culture and tourist centre, situated on the site of the Gr",
+   "WRONG | What is the largest planet in the Solar System? | Of those objects that orbit the Sun directly, the largest eight are the planets (including Earth), with the remainder being significantly smaller objects, such ",
+   "WRONG | How far is the Moon from Earth? | The Moon is the only natural satellite of Earth. It orbits Earth in an elliptical path, at a distance that varies over the year, averaging around 378,000 kilome",
+   "WRONG | How long is the Great Wall of China? | The Great Wall of China is a series of fortifications in China. In March and April 2015, nine sections with a total length of more than 10 km (6 mi), believed t",
+   "WRONG | What is the national animal of India? | National animals are important symbols that represent a country's cultural identity, heritage, and natural environment. India is home to several well-known larg",
+   "unsure | सौर मंडल में कितने ग्रह हैं? | ",
+   "WRONG | How many players are in a football team? | At Euro 84, their 20-man squad contained 14 overseas-based players; the other seven teams had only five between them. It has been estimated that there are 250 m",
+   "unsure | Why do onions make you cry? | ",
+   "unsure | How long is the Amazon River? | "
+  ]
+ },
+ "squad": {
+  "questions": 480,
+  "bm25": [
+   69.6,
+   84.6,
+   87.1
+  ],
+  "reader": [
+   82.9,
+   90.4,
+   91.9
+  ],
+  "site": [
+   76.5,
+   88.3,
+   90.6
+  ]
+ },
+ "askedWikipedia": 8
+}
