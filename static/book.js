@@ -21,7 +21,7 @@ const Book = (() => {
         return w.length > 4 ? w.replace(/e$/, '') : w;
     }
 
-    const terms = (t) => (t.toLowerCase().match(/[\p{L}\p{N}]+/gu) || []).filter((w) => w.length > 1 && !STOP.has(w)).map(stem);
+    const terms = (t) => (t.toLowerCase().replace(/\b(non|pre|co|re|sub|inter|multi|over|under)[- ](?=\p{Ll})/gu, '$1').match(/[\p{L}\p{N}]+/gu) || []).filter((w) => w.length > 1 && !STOP.has(w)).map(stem);
 
     /** Takes a book apart into passages of about a hundred words, each with its titles. */
     function take(book) {
@@ -37,9 +37,9 @@ const Book = (() => {
                 cur = [];
                 size = 0;
             };
-            for (const [name, , text] of m.text) {
-                // The learning goals are questions; they answer nothing.
-                if (text.endsWith('?') || /^learning (?:outcomes|objectives)/i.test(name) || GOAL.test(text)) continue;
+            for (const [name, kind, text] of m.text) {
+                // The learning goals are questions, or tasks at the head of a section; they answer nothing. The steps of a list inside a section stay.
+                if (text.endsWith('?') || /^learning (?:outcomes|objectives)/i.test(name) || (GOAL.test(text) && !(kind === 'i' && name))) continue;
                 const n = text.split(' ').length;
                 if (name !== section || size + n > 110) flush();
                 if (name !== section) {

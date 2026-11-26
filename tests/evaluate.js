@@ -326,6 +326,11 @@
         const all = by('answer-text').value;
         checks['every part of a long question has its place'] = /Relevance of Fayol['’]s 14 principles of management today/i.test(all) && /getting things done/i.test(all) && /Division of work/.test(all) && /with examples/.test(line());
         checks['no heading said twice'] = !/^### Division of work\s*\n+Division of work/im.test(all) && /Division of work\s*[-–:]/.test(all);
+        await ask('What is decision making? Explain the steps in the rational decision-making process with suitable business examples. Distinguish between programmed and non-programmed decisions. (15 marks)');
+        const made = by('answer-text').value;
+        const steps = ['Recognise that a decision', 'Generate multiple alternatives', 'Analyse the alternatives', 'Select an alternative', 'Implement the selected alternative', 'Evaluate its effectiveness'].map((x) => made.indexOf(x));
+        checks['the steps of a process, all and in order'] = steps.every((x, i) => x > 0 && (!i || x > steps[i - 1])) && /Step 6: Evaluating/.test(made);
+        checks['no namesake and no field of study'] = !/video game|region of intense study/.test(made) && /Nonprogrammed decisions: Decisions that are novel/.test(made);
         result.page = checks;
         result.answers = { page: Object.entries(checks).map(([k, v]) => `${v ? 'ok  ' : 'FAIL'}  ${k}`).join('\n') };
     }

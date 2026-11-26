@@ -47,7 +47,7 @@ const Ask = (() => {
     }
 
     const words = (text) => text.match(/[\p{L}\p{M}\d]+(?:['’-][\p{L}\p{M}\d]+)*/gu) || [];
-    const terms = (text) => words(text).flatMap((w) => w.split('-')).map((w) => w.toLowerCase()).filter((w) => w.length > 1 && !STOP.has(w)).map(stem);
+    const terms = (text) => words(text.replace(/\b(non|pre|co|re|sub|inter|multi|over|under)[- ](?=\p{Ll})/giu, '$1')).flatMap((w) => w.split('-')).map((w) => w.toLowerCase()).filter((w) => w.length > 1 && !STOP.has(w)).map(stem);
 
     /** What a question asks for, and the topic to look up. */
     function understand(question) {
@@ -421,7 +421,7 @@ const Ask = (() => {
         for (const part of parts) {
             const chosen = [];
             for (const s of part.chosen) {
-                if (SIGNPOST.test(s.text) || row(s.text) || again(s.text)) continue;
+                if (SIGNPOST.test(s.text) || row(s.text) || (!s.item && !part.ordered && again(s.text))) continue;
                 if (!s.item && leans(s.text)) {
                     // What it leans on, one or two sentences back.
                     const chain = [];
@@ -1017,8 +1017,8 @@ const Ask = (() => {
             if (x.item || length(x) < 8 || length(x) > 60 || /\?/.test(x.text)) return false;
             const label = /^([^:.]{2,60}):\s/.exec(x.text);
             if (label) return speaks(core, label[1]) && terms(label[1]).filter((w) => !core.includes(w) && !PLAIN.has(w)).length <= (core.length > 1 ? 1 : 0);
-            if (LEANS.test(x.text)) return false;
-            const open = x.text.replace(/^In [^,.]{3,40}, /, '').replace(/\s*\([^)]*\)/g, '');
+            if ((LEANS.test(x.text) && !/^(?:in contrast|by contrast|on the other hand|unlike [^,]{3,40}),\s/i.test(x.text)) || /\bis (?:a|an|the) (?:region|field|area|topic|subject|branch|focus) of (?:intense |active |much )?(?:study|research|interest)\b/i.test(x.text)) return false;
+            const open = x.text.replace(/^(?:In [^,.]{3,40}|By contrast|On the other hand|Unlike [^,]{3,40}), /i, '').replace(/\s*\([^)]*\)/g, '');
             const at = open.search(verb);
             if (at < 2 || at > 110) return false;
             const before = terms(open.slice(0, at));
@@ -1229,7 +1229,8 @@ const Ask = (() => {
             const weightOf = (x) => (asks ? x.weight : x.aspect || x.compare || x.statement ? 1.15 : 0.8);
             const left = read_.parts.slice(i).reduce((n, x) => n + weightOf(x), 0);
             const share = Math.max(60, Math.round(asks ? (whole - out.reduce((n, x) => n + x.words, 0)) * weightOf(part) / left : whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
-            const got = part.facet === 'relevance' ? await relevanceOf(part.topic, lang, share, books, pool) : await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '' });
+            const got = part.facet === 'relevance' ? await relevanceOf(part.topic, lang, share, books, pool)
+                : (part.facet === 'process' && (await stepsOf(part.topic, share, books, pool))) || await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '' });
             if (!first) first = got;
             const placeOf = () => (part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`);
             // A part with no sure text still has its heading, and says so, in its own place.
@@ -1246,8 +1247,8 @@ const Ask = (() => {
             const says = part.defines ? definitions(coreOf({ topics: [part.topic], q: part.topic }), [...got.parts.flatMap((p) => p.chosen), ...pool]).filter((x, k, all) => all.findIndex((y) => y.text === x.text) === k) : [];
             const few = [];
             for (const x of says) if (few.length < 3 && (!few.length || /\b(?:is|are) (?:an?|the) |refers? to|\bmeans\b|\bdefine[sd]?\b|^[^:.]{2,40}:\s/i.test(x.text)) && !few.some((y) => alikeText(x, y)) && (!few.length || few.reduce((n, y) => n + length(y), length(x)) <= share)) few.push({ ...x, section: '' });
-            const formed = few.length ? { ...got, parts: [{ head: '', chosen: few, cover: 1, wanted: 1, words: few.reduce((n, x) => n + length(x), 0) }] } : got.asked.kind === 'compare' || part.claim ? got : exam({ ...got, asked: { ...got.asked, kind: 'explain' } }, pool);
-            if (asks && !part.claim && !few.length && formed.parts.length) formed.parts = clean(formed.parts, pool, share, (got.checklist || []).length || got.asked.kind === 'compare' ? '' : part.topic);
+            const formed = got.ordered ? got : few.length ? { ...got, parts: [{ head: '', chosen: few, cover: 1, wanted: 1, words: few.reduce((n, x) => n + length(x), 0) }] } : got.asked.kind === 'compare' || part.claim ? got : exam({ ...got, asked: { ...got.asked, kind: 'explain' } }, pool);
+            if (asks && !got.ordered && !part.claim && !few.length && formed.parts.length) formed.parts = clean(formed.parts, pool, share, (got.checklist || []).length || got.asked.kind === 'compare' ? '' : part.topic);
             const name = part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`;
             let opened = false;
             for (const p of formed.parts) {
@@ -1263,6 +1264,10 @@ const Ask = (() => {
             if (!opened) {
                 missing.push(part.gap || part.head);
                 if (asks) out.push(empty());
+            } else if (asks && query.with.includes('examples') && !part.claim && part.facet !== 'comparison' && part.facet !== 'definition') {
+                const shown = new Set(out.flatMap((p) => p.chosen.map((x) => x.text)));
+                const eg = examplesOf(part.topic, pool, shown);
+                if (eg.length) out.push({ head: '', sub: 'Example', chosen: eg, words: eg.reduce((v, x) => v + length(x), 0), cover: 1, wanted: 1 });
             }
         }
         // The conclusion of a statement is the end of its answer.
@@ -1278,6 +1283,79 @@ const Ask = (() => {
         const last = asks ? clean(out) : out;
         for (const p of asks ? out : []) if (p.head && !last.some((x) => x.head === p.head) && !missing.includes(p.head.replace(/^\d+\.\s*/, ''))) missing.push(p.head.replace(/^\d+\.\s*/, ''));
         return { asked, parts: last, size: whole, told: asks ? told_ : size > 0 || told.words > 0, sure: true, missing, checklist, plan };
+    }
+
+    /**
+     * The steps of a process as a textbook lists them, in their order: the line that introduces the list, the steps, and then
+     * the first sentence of each section that explains a step ("Step 2: Generating Multiple Alternatives"). Null when no book
+     * has such a list on the topic, so that the usual search runs.
+     */
+    async function stepsOf(topic, size, books, pool) {
+        if (typeof Book !== 'object') return null;
+        const core = coreOf({ topics: [topic], q: topic });
+        const pages = await Book.find(`What are the steps in the ${topic}?`, 4, 0.05, books);
+        if (!pages.length) return null;
+        const STEPS = /\b(?:process|steps?|stages?|procedure|phases?|cycle)\b/i;
+        const runs = [];
+        for (const page of pages) {
+            const lines = read({ ...page, order: 0 }).map((x) => ({ ...x, page, terms: terms(x.text) }));
+            pool.push(...lines);
+            for (let i = 0; i < lines.length; i++) {
+                if (!lines[i].item || (i && lines[i - 1].item && lines[i - 1].section === lines[i].section)) continue;
+                let j = i;
+                while (j < lines.length && lines[j].item && lines[j].section === lines[i].section) j++;
+                const items = lines.slice(i, j);
+                const lead = [...lines.slice(0, i)].reverse().find((x) => !x.item && x.section === lines[i].section);
+                const named = speaks(core, `${lines[i].section} ${page.title}`) || (lead && speaks(core, lead.text));
+                if (items.length >= 3 && items.length <= 12 && named && (STEPS.test(lines[i].section) || (lead && STEPS.test(lead.text)))) runs.push({ page, items, lead });
+            }
+        }
+        if (!runs.length) return null;
+        // "The steps of ethical decision-making" is a list of steps too: the reader says which list answers.
+        const p = await Judge_(`What are the steps in the ${topic}?`, runs.map((r) => ({ page: r.page, section: r.items[0].section, text: [r.lead ? r.lead.text : '', ...r.items.map((x) => x.text)].join(' ') })));
+        const run = p ? runs[p.indexOf(Math.max(...p))] : runs[0];
+        if (p && Math.max(...p) < 0.05) return null;
+        if (!run) return null;
+        // A step long enough to be read as a sentence ("Recognize that a decision needs to be made.") is a step all the same:
+        // a short line just before the list, in its section, that does not introduce it, joins it.
+        let lead = run.lead;
+        const lines = read({ ...run.page, order: 0 });
+        const at = lead ? lines.findIndex((x) => x.text === lead.text) : -1;
+        if (lead && words(lead.text).length <= 12 && !/:\s*$/.test(lead.text) && !STEPS.test(lead.text)) {
+            run.items.unshift({ ...lead, item: true, page: run.page });
+            lead = [...lines.slice(0, Math.max(0, at))].reverse().find((x) => !x.item && x.section === lead.section) || null;
+            if (lead) lead = { ...lead, page: run.page, terms: terms(lead.text) };
+        }
+        const chosen = [...(lead ? [{ ...lead, section: '' }] : []), ...run.items.map((x) => ({ ...x, section: '' }))];
+        let n = chosen.reduce((v, x) => v + length(x), 0);
+        // Each step explained, from the sections that are named after the steps.
+        const steps = [];
+        for (const page of pages) for (const x of read({ ...page, order: 0 })) {
+            const m = /^Step (\d+)\s*[:.–-]\s*(.+)$/i.exec(x.section);
+            if (m && !x.item && !steps.some((y) => y.n === Number(m[1]))) steps.push({ n: Number(m[1]), x: { ...x, page, terms: terms(x.text) }, name: m[2] });
+        }
+        steps.sort((a, b) => a.n - b.n);
+        const more = [];
+        for (const st of steps) {
+            if (n + length(st.x) > size * 1.15 || length(st.x) > 70) continue;
+            more.push({ ...st.x, section: `Step ${st.n}: ${st.name}` });
+            n += length(st.x);
+        }
+        const asked = { ...understand(`What are the steps in the ${topic}`), kind: 'list', topics: [topic] };
+        return { asked, sure: true, ordered: true, parts: [{ head: '', ordered: true, chosen: [...chosen, ...more], cover: 1, wanted: 1, words: n }] };
+    }
+
+    /** Sentences that give an example of a topic, from what was read for it. */
+    function examplesOf(topic, pool, shown) {
+        const core = coreOf({ topics: [topic], q: topic });
+        const EX = /\b(?:for example|for instance|e\.g\.)/i;
+        const out = [];
+        for (const x of pool) {
+            if (out.length >= 2 || x.item || shown.has(x.text) || !EX.test(x.text) || length(x) < 10 || length(x) > 55 || /\?/.test(x.text) || LEANS.test(x.text)) continue;
+            if (!speaks(core, `${x.section} ${x.page.title}`) || !terms(x.text).some((w) => core.includes(w)) || out.some((y) => alike(x, y) > 0.5)) continue;
+            out.push({ ...x, section: '', terms: x.terms || terms(x.text) });
+        }
+        return out;
     }
 
     /**
@@ -1403,8 +1481,10 @@ const Ask = (() => {
             const parts = [];
             const rest = [];
             for (const topic of asked.topics) {
-                const own = lang !== 'hi' && typeof Book === 'object' ? await Book.find(`What is ${topic}?`, 1, books ? 0.6 : 0.95, books) : [];
-                const wiki = (await articles(lang, pickTitles([await search(lang, subject ? `${topic} ${subject.toLowerCase()}` : topic, 4), ...(subject ? [await search(lang, topic, 4)] : [])], { kind: 'compare', topics: [topic], q: topic }), 1)).filter((p) => !subject || onTopic(coreOf({ topics: [topic], q: topic }), p));
+                const own = lang !== 'hi' && typeof Book === 'object' ? await Book.find(`What is ${topic}?`, 1, books ? 0.3 : 0.95, books) : [];
+                const wiki_ = (await articles(lang, pickTitles([await search(lang, subject ? `${topic} ${subject.toLowerCase()}` : topic, 4), ...(subject ? [await search(lang, topic, 4)] : [])], { kind: 'compare', topics: [topic], q: topic }), 1)).filter((p) => !subject || onTopic(coreOf({ topics: [topic], q: topic }), p));
+                // A video game called "Decisions, Decisions" is not about decisions.
+                const wiki = books ? wiki_.filter((p) => !NAMESAKE.test(p.text.slice(0, 260))) : wiki_;
                 const pages = [...wiki, ...own].map((p, order) => ({ ...p, order }));
                 if (!pages.length) continue;
                 const ranked = rank({ kind: 'compare', q: topic }, pages);
@@ -1412,9 +1492,14 @@ const Ask = (() => {
                 if (!ranked.all.length) continue;
                 const got = choose(ranked, Math.round(size * 0.4));
                 const says = books ? definition(coreOf({ topics: [topic], q: topic }), ranked.all) : null;
-                if (says && !got.chosen.some((x) => x.text === says.text)) got.chosen.unshift({ ...says, section: '' });
+                if (says) got.chosen = [{ ...says, section: '' }, ...got.chosen.filter((x) => x.text !== says.text)];
+                if (books) {
+                    const mine = coreOf({ topics: [topic], q: topic });
+                    const theirs = coreOf({ topics: [asked.topics.find((t) => t !== topic) || ''], q: '' }).filter((w) => !mine.includes(w));
+                    got.chosen = got.chosen.filter((x, k) => !k || !(x.terms || terms(x.text)).some((w) => theirs.includes(w)) || (x.terms || terms(x.text)).some((w) => mine.includes(w) && !theirs.includes(w))).map((x) => ({ ...x, section: '' }));
+                }
                 rest.push(...ranked.all);
-                if (got.chosen.length) parts.push({ head: books ? topic[0].toUpperCase() + topic.slice(1) : pages[0].title, ...got, chosen: got.chosen.slice(0, 8) });
+                if (got.chosen.length) parts.push({ head: books ? topic[0].toUpperCase() + topic.slice(1) : pages[0].title, ...got, chosen: got.chosen.slice(0, 6) });
             }
             if (parts.length > 1 && lang !== 'hi') {
                 const [one, two] = asked.topics.map((t) => coreOf({ topics: [t], q: t }));

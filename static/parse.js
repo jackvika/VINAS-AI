@@ -934,7 +934,7 @@ const Parse = (() => {
         const reads = two.map((x) => {
             const frame = unframe(x);
             const wants = [];
-            let s = frame.s.replace(/,?\s*\b(?:(?:and\s+)?(?:with|giving|give|by giving|along with|citing|quoting|using)\s+(?:the help of\s+)?(?:an?\s+|some\s+|two\s+|three\s+)?(?:suitable|appropriate|relevant|practical|real[- ]life|proper|brief|short|simple|apt)?\s*(?:examples?|illustrations?))\b/gi, () => { wants.push('examples'); return ' '; })
+            let s = frame.s.replace(/,?\s*\b(?:(?:and\s+)?(?:with|giving|give|by giving|along with|citing|quoting|using)\s+(?:the help of\s+)?(?:an?\s+|some\s+|two\s+|three\s+)?(?:(?:suitable|appropriate|relevant|practical|real[- ]life|proper|brief|short|simple|apt|business|corporate|industry|indian|live|day[- ]to[- ]day|everyday|good)\s+){0,3}(?:examples?|illustrations?))\b/gi, () => { wants.push('examples'); return ' '; })
                 .replace(/,?\s*\b(?:with|using|draw|give|also draw|and draw)\s+(?:the help of\s+)?(?:an?\s+|the\s+)?(?:neat|suitable|labelled|neat and labelled|proper|clean)?\s*(?:and\s+\w+\s+)?(?:diagrams?|figures?|sketch|flow ?charts?)\b/gi, () => { wants.push('diagram'); return ' '; });
             if (/उदाहरण|\budaharan|\bexample sahit/i.test(s) && language !== 'en') wants.push('examples');
             if (/चित्र|रेखाचित्र/.test(s)) wants.push('diagram');
