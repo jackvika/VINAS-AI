@@ -202,7 +202,9 @@
         say('Reading questions');
         mend = await speller();
         if (Parse.teach) Parse.teach({ bba, glossary: await json('../static/glossary.json'), statements: await json('../static/statements.json') });
-        const cases = held ? (await json('held_back.json')).parse : (await json('parse_cases.json')).cases;
+        // The past papers count with the rest, and by themselves under their tag.
+        const kept = held ? await json('held_back.json') : null;
+        const cases = held ? [...kept.parse, ...kept.past_papers.filter((x) => x.want)] : (await json('parse_cases.json')).cases;
         const fields = { topic: 0, facets: 0, command: 0, marks: 0, words: 0, subject: 0, language: 0, weights: 0, whole: 0 };
         let weighted = 0;
         const tags = {};

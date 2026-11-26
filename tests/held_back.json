@@ -1,5 +1,5 @@
 {
- "about": "Held back: not looked at while working, used only for the final report. past_papers: questions taken by a script, unread, from papers of Vardhman Mahaveer Open University (2019) and UPES (2024); what each should become is written down only when the work is done.",
+ "about": "Held back: not looked at while working, used only for the final report. past_papers: questions taken by a script, unread, from papers of Vardhman Mahaveer Open University (2019) and UPES (2024); what each should become is written down only when the work is done. The expected readings of the past papers were written after the code was frozen at commit af759fa, without asking the site.",
  "parse": [
   {
    "q": "What do you meant by technical skills?",
@@ -2249,163 +2249,1995 @@
  "past_papers": [
   {
    "q": "Critically examine the theory of rent. (7 marks)",
-   "source": "VMOU BBA-03, June 2019"
+   "source": "VMOU BBA-03, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "theory of rent",
+      "facet": "definition",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     },
+     {
+      "topic": "theory of rent",
+      "facet": "features",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     },
+     {
+      "topic": "theory of rent",
+      "facet": "importance",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     },
+     {
+      "topic": "theory of rent",
+      "facet": "advantages",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     },
+     {
+      "topic": "theory of rent",
+      "facet": "limitations",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     }
+    ],
+    "command": [
+     "evaluate"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "theory of rent",
+       "facet": "definition",
+       "topics": [
+        "theory of rent",
+        "rent",
+        "economic rent",
+        "modern theory of rent"
+       ]
+      },
+      {
+       "topic": "theory of rent",
+       "facet": "advantages",
+       "topics": [
+        "theory of rent",
+        "rent",
+        "economic rent",
+        "modern theory of rent"
+       ]
+      },
+      {
+       "topic": "theory of rent",
+       "facet": "limitations",
+       "topics": [
+        "theory of rent",
+        "rent",
+        "economic rent",
+        "modern theory of rent"
+       ]
+      }
+     ],
+     [
+      {
+       "topic": "theory of rent",
+       "facet": "definition",
+       "topics": [
+        "theory of rent",
+        "rent",
+        "economic rent",
+        "modern theory of rent"
+       ]
+      },
+      {
+       "topic": "theory of rent",
+       "facet": "features",
+       "topics": [
+        "theory of rent",
+        "rent",
+        "economic rent",
+        "modern theory of rent"
+       ]
+      },
+      {
+       "topic": "theory of rent",
+       "facet": "importance",
+       "topics": [
+        "theory of rent",
+        "rent",
+        "economic rent",
+        "modern theory of rent"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "What is monopoly? How prices are determined under it. (14 marks)",
-   "source": "VMOU BBA-03, June 2019"
+   "source": "VMOU BBA-03, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "monopoly",
+      "facet": "definition",
+      "topics": [
+       "monopoly"
+      ]
+     },
+     {
+      "topic": "price determination under monopoly",
+      "facet": "process",
+      "topics": [
+       "price determination under monopoly",
+       "monopoly pricing",
+       "monopoly",
+       "pricing under monopoly"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "define"
+    ],
+    "marks": 14,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "monopoly",
+       "facet": "definition",
+       "topics": [
+        "monopoly"
+       ]
+      },
+      {
+       "topic": "monopoly",
+       "facet": "process",
+       "topics": [
+        "monopoly"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "There are some advantages of written communication. Describe these advantages. (7 marks)",
-   "source": "VMOU BBA-06, June 2019"
+   "source": "VMOU BBA-06, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Communication-I",
+     "Business Communication-II"
+    ],
+    "parts": [
+     {
+      "topic": "written communication",
+      "facet": "advantages"
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "written communication",
+       "facet": "definition"
+      },
+      {
+       "topic": "written communication",
+       "facet": "advantages"
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Describe the basic elements for effective speech. (7 marks)",
-   "source": "VMOU BBA-06, June 2019"
+   "source": "VMOU BBA-06, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Communication-I",
+     "Business Communication-II"
+    ],
+    "parts": [
+     {
+      "topic": "effective speech",
+      "facet": "types",
+      "topics": [
+       "effective speech",
+       "speech",
+       "public speaking",
+       "effective speaking"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "effective speech",
+       "facet": "features",
+       "topics": [
+        "effective speech",
+        "speech",
+        "public speaking",
+        "effective speaking"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Write some Email Etiquette tips. Does it make any difference? (7 marks)",
-   "source": "VMOU BBA-06, June 2019"
+   "source": "VMOU BBA-06, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Communication-I",
+     "Business Communication-II"
+    ],
+    "parts": [
+     {
+      "topic": "email etiquette",
+      "facet": "features",
+      "topics": [
+       "email etiquette",
+       "e-mail etiquette",
+       "email"
+      ]
+     },
+     {
+      "topic": "email etiquette",
+      "facet": "importance",
+      "topics": [
+       "email etiquette",
+       "e-mail etiquette",
+       "email"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "email etiquette",
+       "facet": "definition",
+       "topics": [
+        "email etiquette",
+        "e-mail etiquette",
+        "email"
+       ]
+      },
+      {
+       "topic": "email etiquette",
+       "facet": "features",
+       "topics": [
+        "email etiquette",
+        "e-mail etiquette",
+        "email"
+       ]
+      },
+      {
+       "topic": "email etiquette",
+       "facet": "importance",
+       "topics": [
+        "email etiquette",
+        "e-mail etiquette",
+        "email"
+       ]
+      }
+     ],
+     [
+      {
+       "topic": "email etiquette",
+       "facet": "types",
+       "topics": [
+        "email etiquette",
+        "e-mail etiquette",
+        "email"
+       ]
+      },
+      {
+       "topic": "email etiquette",
+       "facet": "importance",
+       "topics": [
+        "email etiquette",
+        "e-mail etiquette",
+        "email"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Explain the process of Setting-up of Small scale Unit. (14 marks)",
-   "source": "VMOU BBA-12, June 2019"
+   "source": "VMOU BBA-12, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Entrepreneurship and Startup Ecosystem"
+    ],
+    "parts": [
+     {
+      "topic": "small scale industry",
+      "facet": "process",
+      "topics": [
+       "small scale industry",
+       "small-scale industry",
+       "small scale unit",
+       "small business",
+       "small scale industries",
+       "small-scale industries",
+       "MSME",
+       "setting up of small scale unit"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 14,
+    "language": "en"
+   }
   },
   {
    "q": "Give characteristics of business economics. (7 marks)",
-   "source": "VMOU BBA-03, December 2019"
+   "source": "VMOU BBA-03, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "business economics",
+      "facet": "features"
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "What is perfect competition? How you will determined prices in perfect competition. (14 marks)",
-   "source": "VMOU BBA-03, December 2019"
+   "source": "VMOU BBA-03, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "perfect competition",
+      "facet": "definition"
+     },
+     {
+      "topic": "price determination under perfect competition",
+      "facet": "process",
+      "topics": [
+       "price determination under perfect competition",
+       "perfect competition",
+       "pricing under perfect competition"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "define"
+    ],
+    "marks": 14,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "perfect competition",
+       "facet": "definition"
+      },
+      {
+       "topic": "perfect competition",
+       "facet": "process"
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "How wages rate is determined? (7 marks)",
-   "source": "VMOU BBA-03, June 2019"
+   "source": "VMOU BBA-03, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics",
+     "Human Resource Management",
+     "Compensation Management",
+     "Performance and Compensation Management"
+    ],
+    "parts": [
+     {
+      "topic": "wage determination",
+      "facet": "process",
+      "topics": [
+       "wage determination",
+       "wage",
+       "wages",
+       "wage rate",
+       "theories of wages"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "wage determination",
+       "facet": "factors",
+       "topics": [
+        "wage determination",
+        "wage",
+        "wages",
+        "wage rate"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Describe the contents of EDP. (7 marks)",
-   "source": "VMOU BBA-12, December 2019"
+   "source": "VMOU BBA-12, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Entrepreneurship and Startup Ecosystem"
+    ],
+    "parts": [
+     {
+      "topic": "entrepreneurship development programme",
+      "facet": "types",
+      "topics": [
+       "entrepreneurship development programme",
+       "entrepreneurship development program",
+       "EDP",
+       "entrepreneurship development programmes"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "entrepreneurship development programme",
+       "facet": "features",
+       "topics": [
+        "entrepreneurship development programme",
+        "entrepreneurship development program",
+        "EDP",
+        "entrepreneurship development programmes"
+       ]
+      }
+     ],
+     [
+      {
+       "topic": "entrepreneurship development programme",
+       "facet": "definition",
+       "topics": [
+        "entrepreneurship development programme",
+        "entrepreneurship development program",
+        "EDP",
+        "entrepreneurship development programmes"
+       ]
+      },
+      {
+       "topic": "entrepreneurship development programme",
+       "facet": "features",
+       "topics": [
+        "entrepreneurship development programme",
+        "entrepreneurship development program",
+        "EDP",
+        "entrepreneurship development programmes"
+       ]
+      },
+      {
+       "topic": "entrepreneurship development programme",
+       "facet": "importance",
+       "topics": [
+        "entrepreneurship development programme",
+        "entrepreneurship development program",
+        "EDP",
+        "entrepreneurship development programmes"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Give main characteristics of monetary policy in India. (7 marks)",
-   "source": "VMOU BBA-04, June 2019"
+   "source": "VMOU BBA-04, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Environment and Public Policy",
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "monetary policy",
+      "facet": "features",
+      "topics": [
+       "monetary policy",
+       "monetary policy in India",
+       "monetary policy of India"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Give the objectives of Dis investment policy in India. (7 marks)",
-   "source": "VMOU BBA-04, December 2019"
+   "source": "VMOU BBA-04, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Environment and Public Policy"
+    ],
+    "parts": [
+     {
+      "topic": "disinvestment",
+      "facet": "objectives",
+      "topics": [
+       "disinvestment",
+       "disinvestment policy",
+       "disinvestment in India",
+       "disinvestment policy in India"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Describe factors affecting supply function. (7 marks)",
-   "source": "VMOU BBA-03, December 2019"
+   "source": "VMOU BBA-03, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "supply",
+      "facet": "factors",
+      "topics": [
+       "supply",
+       "supply function",
+       "law of supply"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Explain the advantages of career planning in detail? 5.According to you what should be done to have an effective performance appraisal system in your organization. (7 marks)",
-   "source": "VMOU BBA-08, December 2019"
+   "source": "VMOU BBA-08, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management",
+     "Performance and Compensation Management"
+    ],
+    "parts": [
+     {
+      "topic": "career planning",
+      "facet": "advantages"
+     },
+     {
+      "topic": "performance appraisal",
+      "facet": "features",
+      "topics": [
+       "performance appraisal",
+       "performance appraisal system",
+       "effective performance appraisal system"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "career planning",
+       "facet": "advantages"
+      },
+      {
+       "topic": "performance appraisal",
+       "facet": "process",
+       "topics": [
+        "performance appraisal",
+        "performance appraisal system"
+       ]
+      }
+     ],
+     [
+      {
+       "topic": "career planning",
+       "facet": "advantages"
+      },
+      {
+       "topic": "performance appraisal",
+       "facet": "definition",
+       "topics": [
+        "performance appraisal",
+        "performance appraisal system"
+       ]
+      },
+      {
+       "topic": "performance appraisal",
+       "facet": "features",
+       "topics": [
+        "performance appraisal",
+        "performance appraisal system"
+       ]
+      },
+      {
+       "topic": "performance appraisal",
+       "facet": "importance",
+       "topics": [
+        "performance appraisal",
+        "performance appraisal system"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Define Bank as per the Indian Banking Companies Act. Also describe the various types of Banks. (14 marks)",
-   "source": "VMOU BBA-10, June 2019"
+   "source": "VMOU BBA-10, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Banking and Insurance",
+     "Financial Markets Products and Services"
+    ],
+    "parts": [
+     {
+      "topic": "bank",
+      "facet": "definition",
+      "topics": [
+       "bank",
+       "banks",
+       "banking"
+      ]
+     },
+     {
+      "topic": "bank",
+      "facet": "types",
+      "topics": [
+       "bank",
+       "banks",
+       "banking"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "define"
+    ],
+    "marks": 14,
+    "language": "en"
+   }
   },
   {
    "q": "Describe the process of Coordination. (7 marks)",
-   "source": "VMOU BBA-01, December 2019"
+   "source": "VMOU BBA-01, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Principles and Practices of Management"
+    ],
+    "parts": [
+     {
+      "topic": "coordination",
+      "facet": "process",
+      "topics": [
+       "coordination",
+       "co-ordination"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Write a note on Header and Footer. (7 marks)",
-   "source": "VMOU BBA-11, June 2019"
+   "source": "VMOU BBA-11, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Emerging Technologies and Applications",
+     "Business Communication-II",
+     "Management Information System (MIS)",
+     "Business Communication-I"
+    ],
+    "parts": [
+     {
+      "topic": "header and footer",
+      "facet": "short-note",
+      "topics": [
+       "header and footer",
+       "header",
+       "page header",
+       "headers and footers"
+      ]
+     }
+    ],
+    "command": [
+     "short-note"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Explain the concept of Industrial Relations. What is the significance of good industrial relations and what are its objectives? (14 marks)",
-   "source": "VMOU BBA-08, December 2019"
+   "source": "VMOU BBA-08, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management"
+    ],
+    "parts": [
+     {
+      "topic": "industrial relations",
+      "facet": "definition"
+     },
+     {
+      "topic": "industrial relations",
+      "facet": "importance"
+     },
+     {
+      "topic": "industrial relations",
+      "facet": "objectives"
+     }
+    ],
+    "command": [
+     "explain",
+     "define"
+    ],
+    "marks": 14,
+    "language": "en"
+   }
   },
   {
    "q": "Describe the institutional setup for small business. (7 marks)",
-   "source": "VMOU BBA-12, June 2019"
+   "source": "VMOU BBA-12, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Entrepreneurship and Startup Ecosystem",
+     "Business Environment and Public Policy"
+    ],
+    "parts": [
+     {
+      "topic": "institutional support for small business",
+      "facet": "types",
+      "topics": [
+       "institutional support for small business",
+       "institutional setup for small business",
+       "institutional support",
+       "small scale industry",
+       "small-scale industry",
+       "small scale unit",
+       "small business",
+       "small scale industries",
+       "small-scale industries",
+       "MSME"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "institutional support for small business",
+       "facet": "definition",
+       "topics": [
+        "institutional support for small business",
+        "institutional setup for small business",
+        "institutional support",
+        "small scale industry",
+        "small-scale industry",
+        "small scale unit",
+        "small business",
+        "small scale industries",
+        "small-scale industries",
+        "MSME"
+       ]
+      },
+      {
+       "topic": "institutional support for small business",
+       "facet": "features",
+       "topics": [
+        "institutional support for small business",
+        "institutional setup for small business",
+        "institutional support",
+        "small scale industry",
+        "small-scale industry",
+        "small scale unit",
+        "small business",
+        "small scale industries",
+        "small-scale industries",
+        "MSME"
+       ]
+      },
+      {
+       "topic": "institutional support for small business",
+       "facet": "importance",
+       "topics": [
+        "institutional support for small business",
+        "institutional setup for small business",
+        "institutional support",
+        "small scale industry",
+        "small-scale industry",
+        "small scale unit",
+        "small business",
+        "small scale industries",
+        "small-scale industries",
+        "MSME"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Discuss silent features of policy for small business in India. (7 marks)",
-   "source": "VMOU BBA-12, December 2019"
+   "source": "VMOU BBA-12, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Entrepreneurship and Startup Ecosystem",
+     "Business Environment and Public Policy"
+    ],
+    "parts": [
+     {
+      "topic": "small business policy",
+      "facet": "features",
+      "topics": [
+       "small business policy",
+       "policy for small business",
+       "small scale industry policy",
+       "MSME policy",
+       "small business",
+       "small scale industries policy"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Describe personal loan and home loan. (7 marks)",
-   "source": "VMOU BBA-10, June 2019"
+   "source": "VMOU BBA-10, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Banking and Insurance"
+    ],
+    "parts": [
+     {
+      "topic": "personal loan",
+      "facet": "definition",
+      "topics": [
+       "personal loan",
+       "personal loans"
+      ]
+     },
+     {
+      "topic": "personal loan",
+      "facet": "features",
+      "topics": [
+       "personal loan",
+       "personal loans"
+      ]
+     },
+     {
+      "topic": "personal loan",
+      "facet": "importance",
+      "topics": [
+       "personal loan",
+       "personal loans"
+      ]
+     },
+     {
+      "topic": "home loan",
+      "facet": "definition",
+      "topics": [
+       "home loan",
+       "home loans",
+       "housing loan"
+      ]
+     },
+     {
+      "topic": "home loan",
+      "facet": "features",
+      "topics": [
+       "home loan",
+       "home loans",
+       "housing loan"
+      ]
+     },
+     {
+      "topic": "home loan",
+      "facet": "importance",
+      "topics": [
+       "home loan",
+       "home loans",
+       "housing loan"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "personal loan",
+       "facet": "definition",
+       "topics": [
+        "personal loan",
+        "personal loans"
+       ]
+      },
+      {
+       "topic": "home loan",
+       "facet": "definition",
+       "topics": [
+        "home loan",
+        "home loans",
+        "housing loan"
+       ]
+      }
+     ],
+     [
+      {
+       "topic": "personal loan and home loan",
+       "facet": "comparison"
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Explain the various limitation of Insurance. (7 marks)",
-   "source": "VMOU BBA-10, June 2019"
+   "source": "VMOU BBA-10, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Banking and Insurance"
+    ],
+    "parts": [
+     {
+      "topic": "insurance",
+      "facet": "limitations"
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "What is production function. (7 marks)",
-   "source": "VMOU BBA-03, June 2019"
+   "source": "VMOU BBA-03, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "production function",
+      "facet": "definition"
+     }
+    ],
+    "command": [
+     "define",
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Examine Marketing Management of Small Business. (14 marks)",
-   "source": "VMOU BBA-12, June 2019"
+   "source": "VMOU BBA-12, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Marketing Management",
+     "Entrepreneurship and Startup Ecosystem"
+    ],
+    "parts": [
+     {
+      "topic": "marketing for small business",
+      "facet": "definition",
+      "topics": [
+       "marketing for small business",
+       "marketing management of small business",
+       "small business marketing",
+       "marketing in small business",
+       "marketing management"
+      ]
+     },
+     {
+      "topic": "marketing for small business",
+      "facet": "features",
+      "topics": [
+       "marketing for small business",
+       "marketing management of small business",
+       "small business marketing",
+       "marketing in small business",
+       "marketing management"
+      ]
+     },
+     {
+      "topic": "marketing for small business",
+      "facet": "importance",
+      "topics": [
+       "marketing for small business",
+       "marketing management of small business",
+       "small business marketing",
+       "marketing in small business",
+       "marketing management"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 14,
+    "language": "en"
+   }
   },
   {
    "q": "Discuss important theories of Motivation. (14 marks)",
-   "source": "VMOU BBA-01, June 2019"
+   "source": "VMOU BBA-01, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Principles and Practices of Management",
+     "Human Behaviour and Organization"
+    ],
+    "parts": [
+     {
+      "topic": "theories of motivation",
+      "facet": "types",
+      "topics": [
+       "theories of motivation",
+       "motivation theories",
+       "motivation"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 14,
+    "language": "en"
+   }
   },
   {
    "q": "Explain modern theory of rent. (7 marks)",
-   "source": "VMOU BBA-03, December 2019"
+   "source": "VMOU BBA-03, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Economics"
+    ],
+    "parts": [
+     {
+      "topic": "modern theory of rent",
+      "facet": "definition",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     },
+     {
+      "topic": "modern theory of rent",
+      "facet": "features",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     },
+     {
+      "topic": "modern theory of rent",
+      "facet": "importance",
+      "topics": [
+       "theory of rent",
+       "rent",
+       "economic rent",
+       "modern theory of rent"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Discuss the process of Entrepreneurship Development Programme. (14 marks)",
-   "source": "VMOU BBA-12, June 2019"
+   "source": "VMOU BBA-12, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Entrepreneurship and Startup Ecosystem"
+    ],
+    "parts": [
+     {
+      "topic": "entrepreneurship development programme",
+      "facet": "process",
+      "topics": [
+       "entrepreneurship development programme",
+       "entrepreneurship development program",
+       "EDP",
+       "entrepreneurship development programmes"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 14,
+    "language": "en"
+   }
   },
   {
    "q": "Explain various factors affecting compensation planning? (7 marks)",
-   "source": "VMOU BBA-08, December 2019"
+   "source": "VMOU BBA-08, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management",
+     "Compensation Management",
+     "Performance and Compensation Management"
+    ],
+    "parts": [
+     {
+      "topic": "compensation",
+      "facet": "factors",
+      "topics": [
+       "compensation",
+       "compensation planning",
+       "compensation management",
+       "employee compensation"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Explain the need of privatisation in India. (7 marks)",
-   "source": "VMOU BBA-04, June 2019"
+   "source": "VMOU BBA-04, June 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Environment and Public Policy"
+    ],
+    "parts": [
+     {
+      "topic": "privatisation",
+      "facet": "importance",
+      "topics": [
+       "privatisation",
+       "privatization",
+       "privatisation in India",
+       "privatization in India"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Describe the main features of industrial policy. (7 marks)",
-   "source": "VMOU BBA-04, December 2019"
+   "source": "VMOU BBA-04, December 2019",
+   "tags": [
+    "past-paper",
+    "vmou"
+   ],
+   "want": {
+    "subject": [
+     "Business Environment and Public Policy"
+    ],
+    "parts": [
+     {
+      "topic": "industrial policy",
+      "facet": "features",
+      "topics": [
+       "industrial policy",
+       "industrial policy of India",
+       "industrial policy in India"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": 7,
+    "language": "en"
+   }
   },
   {
    "q": "Explain your view point on this statement- Is money the prime trigger of 10 employee performance?",
-   "source": "UPES Human Resource Management, May 2024"
+   "source": "UPES Human Resource Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management",
+     "Principles and Practices of Management",
+     "Human Behaviour and Organization",
+     "Compensation Management",
+     "Performance and Compensation Management"
+    ],
+    "parts": [
+     {
+      "topic": "money as a motivator",
+      "facet": "statement",
+      "topics": [
+       "money as a motivator",
+       "money and employee performance",
+       "money",
+       "money and motivation"
+      ]
+     },
+     {
+      "topic": "money as a motivator",
+      "facet": "statement-conclusion",
+      "topics": [
+       "money as a motivator",
+       "money and employee performance",
+       "money",
+       "money and motivation"
+      ]
+     }
+    ],
+    "command": [
+     "evaluate",
+     "explain"
+    ],
+    "marks": 10,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "motivation",
+       "facet": "definition",
+       "topics": [
+        "motivation"
+       ]
+      },
+      {
+       "topic": "money as a motivator",
+       "facet": "statement",
+       "topics": [
+        "money as a motivator",
+        "money and employee performance",
+        "money",
+        "money and motivation"
+       ]
+      },
+      {
+       "topic": "money as a motivator",
+       "facet": "statement-conclusion",
+       "topics": [
+        "money as a motivator",
+        "money and employee performance",
+        "money",
+        "money and motivation"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "What is the purpose of a Business - Level Strategy! Using \"Basis for Customer Value\" & \"Target Market\" explain five business-level strategies 5 a firm chooses to establish and defend their strategic position against their competitors.",
-   "source": "UPES Essentials of Strategic Management, May 2024"
+   "source": "UPES Essentials of Strategic Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Strategic Management"
+    ],
+    "parts": [
+     {
+      "topic": "business-level strategy",
+      "facet": "objectives",
+      "topics": [
+       "business-level strategy",
+       "business level strategy",
+       "business-level strategies",
+       "business strategy"
+      ]
+     },
+     {
+      "topic": "business-level strategy",
+      "facet": "types",
+      "topics": [
+       "business-level strategy",
+       "business level strategy",
+       "business-level strategies",
+       "business strategy"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 5,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "business-level strategy",
+       "facet": "importance",
+       "topics": [
+        "business-level strategy",
+        "business level strategy",
+        "business-level strategies",
+        "business strategy"
+       ]
+      },
+      {
+       "topic": "business-level strategy",
+       "facet": "types",
+       "topics": [
+        "business-level strategy",
+        "business level strategy",
+        "business-level strategies",
+        "business strategy"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Distinguish between job design and job evaluation.",
-   "source": "UPES Human Resource Management, May 2024"
+   "source": "UPES Human Resource Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management"
+    ],
+    "parts": [
+     {
+      "topic": "job design and job evaluation",
+      "facet": "comparison"
+     }
+    ],
+    "command": [
+     "compare"
+    ],
+    "marks": null,
+    "language": "en"
+   }
   },
   {
    "q": "With the help of example explain how innovators support in penetrating a 5 new product in the market.",
-   "source": "UPES Marketing Management, May 2024"
+   "source": "UPES Marketing Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Marketing Management"
+    ],
+    "parts": [
+     {
+      "topic": "innovators",
+      "facet": "importance",
+      "topics": [
+       "innovators",
+       "diffusion of innovations",
+       "adopter categories",
+       "product adoption",
+       "new product adoption",
+       "innovator"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": 5,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "innovators",
+       "facet": "definition",
+       "topics": [
+        "innovators",
+        "diffusion of innovations",
+        "adopter categories",
+        "product adoption",
+        "new product adoption",
+        "innovator"
+       ]
+      },
+      {
+       "topic": "innovators",
+       "facet": "features",
+       "topics": [
+        "innovators",
+        "diffusion of innovations",
+        "adopter categories",
+        "product adoption",
+        "new product adoption",
+        "innovator"
+       ]
+      },
+      {
+       "topic": "innovators",
+       "facet": "importance",
+       "topics": [
+        "innovators",
+        "diffusion of innovations",
+        "adopter categories",
+        "product adoption",
+        "new product adoption",
+        "innovator"
+       ]
+      }
+     ]
+    ],
+    "with": [
+     "examples"
+    ]
+   }
   },
   {
    "q": "Illustrate with example the concept of repositioning a brand.",
-   "source": "UPES Marketing Management, May 2024"
+   "source": "UPES Marketing Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Marketing Management"
+    ],
+    "parts": [
+     {
+      "topic": "brand repositioning",
+      "facet": "definition",
+      "topics": [
+       "brand repositioning",
+       "repositioning",
+       "repositioning a brand"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": null,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "brand repositioning",
+       "facet": "definition",
+       "topics": [
+        "brand repositioning",
+        "repositioning",
+        "repositioning a brand"
+       ]
+      },
+      {
+       "topic": "brand repositioning",
+       "facet": "features",
+       "topics": [
+        "brand repositioning",
+        "repositioning",
+        "repositioning a brand"
+       ]
+      },
+      {
+       "topic": "brand repositioning",
+       "facet": "importance",
+       "topics": [
+        "brand repositioning",
+        "repositioning",
+        "repositioning a brand"
+       ]
+      }
+     ]
+    ],
+    "with": [
+     "examples"
+    ]
+   }
   },
   {
    "q": "What are the modern sources of recruitment?",
-   "source": "UPES Human Resource Management, May 2024"
+   "source": "UPES Human Resource Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management"
+    ],
+    "parts": [
+     {
+      "topic": "recruitment",
+      "facet": "types",
+      "topics": [
+       "recruitment",
+       "sources of recruitment",
+       "modern sources of recruitment",
+       "e-recruitment"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "list"
+    ],
+    "marks": null,
+    "language": "en"
+   }
   },
   {
    "q": "Tesla is planning to Launch portfolio of electric vehicles in India. As a consultant analyze five competitive forces within the industry to identify opportunities and threats and prepare a detail set of recommendations to the Tesla board for successful India market entry.",
-   "source": "UPES Essentials of Strategic Management, May 2024"
+   "source": "UPES Essentials of Strategic Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Strategic Management"
+    ],
+    "parts": [
+     {
+      "topic": "Porter's five forces",
+      "facet": "types",
+      "topics": [
+       "Porter's five forces",
+       "Porter's five forces model",
+       "five forces",
+       "five competitive forces",
+       "competitive forces"
+      ]
+     }
+    ],
+    "command": [
+     "explain",
+     "evaluate"
+    ],
+    "marks": null,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "Porter's five forces",
+       "facet": "definition",
+       "topics": [
+        "Porter's five forces",
+        "Porter's five forces model",
+        "five forces",
+        "five competitive forces",
+        "competitive forces"
+       ]
+      },
+      {
+       "topic": "Porter's five forces",
+       "facet": "features",
+       "topics": [
+        "Porter's five forces",
+        "Porter's five forces model",
+        "five forces",
+        "five competitive forces",
+        "competitive forces"
+       ]
+      },
+      {
+       "topic": "Porter's five forces",
+       "facet": "importance",
+       "topics": [
+        "Porter's five forces",
+        "Porter's five forces model",
+        "five forces",
+        "five competitive forces",
+        "competitive forces"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Do you prefer centralized recruitment or decentralized recruitment for 10 recruiting chief executive officers? Justify your opinion.",
-   "source": "UPES Human Resource Management, May 2024"
+   "source": "UPES Human Resource Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Human Resource Management"
+    ],
+    "parts": [
+     {
+      "topic": "centralized recruitment and decentralized recruitment",
+      "facet": "comparison",
+      "topics": [
+       "centralized recruitment and decentralized recruitment",
+       "centralised and decentralised recruitment",
+       "centralized and decentralized recruitment",
+       "centralization and decentralization"
+      ]
+     }
+    ],
+    "command": [
+     "compare",
+     "evaluate"
+    ],
+    "marks": 10,
+    "language": "en"
+   }
   },
   {
    "q": "Explain RBV & I/O view of Strategic Planning! Identify one key model each used by supporters of RBV & IO view respectively. Briefly explain any one model of your choice!",
-   "source": "UPES Essentials of Strategic Management, May 2024"
+   "source": "UPES Essentials of Strategic Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Strategic Management"
+    ],
+    "parts": [
+     {
+      "topic": "resource-based view",
+      "facet": "definition",
+      "topics": [
+       "resource-based view",
+       "resource based view",
+       "RBV"
+      ]
+     },
+     {
+      "topic": "industrial organization view",
+      "facet": "definition",
+      "topics": [
+       "industrial organization view",
+       "I/O view",
+       "industrial organization",
+       "IO view"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": null,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "resource-based view and industrial organization view",
+       "facet": "comparison",
+       "topics": [
+        "resource-based view and industrial organization view",
+        "RBV and I/O view",
+        "RBV and IO view"
+       ]
+      }
+     ]
+    ]
+   }
   },
   {
    "q": "Explain channel design and its significance in distribution management.",
-   "source": "UPES Marketing Management, May 2024"
+   "source": "UPES Marketing Management, May 2024",
+   "tags": [
+    "past-paper",
+    "upes"
+   ],
+   "want": {
+    "subject": [
+     "Marketing Management"
+    ],
+    "parts": [
+     {
+      "topic": "channel design",
+      "facet": "definition",
+      "topics": [
+       "channel design",
+       "marketing channel design",
+       "distribution channel design",
+       "channel of distribution",
+       "distribution channels"
+      ]
+     },
+     {
+      "topic": "channel design",
+      "facet": "importance",
+      "topics": [
+       "channel design",
+       "marketing channel design",
+       "distribution channel design",
+       "channel of distribution",
+       "distribution channels"
+      ]
+     }
+    ],
+    "command": [
+     "explain"
+    ],
+    "marks": null,
+    "language": "en",
+    "otherwise": [
+     [
+      {
+       "topic": "channel design",
+       "facet": "definition",
+       "topics": [
+        "channel design",
+        "marketing channel design",
+        "distribution channel design",
+        "channel of distribution",
+        "distribution channels"
+       ]
+      },
+      {
+       "topic": "channel design",
+       "facet": "features",
+       "topics": [
+        "channel design",
+        "marketing channel design",
+        "distribution channel design",
+        "channel of distribution",
+        "distribution channels"
+       ]
+      },
+      {
+       "topic": "channel design",
+       "facet": "importance",
+       "topics": [
+        "channel design",
+        "marketing channel design",
+        "distribution channel design",
+        "channel of distribution",
+        "distribution channels"
+       ]
+      }
+     ]
+    ]
+   }
   }
  ]
 }

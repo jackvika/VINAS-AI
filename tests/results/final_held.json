@@ -1,0 +1,152 @@
+{
+ "when": "2026-11-26T05:55:05.846Z",
+ "reader": true,
+ "set": "held",
+ "parse": {
+  "questions": 87,
+  "topic": 73.6,
+  "facets": 77,
+  "command": 96.6,
+  "marks": 93.1,
+  "words": 97.7,
+  "subject": 82.8,
+  "language": 98.9,
+  "weights": 33.3,
+  "whole": 58.6,
+  "tags": {
+   "clean": "whole 0/1, topic 1/1",
+   "vmou": "whole 27/49, topic 38/49",
+   "typo": "whole 4/5, topic 5/5",
+   "statement": "whole 2/5, topic 2/5",
+   "clutter": "whole 1/2, topic 1/2",
+   "multi": "whole 3/3, topic 3/3",
+   "diff-topic": "whole 1/2, topic 1/2",
+   "or": "whole 1/2, topic 2/2",
+   "lookalike": "whole 1/1, topic 1/1",
+   "short": "whole 3/3, topic 3/3",
+   "command": "whole 3/3, topic 3/3",
+   "hindi": "whole 3/3, topic 3/3",
+   "ambiguous": "whole 1/2, topic 1/2",
+   "past-paper": "whole 19/40, topic 26/40",
+   "upes": "whole 3/10, topic 4/10"
+  }
+ },
+ "answers": {},
+ "quality": {
+  "questions": 10,
+  "unsure": 0,
+  "sentences": 141,
+  "words": 2929,
+  "coverage": 67.8,
+  "offTopic": 7.8,
+  "facetMismatch": 0,
+  "repetition": 0,
+  "repeatedPairs": 0,
+  "dangling": 0,
+  "signposts": 0,
+  "gapHonesty": 10.5,
+  "marks": null,
+  "marksPercent": null,
+  "rows": [
+   {
+    "q": "\"Planning is looking ahead and controlling is looking back.\" Comment. (10 marks)",
+    "coverage": 66.7,
+    "unsure": false,
+    "missing": [
+     "the two are linked",
+     "controlling looks ahead too"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Planning as looking ahead: claim; Controlling as looking back: claim; Planning and controlling: conclusion (in brief) · Principles and Practices of Management · 10 marks (~400 words)"
+   },
+   {
+    "q": "Explain the steps in the planning process. (10 marks)",
+    "coverage": 71.4,
+    "unsure": false,
+    "missing": [
+     "choose",
+     "implement"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Planning: process · Principles and Practices of Management · 10 marks (~400 words)"
+   },
+   {
+    "q": "Explain Management by Objectives. (10 marks)",
+    "coverage": 100,
+    "unsure": false,
+    "missing": [],
+    "understood": "Prepared by VINASUnderstood as: Management by objectives: definition, features, importance · Principles and Practices of Management · 10 marks (~400 words)"
+   },
+   {
+    "q": "Explain SWOT analysis. (5 marks)",
+    "coverage": 40,
+    "unsure": false,
+    "missing": [
+     "strengths",
+     "weaknesses",
+     "opportunities"
+    ],
+    "understood": "Prepared by VINASUnderstood as: SWOT analysis: definition, features, importance · Principles and Practices of Management · 5 marks (~180 words)"
+   },
+   {
+    "q": "Explain the functions of human resource management. (10 marks)",
+    "coverage": 71.4,
+    "unsure": false,
+    "missing": [
+     "planning",
+     "training and development"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Human resource management: functions · Human Resource Management · 10 marks (~400 words)"
+   },
+   {
+    "q": "What is group? Explain the stages of group development. (10 marks)",
+    "coverage": 83.3,
+    "unsure": false,
+    "missing": [
+     "adjourning"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Group: definition; Stages of group development: process · Human Behaviour and Organization · 10 marks (~400 words)"
+   },
+   {
+    "q": "Distinguish between marketing and selling. (10 marks)",
+    "coverage": 80,
+    "unsure": false,
+    "missing": [
+     "scope"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Marketing and selling: comparison · Marketing Management · 10 marks (~400 words)"
+   },
+   {
+    "q": "Explain price elasticity of demand and its types. (10 marks)",
+    "coverage": 83.3,
+    "unsure": false,
+    "missing": [
+     "inelastic"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Price elasticity of demand: definition, types · Business Economics · 10 marks (~400 words)"
+   },
+   {
+    "q": "What is business environment? Explain its components. (10 marks)",
+    "coverage": 66.7,
+    "unsure": false,
+    "missing": [
+     "economic",
+     "technological"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Business environment: definition, types · Business Environment and Public Policy · 10 marks (~400 words)"
+   },
+   {
+    "q": "What is globalisation? Explain its advantages and disadvantages. (10 marks)",
+    "coverage": 0,
+    "unsure": false,
+    "missing": [
+     "defined",
+     "advantage: wider markets",
+     "advantage: cheaper goods and growth",
+     "disadvantage: jobs",
+     "disadvantage: inequality or culture"
+    ],
+    "understood": "Prepared by VINASUnderstood as: Globalisation: definition, advantages, limitations · Business Environment and Public Policy · 10 marks (~400 words)"
+   }
+  ]
+ },
+ "askedWikipedia": 72
+}
