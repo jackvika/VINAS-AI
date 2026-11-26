@@ -279,10 +279,9 @@
         await ask('Q.2 Define planing. Explain its types and importance. (10M)');
         checks['the line'] = line() === 'Understood as: Planning: definition, types, importance · Principles and Practices of Management · 10 marks (~400 words)';
         checks['spelling is told'] = /Spelling read as: planning/.test(by('understood').textContent);
-        checks['labelled'] = /^Prepared by VINAS/.test(by('understood').textContent);
+        checks['no labels of the workings'] = !/Prepared by VINAS/.test(by('understood').textContent + by('answer').textContent);
         const copy = by('answer-text').value;
-        checks['in the copy'] = copy.includes(`Prepared by VINAS. ${line()}`) && copy.includes('Study notes with sources. Write the answer in your own words for exams and assignments.');
-        checks['study notes on the page'] = /Study notes with sources/.test(by('answer').textContent);
+        checks['nothing of the workings in the copy'] = !/Prepared by VINAS|Understood as|Study notes with sources/.test(copy);
         chips()[2].click();
         await pressed('Remove');
         checks['a part is removed'] = chips().length === 2 && /Planning: definition, types ·/.test(line());
@@ -312,7 +311,7 @@
         checks['other questions as before'] = /Understood as a definition\. Topic: photosynthesis/.test(by('understood').textContent) && !by('answer').hidden;
         checks['nothing from outside is HTML'] = !by('understood').querySelector('img, script') && (await (async () => { await ask('Explain <img src=x onerror=alert(1)> planning'); return !by('answer').querySelector('img'); })());
         await ask('Distinguish between recruitment and selection. (10 marks)');
-        const label = 'Prepared by VINAS, not quoted from a source';
+        const label = 'Not quoted from a source';
         checks['a prepared table'] = Boolean(by('answer-body').querySelector('.prepared table')) && by('answer-text').value.includes(`${label}. Comparison of recruitment and selection:`) && by('answer-body').querySelector('.prepared .made').textContent === label;
         await ask('Explain the levels of management with the help of a neat diagram.');
         checks['a prepared diagram'] = Boolean(by('answer-body').querySelector('.prepared svg.pyramid')) && by('answer-text').value.includes(`${label}. Diagram, Levels of management`);
@@ -323,6 +322,10 @@
         checks['a link asks its topic'] = /^Understood as: Managerial skills/.test(line());
         await ask('Explain grapevine communication with diagram.');
         checks['no diagram is told'] = /No prepared diagram is available/.test(by('answer-text').value);
+        await ask('"Management is the art of getting things done through people." Explain Henri Fayol’s 14 Principles of Management with brief examples and evaluate whether they are still practical in today\'s workplaces.');
+        const all = by('answer-text').value;
+        checks['every part of a long question has its place'] = /Relevance of Fayol['’]s 14 principles of management today/i.test(all) && /getting things done/i.test(all) && /Division of work/.test(all) && /with examples/.test(line());
+        checks['no heading said twice'] = !/^### Division of work\s*\n+Division of work/im.test(all) && /Division of work\s*[-–:]/.test(all);
         result.page = checks;
         result.answers = { page: Object.entries(checks).map(([k, v]) => `${v ? 'ok  ' : 'FAIL'}  ${k}`).join('\n') };
     }
@@ -363,7 +366,9 @@
         const off = c.off ? new RegExp(c.off, 'i') : null;
         // A sentence that leans on the one before it, and is shown with it, has its topic from there.
         const leans = (s, i) => (LINKED.test(s.text) || POINTS_BACK.test(s.text.split(/,/)[0])) && i > 0 && on.test(shown[i - 1].plain) && follows(shown[i - 1], s);
-        const named = (s) => { const m = /^([^.:–—]{3,70}?)\s*(?:\s[-–—]\s|:\s)/.exec(s.text); return Boolean(m) && s.sub && [...grams(m[1])].some((w) => grams(s.sub).has(w)); };
+        // A list line that begins with its own name ("Remuneration - ...") is named by it; when the page shows no heading over it
+        // (step 10: a heading that the line repeats is left out), its own label stands for the heading.
+        const named = (s) => { const m = /^([^.:–—]{3,70}?)\s*(?:\s[-–—]\s|:\s)/.exec(s.text); return Boolean(m) && (s.sub ? [...grams(m[1])].some((w) => grams(s.sub).has(w)) : m[1].split(/\s+/).length <= 7); };
         const offTopic = shown.filter((s, i) => (off && off.test(s.plain)) || !(named(s) || on.test(s.plain) || (s.item && on.test(s.heads)) || leans(s, i)));
         const facet = shown.filter((s) => c.facet_off.some((f) => new RegExp(f.under, 'i').test(`${s.head} ${s.sub}`) && new RegExp(f.phrases, 'i').test(s.plain)));
         const dangling = shown.filter((s, i) => !s.item && !named(s) && (LINKED.test(s.text) || POINTS_BACK.test(s.text.split(/,/)[0].split(/\s+/).slice(0, 9).join(' '))) && !follows(shown[i - 1], s));

@@ -1169,6 +1169,7 @@ const Ask = (() => {
             else if (p.facet === 'comparison') Object.assign(one, { q: `Difference between ${p.sides[0]} and ${p.sides[1]}`, head: `Difference between ${p.sides[0]} and ${p.sides[1]}`, compare: true });
             else if (p.facet === 'relationship') Object.assign(one, { q: `Explain the relationship between ${t}`, head: `Relationship between ${t}` });
             else if (p.facet === 'definition') Object.assign(one, { q: `What is ${t}`, head: `Meaning of ${t}`, defines: true });
+            else if (p.facet === 'relevance') Object.assign(one, { q: `Are ${t} still relevant and practical today? Criticism and modern relevance of ${t}`, head: `Relevance of ${t} today`, gap: `relevance of ${t} today` });
             else if (p.facet === 'process') Object.assign(one, { q: /^(?:process|procedure)$/.test(p.word || '') ? `Explain the ${p.word} of ${t}` : /^stages?$/.test(p.word || '') ? `What are the stages of ${t}` : `What are the steps in ${/process$/i.test(t) ? `the ${t}` : t}`, head: `Process of ${t.replace(/\s+process$/i, '')}`, aspect: 'process' });
             else if (p.facet === 'statement' || p.facet === 'statement-conclusion') {
                 const is = t.replace(/ as (?=\w+ing\b)/, ' is ');
@@ -1228,10 +1229,14 @@ const Ask = (() => {
             const weightOf = (x) => (asks ? x.weight : x.aspect || x.compare || x.statement ? 1.15 : 0.8);
             const left = read_.parts.slice(i).reduce((n, x) => n + weightOf(x), 0);
             const share = Math.max(60, Math.round(asks ? (whole - out.reduce((n, x) => n + x.words, 0)) * weightOf(part) / left : whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
-            const got = await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '' });
+            const got = part.facet === 'relevance' ? await relevanceOf(part.topic, lang, share, books, pool) : await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '' });
             if (!first) first = got;
+            const placeOf = () => (part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`);
+            // A part with no sure text still has its heading, and says so, in its own place.
+            const empty = () => ({ head: placeOf(), sub: '', chosen: [], words: 0, cover: 0, wanted: 1, note: `The textbooks and Wikipedia were searched for this part, and no text that surely answers it was found. Cover it from your class notes.` });
             if (!got.parts.length || !got.sure) {
                 missing.push(part.gap || part.head);
+                if (asks) out.push(empty());
                 continue;
             }
             any = true;
@@ -1255,7 +1260,10 @@ const Ask = (() => {
                 out.push({ ...p, note: '', head: p.head === 'Conclusion' ? 'Conclusion' : opened ? '' : name, sub: p.head === 'Conclusion' ? '' : sub, chosen, words: chosen.reduce((n, x) => n + length(x), 0) });
                 opened = true;
             }
-            if (!opened) missing.push(part.gap || part.head);
+            if (!opened) {
+                missing.push(part.gap || part.head);
+                if (asks) out.push(empty());
+            }
         }
         // The conclusion of a statement is the end of its answer.
         const ends = out.filter((p) => p.head === 'Conclusion');
@@ -1270,6 +1278,41 @@ const Ask = (() => {
         const last = asks ? clean(out) : out;
         for (const p of asks ? out : []) if (p.head && !last.some((x) => x.head === p.head) && !missing.includes(p.head.replace(/^\d+\.\s*/, ''))) missing.push(p.head.replace(/^\d+\.\s*/, ''));
         return { asked, parts: last, size: whole, told: asks ? told_ : size > 0 || told.words > 0, sure: true, missing, checklist, plan };
+    }
+
+    /**
+     * How far a topic holds today. A search of its own, first in the textbooks and then in Wikipedia, because a search for the
+     * topic itself finds only the topic: only sentences that name the topic, or stand in a section on it, and speak of today,
+     * of modern practice or of criticism are read, and the reader keeps those it thinks answer.
+     */
+    async function relevanceOf(topic, lang, size, books, pool) {
+        const asked = { ...understand(`Explain ${topic}`), kind: 'explain', topics: [topic] };
+        const core = coreOf({ topics: [topic], q: topic });
+        const NOW = /\b(?:today|todays?|today['’]s|modern|still|contemporary|current(?:ly)?|present[- ]day|nowadays|relevan(?:t|ce)|outdated|obsolete|criticis(?:m|ed|e)|critics?|limitations?|remain(?:s)? (?:valid|useful|in use)|influence[sd]?|then and now)\b/i;
+        const pages = [];
+        if (typeof Book === 'object') pages.push(...await Book.find(`Are ${topic} still relevant in modern organizations today?`, 3, 0.05, books));
+        if (lang !== 'hi') {
+            const found = [...await search(lang, `${topic} modern workplace`, 4), ...await search(lang, topic, 3)];
+            const seen = new Set();
+            pages.push(...await articles(lang, found.filter((x) => !seen.has(x.pageid) && seen.add(x.pageid)), 3));
+        }
+        const named = (x, page) => speaks(core, `${x.text} ${x.section} ${page.title}`);
+        const all = pages.flatMap((page) => read({ ...page, order: 0 }).map((x) => ({ ...x, page, terms: terms(x.text) })))
+            .filter((x) => !x.item && length(x) >= 8 && length(x) <= 70 && !/\?/.test(x.text) && NOW.test(`${x.text} ${x.section}`) && named(x, x.page) && !SIGNPOST.test(x.text));
+        const some = all.filter((x, i) => all.findIndex((y) => y.text === x.text) === i).slice(0, 40);
+        const p = some.length ? await Judge_(`Are ${topic} still relevant and practical in today's workplaces?`, some) : null;
+        if (!p) return { asked, parts: [], sure: false };
+        some.forEach((x, i) => { x.judged = p[i]; });
+        pool.push(...some);
+        const chosen = [];
+        let n = 0;
+        for (const x of [...some].sort((a, b) => b.judged - a.judged)) {
+            if (x.judged < 0.1 || n > size * 1.1 || chosen.some((y) => alike(x, y) > 0.6)) continue;
+            chosen.push({ ...x, section: '' });
+            n += length(x);
+        }
+        chosen.sort((a, b) => pages.indexOf(a.page) - pages.indexOf(b.page) || a.place - b.place);
+        return { asked, parts: chosen.length ? [{ head: '', chosen, cover: 1, wanted: 1, words: n }] : [], sure: chosen.length > 0 };
     }
 
     const Judge_ = async (q, list) => (readerReady() ? Judge.score(q, list.map((x) => `${x.page.title}${x.section ? ` > ${x.section}` : ''}: ${x.text}`)) : null);
@@ -1515,7 +1558,7 @@ const Ask = (() => {
 
     // Diagrams and tables that were written by hand (static/prepared.json).
     let hand = { diagrams: [], tables: [] };
-    const NOTQUOTED = 'Prepared by VINAS, not quoted from a source';
+    const NOTQUOTED = 'Not quoted from a source';
     const SVG = 'http://www.w3.org/2000/svg';
     const draw = (name, attributes, text) => {
         const node = document.createElementNS(SVG, name);
@@ -1607,16 +1650,16 @@ const Ask = (() => {
             lines.push(`${NOTQUOTED}. Diagram, ${d.title}${d.kind === 'pyramid' ? ' (from the top)' : ''}: ${d.rows.join(d.kind === 'pyramid' || d.plain ? ' | ' : ' > ')}.`, '');
         }
         if (query.with.includes('diagram') && !shown.size) {
-            const none = el('p', `${MADE}. No prepared diagram is available for this topic.`);
+            const none = el('p', 'No prepared diagram is available for this topic.');
             none.className = 'prepared';
             out.push(none);
-            lines.push(`${MADE}. No prepared diagram is available for this topic.`, '');
+            lines.push('No prepared diagram is available for this topic.', '');
         }
         const related = [...new Set(query.parts.flatMap((p) => { const x = Ask.ITEMS.find(([pattern]) => pattern.test(p.topic)); return x && x[3] ? x[3].related || [] : []; }))].filter((x) => !query.parts.some((p) => sameTopic(p.topic, x))).slice(0, 4);
         if (related.length) {
             const box = el('div');
             box.className = 'prepared block';
-            const line = el('p', `${MADE}. Also mention for extra marks: `);
+            const line = el('p', 'Also mention for extra marks: ');
             for (const x of related) {
                 const chip = press(x, 'chip', () => {
                     by('question').value = `Explain ${x}`;
@@ -1627,15 +1670,13 @@ const Ask = (() => {
             const box_ = by('ask');
             box.append(line);
             out.push(box);
-            lines.push(`${MADE}. Also mention for extra marks: ${related.join(', ')}.`, '');
+            lines.push(`Also mention for extra marks: ${related.join(', ')}.`, '');
         }
         return out;
     }
 
     // What the site says itself is always told apart from what it quotes.
-    const MADE = 'Prepared by VINAS';
-    const STUDY = 'Study notes with sources. Write the answer in your own words for exams and assignments.';
-    const FACETS = [['definition', 'definition'], ['features', 'features'], ['scope', 'scope'], ['importance', 'importance'], ['objectives', 'objectives'], ['types', 'types'], ['process', 'process'], ['principles', 'principles'], ['functions', 'functions'], ['advantages', 'advantages'], ['limitations', 'limitations'], ['factors', 'factors'], ['effects', 'effects'], ['comparison', 'comparison'], ['relationship', 'relationship'], ['short-note', 'short note'], ['statement', 'claim'], ['statement-conclusion', 'conclusion']];
+    const FACETS = [['definition', 'definition'], ['features', 'features'], ['scope', 'scope'], ['importance', 'importance'], ['objectives', 'objectives'], ['types', 'types'], ['process', 'process'], ['principles', 'principles'], ['functions', 'functions'], ['advantages', 'advantages'], ['limitations', 'limitations'], ['factors', 'factors'], ['effects', 'effects'], ['comparison', 'comparison'], ['relationship', 'relationship'], ['relevance', 'relevance today'], ['short-note', 'short note'], ['statement', 'claim'], ['statement-conclusion', 'conclusion']];
     const facetName = (f) => (FACETS.find((x) => x[0] === f) || [f, f])[1];
     const press = (text, className, act) => {
         const node = el('button', text);
@@ -1648,9 +1689,7 @@ const Ask = (() => {
     /** The line above an answer that says how the question was read. Each part of it can be changed or removed. Returns it as text. */
     function showQuery(question, result) {
         const home = by('understood');
-        const tag = el('span', MADE);
-        tag.className = 'made';
-        home.replaceChildren(tag);
+        home.replaceChildren();
         const unsure = (what) => {
             const low = el('p', `VINAS is not sure that it read this question right. ${what}`);
             low.className = 'low';
@@ -1738,6 +1777,12 @@ const Ask = (() => {
         name.focus();
     }
 
+    /** Whether a sentence begins with the words of a heading and a dash or colon, as list items in Wikipedia do. */
+    function titled(text, head) {
+        const h = head.replace(/^\d+\.\s*/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return new RegExp(`^${h}\\s*[-–—:]\\s+\\S`, 'i').test(text);
+    }
+
     /** Builds the answer from text nodes only, so nothing from outside can become a tag. */
     function show(question, result) {
         const sources = [];
@@ -1746,8 +1791,8 @@ const Ask = (() => {
             : 'Not sure: no right answer was found. The closest sentences may not answer the question. Check the sources, or ask it another way.';
         // The warning goes wherever the answer goes: to the copy, the file and the PDF.
         const gap = result.missing && result.missing.length ? `Not found in sources: ${result.missing.join('; ')}.` : '';
-        lines.push(`${MADE}. ${showQuery(question, result)}`, '', STUDY, '');
-        if (note) lines.push(`${MADE}. ${note}`, '');
+        showQuery(question, result);
+        if (note) lines.push(note, '');
         let body = by('answer-body');
         body.replaceChildren();
         // What may not be the answer is not shown as if it were: it is folded away.
@@ -1767,12 +1812,12 @@ const Ask = (() => {
                 lines.push(`## ${Ask.british(part.head)}`, '');
             }
             if (part.note) {
-                const made = el('p', `${MADE}: ${part.note}`);
+                const made = el('p', part.note);
                 made.className = 'prepared';
                 body.append(made);
-                lines.push(`${MADE}: ${part.note}`, '');
+                lines.push(part.note, '');
             }
-            if (part.sub) {
+            if (part.sub && !(part.chosen[0] && titled(part.chosen[0].text, part.sub))) {
                 body.append(el('h4', Ask.british(part.sub)));
                 lines.push(`### ${Ask.british(part.sub)}`, '');
             }
@@ -1785,7 +1830,8 @@ const Ask = (() => {
                 if (section !== s.section + s.page.url) {
                     section = s.section + s.page.url;
                     home = null;
-                    if (s.section) {
+                    // A sentence that begins with its own heading ("Division of work - ...") needs no heading above it.
+                    if (s.section && !titled(s.text, s.section)) {
                         body.append(el('h4', Ask.british(s.section)));
                         lines.push('', `### ${Ask.british(s.section)}`, '');
                     }
@@ -1819,10 +1865,10 @@ const Ask = (() => {
         const eg = course && course.with.includes('examples') && !/\b(?:for example|for instance|such as|e\.g\.|examples?)\b/i.test(result.parts.flatMap((p) => p.chosen.map((x) => x.text)).join(' ')) ? 'Not sure: no example was found in the sources.' : '';
         if (course) by('answer-body').append(...extras(course, lines));
         for (const line of [eg, gap, result.checklist && result.checklist.length ? `To cover: ${result.checklist.join(', ')}.` : ''].filter(Boolean)) {
-            const made = el('p', `${MADE}. ${line}`);
+            const made = el('p', line);
             made.className = 'prepared gap';
             by('answer-body').append(made);
-            lines.push(`${MADE}. ${line}`, '');
+            lines.push(line, '');
         }
         by('sources').replaceChildren(...sources.map((s, i) => {
             const item = el('li');
@@ -1838,7 +1884,7 @@ const Ask = (() => {
         by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from open textbooks, under the licence named with each.' : ''].filter(Boolean).join(' ')}\n`;
         const total = result.parts.reduce((n, x) => n + x.words, 0);
         by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but the sources have no more that fits this question` : ''}`;
-        by('ask-note').textContent = note ? `${MADE}. ${note}` : '';
+        by('ask-note').textContent = note || '';
         by('answer').hidden = false;
         by('answer').scrollIntoView();
     }

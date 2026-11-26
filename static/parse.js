@@ -318,6 +318,8 @@ const Parse = (() => {
         return Math.round(x + (y - x) * (marks - a) / (b - a));
     }
 
+    // Whether something still holds today, in so many words.
+    const RELEVANT = /\b(?:evaluate|examine|discuss|assess|analy[sz]e|comment(?: on)?|explain|state)?\s*(?:whether|how far|to what extent|if)\s+(.{1,60}?)\s+(?:is|are|remain|remains|continue to be|can still be)\s+(?:still\s+)?(?:practical|relevant|applicable|valid|useful|in use|followed|practised|practiced)\b|\b(?:relevance|applicability|validity|usefulness)\s+(?:of\s+(.{2,60}?)\s+)?(?:today|now|in (?:the )?(?:modern|present|today['’]?s|current|contemporary)\b)|\bin (?:today['’]?s|modern|present[- ]day|contemporary) (?:workplaces?|organi[sz]ations?|business|times|world|context)\b.*\b(?:practical|relevant|applicable|valid)\b/i;
     const ADJ = '(?:(?:any|the|its|their|all|main|major|key|chief|basic|important|salient|distinct|distinctive|distinguishing|various|different|several|many|some|other|essential|fundamental|principal|general|common|primary|specific|modern|internal|external|two|three|four|five|six|seven|eight|ten|\\d{1,2}|good)\\s+)*';
     const FACET = [
         ['definition', 'meanings?|definitions?|concepts?'], ['features', 'features?|characteristics?|nature|qualit(?:y|ies)|attributes?|essentials?|traits?|requisites?|essential (?:features|elements|characteristics)'], ['scope', 'scope'],
@@ -932,7 +934,7 @@ const Parse = (() => {
         const reads = two.map((x) => {
             const frame = unframe(x);
             const wants = [];
-            let s = frame.s.replace(/,?\s*\b(?:(?:and\s+)?(?:with|giving|give|by giving|along with|citing|quoting|using)\s+(?:the help of\s+)?(?:an?\s+|some\s+|two\s+|three\s+)?(?:suitable|appropriate|relevant|practical|real[- ]life|proper)?\s*(?:examples?|illustrations?))\b/gi, () => { wants.push('examples'); return ' '; })
+            let s = frame.s.replace(/,?\s*\b(?:(?:and\s+)?(?:with|giving|give|by giving|along with|citing|quoting|using)\s+(?:the help of\s+)?(?:an?\s+|some\s+|two\s+|three\s+)?(?:suitable|appropriate|relevant|practical|real[- ]life|proper|brief|short|simple|apt)?\s*(?:examples?|illustrations?))\b/gi, () => { wants.push('examples'); return ' '; })
                 .replace(/,?\s*\b(?:with|using|draw|give|also draw|and draw)\s+(?:the help of\s+)?(?:an?\s+|the\s+)?(?:neat|suitable|labelled|neat and labelled|proper|clean)?\s*(?:and\s+\w+\s+)?(?:diagrams?|figures?|sketch|flow ?charts?)\b/gi, () => { wants.push('diagram'); return ' '; });
             if (/उदाहरण|\budaharan|\bexample sahit/i.test(s) && language !== 'en') wants.push('examples');
             if (/चित्र|रेखाचित्र/.test(s)) wants.push('diagram');
@@ -941,6 +943,13 @@ const Parse = (() => {
             s = mended.q.replace(/\b[A-Z]{3,6}\b/g, (w) => (bank.names.get(norm(w)) ? w : SHORT[w] || INDIA[w] || w));
             const state = { last: before, lastKnown: Boolean(before), senses: [], subject, others: s };
             const got = parts1(s, state, language);
+            // "evaluate whether they are still practical today": how far a topic holds now is a part of its own.
+            const now = RELEVANT.exec(s);
+            if (now && !got.parts.some((p) => p.facet === 'relevance')) {
+                const named = now[1] && !/^(?:they|it|these|this|them|those)$/i.test(now[1].trim()) ? topicOf(now[1], state) : null;
+                const base = (named && named.known ? named : null) || [...got.parts].reverse().find((p) => !/^statement/.test(p.facet) && p.facet !== 'definition') || got.parts[got.parts.length - 1];
+                if (base) got.parts.push({ topic: base.topic, known: base.known !== false, facet: 'relevance', weight: 1 });
+            }
             return { ...got, frame, wants: [...new Set(wants)], fixed: mended.fixed, senses: state.senses, text: s };
         });
         const build = (r) => {
