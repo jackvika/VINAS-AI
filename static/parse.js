@@ -341,7 +341,14 @@ const Parse = (() => {
     const CONTEXT = /\s+(?:as (?:an? )?(?:function|element|part|step|tool|aspect|branch|field|managerial function) of|in|under|within|for)\s+(.{3,60})$/i;
 
     // What is known of topics: filled by teach().
-    const bank = { names: new Map(), info: new Map(), natural: {}, senses: {}, hindi: new Map(), words: new Map(), statements: [], titles: new Map(), courses: [], df: new Map(), heads: new Set(), longest: 1 };
+    /** A Hindi word without the ending it takes after "ke" or in the plural: स्तरों and स्तर, शैलियों and शैलियाँ, are one. */
+    const plainHindi = (t) => t.split(' ').map((w) => (/\p{Script=Devanagari}/u.test(w) && w.length > 3 ? w.replace(/(?:ियों|ियाँ|ियां)$/u, 'ी').replace(/(?:ाओं|ाएँ|ाएं)$/u, 'ा').replace(/(?:ों|ें|एँ|एं)$/u, '') : w)).join(' ');
+    class HindiMap extends Map {
+        get(k) { return super.get(k) ?? super.get(plainHindi(k)); }
+        has(k) { return super.has(k) || super.has(plainHindi(k)); }
+        set(k, v) { super.set(k, v); const p = plainHindi(k); if (!super.has(p)) super.set(p, v); return this; }
+    }
+    const bank = { names: new Map(), info: new Map(), natural: {}, senses: {}, hindi: new HindiMap(), words: new Map(), statements: [], titles: new Map(), courses: [], df: new Map(), heads: new Set(), longest: 1 };
     const WHO = [
         [/\bfayol|फेयोल|फेयॉल|फ़ेयोल/i, /\bprincipl|\bsid+hant|सिद्धां?न?्?त/i, "Fayol's 14 principles of management"], [/\bfayol|फेयोल/i, /\bfunctions?\b|\belements\b|\bkarya\b|कार्य/i, "Fayol's functions of management"],
         [/\btaylor/i, /\bprincipl|\bsid+hant/i, "Taylor's principles of scientific management"], [/\btaylor/i, /\bscientific management/i, "Taylor's scientific management"],
@@ -716,15 +723,15 @@ const Parse = (() => {
     const INDIC = [
         ['definition', 'paribhasha|paribhasa|arth|matlab|aashay|avdharna|meaning|definition|परिभाषा|परिभाषाएँ|अर्थ|आशय|अवधारणा|संकल्पना'], ['features', 'visheshta[a-z]*|visheshtayen?|lakshan|prakriti|swabhav|features?|characteristics?|nature|विशेषता|विशेषताएँ|विशेषताएं|विशेषताये|विशेषताओं|लक्षण|लक्षणों|प्रकृति|स्वभाव'],
         ['scope', 'kshetra|scope|क्षेत्र'], ['importance', 'mahatv[a-z]*|mahatw[a-z]*|importance|zaroorat|zarurat|jarurat|aavashyakta|avashyakta|need|significance|महत्व|महत्त्व|महत्ता|आवश्यकता'], ['objectives', 'uddeshy[a-z]*|udeshy[a-z]*|objectives?|lakshya|उद्देश्य|उद्देश्यों|लक्ष्य'],
-        ['types', 'prakar|prakaar|types?|kinds?|vargikaran|tatv[a-z]*|srot|sources?|elements?|vidhi[a-z]*|methods?|techniques?|taknik|shailiy[a-z]*|styles?|प्रकार|प्रकारों|वर्गीकरण|तत्व|तत्त्व|तत्वों|स्रोत|विधि|विधियाँ|विधियां|विधियों|तकनीक|तकनीकें|भेद'],
+        ['types', 'prakar|prakaar|types?|kinds?|aadhar|adhar|aadhaar|bases?|आधार|आधारों|vargikaran|tatv[a-z]*|srot|sources?|elements?|vidhi[a-z]*|methods?|techniques?|taknik|shailiy[a-z]*|styles?|प्रकार|प्रकारों|वर्गीकरण|तत्व|तत्त्व|तत्वों|स्रोत|विधि|विधियाँ|विधियां|विधियों|तकनीक|तकनीकें|भेद'],
         ['process', 'prakriya|prakriyaa|process|charan|steps?|stages?|procedure|प्रक्रिया|चरण|चरणों|अवस्थाएँ|अवस्थाएं|अवस्थाओं'], ['principles', 'siddhant[a-z]*|sidhant[a-z]*|principles?|सिद्धांत|सिद्धान्त|सिद्धांतों|सिद्धान्तों'], ['functions', 'karya|kaarya|karyon|functions?|bhumika|role|कार्य|कार्यों|भूमिका'],
         ['advantages', 'fay?de|faayde|fayda|faide|labh|laabh|gun|advantages?|benefits?|merits?|लाभ|लाभों|गुण|फायदे|फ़ायदे'], ['limitations', 'nuksan|nuqsan|nuksaan|hani[a-z]*|haani[a-z]*|dosh|seema[a-z]*|sima[a-z]*|apvad|baadha[a-z]*|badha[a-z]*|disadvantages?|limitations?|demerits?|सीमा|सीमाएँ|सीमाएं|सीमाओं|हानि|हानियाँ|हानियां|दोष|दोषों|नुकसान|अपवाद|बाधा|बाधाएँ|बाधाएं|बाधाओं'], ['factors', 'karak|karako[a-z]*|karan|factors?|कारक|कारकों|घटक|घटकों|कारण|कारणों'],
     ].map(([name, w]) => [name, new RegExp(`^(?:${w})$`, 'iu')]);
     const DIFFER = '(?:antar|difference|differences|farak|fark|farq|bhed|अंतर|अन्तर|भेद|फर्क|फ़र्क|भिन्नता|तुलना)';
     const JOIN = '(?:aur|or|and|&|evam|tatha|va|तथा|एवं|एवम्|और|व)';
-    const AFTER = /^(?:ke|ki|ka|k|ko|me|mein|main|mai|se|par|की|के|का|को|में|से|पर|kitne|kitni|कितने|कितनी|vibhinn|विभिन्न|mukhya|मुख्य|pramukh|प्रमुख|main|liye|लिए)$/iu;
+    const AFTER = /^(?:ke|ki|ka|k|ko|me|mein|main|mai|se|par|mapne|मापने|मापन|ganana|गणना|nirdharan|निर्धारण|की|के|का|को|में|से|पर|kitne|kitni|कितने|कितनी|vibhinn|विभिन्न|mukhya|मुख्य|pramukh|प्रमुख|main|liye|लिए)$/iu;
     const SAYS = /^(?:batao|bataiye|bataye|bataiy|bata|samjhao|samjhaiye|samjhaye|samjha|likho|likhiye|likhe|dijiye|do|karo|kijiye|kare|karen|explain|define|describe|discuss|bare|baare|hai|hain|he|hota|hoti|hote|kya|kise|kisko|kehte|kahte|kahate|aap|samajhte|samjhte|vyakhya|varnan|vivechna|spasht|short|note|tippani|sankshipt|vistar|sahit|udaharan|example|ek|par|on|बताइए|बताइये|बताएं|बताएँ|बताओ|समझाइए|समझाइये|समझाएं|समझाएँ|समझाओ|लिखिए|लिखिये|लिखें|लिखो|दीजिए|दीजिये|कीजिए|कीजिये|करें|करो|वर्णन|विवेचना|विवेचन|व्याख्या|स्पष्ट|है|हैं|क्या|किसे|कहते|होता|होती|होते|आप|समझते|टिप्पणी|संक्षिप्त|संक्षेप|विस्तार|सहित|उदाहरण|एक|परिभाषित|सविस्तार|आलोचनात्मक|मूल्यांकन|पर)$/iu;
-    const PRON = /^(?:iske|iski|iska|uske|uski|uska|inke|inki|inka|unke|unki|isko|इसके|इसकी|इसका|उसके|उसकी|उसका|इनके|इनकी|उनके|उनकी)$/iu;
+    const PRON = /^(?:iske|iski|iska|uske|uski|uska|inke|inki|inka|unke|unki|isko|ise|use|inhe|इसके|इसकी|इसका|उसके|उसकी|उसका|इनके|इनकी|उनके|उनकी|इसे|उसे|इन्हें|इसको|उसको)$/iu;
     const DEVA = /\p{Script=Devanagari}/u;
     function languageOf(q) {
         if (DEVA.test(q)) return 'hi';
