@@ -5,7 +5,7 @@ const Ask = (() => {
         + 'who whom whose that this these those when where why how many much it its as about into than then there their they them you your i me my we our us please tell explain describe define write give '
         + 'examine analyse analyze evaluate outline state enumerate illustrate elaborate discuss assess comment briefly critically list name mean means meaning definition short long note notes answer question detail details brief example examples between difference differences compare comparison vs versus '
         + 'क्या है हैं था थी थे कौन किसने कब कहाँ कहां कैसे क्यों किसे किस का की के को में से पर और या एक यह वह ये वे होता होती होते बताओ बताइए समझाओ समझाइए परिभाषा अर्थ मतलब').split(' '));
-    const LISTY = /\b(?:types?|kinds?|levels?|stages?|steps?|parts?|components?|functions?|features?|characteristics|advantages?|disadvantages?|benefits?|uses?|causes?|effects?|principles?|elements?|examples?|methods?|examples|symptoms?|objectives?|roles?|factors?|limitations?)\b/i;
+    const LISTY = /\b(?:types?|kinds?|levels?|stages?|steps?|parts?|components?|functions?|features?|characteristics|advantages?|disadvantages?|benefits?|uses?|causes?|effects?|principles?|elements?|examples?|methods?|examples|symptoms?|objectives?|roles?|factors?|limitations?|barriers?|obstacles?|challenges|problems|rights|duties|contents|remedies|rules|provisions|phases|exceptions|essentials|modes|grounds|sources|theories|concepts|conventions|networks|models|skills|techniques|merits|demerits)\b/i;
     const HOSTS = { en: 'https://en.wikipedia.org', simple: 'https://simple.wikipedia.org', hi: 'https://hi.wikipedia.org' };
     const SIZES = { short: 60, medium: 150, long: 300, essay: 500 };    // words
     const NATURAL = { fact: 50, when: 60, number: 60, who: 80, define: 130, why: 170, compare: 260, list: 260, explain: 220 };
@@ -1186,7 +1186,7 @@ const Ask = (() => {
             else {
                 const [usual, head_] = HEADS[p.facet] || [p.facet, name(p.facet)];
                 // Words of the examiner that the sources use too.
-                const own = /^(?:methods|techniques|tools|elements|components|sources|bases|instruments|styles|approaches|measures|dimensions|causes|determinants|responsibilities|duties|barriers|qualities|tools and techniques)$/.test(p.word || '') ? p.word : '';
+                const own = /^(?:methods|techniques|tools|elements|components|sources|bases|instruments|styles|approaches|measures|dimensions|causes|determinants|responsibilities|duties|barriers|qualities|tools and techniques|obstacles|challenges|exceptions|rights|contents|remedies|rules|provisions|phases|essentials|modes|grounds|kinds)$/.test(p.word || '') ? p.word : '';
                 const [word, head] = own ? [own, name(own)] : [usual, head_];
                 Object.assign(one, { q: p.facet === 'importance' || p.facet === 'scope' ? `Explain the ${word} of ${t}` : `What are the ${word} of ${t}`, head: `${head} of ${t}`, aspect: /^(?:elements|components)$/.test(own) ? 'elements' : /^(?:methods|techniques|tools|approaches|measures|instruments|sources)$/.test(own) ? 'techniques' : ASPECT[p.facet] ? p.facet : '' });
             }
@@ -1210,7 +1210,7 @@ const Ask = (() => {
         if (read_.parts.length < 2) {
             const pool = [];
             const one = asks ? asks[0] : {};
-            const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null, about: one.topic || '' });
+            const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null, about: one.topic || '', facet: one.facet || '' });
             if (asks) result.told = told_;
             if (asks && result.parts.length && !result.sure && !(result.missing || []).length) result.missing = [one.gap || one.head];
             const formed = format === 'exam' && result.parts.length ? exam(result, pool) : result;
@@ -1230,7 +1230,7 @@ const Ask = (() => {
             const left = read_.parts.slice(i).reduce((n, x) => n + weightOf(x), 0);
             const share = Math.max(60, Math.round(asks ? (whole - out.reduce((n, x) => n + x.words, 0)) * weightOf(part) / left : whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
             const got = part.facet === 'relevance' ? await relevanceOf(part.topic, lang, share, books, pool)
-                : (part.facet === 'process' && (await stepsOf(part.topic, share, books, pool))) || await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '' });
+                : (part.facet === 'process' && (await stepsOf(part.topic, share, books, pool))) || await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '', facet: part.facet || '' });
             if (!first) first = got;
             const placeOf = () => (part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`);
             // A part with no sure text still has its heading, and says so, in its own place.
@@ -1398,7 +1398,7 @@ const Ask = (() => {
     const TRADE = /\b(?:manage(?:ment|rs?|rial)|business(?:es)?|organi[sz]ations?|compan(?:y|ies)|firms?|employe(?:es?|rs?)|workers?|markets?|marketing|customers?|consumers?|corporat(?:e|ions?)|econom(?:y|ics?|ists?)|accounting|financ(?:e|ial)|costs?|prices?|products?|production|statistic(?:s|al)?|probability)\b/gi;
 
     // Works of art and people that share a name with a topic of a course.
-    const NAMESAKE = /\b(?:is|are|was|were) (?:an? |the )?[^.]{0,70}\b(?:rock|pop|band|film|album|song|single|video game|television|tv series|short subject|novel|rapper|singer|footballer|comic|anime|manga|racehorse|village|surname|musician|magazine|board game)\b/i;
+    const NAMESAKE = /\b(?:is|are|was|were) (?:an? |the )?[^.]{0,70}\b(?:rock|pop|band|film|album|song|single|video game|television|tv series|short subject|novel|rapper|singer|footballer|comic|anime|manga|racehorse|village|surname|musician|magazine|board game|city|town|river|district|municipality|commune|island|mountain|port)\b/i;
 
     /** True for a chapter whose title has a word that also stands before most mentions of the topic. */
     function narrow(page, about, q) {
@@ -1464,7 +1464,7 @@ const Ask = (() => {
         return { asked, parts: chosen.length ? [{ head: '', chosen, cover: 1, wanted: 1, words: total }] : [], size, told, sure: chosen.length > 0 };
     }
 
-    async function find(question, lang, size, books, pool, subject, { aspect = '', topic = '', claim = null, about = '' } = {}) {
+    async function find(question, lang, size, books, pool, subject, { aspect = '', topic = '', claim = null, about = '', facet = '' } = {}) {
         const asked = understand(question);
         if (about) asked.course = true;
         if (aspect) asked.aspect = aspect;
@@ -1493,6 +1493,8 @@ const Ask = (() => {
                 const got = choose(ranked, Math.round(size * 0.4));
                 const says = books ? definition(coreOf({ topics: [topic], q: topic }), ranked.all) : null;
                 if (says) got.chosen = [{ ...says, section: '' }, ...got.chosen.filter((x) => x.text !== says.text)];
+                // When the course's own books say what a side is, an encyclopedia page that only shares its name ("Salé", a city) stays out.
+                if (says && says.page.from && got.chosen.filter((x) => x.page.from).length >= 2) got.chosen = got.chosen.filter((x) => x.page.from);
                 if (books) {
                     const mine = coreOf({ topics: [topic], q: topic });
                     const theirs = coreOf({ topics: [asked.topics.find((t) => t !== topic) || ''], q: '' }).filter((w) => !mine.includes(w));
@@ -1508,8 +1510,21 @@ const Ask = (() => {
                 const taken = new Set(parts.flatMap((p) => p.chosen.map((x) => x.text)));
                 const apart = one.filter((w) => !two.includes(w)).length && two.filter((w) => !one.includes(w)).length;
                 const both = all.filter((x, i) => apart && !x.item && !taken.has(x.text) && length(x) >= 8 && one.every((w) => x.terms.includes(w)) && two.every((w) => x.terms.includes(w)) && !/\?/.test(x.text) && all.findIndex((y) => y.text === x.text) === i).slice(0, 30);
-                const p = both.length ? await Judge_(`What is the difference between ${asked.topics[0]} and ${asked.topics[1]}?`, both) : null;
-                if (p) {
+                // A table of differences in a book ("Risk of loss - Sale: ...; Agreement to sell: ..."): every row, in its order.
+                const rows = new Map();
+                all.forEach((x, i) => {
+                    if (!/^[^;:]{2,50} - [^;:]{2,60}: .+; [^;:]{2,60}: /.test(x.text) || all.findIndex((y) => y.text === x.text) !== i) return;
+                    const heads = terms(x.text.split(' - ').slice(1).join(' - ').match(/(?:^|; )([^;:]{2,60}):/g).join(' '));
+                    if (!apart || !one.every((w) => heads.includes(w)) || !two.every((w) => heads.includes(w))) return;
+                    const key = `${x.page.url}|${x.section}`;
+                    rows.set(key, [...(rows.get(key) || []), x]);
+                });
+                const table = [...rows.values()].sort((a, b) => b.length - a.length)[0];
+                const p = table && table.length >= 3 ? null : both.length ? await Judge_(`What is the difference between ${asked.topics[0]} and ${asked.topics[1]}?`, both) : null;
+                if (table && table.length >= 3) {
+                    const best = table.slice(0, 8).map((x) => ({ ...x, section: '' }));
+                    parts.push({ head: 'How they differ', chosen: best, cover: 1, wanted: 1, words: best.reduce((n, x) => n + length(x), 0) });
+                } else if (p) {
                     const best = both.map((x, i) => ({ x, v: p[i] + (/\b(?:whereas|unlike|while|differ|difference|rather than|in contrast|on the other hand|but|however|compared)\b/i.test(x.text) ? 0.25 : 0) })).filter((m) => m.v > 0.4).sort((m, n) => n.v - m.v).slice(0, 3).map((m) => ({ ...m.x, section: '' }));
                     if (best.length) parts.push({ head: 'How they differ', chosen: best, cover: 1, wanted: 1, words: best.reduce((n, x) => n + length(x), 0) });
                 }
@@ -1552,12 +1567,16 @@ const Ask = (() => {
         // A business question is answered from the textbook first; Wikipedia adds to it.
         if (lang !== 'hi' && typeof Book === 'object' && (['define', 'explain', 'list'].includes(asked.kind) || (asked.kind === 'why' && books) || (asked.kind === 'why' && /\b(?:firms?|compan(?:y|ies)|business(?:es)?|managers?|employees?|consumers?|customers?|markets?|organi[sz]ations?)\b/i.test(asked.q)))) {
             let book = await Book.find(asked.q, 2, books ? 0.5 : 0.9, books);
-            // A chapter on one kind of the thing ("cross-cultural training") is not on the thing.
-            if (about && aspect !== 'types') {
+            const notes = book.filter((p) => /^notes-/.test(p.book) && p.chance >= 0.9);
+            // A chapter on one kind of the thing ("cross-cultural training") is not on the thing; a section of the class notes
+            // headed with what was asked ("Eight Barriers to Effective Listening") is.
+            if (about && aspect !== 'types' && !notes.length) {
                 const wide = book.filter((x) => !narrow(x, about, asked.q));
                 book = wide.length || merged.length ? wide : book;
             }
-            if (book.length) merged = (asked.kind === 'define' ? [...merged.slice(0, 2), ...book.slice(0, 1)] : [...book, ...merged.slice(0, 2)]).map((p, order) => ({ ...p, order }));
+            // The class notes of the course, when the reader is sure they answer, are the answer; an encyclopedia does not add to them.
+            if (notes.length) merged = book.map((p, order) => ({ ...p, order }));
+            else if (book.length) merged = (asked.kind === 'define' ? [...merged.slice(0, 2), ...book.slice(0, 1)] : [...book, ...merged.slice(0, 2)]).map((p, order) => ({ ...p, order }));
         }
         // Nor is the life of a person who had to do with it.
         // A title with a word that is not asked for ("Diving supervisor") has to be about business as well, within a business subject.
@@ -1602,6 +1621,29 @@ const Ask = (() => {
         if (about && typeof Parse === 'object') keepTo(ranked, about, aspect);
         if (claim) return argue(claim, asked, ranked, size, pool, told);
         await judge(asked, ranked);
+        // A section of the class notes headed with the very thing asked ("Eight Barriers to Effective Listening") comes first.
+        // "Steps", "stages" and "phases" ask for one thing, as do "types" and "kinds".
+        // The words come stemmed: "phases" is "phas", "process" is "proces".
+        const kin = (w) => (/^(?:step|stag|phas|proces|procedur)/.test(w) ? 'step' : /^(?:typ|kind|classif|categor)/.test(w) ? 'type' : /^(?:barrier|obstacl|hindranc)/.test(w) ? 'barrier' : /^(?:disadvantag|limit|demerit|drawback)/.test(w) ? 'limit' : /^(?:advantag|merit|benefit)/.test(w) ? 'merit' : /^(?:featur|characteristic)/.test(w) ? 'feature' : /^(?:importanc|significanc)/.test(w) ? 'importance' : w);
+        // Each of "the accounting concepts" has a section of its own, so "types" is not in their headings.
+        const want = [...new Set([...terms(asked.topics[0] || '').map(kin), ...terms(asked.q).filter((w) => kin(w) !== w).map(kin)])].filter((w) => w !== 'type');
+        // "Explain the phases of a business cycle" comes as "Explain business cycle" with the facet beside it.
+        const side = aspect || facet;
+        if (side && kin(side) !== side && !want.some((w) => ['step', 'barrier', 'limit', 'merit', 'feature', 'importance'].includes(w)) && kin(side) !== 'type') want.push(kin(side));
+        const fit = (x) => {
+            if (!/^notes-/.test(x.page.book || '') || !x.section || !want.every((w) => terms(`${x.section} ${x.page.title}`).map(kin).includes(w))) return 0;
+            // "Phases of a Business Cycle" and "Eight Barriers to ..." open with what was asked; "... Mechanism (Step-by-Step)" does not.
+            const opens = terms(x.section.split(': ').pop().split(/\s+/).slice(0, 3).join(' ')).map(kin);
+            return want.filter((w) => terms(x.section).map(kin).includes(w)).length + (want.some((w) => ['step', 'barrier', 'limit', 'merit', 'feature', 'importance'].includes(w) && opens.includes(w)) ? 0.5 : 0);
+        };
+        const most = Math.max(0, ...ranked.all.map(fit));
+        const headed = want.length >= 2 && most >= 1 ? ranked.all.filter((x) => fit(x) === most) : [];
+        const sections = new Set(headed.map((x) => `${x.page.url}|${x.section}`));
+        if (headed.length >= 3) {
+            for (const x of headed) [x.score, x.inHead] = [x.score + 6, true];
+            // One section, or a few, on just what was asked are the answer by themselves.
+            if (sections.size <= 3) ranked.all = headed;
+        }
         if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind) && titles.length > 3 && !ranked.all.some((x) => x.replies)) {
             // None of these answers, so look at the next ones too.
             const more = (await articles(lang, titles.slice(3), 3)).map((p) => ({ ...p, order: p.order + 1 }));
@@ -1958,7 +2000,13 @@ const Ask = (() => {
         by('sources').replaceChildren(...sources.map((s, i) => {
             const item = el('li');
             item.id = `source-${i + 1}`;
-            const link = el('a', `${s.title}. ${s.from || 'Wikipedia'}${s.licence ? ` (${s.licence})` : ''}`);
+            const name = `${s.title}. ${s.from || 'Wikipedia'}${s.licence ? ` (${s.licence})` : ''}`;
+            // The class notes are not on the web: they are named without a link.
+            if (/^notes:/.test(s.url)) {
+                item.append(el('span', name));
+                return item;
+            }
+            const link = el('a', name);
             link.href = s.url;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
@@ -1966,7 +2014,7 @@ const Ask = (() => {
             return item;
         }));
         const day = new Date().toLocaleDateString('en-GB', { dateStyle: 'long' });
-        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}. ${s.url} (read ${day})`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from) ? 'Text from open textbooks, under the licence named with each.' : ''].filter(Boolean).join(' ')}\n`;
+        by('answer-text').value = `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n## Sources\n\n${sources.map((s, i) => `${i + 1}. ${s.title}. ${s.from || 'Wikipedia'}${s.licence ? `, ${s.licence}` : ''}.${/^notes:/.test(s.url) ? '' : ` ${s.url} (read ${day})`}`).join('\n')}\n\n${[sources.some((x) => !x.from) ? 'Text from Wikipedia, licensed CC BY-SA 4.0.' : '', sources.some((x) => x.from && !/^notes:/.test(x.url)) ? 'Text from open textbooks, under the licence named with each.' : '', sources.some((x) => /^notes:/.test(x.url)) ? 'Class notes for BBA Semester 1, shared by the owner of this site.' : ''].filter(Boolean).join(' ')}\n`;
         const total = result.parts.reduce((n, x) => n + x.words, 0);
         by('answer-size').textContent = `${total} words${result.told && total < 0.7 * result.size ? `. You asked for about ${result.size}, but the sources have no more that fits this question` : ''}`;
         by('ask-note').textContent = note || '';

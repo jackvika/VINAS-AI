@@ -144,7 +144,7 @@ const Parse = (() => {
         if (aspect[0] === 'process') return `What are the steps in ${/process$/i.test(t) ? `the ${t}` : t}`;
         if (aspect[0] === 'scope') return `Explain the scope of ${t}`;
         if (aspect[0] === 'roles') return `Explain the role of ${t}`;
-        const own = /^(?:causes|reasons|determinants|stages|styles|bases|responsibilities|duties|tools|techniques|approaches|goals|aims|components)$/i.exec(word.split(' ').pop() || '');
+        const own = /^(?:causes|reasons|determinants|stages|styles|bases|responsibilities|duties|tools|techniques|approaches|goals|aims|components|barriers|obstacles|challenges|problems|exceptions|rights|contents|remedies|rules|provisions|phases|sources|elements|essentials|modes|grounds|kinds)$/i.exec(word.split(' ').pop() || '');
         return `What are the ${own ? own[0].toLowerCase() : aspect[2]} of ${t}`;
     }
     const heading = (aspect, topic) => {
@@ -324,7 +324,7 @@ const Parse = (() => {
     const FACET = [
         ['definition', 'meanings?|definitions?|concepts?'], ['features', 'features?|characteristics?|nature|qualit(?:y|ies)|attributes?|essentials?|traits?|requisites?|essential (?:features|elements|characteristics)'], ['scope', 'scope'],
         ['importance', 'importance|significance|needs?|necessity|utility|uses|value|relevance|rationale'], ['objectives', 'objectives?|aims?|purposes?|goals?'],
-        ['types', 'types?|kinds?|classifications?|forms?|categor(?:y|ies)|styles?|bases|basis|methods|techniques?|tools?(?: and techniques)?|sources?|elements?|components?|parts|constituents?|ingredients?|instruments?|approaches|measures|dimensions'],
+        ['types', 'types?|kinds?|classifications?|forms?|categor(?:y|ies)|styles?|bases|basis|methods|techniques?|tools?(?: and techniques)?|sources?|elements?|components?|parts|constituents?|ingredients?|instruments?|approaches|measures|dimensions|rights|remedies|provisions|contents|rules|modes|grounds'],
         ['process', 'process|steps?(?: involved)?|stages?|procedure|phases?'], ['principles', 'principles?'], ['functions', 'functions?|roles?|responsibilities|duties|tasks?'],
         ['advantages', 'advantages?|merits?|benefits?|pros|strengths?'], ['limitations', 'disadvantages?|demerits?|limitations?|drawbacks?|cons|weaknesses|shortcomings?|criticisms?|problems?|barriers?|obstacles?|exceptions?'], ['factors', 'factors?|determinants?|causes?|reasons?'], ['effects', 'effects?|impacts?|consequences?|implications?'],
     ].map(([name, w]) => [name, w, new RegExp(`^${ADJ}(?:${w})$`, 'i')]);
@@ -581,7 +581,7 @@ const Parse = (() => {
             const m = pattern.exec(t);
             if (!m) continue;
             const a = topicOf(m[1], state);
-            let right = m[2].replace(/\s+(?:with (?:suitable |the help of )?examples?|giving examples?|on the basis of.*)$/i, '');
+            let right = m[2].replace(/\s+(?:with (?:suitable |the help of )?examples?|giving examples?|on the basis of.*)$/i, '').replace(/\s+(?:under|as per|according to|in terms of|as defined (?:in|under))\s+(?:the\s+)?.{3,70}$/i, '');
             const b = topicOf(right, state);
             let left = a.topic;
             let l = a;

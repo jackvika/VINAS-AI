@@ -3,6 +3,7 @@
     python -m tests.evaluate                       parse and quality, on the working set
     python -m tests.evaluate --what parse
     python -m tests.evaluate --what parse,quality,general,squad --squad dev-v1.1.json --out tests/results/step1.json --against tests/results/baseline.json
+    python -m tests.evaluate --what books --ask "..."   the book passages a question finds, with the reader's scores
     python -m tests.evaluate --what page          what a visitor can do with the line above an answer
     python -m tests.evaluate --set hindi --what quality   the answers to twenty Hindi questions
     python -m tests.evaluate --set held            only for the final report
@@ -109,7 +110,7 @@ def main():
     a.add_argument('--minutes', type=float, default=90)
     o = a.parse_args()
     if o.ask:
-        o.what = 'ask'
+        o.what = 'books' if o.what == 'books' else 'ask'
     if o.read:
         o.what = 'read'
         o.ask = Path(o.read[1:]).read_text(encoding='utf-8') if o.read.startswith('@') else o.read

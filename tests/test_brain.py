@@ -226,6 +226,11 @@ class Server(unittest.TestCase):
             if path.stem in pinned:
                 self.assertEqual((book['licence'], book['by'], book['commit']), ('CC BY-NC-SA 4.0' if path.stem in free else 'CC BY 4.0', 'OpenStax', pinned[path.stem]))
                 self.assertTrue(book['base'].startswith(f'https://openstax.org/books/{path.stem}/'))
+            elif path.stem.startswith('notes-'):
+                # The site owner's own notes: no licence to name, and no page on the web to link to.
+                self.assertEqual((book['licence'], book['by'], book['base']), ('', 'BBA Semester 1 class notes', 'notes:'))
+                self.assertGreater(len(book['modules']), 5)
+                continue
             else:
                 self.assertEqual((book['licence'], book['by']), {'project-management': ('CC BY 4.0', 'Adrienne Watt, BCcampus'), 'accounting-principles': ('CC BY', 'Hermanson, Edwards and Maher')}[path.stem])
             self.assertGreater(len(book['modules']), 15)

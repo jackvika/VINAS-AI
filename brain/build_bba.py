@@ -32,24 +32,26 @@ HAND = {
 IKS = {'code': 'MDE101', 'title': 'Indian Knowledge System', 'group': 'Semester 1', 'books': [], 'units': [{'title': 'Indian Knowledge Systems and Traditions', 'topics': [
     'Indian knowledge system', 'Indian culture and civilization', 'Ancient Indian chemistry', 'Ancient Indian metallurgy', 'Ancient Indian mathematics', 'Ancient Indian astronomy', 'Indian astronomical instruments', 'Ayurveda', 'Gandharva Veda',
     'Vedangas', 'Vastu shastra', 'Indian temple architecture', 'Indian town planning', 'Indian philosophy']}]}
+# The site owner's own Semester 1 notes come first where they cover the subject (brain/build_notes.py).
 BOOKS = [
     (r'environment(?:al)? science|constitution|knowledge system|health|yoga|sports|english|language|media literacy|geo politics', []),
     (r'marketing|consumer|retail|sales|brand|advertis|media', ['principles-marketing', 'introduction-business']),
-    (r'econom', ['principles-economics-3e', 'introduction-business']),
-    (r'legal|\blaw', ['business-law-i-essentials-2e', 'business-ethics', 'introduction-business']),
+    (r'econom', ['notes-economics', 'principles-economics-3e', 'introduction-business']),
+    (r'legal|\blaw', ['notes-business-law', 'business-law-i-essentials-2e', 'business-ethics', 'introduction-business']),
     (r'ethic|governance|sustainab', ['business-ethics', 'introduction-business', 'principles-management', 'principles-finance-2e']),
     (r'entrepreneur|startup|design thinking|family business', ['entrepreneurship', 'introduction-business']),
     (r'statistic|research|analytics|decision models|visuali', ['introductory-business-statistics-2e', 'introduction-business']),
     (r'human|behavio|hrd|hrm|\bhr\b|training|negotiat|team|compensation|coaching|talent|employee|organizational development|performance', ['organizational-behavior', 'principles-management', 'introduction-business']),
-    (r'business environment', ['principles-economics-3e', 'introduction-business', 'principles-management', 'business-ethics']),
+    (r'business environment', ['notes-economics', 'principles-economics-3e', 'introduction-business', 'principles-management', 'business-ethics']),
     (r'international financial', ['principles-finance-2e', 'introduction-business', 'principles-economics-3e']),
     (r'international accounting', ['principles-financial-accounting', 'accounting-principles', 'introduction-business']),
     (r'international|global|transnational|exim|cross', ['introduction-business', 'principles-management', 'principles-economics-3e', 'principles-marketing']),
-    (r'cost and management account', ['principles-managerial-accounting', 'principles-financial-accounting', 'accounting-principles']),
-    (r'account', ['principles-financial-accounting', 'accounting-principles', 'introduction-business']),
+    (r'cost and management account', ['notes-accounting', 'principles-managerial-accounting', 'principles-financial-accounting', 'accounting-principles']),
+    (r'account', ['notes-accounting', 'principles-financial-accounting', 'accounting-principles', 'introduction-business']),
     (r'financ|tax|bank|invest|valuation|derivative', ['principles-finance-2e', 'introduction-business', 'principles-financial-accounting', 'principles-economics-3e']),
     (r'project', ['project-management', 'principles-management', 'introduction-business']),
-    (r'communication', ['organizational-behavior', 'principles-management', 'introduction-business']),
+    (r'communication', ['notes-communication', 'organizational-behavior', 'principles-management', 'introduction-business']),
+    (r'principles (?:and practices? )?of management', ['notes-management', 'principles-management', 'introduction-business', 'organizational-behavior']),
     (r'', ['principles-management', 'introduction-business', 'organizational-behavior']),
 ]
 

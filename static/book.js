@@ -1,7 +1,7 @@
-// Fourteen open textbooks (CC BY, and four under CC BY-NC-SA), searched in the browser: word scores find the likely passages, and
+// The site owner's own Semester 1 notes and fourteen open textbooks (CC BY, and four under CC BY-NC-SA), searched in the browser: word scores find the likely passages, and
 // the reader (static/judge.js) chooses among them. Every passage is read together with its chapter and section titles.
 const Book = (() => {
-    const ALL = ['introduction-business', 'principles-management', 'organizational-behavior', 'principles-marketing', 'principles-economics-3e', 'business-ethics', 'entrepreneurship', 'introductory-business-statistics-2e', 'accounting-principles', 'project-management', 'principles-financial-accounting', 'principles-managerial-accounting', 'principles-finance-2e', 'business-law-i-essentials-2e'];
+    const ALL = ['notes-management', 'notes-business-law', 'notes-accounting', 'notes-economics', 'notes-communication', 'introduction-business', 'principles-management', 'organizational-behavior', 'principles-marketing', 'principles-economics-3e', 'business-ethics', 'entrepreneurship', 'introductory-business-statistics-2e', 'accounting-principles', 'project-management', 'principles-financial-accounting', 'principles-managerial-accounting', 'principles-finance-2e', 'business-law-i-essentials-2e'];
     const STOP = new Set('a an the of in on at to for from by with and or but is are was were be do does did has have can will what which who whom that this these when where why how many much it its as about into their they you i we our explain describe define examine discuss some main business'.split(' '));
     // What a section sets out to teach, told to the student.
     const GOAL = /^(?:understand|discuss|explain|describe|identify|define|compare|analy[sz]e|summari[sz]e|learn|know|list|outline|distinguish|recogni[sz]e|evaluate|differentiate|apply|assess|examine|calculate|compute|perform|determine|prepare|demonstrate|interpret|illustrate|record|relate|contrast|state)\b(?=.{10,170}$)[^.]*\.?$/i;
@@ -139,7 +139,9 @@ const Book = (() => {
         if (!p) return [];
         const best = new Map();
         some.forEach((x, i) => { if (p[i] >= least) best.set(x.at, Math.max(best.get(x.at) || 0, p[i])); });
-        return [...best].sort((x, y) => y[1] - x[1]).slice(0, most).map(([at, chance]) => ({ ...pages[at], chance }));
+        // Where the reader thinks about as well of both, the class notes of the course come before a textbook.
+        const first = ([at, chance]) => chance + (/^notes-/.test(pages[at].book) && chance >= 0.5 ? 0.05 : 0);
+        return [...best].sort((x, y) => first(y) - first(x)).slice(0, most).map(([at, chance]) => ({ ...pages[at], chance }));
     }
 
     return { ALL, load, find, take, use, used, likely };

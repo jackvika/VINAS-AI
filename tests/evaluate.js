@@ -330,7 +330,9 @@
         const made = by('answer-text').value;
         const steps = ['Recognise that a decision', 'Generate multiple alternatives', 'Analyse the alternatives', 'Select an alternative', 'Implement the selected alternative', 'Evaluate its effectiveness'].map((x) => made.indexOf(x));
         checks['the steps of a process, all and in order'] = steps.every((x, i) => x > 0 && (!i || x > steps[i - 1])) && /Step 6: Evaluating/.test(made);
-        checks['no namesake and no field of study'] = !/video game|region of intense study/.test(made) && /Nonprogrammed decisions: Decisions that are novel/.test(made);
+        checks['no namesake and no field of study'] = !/video game|region of intense study/.test(made) && /Nonprogrammed decisions: Decisions that are novel|Non-programmed decisions address new, unusual/.test(made);
+        // The class notes' table of differences, row by row.
+        checks['the differences of the notes, row by row'] = /Frequency - Programmed decisions: Occur regularly/.test(made) && /Management level - /.test(made);
         result.page = checks;
         result.answers = { page: Object.entries(checks).map(([k, v]) => `${v ? 'ok  ' : 'FAIL'}  ${k}`).join('\n') };
     }
@@ -441,7 +443,17 @@
         };
     }
 
-    if (what.includes('ask')) {
+    // ---- The book passages a question finds, with the reader's score for each: python -m tests.evaluate --what books --ask "..." ----
+    if (what.includes('books')) {
+        const q = wants.get('q');
+        await until(() => Judge.ready(), 120000);
+        await Book.load();
+        const some = Book.likely(q, 12);
+        const p = await Judge.score(q, some.map((x) => `${x.title}: ${x.text}`));
+        const asked = Ask.understand(Parse.long(q, true));
+        const found = await Book.find(asked.q, 2, 0.5, null);
+        result.answers = { [q]: `${some.map((x, i) => `${(p ? p[i] : 0).toFixed(3)}  ${x.book}  ${x.title}\n        ${x.text.slice(0, 160)}`).join('\n')}\n\nRead as: ${JSON.stringify(asked)}\nBook.find: ${found.map((x) => `${x.book} ${x.title} ${x.chance.toFixed(3)}`).join(' | ')}` };
+    } else if (what.includes('ask')) {
         const got = await ask(wants.get('q'));
         result.answers = { [wants.get('q')]: `${got.understood}
 ${got.note}
