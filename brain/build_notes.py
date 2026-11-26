@@ -83,6 +83,8 @@ def table_rows(page):
         for r in rows[1:]:
             if not r[0] or r == head:
                 continue
+            # A row is one line: the sentences of a cell are joined, so that no sentence is taken without its row's name.
+            r = [re.sub(r'\.\s+(?=[A-Z(])', '; ', v).rstrip(' .') for v in r]
             rest = [f'{h}: {v}' if h else v for h, v in zip(head[1:], r[1:]) if v]
             if len(head) == 2 and r[1]:
                 # "Lack of training: treating listening as ...": the second column's head adds nothing.
@@ -175,6 +177,9 @@ def build(path):
         elif (l['bold'] and words <= 10 and len(t) < 70 and l['size'] >= body - 0.2 and not BULLET.match(t) and not re.search(r'[.,;]$', t)
               and l['x'] < 120 and re.match(r'[A-Z0-9(]', t) and (prev is None or l['page'] != prev['page'] or not cur or re.search(r'[.:!?]$', cur[-1]))):
             level = 3
+        elif re.match(r'^\d{1,2}\.\d{1,2}\s+[A-Z][^.;:]{3,60}\.?$', t) and words <= 10 and not BULLET.match(t):
+            # "9.3 Duties of the buyer." set as text is still the heading of what follows.
+            level = 3
         if level == 0:
             flush()
             prev = l
@@ -249,8 +254,15 @@ def modules_of(unit, out, chapter):
         t = re.sub(r'\bThe PDF groups them into ', 'They fall into ', t)
         t = re.sub(r'\bThe PDF (?:says|notes|explains|adds|states) (?:that )?(\w)', lambda m: m[1].upper(), t)
         t = re.sub(r'\s*\(?\b(?:from|in|of) the (?:PDF|notes)\)?', '', t)
+        t = re.sub(r'\s*\(as the PDF (?:states|says|notes)\)', '', t)
+        # Whatever still speaks of "the PDF" is about the notes, not the subject.
+        t = ' '.join(x for x in re.split(r'(?<=[.!?])\s+', t) if not re.search(r'\bPDF\b', x))
         if not t.strip():
             continue
+        # "Duration: Business cycles recur ... Their length varies ...": a short point with a name stays one line, so that
+        # no sentence of it is taken without its name.
+        if kind == 'i' and re.match(r'^[^:.;]{2,40}: ', t) and len(t.split()) <= 55:
+            t = re.sub(r'\.\s+(?=[A-Z(])', '; ', t.strip()).rstrip('.') + '.'
         t = re.sub(r'\s+[○◦▪]\s+', '; ', t)
         # A figure, a table or a formula that is not here.
         if re.search(r'\b(?:figure|fig\.|table|chart|exhibit) \d|\bthe (?:table|figure|diagram) (?:here|below|above)|\$\\|\\frac', t, re.I):

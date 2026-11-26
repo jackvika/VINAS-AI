@@ -1213,8 +1213,8 @@ const Ask = (() => {
             const result = await find(long(read_.q), lang, size, books, pool, subject, { aspect: one.aspect || '', topic: one.statement || '', claim: one.claim || null, about: one.topic || '', facet: one.facet || '' });
             if (asks) result.told = told_;
             if (asks && result.parts.length && !result.sure && !(result.missing || []).length) result.missing = [one.gap || one.head];
-            const formed = format === 'exam' && result.parts.length ? exam(result, pool) : result;
-            return { ...formed, ...(asks && formed.parts.length ? { parts: clean(formed.parts, pool, size, one.claim || (result.checklist || []).length ? '' : one.topic) } : {}), plan };
+            const formed = format === 'exam' && result.parts.length && !result.ordered ? exam(result, pool) : result;
+            return { ...formed, ...(asks && formed.parts.length && !result.ordered ? { parts: clean(formed.parts, pool, size, one.claim || (result.checklist || []).length ? '' : one.topic) } : {}), plan };
         }
         // Several things are asked: each is looked up by itself and has its own heading.
         const told = wish(question);
@@ -1229,8 +1229,13 @@ const Ask = (() => {
             const weightOf = (x) => (asks ? x.weight : x.aspect || x.compare || x.statement ? 1.15 : 0.8);
             const left = read_.parts.slice(i).reduce((n, x) => n + weightOf(x), 0);
             const share = Math.max(60, Math.round(asks ? (whole - out.reduce((n, x) => n + x.words, 0)) * weightOf(part) / left : whole * weightOf(part) / read_.parts.reduce((n, x) => n + weightOf(x), 0)));
-            const got = part.facet === 'relevance' ? await relevanceOf(part.topic, lang, share, books, pool)
+            let got = part.facet === 'relevance' ? await relevanceOf(part.topic, lang, share, books, pool)
                 : (part.facet === 'process' && (await stepsOf(part.topic, share, books, pool))) || await find(long(part.q), lang, share, books, pool, subject, { aspect: part.aspect ? part.aspect[0] : '', topic: asks ? part.statement || '' : part.statement ? part.topic : '', claim: part.claim || null, about: asks ? part.topic : '', facet: part.facet || '' });
+            // Not found at once, a person looks again in other words: the topic by itself, with what is asked of it beside.
+            if ((!got.parts.length || !got.sure) && lang !== 'hi' && part.topic && !part.claim && !part.statement && !['relevance', 'comparison'].includes(part.facet)) {
+                const again = await find(long(`Explain ${part.topic}`), lang, share, books, pool, subject, { about: asks ? part.topic : '', facet: part.facet || '' });
+                if (again.parts.length && again.sure) got = again;
+            }
             if (!first) first = got;
             const placeOf = () => (part.head === 'Conclusion' ? 'Conclusion' : `${format === 'exam' ? `${out.filter((p) => p.head && p.head !== 'Conclusion').length + 1}. ` : ''}${part.head}`);
             // A part with no sure text still has its heading, and says so, in its own place.
@@ -1623,13 +1628,40 @@ const Ask = (() => {
         await judge(asked, ranked);
         // A section of the class notes headed with the very thing asked ("Eight Barriers to Effective Listening") comes first.
         // "Steps", "stages" and "phases" ask for one thing, as do "types" and "kinds".
+        // What is asked of the topic, also when it is not a kind of list: "the rights of an unpaid seller".
+        const FACETED = /^(?:right|dut|content|remed|rule|provision|exception|essential|source|theor|model|skill|network|function|objective|role|element|component|factor|caus|effect|method|techniq|principl|requisit|mode|ground|measur|tool|stag)/;
         // The words come stemmed: "phases" is "phas", "process" is "proces".
         const kin = (w) => (/^(?:step|stag|phas|proces|procedur)/.test(w) ? 'step' : /^(?:typ|kind|classif|categor)/.test(w) ? 'type' : /^(?:barrier|obstacl|hindranc)/.test(w) ? 'barrier' : /^(?:disadvantag|limit|demerit|drawback)/.test(w) ? 'limit' : /^(?:advantag|merit|benefit)/.test(w) ? 'merit' : /^(?:featur|characteristic)/.test(w) ? 'feature' : /^(?:importanc|significanc)/.test(w) ? 'importance' : w);
         // Each of "the accounting concepts" has a section of its own, so "types" is not in their headings.
-        const want = [...new Set([...terms(asked.topics[0] || '').map(kin), ...terms(asked.q).filter((w) => kin(w) !== w).map(kin)])].filter((w) => w !== 'type');
+        const want = [...new Set([...terms(asked.topics[0] || '').map(kin), ...terms(asked.q).filter((w) => kin(w) !== w || FACETED.test(w)).map(kin)])].filter((w) => w !== 'type');
         // "Explain the phases of a business cycle" comes as "Explain business cycle" with the facet beside it.
         const side = aspect || facet;
         if (side && kin(side) !== side && !want.some((w) => ['step', 'barrier', 'limit', 'merit', 'feature', 'importance'].includes(w)) && kin(side) !== 'type') want.push(kin(side));
+        // "Explain the accounting concepts" asks for the chapter that lists them ("The Nine Accounting Concepts"), which the books
+        // put first, not for a wider one that also names them.
+        if ((side === 'types' || terms(asked.q).some((w) => kin(w) === 'type')) && merged[0] && /^notes-/.test(merged[0].book || '')) {
+            const one = ranked.all.filter((x) => x.page.url === merged[0].url);
+            if (one.length >= 3) ranked.all = one;
+            // A chapter with a section for each kind is answered as a student would: each kind in its order, under its own
+            // name, with its first lines.
+            // A kind is named with the topic's own word ("Going Concern Concept"); "Meaning of ..." and "Tips to ..." are not kinds.
+            const head = terms(asked.topics[0] || '').pop() || '';
+            const kinds = [...new Set(one.filter((x) => x.section && !x.section.includes(': ') && !/^(?:meaning|definitions?|introduction|overview|vocabulary|tips|importance|summary|key|concept of|nature|features|scope|conclusion|examples?)\b/i.test(x.section) && terms(x.section).includes(head)).map((x) => x.section))];
+            if (head && kinds.length >= 3 && kinds.length <= 14) {
+                const share = Math.max(18, Math.round(size / kinds.length));
+                const chosen = one.filter((x) => !x.section && !x.item && length(x) >= 8).slice(0, 1).map((x) => ({ ...x }));
+                for (const k of kinds) {
+                    let n = 0;
+                    for (const x of one.filter((y) => y.section === k).sort((a, b) => a.place - b.place)) {
+                        if (n && n + length(x) > share) break;
+                        chosen.push(x);
+                        n += length(x);
+                    }
+                }
+                pool.push(...chosen);
+                return { asked, size, told, sure: true, ordered: true, parts: [{ head: '', ordered: true, chosen, cover: 1, wanted: 1, words: chosen.reduce((n, x) => n + length(x), 0) }] };
+            }
+        }
         const fit = (x) => {
             if (!/^notes-/.test(x.page.book || '') || !x.section || !want.every((w) => terms(`${x.section} ${x.page.title}`).map(kin).includes(w))) return 0;
             // "Phases of a Business Cycle" and "Eight Barriers to ..." open with what was asked; "... Mechanism (Step-by-Step)" does not.
@@ -1643,6 +1675,12 @@ const Ask = (() => {
             for (const x of headed) [x.score, x.inHead] = [x.score + 6, true];
             // One section, or a few, on just what was asked are the answer by themselves.
             if (sections.size <= 3) ranked.all = headed;
+            // Phases and steps are given all, in the order of the notes.
+            if (sections.size <= 3 && want.includes('step')) {
+                const chosen = [...headed].sort((x, y) => (x.page.order || 0) - (y.page.order || 0) || x.place - y.place).map((x) => ({ ...x, section: sections.size > 1 ? x.section : '' }));
+                pool.push(...chosen);
+                return { asked, size, told, sure: true, ordered: true, parts: [{ head: '', ordered: true, chosen, cover: 1, wanted: 1, words: chosen.reduce((n, x) => n + length(x), 0) }] };
+            }
         }
         if (['why', 'when', 'number', 'who', 'fact'].includes(asked.kind) && titles.length > 3 && !ranked.all.some((x) => x.replies)) {
             // None of these answers, so look at the next ones too.

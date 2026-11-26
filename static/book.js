@@ -140,7 +140,14 @@ const Book = (() => {
         const best = new Map();
         some.forEach((x, i) => { if (p[i] >= least) best.set(x.at, Math.max(best.get(x.at) || 0, p[i])); });
         // Where the reader thinks about as well of both, the class notes of the course come before a textbook.
-        const first = ([at, chance]) => chance + (/^notes-/.test(pages[at].book) && chance >= 0.5 ? 0.05 : 0);
+        // Of two chapters the reader thinks as well of, the one whose title is just what was asked ("The Nine Accounting Concepts"
+        // for the accounting concepts) comes before a wider one ("Accounting Principles, Concepts, Conventions & GAAP").
+        const asked = new Set(terms(question));
+        const close = (at) => {
+            const t = [...new Set(terms(pages[at].title))].filter((w) => !/^(?:one|two|three|four|five|six|seven|eight|nine|ten|twelve|\d+)$/.test(w));
+            return t.length ? t.filter((w) => asked.has(w)).length / t.length : 0;
+        };
+        const first = ([at, chance]) => chance + (/^notes-/.test(pages[at].book) && chance >= 0.5 ? 0.05 + 0.04 * close(at) : 0);
         return [...best].sort((x, y) => first(y) - first(x)).slice(0, most).map(([at, chance]) => ({ ...pages[at], chance }));
     }
 
